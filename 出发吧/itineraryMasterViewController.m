@@ -1,0 +1,228 @@
+//
+//  itineraryMasterViewController.m
+//  出发吧
+//
+//  Created by kenzo on 13-1-16.
+//  Copyright (c) 2013年 出发吧APP团队. All rights reserved.
+//
+
+#import "itineraryMasterViewController.h"
+
+#import "itineraryDetailViewController.h"
+#import "TravelLocation.h"
+#import "itineraryDataController.h"
+#import "SearchLocationViewController.h"
+
+/*
+@interface itineraryMasterViewController () {
+    NSMutableArray *_objects;
+}
+@end
+*/
+
+@implementation itineraryMasterViewController
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.dataController = [[itineraryDataController alloc] init];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    /*self.navigationItem.leftBarButtonItem = self.editButtonItem;
+
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
+    self.navigationItem.rightBarButtonItem = addButton;
+    */
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*- (void)insertNewObject:(id)sender
+{
+    if (!_objects) {
+        _objects = [[NSMutableArray alloc] init];
+    }
+    [_objects insertObject:[NSDate date] atIndex:0];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}*/
+
+#pragma mark - Table View
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    int i = [self.dataController countOfList];
+    NSLog(@"%d", i );
+    return [self.dataController countOfList];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [[self.dataController objectInListAtIndex:section] count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"TravelLocationCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    TravelLocation *locationAtIndex = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    [[cell textLabel] setText:locationAtIndex.name];
+    return cell;
+}
+
+/*- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString *myString = @"Day ";
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dayComponents = [gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:self.dataController.date];
+    NSInteger theDay = [dayComponents day];
+    NSInteger theMonth = [dayComponents month];
+    NSInteger theYear = [dayComponents year];
+    
+    // now build a NSDate object for yourDate using these components
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    [components setDay:theDay];
+    [components setMonth:theMonth];
+    [components setYear:theYear];
+    NSDate *thisDate = [gregorian dateFromComponents:components];
+    
+    // now build a NSDate object for the next day
+    NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
+    [offsetComponents setDay:section];
+    NSDate *sectionDate = [gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
+    
+    NSString *dateOfDay = [dateFormatter stringFromDate:sectionDate];
+    return [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", section+1]] stringByAppendingString:dateOfDay];
+}*/
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 50;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *myString = @"Day ";
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dayComponents = [gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:self.dataController.date];
+    NSInteger theDay = [dayComponents day];
+    NSInteger theMonth = [dayComponents month];
+    NSInteger theYear = [dayComponents year];
+    
+    // now build a NSDate object for yourDate using these components
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    [components setDay:theDay];
+    [components setMonth:theMonth];
+    [components setYear:theYear];
+    NSDate *thisDate = [gregorian dateFromComponents:components];
+    
+    // now build a NSDate object for the next day
+    NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
+    [offsetComponents setDay:section];
+    NSDate *sectionDate = [gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
+    
+    NSString *dateOfDay = [dateFormatter stringFromDate:sectionDate];
+    //return [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", section+1]] stringByAppendingString:dateOfDay];
+    
+    //Headerview
+    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 50.0)];
+    //HeaderLabel
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 10.0, 250.0, 30.0)] ;
+    label.textColor = [UIColor whiteColor];
+    label.shadowColor = [UIColor whiteColor];
+    label.shadowOffset = CGSizeMake(0, 1);
+    label.font = [UIFont boldSystemFontOfSize:18];
+    label.backgroundColor = [UIColor clearColor];
+    
+    //AddParameterButton
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    [button setFrame:CGRectMake(275.0, 10.0, 30.0, 30.0)];
+    button.tag = section;
+    button.hidden = NO;
+    [button setBackgroundColor:[UIColor clearColor]];
+    [button addTarget:self action:@selector(pushSearchLocationViewController) forControlEvents:UIControlEventTouchDown];
+    
+    label.text = [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", section+1]] stringByAppendingString:dateOfDay];
+    myView.backgroundColor = [UIColor grayColor];
+    [myView addSubview:label];
+    [myView addSubview:button];
+    [myView bringSubviewToFront:button];
+    return myView;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the specified item to be editable.
+    return NO;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ShowLocationDetails"]) {
+        itineraryDetailViewController *detailViewController = [segue destinationViewController];
+        detailViewController.location = [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+    }
+}
+
+- (IBAction)pushSearchLocationViewController
+{
+    SearchLocationViewController *locationVC = [[SearchLocationViewController alloc] init];
+    // do any setup you need for myNewVC
+    
+    //[self presentModalViewController:locationVC animated:YES];
+    [self presentViewController:locationVC animated:YES completion:NULL];
+    //[self performSegueWithIdentifier:@"SearchLocation" sender:sender];
+}
+
+- (IBAction)pushSearchLocationViewController:(id)sender
+{
+    //SearchLocationViewController *locationVC = [[SearchLocationViewController alloc] init];
+    // do any setup you need for myNewVC
+    
+    //[self presentModalViewController:locationVC animated:YES];
+    [self performSegueWithIdentifier:@"SearchLocation" sender:sender];
+}
+
+/*- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [_objects removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+    }
+}
+*/
+
+/*
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+}
+*/
+
+/*
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+*/
+
+@end
