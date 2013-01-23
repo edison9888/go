@@ -29,20 +29,76 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.dataController = [[SearchLocationDataController alloc] init];
-    //_searchBar.delegate = (id)self;
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //self.dataController = [[SearchLocationDataController alloc] init];
+    _searchBar.delegate = (id)self;
+    [_searchBar becomeFirstResponder];
+    [_searchBar setShowsCancelButton:YES];
+    
+    allLocationList = [[NSMutableArray alloc] init];
+    SearchLocation *location1 = [[SearchLocation alloc] initWithName:@"London Tower" address:@"London tower road 333"];
+    SearchLocation *location2 = [[SearchLocation alloc] initWithName:@"Windsor Carsle" address:@"Windsor road 333"];
+    [allLocationList addObject:location1];
+    [allLocationList addObject:location2];
+    
+    filteredLocationList = [[NSMutableArray alloc] init];
+    searching = NO;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    self.tableView.tableHeaderView = _searchBar;
-    [_searchBar becomeFirstResponder];
+- (void)enableCancelButton:(UISearchBar*)searchBar
+{
+    for (id subview in [searchBar subviews])
+    {
+        if([subview isKindOfClass:[UIButton class]]){
+            [subview setEnabled:YES];
+        }
+    }
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    //[self performSelector:@selector(enableCancelButton:) withObject:searchBar afterDelay:0.0];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [_searchBar resignFirstResponder];
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText {
+    //[self.dataController.searchLocationList removeAllObjects];
+    
+    if([searchText length] > 0) {
+        searching = YES;
+        //letUserSelectRow = YES;
+        //self.tableView.scrollEnabled = YES;
+        [self searchTableView];
+    }
+    else {
+        searching = NO;
+        //letUserSelectRow = NO;
+        //self.tableView.scrollEnabled = NO;
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
+    [_searchBar resignFirstResponder];
+    [self searchTableView];
+}
+
+- (void) searchTableView {
+    NSString *searchText = _searchBar.text;
+    [filteredLocationList removeAllObjects];
+    
+    for (SearchLocation *sTemp in allLocationList)
+    {
+        NSRange titleResultsRange = [sTemp.name rangeOfString:searchText options:NSCaseInsensitiveSearch];
+        
+        if (titleResultsRange.length > 0)
+            [filteredLocationList addObject:sTemp];
+    }
 }
 
 /*- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -70,7 +126,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.dataController countOfList];
+    if (searching)
+        return [filteredLocationList count];
+    else
+        return [allLocationList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -79,12 +138,18 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    if (cell == nil) {
+    if (cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    SearchLocation *locationAtIndex = [self.dataController objectInListAtIndex:indexPath.row];
-    [[cell textLabel] setText:locationAtIndex.name];
+    if(searching){
+        SearchLocation *locationAtIndex = [filteredLocationList objectAtIndex:indexPath.row];
+        [[cell textLabel] setText:locationAtIndex.name];
+    }
+    else{
+        SearchLocation *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
+        [[cell textLabel] setText:locationAtIndex.name];
+    }
     return cell;
 }
 

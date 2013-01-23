@@ -12,5 +12,6 @@
 @interface itineraryMasterViewController : UITableViewController
 
 @property (strong, nonatomic) itineraryDataController *dataController;
+//- (IBAction)cancel:(UIStoryboardSegue *)segue;
 
 @end

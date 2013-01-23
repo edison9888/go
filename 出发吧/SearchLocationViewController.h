@@ -7,11 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-@class SearchLocationDataController;
+//@class SearchLocationDataController;
 
-@interface SearchLocationViewController : UITableViewController
+@interface SearchLocationViewController : UITableViewController <UISearchBarDelegate>
+{
+    BOOL searching;
+    BOOL letUserSelectRow;
+    NSMutableArray *allLocationList;
+    NSMutableArray *filteredLocationList;
+}
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-
-@property (strong, nonatomic) SearchLocationDataController *dataController;
+//@property (strong, nonatomic) SearchLocationDataController *dataController;
 
 @end

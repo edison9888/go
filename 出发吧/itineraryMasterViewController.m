@@ -39,6 +39,13 @@
     */
 }
 
+/*- (IBAction)cancel:(UIStoryboardSegue *)segue
+{
+    if ([[segue identifier] isEqualToString:@"CancelSearch"]) {
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    }
+}*/
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -157,7 +164,7 @@
     button.tag = section;
     button.hidden = NO;
     [button setBackgroundColor:[UIColor clearColor]];
-    [button addTarget:self action:@selector(pushSearchLocationViewController) forControlEvents:UIControlEventTouchDown];
+    [button addTarget:self action:@selector(pushSearchLocationViewController:) forControlEvents:UIControlEventTouchDown];
     
     label.text = [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", section+1]] stringByAppendingString:dateOfDay];
     myView.backgroundColor = [UIColor grayColor];
@@ -180,22 +187,14 @@
     }
 }
 
-- (IBAction)pushSearchLocationViewController
+/*- (IBAction)pushSearchLocationViewController
 {
     SearchLocationViewController *locationVC = [[SearchLocationViewController alloc] init];
-    // do any setup you need for myNewVC
-    
-    //[self presentModalViewController:locationVC animated:YES];
     [self presentViewController:locationVC animated:YES completion:NULL];
-    //[self performSegueWithIdentifier:@"SearchLocation" sender:sender];
-}
+}*/
 
 - (IBAction)pushSearchLocationViewController:(id)sender
 {
-    //SearchLocationViewController *locationVC = [[SearchLocationViewController alloc] init];
-    // do any setup you need for myNewVC
-    
-    //[self presentModalViewController:locationVC animated:YES];
     [self performSegueWithIdentifier:@"SearchLocation" sender:sender];
 }
 
