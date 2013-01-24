@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ATSDragToReorderTableViewController.h"
 @class TravelPlanDataController;
 
-@interface TravelPlanMasterViewController : UITableViewController
+@interface TravelPlanMasterViewController : ATSDragToReorderTableViewController
 
 @property (strong, nonatomic) TravelPlanDataController *dataController;
 

@@ -61,6 +61,7 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
+    //[self enableCancelButton:searchBar];
     [_searchBar resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
@@ -85,6 +86,7 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
     [_searchBar resignFirstResponder];
+    [self enableCancelButton:theSearchBar];
     [self searchTableView];
 }
 

@@ -10,6 +10,8 @@
 		1C428A4816ABE4AB00416C47 /* SearchLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C428A4716ABE4AB00416C47 /* SearchLocationViewController.m */; };
 		1C428A4B16ABE4F700416C47 /* SearchLocationDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C428A4A16ABE4F700416C47 /* SearchLocationDataController.m */; };
 		1C428A4E16ABE68100416C47 /* SearchLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C428A4D16ABE68100416C47 /* SearchLocation.m */; };
+		1C70A1BB16B02BC90031A1D0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C70A1BA16B02BC90031A1D0 /* QuartzCore.framework */; };
+		1C70A1BE16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C70A1BD16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m */; };
 		D25F6FE816A6332D00ED7AF5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25F6FE716A6332D00ED7AF5 /* UIKit.framework */; };
 		D25F6FEA16A6332D00ED7AF5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25F6FE916A6332D00ED7AF5 /* Foundation.framework */; };
 		D25F6FEC16A6332D00ED7AF5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25F6FEB16A6332D00ED7AF5 /* CoreGraphics.framework */; };
@@ -39,6 +41,9 @@
 		1C428A4A16ABE4F700416C47 /* SearchLocationDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchLocationDataController.m; sourceTree = "<group>"; };
 		1C428A4C16ABE68100416C47 /* SearchLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchLocation.h; sourceTree = "<group>"; };
 		1C428A4D16ABE68100416C47 /* SearchLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchLocation.m; sourceTree = "<group>"; };
+		1C70A1BA16B02BC90031A1D0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		1C70A1BC16B02BF80031A1D0 /* ATSDragToReorderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATSDragToReorderTableViewController.h; sourceTree = "<group>"; };
+		1C70A1BD16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATSDragToReorderTableViewController.m; sourceTree = "<group>"; };
 		D25F6FE316A6332D00ED7AF5 /* 出发吧.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "出发吧.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D25F6FE716A6332D00ED7AF5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D25F6FE916A6332D00ED7AF5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -81,6 +86,7 @@
 				D25F6FE816A6332D00ED7AF5 /* UIKit.framework in Frameworks */,
 				D25F6FEA16A6332D00ED7AF5 /* Foundation.framework in Frameworks */,
 				D25F6FEC16A6332D00ED7AF5 /* CoreGraphics.framework in Frameworks */,
+				1C70A1BB16B02BC90031A1D0 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +96,7 @@
 		D25F6FD816A6332D00ED7AF5 = {
 			isa = PBXGroup;
 			children = (
+				1C70A1BA16B02BC90031A1D0 /* QuartzCore.framework */,
 				D25F6FED16A6332D00ED7AF5 /* 出发吧 */,
 				D25F6FE616A6332D00ED7AF5 /* Frameworks */,
 				D25F6FE416A6332D00ED7AF5 /* Products */,
@@ -143,6 +150,8 @@
 				1C428A4C16ABE68100416C47 /* SearchLocation.h */,
 				1C428A4D16ABE68100416C47 /* SearchLocation.m */,
 				1C428A4A16ABE4F700416C47 /* SearchLocationDataController.m */,
+				1C70A1BC16B02BF80031A1D0 /* ATSDragToReorderTableViewController.h */,
+				1C70A1BD16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m */,
 			);
 			path = "出发吧";
 			sourceTree = "<group>";
@@ -245,6 +254,7 @@
 				1C428A4816ABE4AB00416C47 /* SearchLocationViewController.m in Sources */,
 				1C428A4B16ABE4F700416C47 /* SearchLocationDataController.m in Sources */,
 				1C428A4E16ABE68100416C47 /* SearchLocation.m in Sources */,
+				1C70A1BE16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

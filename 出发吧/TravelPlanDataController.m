@@ -23,6 +23,8 @@
     UIImage *image = [UIImage imageNamed:@"travel.png"];
     plan = [[TravelPlan alloc] initWithName:@"英伦自由行" duration:[NSNumber numberWithInt:5] date:today image:image];
     [self addTravelPlanWithPlan:plan];
+    plan = [[TravelPlan alloc] initWithName:@"清迈" duration:[NSNumber numberWithInt:3] date:today image:image];
+    [self addTravelPlanWithPlan:plan];
 }
 
 - (void)setMasterTravelPlanList:(NSMutableArray *)newList {

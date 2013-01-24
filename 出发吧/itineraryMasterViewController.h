@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ATSDragToReorderTableViewController.h"
 @class itineraryDataController;
 
-@interface itineraryMasterViewController : UITableViewController
+@interface itineraryMasterViewController : ATSDragToReorderTableViewController
 
 @property (strong, nonatomic) itineraryDataController *dataController;
 //- (IBAction)cancel:(UIStoryboardSegue *)segue;
