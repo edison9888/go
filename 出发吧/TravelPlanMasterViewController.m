@@ -9,7 +9,6 @@
 #import "TravelPlanMasterViewController.h"
 #import "TravelPlanDataController.h"
 #import "TravelPlan.h"
-#import "AddPlanViewController.h"
 #import "itineraryMasterViewController.h"
 #import "itineraryDataController.h"
 
@@ -34,9 +33,54 @@
     self.dataController = [[TravelPlanDataController alloc] init];
 }*/
 
+- (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(TravelPlan *)plan
+{
+    FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
+    
+    [db updateTravelPlan:plan];
+    
+    [self populateTravelPlans];
+    
+    [self.tableView reloadData];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void) addPlanViewController:(AddPlanViewController *)controller didAddTravelPlan:(TravelPlan *)plan
+{
+    FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
+    
+    [db insertTravelPlan:plan];
+    
+    [self populateTravelPlans];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.travelPlans count] - 1 inSection:0];
+    
+    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    //[self.tableView reloadData];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void) populateTravelPlans
+{
+    self.travelPlans = [[NSMutableArray alloc] init];
+    
+    FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
+    
+    self.travelPlans = [db getTravelPlans];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self populateTravelPlans];
     self.dataController = [[TravelPlanDataController alloc] init];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -46,25 +90,25 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (IBAction)done:(UIStoryboardSegue *)segue
-{
-    if ([[segue identifier] isEqualToString:@"ReturnInput"]) {
-        
-        AddPlanViewController *addController = [segue sourceViewController];
-        if (addController.plan) {
-            [self.dataController addTravelPlanWithPlan:addController.plan];
-            [[self tableView] reloadData];
-        }
-        [self dismissViewControllerAnimated:YES completion:NULL];
-    }
-}
-
-- (IBAction)cancel:(UIStoryboardSegue *)segue
-{
-    if ([[segue identifier] isEqualToString:@"CancelInput"]) {
-        [self dismissViewControllerAnimated:YES completion:NULL];
-    }
-}
+//- (IBAction)done:(UIStoryboardSegue *)segue
+//{
+//    if ([[segue identifier] isEqualToString:@"ReturnInput"]) {
+//        
+//        AddPlanViewController *addController = [segue sourceViewController];
+//        if (addController.plan) {
+//            [self.dataController addTravelPlanWithPlan:addController.plan];
+//            [[self tableView] reloadData];
+//        }
+//        [self dismissViewControllerAnimated:YES completion:NULL];
+//    }
+//}
+//
+//- (IBAction)cancel:(UIStoryboardSegue *)segue
+//{
+//    if ([[segue identifier] isEqualToString:@"CancelInput"]) {
+//        [self dismissViewControllerAnimated:YES completion:NULL];
+//    }
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -82,8 +126,28 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     //[self setReorderingEnabled:([self.dataController countOfList] > 1 )];
-    return [self.dataController countOfList];
+    //return [self.dataController countOfList];
+    return [self.travelPlans count];
 }
+
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSString *CellIdentifier = @"TravelPlanCell";
+//    
+//    static NSDateFormatter *formatter = nil;
+//    if (formatter == nil) {
+//        formatter = [[NSDateFormatter alloc] init];
+//        [formatter setDateStyle:NSDateFormatterMediumStyle];
+//    }
+//    
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    
+//    TravelPlan *planAtIndex = [self.dataController objectInListAtIndex:indexPath.row];
+//    [[cell textLabel] setText:planAtIndex.name];
+//    [[cell detailTextLabel] setText:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
+//    cell.imageView.image = planAtIndex.image;
+//    return cell;
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -96,19 +160,34 @@
     }
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    //NSUInteger planIndex = [self.travelPlans count] - 1 - indexPath.row;
+    //TravelPlan *planAtIndex = [self.travelPlans objectAtIndex:planIndex];
+    TravelPlan *planAtIndex = [self.travelPlans objectAtIndex:indexPath.row];
     
-    TravelPlan *planAtIndex = [self.dataController objectInListAtIndex:indexPath.row];
+    NSString *dateStr = [formatter stringFromDate:planAtIndex.date];
+    NSString *detailStr = [dateStr stringByAppendingString:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
+    
     [[cell textLabel] setText:planAtIndex.name];
-    [[cell detailTextLabel] setText:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
+    //[[cell detailTextLabel] setText:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
+    [[cell detailTextLabel] setText:detailStr];
     cell.imageView.image = planAtIndex.image;
     return cell;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ShowItinerary"]) {
+//        itineraryMasterViewController *itineraryViewController = [segue destinationViewController];
+//        itineraryViewController.dataController.masterTravelDayList = [self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].row].itineraryList;
+//        itineraryViewController.dataController.date = [self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].row].date;
         itineraryMasterViewController *itineraryViewController = [segue destinationViewController];
-        itineraryViewController.dataController.masterTravelDayList = [self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].row].itineraryList;
-        itineraryViewController.dataController.date = [self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].row].date;
+        TravelPlan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        itineraryViewController.dataController.masterTravelDayList = selectedPlan.itineraryList;
+    }
+    else if ([[segue identifier] isEqualToString:@"AddPlan"])
+    {
+        UINavigationController *navigationController = segue.destinationViewController;
+        AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
+        addPlanViewController.delegate = self;
     }
 }
 
@@ -117,24 +196,42 @@
     return YES;
 }
 
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        [self.dataController.masterTravelPlanList removeObjectAtIndex:indexPath.row];
+//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    }    
+//}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.dataController.masterTravelPlanList removeObjectAtIndex:indexPath.row];
+        
+        FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
+        
+        //NSUInteger planIndex = [self.travelPlans count] - 1 - indexPath.row;
+        //TravelPlan *planToDelete = [self.travelPlans objectAtIndex:planIndex];
+        
+        TravelPlan *planToDelete = [self.travelPlans objectAtIndex:indexPath.row];
+        
+        [db deleteTravelPlan:planToDelete];
+        
+        //[self.travelPlans removeObjectAtIndex:planIndex];
+        [self.travelPlans removeObjectAtIndex:indexPath.row];
+        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }    
+    }
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    TravelPlan *planToMove = [self.dataController objectInListAtIndex:fromIndexPath.row];
-    [self.dataController.masterTravelPlanList removeObjectAtIndex:fromIndexPath.row];
-    [self.dataController.masterTravelPlanList insertObject:planToMove atIndex:toIndexPath.row];
+
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    return NO;
 }
 
 #pragma mark - Table view delegate

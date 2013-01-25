@@ -10,6 +10,7 @@
 
 @interface TravelPlan : NSObject
 
+@property (nonatomic, copy) NSNumber *planId;
 @property (nonatomic, strong) NSDate *date;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSNumber *duration;

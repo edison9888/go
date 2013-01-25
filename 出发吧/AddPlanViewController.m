@@ -103,6 +103,41 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(IBAction) done:(id) sender
+{
+    if ([self.dateInput.text length] == 0 || [self.durationInput.text length] == 0)
+    {
+        [Utility showAlert:@"Error" message:@"Validation Failed!"];
+        return;
+    }
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    if(self.plan != nil)
+    {
+        self.plan.name = self.nameInput.text;
+        self.plan.duration = [f numberFromString:self.durationInput.text];
+        self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
+        self.plan.image = self.coverImageView.image;
+        [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
+    }
+    
+    else
+    {
+        TravelPlan *plan = [[TravelPlan alloc] init];
+        plan.name = self.nameInput.text;
+        plan.duration = [f numberFromString:self.durationInput.text];
+        plan.date = [(UIDatePicker *)self.dateInput.inputView date];
+        plan.image = self.coverImageView.image;
+        [self.delegate addPlanViewController:self didAddTravelPlan:plan];
+    }
+    
+}
+
+-(IBAction)cancel:(id)sender
+{
+    [self.delegate addPlanViewControllerDidCancel:self];
+}
+
 - (void)dismissDurationPicker:(id)sender {
     CGRect toolbarTargetFrame = CGRectMake(0, self.view.bounds.size.height, 320, 44);
     CGRect durationPickerTargetFrame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
@@ -206,24 +241,23 @@
     return YES;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ReturnInput"]) {
-        if ([self.dateInput.text length] || [self.durationInput.text length]) {
-            TravelPlan *plan;
-            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-            [f setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSNumber * myNumber = [f numberFromString:self.durationInput.text];
-            NSDate *startDate = [(UIDatePicker *)self.dateInput.inputView date];
-            plan = [[TravelPlan alloc] initWithName:self.nameInput.text duration:myNumber date:startDate image:self.coverImageView.image];
-            self.plan = plan;
-        }
-    }
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//    if ([[segue identifier] isEqualToString:@"ReturnInput"]) {
+//        if ([self.dateInput.text length] || [self.durationInput.text length]) {
+//            TravelPlan *plan;
+//            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+//            [f setNumberStyle:NSNumberFormatterDecimalStyle];
+//            NSNumber * myNumber = [f numberFromString:self.durationInput.text];
+//            NSDate *startDate = [(UIDatePicker *)self.dateInput.inputView date];
+//            plan = [[TravelPlan alloc] initWithName:self.nameInput.text duration:myNumber date:startDate image:self.coverImageView.image];
+//            self.plan = plan;
+//        }
+//    }
+//}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 @end

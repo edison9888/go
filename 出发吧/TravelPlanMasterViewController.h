@@ -7,14 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddPlanViewController.h"
 #import "ATSDragToReorderTableViewController.h"
+#import "FMDBDataAccess.h" 
+
 @class TravelPlanDataController;
 
-@interface TravelPlanMasterViewController : ATSDragToReorderTableViewController
+@interface TravelPlanMasterViewController : ATSDragToReorderTableViewController<AddPlanViewControllerDelegate>
 
 @property (strong, nonatomic) TravelPlanDataController *dataController;
+@property (nonatomic,strong) NSMutableArray *travelPlans;
 
-- (IBAction)done:(UIStoryboardSegue *)segue;
-- (IBAction)cancel:(UIStoryboardSegue *)segue;
+//- (IBAction)done:(UIStoryboardSegue *)segue;
+//- (IBAction)cancel:(UIStoryboardSegue *)segue;
+
+-(void) populateTravelPlans;
 
 @end

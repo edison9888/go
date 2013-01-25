@@ -65,7 +65,7 @@
                     <navigationItem key="navigationItem" title="出发吧" id="3Wy-tf-haT">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="tOc-xM-nyn">
                             <connections>
-                                <segue destination="bu1-ru-VTq" kind="modal" identifier="addPlan" id="Z6G-Rc-YoY"/>
+                                <segue destination="bu1-ru-VTq" kind="modal" identifier="AddPlan" id="Z6G-Rc-YoY"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -195,12 +195,12 @@
                     <navigationItem key="navigationItem" id="KLT-if-wTY">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="k2t-YC-mXw">
                             <connections>
-                                <segue destination="URi-so-g2b" kind="unwind" identifier="CancelInput" unwindAction="cancel:" id="6vQ-SX-XFP"/>
+                                <action selector="cancel:" destination="OjR-hy-7gj" id="fYg-Zx-bhE"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="DSw-an-0uQ">
                             <connections>
-                                <segue destination="URi-so-g2b" kind="unwind" identifier="ReturnInput" unwindAction="done:" id="vuE-ex-kVp"/>
+                                <action selector="done:" destination="OjR-hy-7gj" id="Lnz-6h-B80"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -212,7 +212,6 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g2P-Y9-zo2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="URi-so-g2b" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-162" y="317"/>
         </scene>
@@ -508,53 +507,6 @@
     <resources>
         <image name="travel.png" width="128" height="128"/>
     </resources>
-    <classes>
-        <class className="AddPlanViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="coverImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dateInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="durationInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="nameInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="SearchLocationViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchLocationViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-            </relationships>
-        </class>
-        <class className="TravelPlanMasterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TravelPlanMasterViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel:" candidateClass="UIStoryboardSegue"/>
-                <relationship kind="action" name="done:" candidateClass="UIStoryboardSegue"/>
-            </relationships>
-        </class>
-        <class className="UIStoryboardSegue" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIStoryboardSegue.h"/>
-        </class>
-        <class className="itineraryDetailViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/itineraryDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="addressLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="costLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="detailLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="scheduleLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="transportationLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="itineraryMasterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/itineraryMasterViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="pushSearchLocationViewController:"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
