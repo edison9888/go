@@ -8,7 +8,6 @@
 
 #import "SearchLocationViewController.h"
 #import "SearchLocationDataController.h"
-#import "SearchLocation.h"
 
 @interface SearchLocationViewController ()
 
@@ -157,6 +156,7 @@
         SearchLocation *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
         [[cell textLabel] setText:locationAtIndex.name];
     }
+    
     return cell;
 }
 
@@ -203,13 +203,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    SearchLocation *locationSelected;
+    if(searching){
+        locationSelected = [filteredLocationList objectAtIndex:indexPath.row];
+    }
+    else{
+        locationSelected = [allLocationList objectAtIndex:indexPath.row];
+    }
+    [self.delegate searchLocationViewController:self didAddSearchLocation:locationSelected];
 }
 
 @end

@@ -52,15 +52,24 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*- (void)insertNewObject:(id)sender
+-(void) searchLocationViewController:(SearchLocationViewController *) controller didAddSearchLocation:(SearchLocation *) locationSelected
 {
-    if (!_objects) {
-        _objects = [[NSMutableArray alloc] init];
-    }
-    [_objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}*/
+    TravelLocation *locationToAdd = [[TravelLocation alloc] init];
+    locationToAdd.name = locationSelected.name;
+    locationToAdd.address = locationSelected.address;
+    [[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] addObject:locationToAdd];
+    
+    //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue] inSection:[self.dayToAdd intValue]];
+    //[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadData];
+    //add search location to database
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address) VALUES (?,?,?,?,?);",self.planID,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,nil];
+    [db close];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark - Table View
 
@@ -136,6 +145,7 @@
     [button setFrame:CGRectMake(275.0, 10.0, 30.0, 30.0)];
     button.tag = section;
     button.hidden = NO;
+    //button.tag = section+1;
     [button setBackgroundColor:[UIColor clearColor]];
     [button addTarget:self action:@selector(pushSearchLocationViewController:) forControlEvents:UIControlEventTouchDown];
     
@@ -157,6 +167,14 @@
     if ([[segue identifier] isEqualToString:@"ShowLocationDetails"]) {
         itineraryDetailViewController *detailViewController = [segue destinationViewController];
         detailViewController.location = [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+    }
+    else if ([[segue identifier] isEqualToString:@"SearchLocation"])
+    {
+        UIButton *button = (UIButton*)sender;
+        self.dayToAdd = [NSNumber numberWithInt:button.tag+1];
+        self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:button.tag] count]+1];
+        SearchLocationViewController *searchLocationViewController = segue.destinationViewController;
+        searchLocationViewController.delegate = self;
     }
 }
 

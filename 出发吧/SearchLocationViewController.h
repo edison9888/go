@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-//@class SearchLocationDataController;
-//test github gui client
+#import "SearchLocation.h"
+
+@class SearchLocationViewController;
+@protocol SearchLocationViewControllerDelegate<NSObject>
+
+//-(void) searchLocationViewController:(SearchLocationViewController *) controller didAddSearchLocation:(SearchLocation *) locationSelected atDay:(NSInteger)day atSequence:(NSInteger)sequence;
+-(void) searchLocationViewController:(SearchLocationViewController *) controller didAddSearchLocation:(SearchLocation *) locationSelected;
+
+@end
 
 @interface SearchLocationViewController : UITableViewController <UISearchBarDelegate>
 {
@@ -18,6 +25,7 @@
     NSMutableArray *filteredLocationList;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic,weak) id<SearchLocationViewControllerDelegate> delegate;
 //@property (strong, nonatomic) SearchLocationDataController *dataController;
 
 @end

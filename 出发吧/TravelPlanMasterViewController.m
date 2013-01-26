@@ -130,25 +130,6 @@
     return [self.travelPlans count];
 }
 
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    static NSString *CellIdentifier = @"TravelPlanCell";
-//    
-//    static NSDateFormatter *formatter = nil;
-//    if (formatter == nil) {
-//        formatter = [[NSDateFormatter alloc] init];
-//        [formatter setDateStyle:NSDateFormatterMediumStyle];
-//    }
-//    
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    
-//    TravelPlan *planAtIndex = [self.dataController objectInListAtIndex:indexPath.row];
-//    [[cell textLabel] setText:planAtIndex.name];
-//    [[cell detailTextLabel] setText:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
-//    cell.imageView.image = planAtIndex.image;
-//    return cell;
-//}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"TravelPlanCell";
@@ -178,7 +159,6 @@
     if ([[segue identifier] isEqualToString:@"ShowItinerary"]) {
         itineraryMasterViewController *itineraryViewController = [segue destinationViewController];
         TravelPlan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
-        //itineraryViewController.dataController.masterTravelDayList = selectedPlan.itineraryList;
         itineraryViewController.dataController.date = selectedPlan.date;
         NSMutableArray *tempList = [[NSMutableArray alloc] init];
         for (int i = 0; i < [selectedPlan.duration intValue]; i++)
@@ -214,6 +194,7 @@
             [[tempList objectAtIndex:dayID] addObject:location];
         }
         itineraryViewController.dataController.masterTravelDayList = tempList;
+        itineraryViewController.planID =planID;
         
         [db close];
         

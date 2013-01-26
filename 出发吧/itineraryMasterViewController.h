@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "ATSDragToReorderTableViewController.h"
 #import "FMDBDataAccess.h" 
+#import "SearchLocationViewController.h"
 @class itineraryDataController;
 
-@interface itineraryMasterViewController : ATSDragToReorderTableViewController
+@interface itineraryMasterViewController : ATSDragToReorderTableViewController<SearchLocationViewControllerDelegate>
 
+@property (nonatomic,weak) NSNumber *planID;
 @property (strong, nonatomic) itineraryDataController *dataController;
+@property (nonatomic,weak) NSNumber *dayToAdd;
+@property (nonatomic,weak) NSNumber *seqToAdd;
 //- (IBAction)cancel:(UIStoryboardSegue *)segue;
 
 @end
