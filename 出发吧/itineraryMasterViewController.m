@@ -12,6 +12,7 @@
 #import "TravelLocation.h"
 #import "itineraryDataController.h"
 #import "SearchLocationViewController.h"
+#import "SearchLocation.h"
 
 /*
 @interface itineraryMasterViewController () {

@@ -7,25 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SearchLocation.h"
-
+@class SearchLocation;
 @class SearchLocationViewController;
+
 @protocol SearchLocationViewControllerDelegate<NSObject>
 
-//-(void) searchLocationViewController:(SearchLocationViewController *) controller didAddSearchLocation:(SearchLocation *) locationSelected atDay:(NSInteger)day atSequence:(NSInteger)sequence;
 -(void) searchLocationViewController:(SearchLocationViewController *) controller didAddSearchLocation:(SearchLocation *) locationSelected;
 
 @end
 
 @interface SearchLocationViewController : UITableViewController <UISearchBarDelegate>
 {
-    BOOL searching;
     BOOL letUserSelectRow;
-    NSMutableArray *allLocationList;
-    NSMutableArray *filteredLocationList;
+    BOOL searching;
+    NSArray *allLocationList;
 }
+
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic,weak) id<SearchLocationViewControllerDelegate> delegate;
-//@property (strong, nonatomic) SearchLocationDataController *dataController;
 
 @end
