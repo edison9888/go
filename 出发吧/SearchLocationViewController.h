@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 //@class SearchLocationDataController;
+//test github gui client
 
 @interface SearchLocationViewController : UITableViewController <UISearchBarDelegate>
 {
