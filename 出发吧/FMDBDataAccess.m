@@ -80,18 +80,17 @@
         plan.duration = [NSNumber numberWithInt:[results intForColumn:@"duration"]];
         plan.image = [UIImage imageNamed:@"photo_add.png"];
         plan.name = [results stringForColumn:@"title"];
-        NSMutableArray *tempList = [[NSMutableArray alloc] init];
         //plan.itineraryList = [[NSMutableArray alloc] init];
-        
+        /*NSMutableArray *tempList = [[NSMutableArray alloc] init];
+
         for (int i = 0; i < [plan.duration intValue]; i++) {
             NSMutableArray *dayList = [[NSMutableArray alloc] init];
             TravelLocation *location = [[TravelLocation alloc] initWithName:@"白金汉宫" address:@"Buckingham Palace Road, London SWL098" transportation:@"地铁Green Park站" cost:@"门票17磅" schedule:@"游览3小时" detail:@"10月3日又换岗仪式"];
             [dayList addObject:location];
             [dayList addObject:location];
-            //[plan.itineraryList addObject:dayList];
             [tempList addObject:dayList];
         }
-        plan.itineraryList = tempList;
+        plan.itineraryList = tempList;*/
         
         [travelPlans addObject:plan];
         

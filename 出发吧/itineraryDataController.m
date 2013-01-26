@@ -7,7 +7,6 @@
 //
 
 #import "itineraryDataController.h"
-#import "TravelLocation.h"
 
 @interface itineraryDataController ()
 - (void)initializeDefaultDataList;

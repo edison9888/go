@@ -22,13 +22,13 @@
         
         //initialize the itinerary list based on the duration value
         _itineraryList = [[NSMutableArray alloc] init];
-        for (int i = 0; i < [duration intValue]; i++) {
-            NSMutableArray *dayList = [[NSMutableArray alloc] init];
-            TravelLocation *location = [[TravelLocation alloc] initWithName:@"白金汉宫" address:@"Buckingham Palace Road, London SWL098" transportation:@"地铁Green Park站" cost:@"门票17磅" schedule:@"游览3小时" detail:@"10月3日又换岗仪式"];
-            [dayList addObject:location];
-            [dayList addObject:location];
-            [_itineraryList addObject:dayList];
-        }
+//        for (int i = 0; i < [duration intValue]; i++) {
+//            NSMutableArray *dayList = [[NSMutableArray alloc] init];
+//            TravelLocation *location = [[TravelLocation alloc] initWithName:@"白金汉宫" address:@"Buckingham Palace Road, London SWL098" transportation:@"地铁Green Park站" cost:@"门票17磅" schedule:@"游览3小时" detail:@"10月3日又换岗仪式"];
+//            [dayList addObject:location];
+//            [dayList addObject:location];
+//            [_itineraryList addObject:dayList];
+//        }
         
         return self;
     }

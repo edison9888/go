@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-@class TravelLocation;
+#import "TravelLocation.h"
+//@class TravelLocation;
 
 @interface itineraryDataController : NSObject
 

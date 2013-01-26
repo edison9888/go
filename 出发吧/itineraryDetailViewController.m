@@ -37,8 +37,8 @@
         self.nameLabel.text = theLocation.name;
         self.addressLabel.text = theLocation.address;
         self.transportationLabel.text = theLocation.transportation;
-        self.costLabel.text = theLocation.cost;
-        self.scheduleLabel.text = theLocation.schedule;
+        //self.costLabel.text = theLocation.cost;
+        //self.scheduleLabel.text = theLocation.schedule;
         self.detailLabel.text = theLocation.detail;
     }
 }

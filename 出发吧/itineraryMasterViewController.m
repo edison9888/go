@@ -174,8 +174,15 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        TravelLocation *locationToDelete = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         [[self.dataController objectInListAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        //delete travel location in database
+        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+        [db open];
+        [db executeUpdate:@"DELETE FROM location WHERE id = ?", locationToDelete.locationId];
+        [db close];
     }
 }
 

@@ -11,7 +11,7 @@
 #import "FMResultSet.h"
 #import "Utility.h"
 #import "TravelPlan.h"
-#import "TravelLocation.h"
+//#import "TravelLocation.h"
 
 @interface FMDBDataAccess : NSObject
 {

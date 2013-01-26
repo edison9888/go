@@ -176,12 +176,45 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ShowItinerary"]) {
-//        itineraryMasterViewController *itineraryViewController = [segue destinationViewController];
-//        itineraryViewController.dataController.masterTravelDayList = [self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].row].itineraryList;
-//        itineraryViewController.dataController.date = [self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].row].date;
         itineraryMasterViewController *itineraryViewController = [segue destinationViewController];
         TravelPlan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
-        itineraryViewController.dataController.masterTravelDayList = selectedPlan.itineraryList;
+        //itineraryViewController.dataController.masterTravelDayList = selectedPlan.itineraryList;
+        itineraryViewController.dataController.date = selectedPlan.date;
+        NSMutableArray *tempList = [[NSMutableArray alloc] init];
+        for (int i = 0; i < [selectedPlan.duration intValue]; i++)
+        {
+            NSMutableArray *dayList = [[NSMutableArray alloc] init];
+            [tempList addObject:dayList];
+        }
+        
+        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+        
+        [db open];
+        
+        NSNumber *planID = selectedPlan.planId;
+        FMResultSet *results = [db executeQuery:@"SELECT * FROM location,plan WHERE plan_id=? AND plan_id=plan.id",planID];
+        while([results next])
+        {
+            int dayID = [results intForColumn:@"whichday"]-1;
+            
+            TravelLocation *location = [[TravelLocation alloc] init];
+            //location.locationId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
+            location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
+            location.name = [results stringForColumn:@"name"];
+            location.address = [results stringForColumn:@"address"];
+            location.transportation = [results stringForColumn:@"transportation"];
+            location.name = [results stringForColumn:@"name"];
+            location.costAmount = [NSNumber numberWithInt:[results intForColumn:@"cost_amount"]];
+            location.costUnit = [NSNumber numberWithInt:[results intForColumn:@"cost_unit"]];
+            location.visitBegin = [results dateForColumn:@"visit_begin"];
+            location.visitEnd = [results dateForColumn:@"visit_end"];
+            location.detail = [results stringForColumn:@"detail"];
+            [[tempList objectAtIndex:dayID] addObject:location];
+        }
+        itineraryViewController.dataController.masterTravelDayList = tempList;
+        
+        [db close];
+        
     }
     else if ([[segue identifier] isEqualToString:@"AddPlan"])
     {

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ATSDragToReorderTableViewController.h"
+#import "FMDBDataAccess.h" 
 @class itineraryDataController;
 
 @interface itineraryMasterViewController : ATSDragToReorderTableViewController
