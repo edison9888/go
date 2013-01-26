@@ -11,6 +11,8 @@
 @interface TravelLocation : NSObject
 
 @property (nonatomic, copy) NSNumber *locationId;
+@property (nonatomic, copy) NSNumber *whichday;
+@property (nonatomic, copy) NSNumber *seqofday;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *address;
 @property (nonatomic, copy) NSString *transportation;

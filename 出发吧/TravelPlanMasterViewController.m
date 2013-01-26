@@ -192,7 +192,7 @@
         [db open];
         
         NSNumber *planID = selectedPlan.planId;
-        FMResultSet *results = [db executeQuery:@"SELECT * FROM location,plan WHERE plan_id=? AND plan_id=plan.id",planID];
+        FMResultSet *results = [db executeQuery:@"SELECT * FROM location,plan WHERE plan_id=? AND plan_id=plan.id order by seqofday",planID];
         while([results next])
         {
             int dayID = [results intForColumn:@"whichday"]-1;
@@ -200,6 +200,8 @@
             TravelLocation *location = [[TravelLocation alloc] init];
             //location.locationId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
             location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
+            location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
+            location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
             location.name = [results stringForColumn:@"name"];
             location.address = [results stringForColumn:@"address"];
             location.transportation = [results stringForColumn:@"transportation"];

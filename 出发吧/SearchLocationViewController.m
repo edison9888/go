@@ -35,10 +35,15 @@
     [_searchBar setShowsCancelButton:YES];
     
     allLocationList = [[NSMutableArray alloc] init];
-    SearchLocation *location1 = [[SearchLocation alloc] initWithName:@"London Tower" address:@"London tower road 333"];
-    SearchLocation *location2 = [[SearchLocation alloc] initWithName:@"Windsor Carsle" address:@"Windsor road 333"];
-    [allLocationList addObject:location1];
-    [allLocationList addObject:location2];
+    
+    SearchLocation *location = [[SearchLocation alloc] initWithName:@"London Tower" address:@"London tower road 333"];
+    [allLocationList addObject:location];
+    location = [[SearchLocation alloc] initWithName:@"Windsor Carsle" address:@"Windsor road 333"];
+    [allLocationList addObject:location];
+    location = [[SearchLocation alloc] initWithName:@"德文特湖" address:@"Windsor road 333"];
+    [allLocationList addObject:location];
+    location = [[SearchLocation alloc] initWithName:@"海德公园" address:@"Windsor road 333"];
+    [allLocationList addObject:location];
     
     filteredLocationList = [[NSMutableArray alloc] init];
     searching = NO;
