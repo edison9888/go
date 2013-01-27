@@ -32,20 +32,39 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    /*self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
-    */
+    
+    //CGFloat width = self.view.frame.size.width;
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setFrame:CGRectMake(100,22,120,44)];
+    [button setTitle:@"全部" forState:UIControlStateNormal];
+    [button setBackgroundColor:[UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:1]];
+    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    [button addTarget:self action:@selector(selectClicked:) forControlEvents:UIControlEventTouchDown];
+    self.navigationItem.titleView = button;
 }
 
-/*- (IBAction)cancel:(UIStoryboardSegue *)segue
-{
-    if ([[segue identifier] isEqualToString:@"CancelSearch"]) {
-        [self dismissViewControllerAnimated:YES completion:NULL];
+- (IBAction)selectClicked:(id)sender {
+    NSMutableArray * arr = [[NSMutableArray alloc] init];
+    [arr addObject:@"全部"];
+    for(int i=0; i<[self.dataController countOfList]; i++)
+    {
+        [arr addObject:[@"Day " stringByAppendingString:[NSString stringWithFormat:@"%d",i+1]]];
     }
-}*/
+    //arr = [NSArray arrayWithObjects:@"Hello 0", @"Hello 1", @"Hello 2", @"Hello 3", @"Hello 4", @"Hello 5", @"Hello 6", @"Hello 7", @"Hello 8", @"Hello 9",nil];
+    if(dropDown == nil) {
+        CGFloat f = (1+[self.dataController countOfList])*40;
+        dropDown = [[NIDropDown alloc]showDropDown:sender :&f :arr];
+        dropDown.delegate = self;
+    }
+    else {
+        [dropDown hideDropDown:sender];
+        dropDown = nil;
+    }
+}
+
+- (void) niDropDownDelegateMethod: (NIDropDown *) sender {
+    dropDown = nil;
+}
 
 - (void)didReceiveMemoryWarning
 {

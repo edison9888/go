@@ -269,7 +269,7 @@
 			usernameLabel.shadowColor = [UIColor blackColor];
 			usernameLabel.shadowOffset = CGSizeMake(0,-1);
 			usernameLabel.text = NSLocalizedStringFromTable(@"Name:", @"HTTPFetcher", @"Prompt for the username in the login dialog.");
-			usernameLabel.textAlignment = UITextAlignmentRight;
+			usernameLabel.textAlignment = NSTextAlignmentRight;
 			usernameLabel.autoresizingMask =
 				UIViewAutoresizingFlexibleTopMargin |
 				UIViewAutoresizingFlexibleBottomMargin;
@@ -296,7 +296,7 @@
 			passwordLabel.shadowColor = [UIColor blackColor];
 			passwordLabel.shadowOffset = CGSizeMake(0,-1);
 			passwordLabel.text = NSLocalizedStringFromTable(@"Password:", @"HTTPFetcher", @"Prompt for the password field in the login dialog.");
-			passwordLabel.textAlignment = UITextAlignmentRight;
+			passwordLabel.textAlignment = NSTextAlignmentRight;
 			passwordLabel.autoresizingMask =
 				UIViewAutoresizingFlexibleTopMargin |
 				UIViewAutoresizingFlexibleBottomMargin;

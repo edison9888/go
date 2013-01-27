@@ -10,14 +10,18 @@
 #import "ATSDragToReorderTableViewController.h"
 #import "FMDBDataAccess.h" 
 #import "SearchLocationViewController.h"
+#import "NIDropDown.h"
 @class itineraryDataController;
 
-@interface itineraryMasterViewController : ATSDragToReorderTableViewController<SearchLocationViewControllerDelegate>
+@interface itineraryMasterViewController : ATSDragToReorderTableViewController<SearchLocationViewControllerDelegate, NIDropDownDelegate>
+{
+    NIDropDown *dropDown;
+}
+@property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
 
 @property (nonatomic,weak) NSNumber *planID;
 @property (strong, nonatomic) itineraryDataController *dataController;
 @property (nonatomic,weak) NSNumber *dayToAdd;
 @property (nonatomic,weak) NSNumber *seqToAdd;
-//- (IBAction)cancel:(UIStoryboardSegue *)segue;
 
 @end

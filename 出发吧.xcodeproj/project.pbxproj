@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 132D453516B5515200A1D3B0 /* NIDropDown.m */; };
 		1C02971916B0D994003F676A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C02971816B0D994003F676A /* libsqlite3.dylib */; };
 		1C02971E16B0DC86003F676A /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C02971B16B0DC86003F676A /* FMDatabase.m */; };
 		1C02971F16B0DC86003F676A /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C02971D16B0DC86003F676A /* FMResultSet.m */; };
@@ -55,6 +56,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		132D453416B5515200A1D3B0 /* NIDropDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIDropDown.h; sourceTree = "<group>"; };
+		132D453516B5515200A1D3B0 /* NIDropDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NIDropDown.m; sourceTree = "<group>"; };
 		1C02971816B0D994003F676A /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		1C02971A16B0DC86003F676A /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		1C02971B16B0DC86003F676A /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
@@ -282,6 +285,8 @@
 				C207027116B4276C0087B6D7 /* SearchLocation.m */,
 				1C70A1BC16B02BF80031A1D0 /* ATSDragToReorderTableViewController.h */,
 				1C70A1BD16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m */,
+				132D453416B5515200A1D3B0 /* NIDropDown.h */,
+				132D453516B5515200A1D3B0 /* NIDropDown.m */,
 			);
 			path = "出发吧";
 			sourceTree = "<group>";
@@ -406,6 +411,7 @@
 				C207026A16B4269C0087B6D7 /* SBJsonUTF8Stream.m in Sources */,
 				C207026B16B4269C0087B6D7 /* SBJsonWriter.m in Sources */,
 				C207027216B4276C0087B6D7 /* SearchLocation.m in Sources */,
+				132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
