@@ -59,50 +59,39 @@
 
 - (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText
 {
-    if([searchText length] > 0) {
-        if(!searching)
-        {
-            searching = YES;
-            NSString *encodedString = [searchText stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            NSString *url = [NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=5", encodedString];
-            JSONFetcher *fetcher = [[JSONFetcher alloc]
-                                    initWithURLString: url
-                                    receiver:self
-                                    action:@selector(receiveResponse:)];
-            [fetcher start];
-        }
-    }
-    else{
-        [filteredLocationList removeAllObjects];
-        [self.tableView reloadData];
-        searching = NO;
-    }
+    [self searchJiepangByKeyword:searchText];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
     [_searchBar resignFirstResponder];
-    [self enableCancelButton:theSearchBar];   
-    if(!searching){
-        searching  = YES;
-        NSString *encodedString = [_searchBar.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [self enableCancelButton:theSearchBar];
+    [self searchJiepangByKeyword:_searchBar.text];
+}
+
+- (void)searchJiepangByKeyword:(NSString *)keyword {
+    if(!searching && [keyword length] > 0)
+    {
+        searching = YES;
+        NSString *encodedString = [keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSString *url = [NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=5", encodedString];
         JSONFetcher *fetcher = [[JSONFetcher alloc]
                                 initWithURLString: url
                                 receiver:self
                                 action:@selector(receiveResponse:)];
         [fetcher start];
+        allLocationList = nil;
+        [self.tableView reloadData];
     }
 }
 
 - (void)receiveResponse:(JSONFetcher *)fetcher
 {
-    [filteredLocationList removeAllObjects];
     NSArray *locations = [fetcher.result objectForKey:@"items"];
     if (locations) {
-        filteredLocationList = [locations mutableCopy];
+        allLocationList = [locations mutableCopy];
         [self.tableView reloadData];
-        searching = NO;
     }
+    searching = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -121,7 +110,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {    
     if (searching)
-        return [filteredLocationList count];
+        return [allLocationList count];
     else
         return 0;
 }
@@ -135,7 +124,7 @@
     if (cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    NSDictionary *locationAtIndex = [filteredLocationList objectAtIndex:indexPath.row];
+    NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
     [[cell textLabel] setText:[locationAtIndex objectForKey: @"name"]];
     [[cell detailTextLabel] setText:[locationAtIndex objectForKey: @"addr"]];
     
@@ -185,7 +174,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *locationAtIndex = [filteredLocationList objectAtIndex:indexPath.row];
+    NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
     SearchLocation *location = [[SearchLocation alloc] initWithName:[locationAtIndex objectForKey:@"name"] address:[locationAtIndex objectForKey:@"addr"]];
     [self.delegate searchLocationViewController:self didAddSearchLocation: location];
 }
