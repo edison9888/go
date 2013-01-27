@@ -10,12 +10,13 @@
 
 @implementation SearchLocation
 
--(id)initWithName:(NSString *)name address:(NSString *)address
+-(id)initWithName:(NSString *)name address:(NSString *)address cagetory:(NSString *)category
 {
     self = [super init];
     if (self) {
         _name = name;
         _address = address;
+        _category = category;
         return self;
     }
     return nil;

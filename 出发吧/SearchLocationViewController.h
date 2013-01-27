@@ -21,7 +21,6 @@
     BOOL letUserSelectRow;
     BOOL searching;
     NSArray *allLocationList;
-    NSMutableArray *filteredLocationList;
 }
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;

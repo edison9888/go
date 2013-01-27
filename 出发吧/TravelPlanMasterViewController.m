@@ -191,6 +191,7 @@
             location.visitBegin = [results dateForColumn:@"visit_begin"];
             location.visitEnd = [results dateForColumn:@"visit_end"];
             location.detail = [results stringForColumn:@"detail"];
+            location.category = [results stringForColumn:@"category"];
             [[tempList objectAtIndex:dayID] addObject:location];
         }
         itineraryViewController.dataController.masterTravelDayList = tempList;

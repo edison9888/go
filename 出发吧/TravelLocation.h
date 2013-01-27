@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSNumber *costUnit;
 @property (nonatomic, strong) NSDate *visitBegin;
 @property (nonatomic, strong) NSDate *visitEnd;
+@property (nonatomic, copy) NSString *category;
 @property (nonatomic, copy) NSString *detail;
 //@property (nonatomic, strong) NSDate *date;
 
