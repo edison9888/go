@@ -29,7 +29,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //self.dataController = [[SearchLocationDataController alloc] init];
     _searchBar.delegate = (id)self;
     [_searchBar becomeFirstResponder];
     [_searchBar setShowsCancelButton:YES];
@@ -54,30 +53,35 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    //[self enableCancelButton:searchBar];
     [_searchBar resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText
 {
-}
-
-- (void)receiveResponse:(JSONFetcher *)fetcher
-{
-    NSArray *locations = [fetcher.result objectForKey:@"items"];
-    if (locations) {
-        allLocationList = locations;
-        [self.tableView reloadData];
+    if([searchText length] > 0) {
+        if(!searching)
+        {
+            searching = YES;
+            NSString *encodedString = [searchText stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSString *url = [NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=5", encodedString];
+            JSONFetcher *fetcher = [[JSONFetcher alloc]
+                                    initWithURLString: url
+                                    receiver:self
+                                    action:@selector(receiveResponse:)];
+            [fetcher start];
+        }
     }
-    searching = NO;
+    else{
+        [filteredLocationList removeAllObjects];
+        [self.tableView reloadData];
+        searching = NO;
+    }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
     [_searchBar resignFirstResponder];
-    [self enableCancelButton:theSearchBar];
-    //[self searchTableView];
-    
+    [self enableCancelButton:theSearchBar];   
     if(!searching){
         searching  = YES;
         NSString *encodedString = [_searchBar.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -87,21 +91,19 @@
                                 receiver:self
                                 action:@selector(receiveResponse:)];
         [fetcher start];
-        allLocationList = nil;
-        [self.tableView reloadData];
     }
-
 }
 
-/*- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [_searchBar resignFirstResponder];
-    self.tableView.tableHeaderView = _searchBar;
-}
-
--(void) scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)receiveResponse:(JSONFetcher *)fetcher
 {
-    searchBar.frame = CGRectMake(0,MAX(0,scrollView.contentOffset.y),320,44);
-}*/
+    [filteredLocationList removeAllObjects];
+    NSArray *locations = [fetcher.result objectForKey:@"items"];
+    if (locations) {
+        filteredLocationList = [locations mutableCopy];
+        [self.tableView reloadData];
+        searching = NO;
+    }
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -117,9 +119,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    
-        return [allLocationList count];
+{    
+    if (searching)
+        return [filteredLocationList count];
+    else
+        return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -131,10 +135,10 @@
     if (cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
-    NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
+    NSDictionary *locationAtIndex = [filteredLocationList objectAtIndex:indexPath.row];
     [[cell textLabel] setText:[locationAtIndex objectForKey: @"name"]];
     [[cell detailTextLabel] setText:[locationAtIndex objectForKey: @"addr"]];
+    
     return cell;
 }
 
@@ -181,7 +185,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
+    NSDictionary *locationAtIndex = [filteredLocationList objectAtIndex:indexPath.row];
     SearchLocation *location = [[SearchLocation alloc] initWithName:[locationAtIndex objectForKey:@"name"] address:[locationAtIndex objectForKey:@"addr"]];
     [self.delegate searchLocationViewController:self didAddSearchLocation: location];
 }
