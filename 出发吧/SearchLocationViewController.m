@@ -175,8 +175,34 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
-    SearchLocation *location = [[SearchLocation alloc] initWithName:[locationAtIndex objectForKey:@"name"] address:[locationAtIndex objectForKey:@"addr"]];
+    NSArray *categories = [locationAtIndex objectForKey:@"categories"];
+    NSDictionary *primaryCategory = [categories objectAtIndex:0];
+    NSString *category = [self getLocationCategoryByJiepangCategoryId:[primaryCategory objectForKey:@"id"]];
+    SearchLocation *location = [[SearchLocation alloc] initWithName:[locationAtIndex objectForKey:@"name"] address:[locationAtIndex objectForKey:@"addr"] cagetory:category];
     [self.delegate searchLocationViewController:self didAddSearchLocation: location];
+}
+
+- (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category
+{
+    NSString *prefix = [category substringToIndex:2];
+    if ([prefix isEqualToString:@"01"]) {
+        return @"美食";
+    }
+    if ([prefix isEqualToString:@"03"]) {
+        if ([category isEqualToString:@"0312"] || [category isEqualToString:@"0313"] || [category isEqualToString:@"0314"] || [category isEqualToString:@"0315"] || [category
+            isEqualToString:@"0316"]) {
+            return @"住宿";
+        } else {
+            return @"交通";
+        }
+    }
+    if ([prefix isEqualToString:@"04"]) {
+        return @"娱乐";
+    }
+    if ([prefix isEqualToString:@"05"]) {
+        return @"景点";
+    }
+    return @"其它";
 }
 
 @end

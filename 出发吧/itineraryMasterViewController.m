@@ -58,6 +58,7 @@
     TravelLocation *locationToAdd = [[TravelLocation alloc] init];
     locationToAdd.name = locationSelected.name;
     locationToAdd.address = locationSelected.address;
+    locationToAdd.category = locationSelected.category;
     [[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] addObject:locationToAdd];
     
     //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue] inSection:[self.dayToAdd intValue]];
@@ -66,7 +67,7 @@
     //add search location to database
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address) VALUES (?,?,?,?,?);",self.planID,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,nil];
+    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.planID,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
     [db close];
     
     [self dismissViewControllerAnimated:YES completion:nil];

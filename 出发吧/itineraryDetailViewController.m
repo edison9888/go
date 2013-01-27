@@ -40,6 +40,7 @@
         //self.costLabel.text = theLocation.cost;
         //self.scheduleLabel.text = theLocation.schedule;
         self.detailLabel.text = theLocation.detail;
+        self.categoryLabel.text = theLocation.category;
     }
 }
 

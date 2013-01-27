@@ -12,7 +12,8 @@
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *address;
+@property (nonatomic, copy) NSString *category;
 
--(id)initWithName:(NSString *)name address:(NSString *)address;
+-(id)initWithName:(NSString *)name address:(NSString *)address cagetory:(NSString *) category;
 
 @end
