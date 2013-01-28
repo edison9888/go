@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 @class TravelLocation;
+#import "itineraryTransportViewController.h"
 
-@interface itineraryDetailViewController : UITableViewController
+@interface itineraryDetailViewController : UITableViewController<itineraryTransportViewDelegate>
 
 @property (strong, nonatomic) TravelLocation *location;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;

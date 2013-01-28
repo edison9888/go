@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C3103" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
@@ -369,11 +369,11 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="ScX-xb-QHP" detailTextLabel="zHI-xe-4ks" style="IBUITableViewCellStyleValue1" id="89J-Pf-Bpq">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="ScX-xb-QHP" detailTextLabel="zHI-xe-4ks" style="IBUITableViewCellStyleValue1" id="89J-Pf-Bpq">
                                         <rect key="frame" x="0.0" y="88" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="交通路线" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ScX-xb-QHP">
@@ -384,7 +384,7 @@
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zHI-xe-4ks">
-                                                    <rect key="frame" x="266" y="11" width="44" height="21"/>
+                                                    <rect key="frame" x="246" y="11" width="44" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.21960784310000001" green="0.3294117647" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -393,6 +393,9 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="IRH-fp-krD" kind="push" identifier="EditTransport" id="hRZ-U1-v7T"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="YSN-CY-PWc" detailTextLabel="uSF-z5-Fg3" style="IBUITableViewCellStyleValue1" id="CIx-D2-cag">
                                         <rect key="frame" x="0.0" y="132" width="320" height="44"/>
@@ -515,7 +518,41 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hqf-Tj-gSw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="816" y="-405"/>
+            <point key="canvasLocation" x="777" y="-417"/>
+        </scene>
+        <!--Itinerary Transport View Controller - 交通路线-->
+        <scene sceneID="igV-bC-jtL">
+            <objects>
+                <viewController id="IRH-fp-krD" customClass="itineraryTransportViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rId-e4-GXV">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aM0-5Q-mgr">
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="IRH-fp-krD" id="CtH-BB-c4Y"/>
+                                </connections>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aM0-5Q-mgr" firstAttribute="bottom" secondItem="rId-e4-GXV" secondAttribute="bottom" type="default" id="2OR-5w-ut3"/>
+                            <constraint firstItem="aM0-5Q-mgr" firstAttribute="top" secondItem="rId-e4-GXV" secondAttribute="top" type="default" id="Edj-go-Puh"/>
+                            <constraint firstItem="aM0-5Q-mgr" firstAttribute="leading" secondItem="rId-e4-GXV" secondAttribute="leading" type="default" id="lL6-OE-6yf"/>
+                            <constraint firstItem="aM0-5Q-mgr" firstAttribute="trailing" secondItem="rId-e4-GXV" secondAttribute="trailing" type="default" id="rZc-Nv-2pX"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="交通路线" id="tz1-VB-WoB"/>
+                    <connections>
+                        <outlet property="transportInput" destination="aM0-5Q-mgr" id="JXh-QY-rAa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Mp-H2-zvg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1189" y="-417"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vud-1k-yor">

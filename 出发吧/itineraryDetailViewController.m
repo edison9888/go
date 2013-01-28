@@ -8,6 +8,7 @@
 
 #import "itineraryDetailViewController.h"
 #import "TravelLocation.h"
+#import "itineraryTransportViewController.h"
 
 @interface itineraryDetailViewController ()
 - (void)configureView;
@@ -55,6 +56,20 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"EditTransport"]) {
+        itineraryTransportViewController *transportViewController = [segue destinationViewController];
+        transportViewController.transportation = self.transportationLabel.text;
+        transportViewController.delegate = self;
+    }
+}
+
+-(void) didEditTransport:(NSString *)transportation
+{
+    self.transportationLabel.text = transportation;
 }
 
 @end

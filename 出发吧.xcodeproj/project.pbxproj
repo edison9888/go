@@ -31,6 +31,7 @@
 		C207026A16B4269C0087B6D7 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025D16B4269C0087B6D7 /* SBJsonUTF8Stream.m */; };
 		C207026B16B4269C0087B6D7 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025F16B4269C0087B6D7 /* SBJsonWriter.m */; };
 		C207027216B4276C0087B6D7 /* SearchLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C207027116B4276C0087B6D7 /* SearchLocation.m */; };
+		C207212B16B6C207000E75A5 /* itineraryTransportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207212A16B6C207000E75A5 /* itineraryTransportViewController.m */; };
 		C2E1BF5916B3D03400E9750A /* HTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2E1BF5A16B3D03400E9750A /* JSONFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5816B3D03400E9750A /* JSONFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D25F6FE816A6332D00ED7AF5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25F6FE716A6332D00ED7AF5 /* UIKit.framework */; };
@@ -102,6 +103,8 @@
 		C207025F16B4269C0087B6D7 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		C207027016B4276C0087B6D7 /* SearchLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchLocation.h; sourceTree = "<group>"; };
 		C207027116B4276C0087B6D7 /* SearchLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchLocation.m; sourceTree = "<group>"; };
+		C207212916B6C207000E75A5 /* itineraryTransportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = itineraryTransportViewController.h; sourceTree = "<group>"; };
+		C207212A16B6C207000E75A5 /* itineraryTransportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = itineraryTransportViewController.m; sourceTree = "<group>"; };
 		C2E1BF5516B3D03400E9750A /* HTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPFetcher.h; sourceTree = "<group>"; };
 		C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPFetcher.m; sourceTree = "<group>"; };
 		C2E1BF5716B3D03400E9750A /* JSONFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONFetcher.h; sourceTree = "<group>"; };
@@ -287,6 +290,8 @@
 				1C70A1BD16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m */,
 				132D453416B5515200A1D3B0 /* NIDropDown.h */,
 				132D453516B5515200A1D3B0 /* NIDropDown.m */,
+				C207212916B6C207000E75A5 /* itineraryTransportViewController.h */,
+				C207212A16B6C207000E75A5 /* itineraryTransportViewController.m */,
 			);
 			path = "出发吧";
 			sourceTree = "<group>";
@@ -412,6 +417,7 @@
 				C207026B16B4269C0087B6D7 /* SBJsonWriter.m in Sources */,
 				C207027216B4276C0087B6D7 /* SearchLocation.m in Sources */,
 				132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */,
+				C207212B16B6C207000E75A5 /* itineraryTransportViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
