@@ -195,7 +195,10 @@
             [[tempList objectAtIndex:dayID] addObject:location];
         }
         itineraryViewController.dataController.masterTravelDayList = tempList;
+        itineraryViewController.itineraryListBackup = tempList;
         itineraryViewController.planID =planID;
+        itineraryViewController.itineraryDuration = selectedPlan.duration;
+        itineraryViewController.daySelected = [NSNumber numberWithInt:0];
         
         [db close];
         

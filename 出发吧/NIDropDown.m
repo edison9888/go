@@ -103,11 +103,7 @@
     [self hideDropDown:btnSender];
     UITableViewCell *c = [tableView cellForRowAtIndexPath:indexPath];
     [btnSender setTitle:c.textLabel.text forState:UIControlStateNormal];
-    [self myDelegate];
-}
-
-- (void) myDelegate {
-    [self.delegate niDropDownDelegateMethod:self];
+    [self.delegate niDropDownDelegateMethod:self selectRow:indexPath.row];
 }
 
 -(void)dealloc {

@@ -17,6 +17,5 @@
 
 - (NSUInteger)countOfList;
 - (NSMutableArray *)objectInListAtIndex:(NSUInteger)theIndex;
-//- (void)addTravelLocationWithLocation:(TravelLocation *)location;
 
 @end

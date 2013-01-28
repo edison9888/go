@@ -46,13 +46,12 @@
 - (IBAction)selectClicked:(id)sender {
     NSMutableArray * arr = [[NSMutableArray alloc] init];
     [arr addObject:@"全部"];
-    for(int i=0; i<[self.dataController countOfList]; i++)
+    for(int i=0; i<[self.itineraryDuration intValue]; i++)
     {
         [arr addObject:[@"Day " stringByAppendingString:[NSString stringWithFormat:@"%d",i+1]]];
     }
-    //arr = [NSArray arrayWithObjects:@"Hello 0", @"Hello 1", @"Hello 2", @"Hello 3", @"Hello 4", @"Hello 5", @"Hello 6", @"Hello 7", @"Hello 8", @"Hello 9",nil];
     if(dropDown == nil) {
-        CGFloat f = (1+[self.dataController countOfList])*40;
+        CGFloat f = ([self.itineraryDuration intValue]+1)*40;
         dropDown = [[NIDropDown alloc]showDropDown:sender :&f :arr];
         dropDown.delegate = self;
     }
@@ -62,8 +61,21 @@
     }
 }
 
-- (void) niDropDownDelegateMethod: (NIDropDown *) sender {
+- (void) niDropDownDelegateMethod: (NIDropDown *) sender selectRow:(NSInteger)rowIndex
+{
     dropDown = nil;
+    self.daySelected = [NSNumber numberWithInt:rowIndex];
+    if(rowIndex == 0){
+        self.dataController.masterTravelDayList = self.itineraryListBackup;
+        singleDayMode = false;
+    }
+    else{
+        singleDayMode = true;
+        NSMutableArray *dayList = [self.itineraryListBackup objectAtIndex:rowIndex-1];
+        [self.dataController.masterTravelDayList removeAllObjects];
+        [self.dataController.masterTravelDayList addObject:dayList];
+    }
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,11 +90,17 @@
     locationToAdd.name = locationSelected.name;
     locationToAdd.address = locationSelected.address;
     locationToAdd.category = locationSelected.category;
-    [[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] addObject:locationToAdd];
+    if(singleDayMode){
+        [[self.dataController objectInListAtIndex:0] addObject:locationToAdd];
+    }
+    else{
+        [[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] addObject:locationToAdd];
+    }
     
     //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue] inSection:[self.dayToAdd intValue]];
     //[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView reloadData];
+    
     //add search location to database
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
@@ -96,8 +114,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    int i = [self.dataController countOfList];
-    NSLog(@"%d", i );
     return [self.dataController countOfList];
 }
 
@@ -125,6 +141,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    NSInteger dayValue = singleDayMode ? [self.daySelected intValue]-1 : section;
     NSString *myString = @"Day ";
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
@@ -145,7 +162,7 @@
     
     // now build a NSDate object for the next day
     NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
-    [offsetComponents setDay:section];
+    [offsetComponents setDay:dayValue];
     NSDate *sectionDate = [gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
     
     NSString *dateOfDay = [dateFormatter stringFromDate:sectionDate];
@@ -164,13 +181,12 @@
     //AddParameterButton
     UIButton *button = [UIButton buttonWithType:UIButtonTypeContactAdd];
     [button setFrame:CGRectMake(275.0, 10.0, 30.0, 30.0)];
-    button.tag = section;
+    button.tag = dayValue;
     button.hidden = NO;
-    //button.tag = section+1;
     [button setBackgroundColor:[UIColor clearColor]];
     [button addTarget:self action:@selector(pushSearchLocationViewController:) forControlEvents:UIControlEventTouchDown];
     
-    label.text = [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", section+1]] stringByAppendingString:dateOfDay];
+    label.text = [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", dayValue+1]] stringByAppendingString:dateOfDay];
     myView.backgroundColor = [UIColor grayColor];
     [myView addSubview:label];
     [myView addSubview:button];
@@ -193,17 +209,16 @@
     {
         UIButton *button = (UIButton*)sender;
         self.dayToAdd = [NSNumber numberWithInt:button.tag+1];
-        self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:button.tag] count]+1];
+        if(singleDayMode){
+            self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:0] count]+1];
+        }
+        else{
+            self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:button.tag] count]+1];
+        }
         SearchLocationViewController *searchLocationViewController = segue.destinationViewController;
         searchLocationViewController.delegate = self;
     }
 }
-
-/*- (IBAction)pushSearchLocationViewController
-{
-    SearchLocationViewController *locationVC = [[SearchLocationViewController alloc] init];
-    [self presentViewController:locationVC animated:YES completion:NULL];
-}*/
 
 - (IBAction)pushSearchLocationViewController:(id)sender
 {
@@ -235,8 +250,8 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
     [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",fromIndexPath.row+1, fromIndexPath.section+1]];
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",toIndexPath.section+1, toIndexPath.row+1, [locationToMove.locationId intValue]]];
     [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday > %d and whichday = %d",toIndexPath.row, toIndexPath.section+1]];
+    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",toIndexPath.section+1, toIndexPath.row+1, [locationToMove.locationId intValue]]];
     [db close];
 }
 

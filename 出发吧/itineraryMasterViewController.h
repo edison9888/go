@@ -16,11 +16,15 @@
 @interface itineraryMasterViewController : ATSDragToReorderTableViewController<SearchLocationViewControllerDelegate, NIDropDownDelegate>
 {
     NIDropDown *dropDown;
+    BOOL singleDayMode;
 }
 @property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
 
 @property (nonatomic,weak) NSNumber *planID;
 @property (strong, nonatomic) itineraryDataController *dataController;
+@property (strong, nonatomic) NSMutableArray *itineraryListBackup;
+@property (nonatomic,weak) NSNumber *itineraryDuration;
+@property (nonatomic,weak) NSNumber *daySelected;
 @property (nonatomic,weak) NSNumber *dayToAdd;
 @property (nonatomic,weak) NSNumber *seqToAdd;
 
