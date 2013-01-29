@@ -34,6 +34,7 @@
 		C207212B16B6C207000E75A5 /* itineraryTransportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207212A16B6C207000E75A5 /* itineraryTransportViewController.m */; };
 		C2E1BF5916B3D03400E9750A /* HTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2E1BF5A16B3D03400E9750A /* JSONFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5816B3D03400E9750A /* JSONFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		D2579A0F16B7CD9400462094 /* PullDownMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2579A0E16B7CD9400462094 /* PullDownMenuView.m */; };
 		D25F6FE816A6332D00ED7AF5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25F6FE716A6332D00ED7AF5 /* UIKit.framework */; };
 		D25F6FEA16A6332D00ED7AF5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25F6FE916A6332D00ED7AF5 /* Foundation.framework */; };
 		D25F6FEC16A6332D00ED7AF5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25F6FEB16A6332D00ED7AF5 /* CoreGraphics.framework */; };
@@ -109,6 +110,8 @@
 		C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPFetcher.m; sourceTree = "<group>"; };
 		C2E1BF5716B3D03400E9750A /* JSONFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONFetcher.h; sourceTree = "<group>"; };
 		C2E1BF5816B3D03400E9750A /* JSONFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONFetcher.m; sourceTree = "<group>"; };
+		D2579A0D16B7CD9400462094 /* PullDownMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullDownMenuView.h; sourceTree = "<group>"; };
+		D2579A0E16B7CD9400462094 /* PullDownMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullDownMenuView.m; sourceTree = "<group>"; };
 		D25F6FE316A6332D00ED7AF5 /* 出发吧.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "出发吧.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D25F6FE716A6332D00ED7AF5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D25F6FE916A6332D00ED7AF5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -278,6 +281,8 @@
 				D25F703A16A6746600ED7AF5 /* AddPlanViewController.h */,
 				D25F703B16A6746600ED7AF5 /* AddPlanViewController.m */,
 				D25F700316A6332E00ED7AF5 /* itineraryMasterViewController.m */,
+				D2579A0D16B7CD9400462094 /* PullDownMenuView.h */,
+				D2579A0E16B7CD9400462094 /* PullDownMenuView.m */,
 				D25F701716A6420400ED7AF5 /* TravelPlan.h */,
 				D25F701816A6420400ED7AF5 /* TravelPlan.m */,
 				D25F700516A6332E00ED7AF5 /* itineraryDetailViewController.h */,
@@ -418,6 +423,7 @@
 				C207027216B4276C0087B6D7 /* SearchLocation.m in Sources */,
 				132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */,
 				C207212B16B6C207000E75A5 /* itineraryTransportViewController.m in Sources */,
+				D2579A0F16B7CD9400462094 /* PullDownMenuView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

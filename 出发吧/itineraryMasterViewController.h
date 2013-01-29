@@ -11,11 +11,13 @@
 #import "FMDBDataAccess.h" 
 #import "SearchLocationViewController.h"
 #import "NIDropDown.h"
+#import "PullDownMenuView.h"
 @class itineraryDataController;
 
 @interface itineraryMasterViewController : ATSDragToReorderTableViewController<SearchLocationViewControllerDelegate, NIDropDownDelegate>
 {
     NIDropDown *dropDown;
+    PullDownMenuView *pullDownMenuView;
     BOOL singleDayMode;
 }
 @property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;

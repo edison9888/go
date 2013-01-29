@@ -41,6 +41,14 @@
     button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [button addTarget:self action:@selector(selectClicked:) forControlEvents:UIControlEventTouchDown];
     self.navigationItem.titleView = button;
+    
+    //sync,edit,share menu part
+    if (pullDownMenuView == nil) {		
+		PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
+		//view.delegate = self;
+		[self.tableView addSubview:view];
+		pullDownMenuView = view;
+	}
 }
 
 - (IBAction)selectClicked:(id)sender {
@@ -258,6 +266,21 @@
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+	
+	[pullDownMenuView pdmScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	
+	[pullDownMenuView pdmScrollViewDidEndDragging:scrollView];
+	
 }
 
 @end
