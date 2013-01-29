@@ -38,19 +38,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(TravelPlan *)plan
-{
-    FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
-    
-    [db updateTravelPlan:plan];
-    
-    [self populateTravelPlans];
-    
-    [self.tableView reloadData];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 - (void) addPlanViewController:(AddPlanViewController *)controller didAddTravelPlan:(TravelPlan *)plan
 {
     FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
@@ -196,9 +183,9 @@
         }
         itineraryViewController.dataController.masterTravelDayList = tempList;
         itineraryViewController.itineraryListBackup = tempList;
-        itineraryViewController.planID =planID;
         itineraryViewController.itineraryDuration = selectedPlan.duration;
         itineraryViewController.daySelected = [NSNumber numberWithInt:0];
+        itineraryViewController.plan = selectedPlan;
         
         [db close];
         
@@ -207,6 +194,7 @@
     {
         UINavigationController *navigationController = segue.destinationViewController;
         AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
+        addPlanViewController.navigationItem.title = @"添加旅行计划";
         addPlanViewController.delegate = self;
     }
 }
@@ -216,28 +204,16 @@
     return YES;
 }
 
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        [self.dataController.masterTravelPlanList removeObjectAtIndex:indexPath.row];
-//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//    }    
-//}
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
         
-        //NSUInteger planIndex = [self.travelPlans count] - 1 - indexPath.row;
-        //TravelPlan *planToDelete = [self.travelPlans objectAtIndex:planIndex];
-        
         TravelPlan *planToDelete = [self.travelPlans objectAtIndex:indexPath.row];
         
         [db deleteTravelPlan:planToDelete];
         
-        //[self.travelPlans removeObjectAtIndex:planIndex];
         [self.travelPlans removeObjectAtIndex:indexPath.row];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];

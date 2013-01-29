@@ -12,9 +12,11 @@
 #import "SearchLocationViewController.h"
 #import "NIDropDown.h"
 #import "PullDownMenuView.h"
+#import "AddPlanViewController.h"
+#import "FMDBDataAccess.h" 
 @class itineraryDataController;
 
-@interface itineraryMasterViewController : ATSDragToReorderTableViewController<SearchLocationViewControllerDelegate, NIDropDownDelegate>
+@interface itineraryMasterViewController : ATSDragToReorderTableViewController<SearchLocationViewControllerDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
@@ -22,7 +24,7 @@
 }
 @property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
 
-@property (nonatomic,weak) NSNumber *planID;
+@property (nonatomic,weak) TravelPlan *plan;
 @property (strong, nonatomic) itineraryDataController *dataController;
 @property (strong, nonatomic) NSMutableArray *itineraryListBackup;
 @property (nonatomic,weak) NSNumber *itineraryDuration;

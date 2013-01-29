@@ -45,7 +45,7 @@
     //sync,edit,share menu part
     if (pullDownMenuView == nil) {		
 		PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
-		//view.delegate = self;
+		view.delegate = self;
 		[self.tableView addSubview:view];
 		pullDownMenuView = view;
 	}
@@ -69,6 +69,32 @@
     }
 }
 
+//Implement PullDownMenuDelegate method
+- (void) showEditTravelPlan:(PullDownMenuView *)view
+{
+    [self performSegueWithIdentifier:@"EditPlan" sender:nil];
+}
+
+//Implement AddPlanViewControllerDelegate
+- (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(TravelPlan *)plan
+{
+    FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
+    
+    [db updateTravelPlan:plan];
+    
+    //[self populateTravelPlans];
+    
+    [self.tableView reloadData];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+//DropDownDelegate
 - (void) niDropDownDelegateMethod: (NIDropDown *) sender selectRow:(NSInteger)rowIndex
 {
     dropDown = nil;
@@ -112,7 +138,7 @@
     //add search location to database
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.planID,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
+    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
     [db close];
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -225,6 +251,15 @@
         }
         SearchLocationViewController *searchLocationViewController = segue.destinationViewController;
         searchLocationViewController.delegate = self;
+    }
+    else if ([[segue identifier] isEqualToString:@"EditPlan"])
+    {
+        UINavigationController *navigationController = segue.destinationViewController;
+        AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
+        addPlanViewController.navigationItem.title = @"编辑旅行计划";
+        addPlanViewController.delegate = self;
+        addPlanViewController.plan = self.plan;
+        //addPlanViewController.nameInput.text = self.plan.name;
     }
 }
 

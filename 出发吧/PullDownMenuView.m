@@ -31,6 +31,7 @@
         btn.backgroundColor = [UIColor clearColor];
         [[btn layer] setBorderWidth:1.0f];
         [[btn layer] setBorderColor:[UIColor grayColor].CGColor];
+        [btn addTarget:self action:@selector(pushAddPlanViewController:) forControlEvents:UIControlEventTouchDown];
         editBtn = btn;
         [self addSubview:btn];
         
@@ -44,20 +45,49 @@
         [self addSubview:btn];		
     }
 	
-    return self;
-	
+    return self;	
+}
+
+- (IBAction)pushAddPlanViewController:(id)sender
+{
+    [self.delegate showEditTravelPlan:self];
+}
+
+- (void)setState:(PullDownMenuState)aState
+{
+    state = aState;
 }
 
 - (void)pdmScrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView.isDragging) {		
-		
+    if (state == PullDownMenuDisplay) {		
+		CGFloat offset = MAX(scrollView.contentOffset.y * -1, 0);
+		offset = MIN(offset, 40);
+		scrollView.contentInset = UIEdgeInsetsMake(offset, 0.0f, 0.0f, 0.0f);		
 	}
+    else if (scrollView.isDragging){	
+		if (state == PullDownMenuPulling && scrollView.contentOffset.y > -45.0f && scrollView.contentOffset.y < 0.0f) {
+			[self setState:PullDownMenuHide];
+		} else if (state == PullDownMenuHide && scrollView.contentOffset.y < -45.0f) {
+			[self setState:PullDownMenuPulling];
+		}
+		
+		if (scrollView.contentInset.top != 0) {
+			scrollView.contentInset = UIEdgeInsetsZero;
+		}
+    }
 }
 
 - (void)pdmScrollViewDidEndDragging:(UIScrollView *)scrollView
-{
-
+{	
+	if (scrollView.contentOffset.y <= - 45.0f) {				
+		[self setState:PullDownMenuDisplay];
+		scrollView.contentInset = UIEdgeInsetsMake(40.0f, 0.0f, 0.0f, 0.0f);
+	}
+    else if (scrollView.contentOffset.y > - 45.0f && scrollView.contentOffset.y < 0.0f)
+    {
+        scrollView.contentInset = UIEdgeInsetsZero;
+    }
 }
 
 /*

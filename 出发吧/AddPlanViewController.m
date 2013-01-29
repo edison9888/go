@@ -93,6 +93,16 @@
     self.dateInput.delegate = self;
     datePicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
     
+    if(self.plan)
+    {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        self.nameInput.text = self.plan.name;
+        self.durationInput.text = [self.plan.duration stringValue];
+        self.dateInput.text = [dateFormatter stringFromDate:self.plan.date];
+    }
+    
     //darkView.alpha = 0.5;
     
 

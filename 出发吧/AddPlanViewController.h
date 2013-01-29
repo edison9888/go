@@ -13,7 +13,7 @@
 @class AddPlanViewController;
 
 @protocol AddPlanViewControllerDelegate<NSObject>
-
+@optional
 -(void) addPlanViewController:(AddPlanViewController *) controller
                    didAddTravelPlan:(TravelPlan *) plan;
 

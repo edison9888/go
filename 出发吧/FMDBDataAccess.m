@@ -16,12 +16,11 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     
     [db open];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *dateToWriteDB = [dateFormatter stringFromDate:plan.date];
-    dateFormatter = nil;
+    double temp = [plan.date timeIntervalSince1970];
+    NSNumber *dateToWriteDB = [NSNumber numberWithDouble:temp];
     
-    BOOL success = [db executeUpdate:[NSString stringWithFormat:@"UPDATE plan SET title = '%@', startdate = '%@' where duration = %d",plan.name, dateToWriteDB, [plan.duration intValue]]];
+    //BOOL success = [db executeUpdate:[NSString stringWithFormat:@"UPDATE plan SET title = ?, startdate = ? where duration = %d",plan.name, dateToWriteDB, plan.duration,nil]];
+    BOOL success = [db executeUpdate:@"UPDATE plan SET title = ?, startdate = ? where duration = ?",plan.name, dateToWriteDB, plan.duration];
     
     [db close];
     
@@ -33,10 +32,6 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     
     [db open];
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-//    NSString *dateToWriteDB = [dateFormatter stringFromDate:plan.date];
-//    dateFormatter = nil;
     double temp = [plan.date timeIntervalSince1970];
     NSNumber *dateToWriteDB = [NSNumber numberWithDouble:temp];
     
