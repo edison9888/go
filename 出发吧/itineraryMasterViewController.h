@@ -15,6 +15,13 @@
 #import "AddPlanViewController.h"
 #import "FMDBDataAccess.h" 
 @class itineraryDataController;
+@class itineraryMasterViewController;
+
+@protocol itineraryMasterViewDelegate<NSObject>
+
+-(void) travelPlanDidChange:(itineraryMasterViewController *) controller;
+
+@end
 
 @interface itineraryMasterViewController : ATSDragToReorderTableViewController<SearchLocationViewControllerDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate>
 {
@@ -22,12 +29,13 @@
     PullDownMenuView *pullDownMenuView;
     BOOL singleDayMode;
 }
-@property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
 
+@property (nonatomic,weak) id<itineraryMasterViewDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
 @property (nonatomic,weak) TravelPlan *plan;
 @property (strong, nonatomic) itineraryDataController *dataController;
 @property (strong, nonatomic) NSMutableArray *itineraryListBackup;
-@property (nonatomic,weak) NSNumber *itineraryDuration;
+//@property (nonatomic,weak) NSNumber *itineraryDuration;
 @property (nonatomic,weak) NSNumber *daySelected;
 @property (nonatomic,weak) NSNumber *dayToAdd;
 @property (nonatomic,weak) NSNumber *seqToAdd;

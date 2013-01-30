@@ -54,12 +54,12 @@
 - (IBAction)selectClicked:(id)sender {
     NSMutableArray * arr = [[NSMutableArray alloc] init];
     [arr addObject:@"全部"];
-    for(int i=0; i<[self.itineraryDuration intValue]; i++)
+    for(int i=0; i<[self.dataController.itineraryDuration intValue]; i++)
     {
         [arr addObject:[@"Day " stringByAppendingString:[NSString stringWithFormat:@"%d",i+1]]];
     }
     if(dropDown == nil) {
-        CGFloat f = ([self.itineraryDuration intValue]+1)*40;
+        CGFloat f = ([self.dataController.itineraryDuration intValue]+1)*40;
         dropDown = [[NIDropDown alloc]showDropDown:sender :&f :arr];
         dropDown.delegate = self;
     }
@@ -84,13 +84,9 @@
 - (void)addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(TravelPlan *)plan
 {
     FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
-    
     [db updateTravelPlan:plan];
-    
-    //[self populateTravelPlans];
-    
+    [self.delegate travelPlanDidChange:self];
     [self.tableView reloadData];
-    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

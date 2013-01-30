@@ -10,10 +10,11 @@
 #import "AddPlanViewController.h"
 #import "ATSDragToReorderTableViewController.h"
 #import "FMDBDataAccess.h" 
+#import "itineraryMasterViewController.h"
 
 @class TravelPlanDataController;
 
-@interface TravelPlanMasterViewController : ATSDragToReorderTableViewController<AddPlanViewControllerDelegate>
+@interface TravelPlanMasterViewController : ATSDragToReorderTableViewController<AddPlanViewControllerDelegate, itineraryMasterViewDelegate>
 
 @property (strong, nonatomic) TravelPlanDataController *dataController;
 @property (nonatomic,strong) NSMutableArray *travelPlans;

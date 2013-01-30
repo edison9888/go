@@ -13,6 +13,7 @@
 @interface itineraryDataController : NSObject
 
 @property (nonatomic, strong) NSDate *date;
+@property (nonatomic,weak) NSNumber *itineraryDuration;
 @property (nonatomic, copy) NSMutableArray *masterTravelDayList;
 
 - (NSUInteger)countOfList;

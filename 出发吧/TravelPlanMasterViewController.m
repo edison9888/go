@@ -33,6 +33,12 @@
     self.dataController = [[TravelPlanDataController alloc] init];
 }*/
 
+-(void) travelPlanDidChange:(itineraryMasterViewController *) controller
+{
+    [self populateTravelPlans];
+    [self.tableView reloadData];
+}
+
 - (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller
 {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -182,10 +188,12 @@
             [[tempList objectAtIndex:dayID] addObject:location];
         }
         itineraryViewController.dataController.masterTravelDayList = tempList;
+        itineraryViewController.dataController.itineraryDuration = selectedPlan.duration;
         itineraryViewController.itineraryListBackup = tempList;
-        itineraryViewController.itineraryDuration = selectedPlan.duration;
+        //itineraryViewController.itineraryDuration = selectedPlan.duration;
         itineraryViewController.daySelected = [NSNumber numberWithInt:0];
         itineraryViewController.plan = selectedPlan;
+        itineraryViewController.delegate = self;
         
         [db close];
         
