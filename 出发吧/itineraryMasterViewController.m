@@ -7,7 +7,7 @@
 //
 
 #import "itineraryMasterViewController.h"
-
+#import "Utility.h"
 #import "itineraryDetailViewController.h"
 #import "TravelLocation.h"
 #import "itineraryDataController.h"
@@ -83,8 +83,111 @@
 
 - (void)addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(TravelPlan *)plan
 {
-    FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
-    [db updateTravelPlan:plan];
+    FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
+    [dba updateTravelPlan:plan];
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    
+    if([plan.date compare: self.dataController.date] == NSOrderedSame)
+    {
+        int offset = [self.dataController.itineraryDuration intValue] - [plan.duration intValue];
+        if([plan.duration intValue] < [self.dataController.itineraryDuration intValue])
+        {
+            [self.dataController.masterTravelDayList removeObjectsInRange:NSMakeRange([plan.duration intValue], offset)];
+            //delete days which are deleted by changing start date.
+            [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", plan.duration,plan.planId];
+        }
+        else
+        {
+            for(int i=0; i < offset*(-1); i++)
+            {
+                NSMutableArray *dayList = [[NSMutableArray alloc] init];
+                [self.dataController.masterTravelDayList addObject:dayList];
+            }
+        }
+    }
+    else if([plan.date compare: self.dataController.date] == NSOrderedDescending)
+    {
+        NSInteger daysBetween = [Utility daysBetweenDate:self.dataController.date andDate:plan.date];
+        if(daysBetween >= [self.dataController.itineraryDuration intValue])
+        {
+            [self.dataController.masterTravelDayList removeAllObjects];
+            //delete all days
+            [db executeUpdate:@"DELETE FROM location WHERE plan_id = ?", plan.planId];
+            for(int i=0; i < [plan.duration intValue]; i++)
+            {
+                NSMutableArray *dayList = [[NSMutableArray alloc] init];
+                [self.dataController.masterTravelDayList addObject:dayList];
+            }
+        }
+        else
+        {
+            [self.dataController.masterTravelDayList removeObjectsInRange:NSMakeRange(0, daysBetween)];
+            [db executeUpdate:@"DELETE FROM location WHERE whichday <= ? AND plan_id = ?", [NSNumber numberWithInt:daysBetween],plan.planId];
+            int offset = daysBetween + [plan.duration intValue] - [self.dataController.itineraryDuration intValue];
+            if(daysBetween + [plan.duration intValue] >= [self.dataController.itineraryDuration intValue])
+            {
+                [db executeUpdate:@"UPDATE location SET whichday = whichday-? WHERE whichday > ? AND plan_id = ?", [NSNumber numberWithInt:daysBetween],[NSNumber numberWithInt:daysBetween],plan.planId];
+                for(int i=0; i < offset; i++)
+                {
+                    NSMutableArray *dayList = [[NSMutableArray alloc] init];
+                    [self.dataController.masterTravelDayList addObject:dayList];
+                }
+            }
+            else
+            {
+                [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", [NSNumber numberWithInt:[self.dataController.itineraryDuration intValue]-offset*(-1)],plan.planId];
+                for(int i=0; i < offset*(-1); i++)
+                {
+                    [self.dataController.masterTravelDayList removeLastObject];
+                }
+            }
+        }
+    }
+    else
+    {
+        NSInteger daysBetween = [Utility daysBetweenDate:plan.date andDate:self.dataController.date];
+        if(daysBetween >= [plan.duration intValue])
+        {
+            [self.dataController.masterTravelDayList removeAllObjects];
+            [db executeUpdate:@"DELETE FROM location WHERE plan_id = ?", plan.planId];
+            for(int i=0; i < [plan.duration intValue]; i++)
+            {
+                NSMutableArray *dayList = [[NSMutableArray alloc] init];
+                [self.dataController.masterTravelDayList addObject:dayList];
+            }
+        }
+        else
+        {
+            [db executeUpdate:@"UPDATE location SET whichday = whichday+? WHERE plan_id = ?", [NSNumber numberWithInt:daysBetween],plan.planId];
+            for(int i=0; i < daysBetween; i++)
+            {
+                NSMutableArray *dayList = [[NSMutableArray alloc] init];
+                [self.dataController.masterTravelDayList insertObject:dayList atIndex:0];
+            }
+            int offset = [plan.duration intValue] - [self.dataController.itineraryDuration intValue] - daysBetween;
+            if(daysBetween + [self.dataController.itineraryDuration intValue] <= [plan.duration intValue])
+            {
+                for(int i=0; i < offset; i++)
+                {
+                    NSMutableArray *dayList = [[NSMutableArray alloc] init];
+                    [self.dataController.masterTravelDayList addObject:dayList];
+                }
+            }
+            else
+            {
+                [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", plan.duration,plan.planId];
+                for(int i=0; i < offset*(-1); i++)
+                {
+                    [self.dataController.masterTravelDayList removeLastObject];
+                }
+            }
+        }
+    }
+    
+    self.dataController.date = plan.date;
+    self.dataController.itineraryDuration = plan.duration;
     [self.delegate travelPlanDidChange:self];
     [self.tableView reloadData];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -255,7 +358,6 @@
         addPlanViewController.navigationItem.title = @"编辑旅行计划";
         addPlanViewController.delegate = self;
         addPlanViewController.plan = self.plan;
-        //addPlanViewController.nameInput.text = self.plan.name;
     }
 }
 

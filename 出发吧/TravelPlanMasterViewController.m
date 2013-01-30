@@ -7,7 +7,6 @@
 //
 
 #import "TravelPlanMasterViewController.h"
-#import "TravelPlanDataController.h"
 #import "TravelPlan.h"
 #import "itineraryMasterViewController.h"
 #import "itineraryDataController.h"
@@ -74,7 +73,6 @@
 {
     [super viewDidLoad];
     [self populateTravelPlans];
-    self.dataController = [[TravelPlanDataController alloc] init];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -119,7 +117,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     //[self setReorderingEnabled:([self.dataController countOfList] > 1 )];
-    //return [self.dataController countOfList];
     return [self.travelPlans count];
 }
 
@@ -190,7 +187,6 @@
         itineraryViewController.dataController.masterTravelDayList = tempList;
         itineraryViewController.dataController.itineraryDuration = selectedPlan.duration;
         itineraryViewController.itineraryListBackup = tempList;
-        //itineraryViewController.itineraryDuration = selectedPlan.duration;
         itineraryViewController.daySelected = [NSNumber numberWithInt:0];
         itineraryViewController.plan = selectedPlan;
         itineraryViewController.delegate = self;

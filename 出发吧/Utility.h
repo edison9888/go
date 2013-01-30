@@ -16,5 +16,6 @@
 
 +(NSString *) getDatabasePath;
 +(void) showAlert:(NSString *) title message:(NSString *) msg;
++ (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
 
 @end

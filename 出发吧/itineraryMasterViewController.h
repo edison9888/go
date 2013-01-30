@@ -35,7 +35,6 @@
 @property (nonatomic,weak) TravelPlan *plan;
 @property (strong, nonatomic) itineraryDataController *dataController;
 @property (strong, nonatomic) NSMutableArray *itineraryListBackup;
-//@property (nonatomic,weak) NSNumber *itineraryDuration;
 @property (nonatomic,weak) NSNumber *daySelected;
 @property (nonatomic,weak) NSNumber *dayToAdd;
 @property (nonatomic,weak) NSNumber *seqToAdd;

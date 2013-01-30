@@ -12,15 +12,9 @@
 #import "FMDBDataAccess.h" 
 #import "itineraryMasterViewController.h"
 
-@class TravelPlanDataController;
-
 @interface TravelPlanMasterViewController : ATSDragToReorderTableViewController<AddPlanViewControllerDelegate, itineraryMasterViewDelegate>
 
-@property (strong, nonatomic) TravelPlanDataController *dataController;
 @property (nonatomic,strong) NSMutableArray *travelPlans;
-
-//- (IBAction)done:(UIStoryboardSegue *)segue;
-//- (IBAction)cancel:(UIStoryboardSegue *)segue;
 
 -(void) populateTravelPlans;
 
