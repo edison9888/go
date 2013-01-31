@@ -126,7 +126,12 @@
     {
         self.plan.name = self.nameInput.text;
         self.plan.duration = [f numberFromString:self.durationInput.text];
-        self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
+        //add something to prevent updating date if
+        NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:[(UIDatePicker *)self.dateInput.inputView date]];
+        if(daysBetween)
+        {
+            self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
+        }
         self.plan.image = self.coverImageView.image;
         [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
     }

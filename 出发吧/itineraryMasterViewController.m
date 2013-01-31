@@ -186,10 +186,17 @@
         }
     }
     
+    self.plan.name = plan.name;
+    self.plan.date = plan.date;
+    self.plan.duration = plan.duration;
+    self.plan.image = plan.image;
+    self.itineraryListBackup = [self.dataController.masterTravelDayList mutableCopy];
+    
     self.dataController.date = plan.date;
     self.dataController.itineraryDuration = plan.duration;
     [self.delegate travelPlanDidChange:self];
     [self.tableView reloadData];
+    self.tableView.contentInset = UIEdgeInsetsZero;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -237,6 +244,7 @@
     //add search location to database
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
+    //[db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
     [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
     [db close];
     
@@ -357,7 +365,9 @@
         AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
         addPlanViewController.navigationItem.title = @"编辑旅行计划";
         addPlanViewController.delegate = self;
-        addPlanViewController.plan = self.plan;
+        addPlanViewController.plan = [[TravelPlan alloc] initWithName:self.plan.name duration:self.plan.duration date:self.plan.date image:self.plan.image];
+        addPlanViewController.plan.planId = self.plan.planId;
+        //addPlanViewController.plan = self.plan;
     }
 }
 

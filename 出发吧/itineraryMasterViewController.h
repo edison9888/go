@@ -32,7 +32,7 @@
 
 @property (nonatomic,weak) id<itineraryMasterViewDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
-@property (nonatomic,weak) TravelPlan *plan;
+@property (nonatomic,strong) TravelPlan *plan;
 @property (strong, nonatomic) itineraryDataController *dataController;
 @property (strong, nonatomic) NSMutableArray *itineraryListBackup;
 @property (nonatomic,weak) NSNumber *daySelected;
