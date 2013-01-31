@@ -19,5 +19,6 @@
 
 -(void)hideDropDown:(UIButton *)b;
 - (id)showDropDown:(UIButton *)b:(CGFloat *)height:(NSMutableArray *)arr;
+-(void)hideDropDownWithoutAnimation:(UIButton *)b ;
 
 @end

@@ -67,6 +67,12 @@
     [UIView commitAnimations];
 }
 
+-(void)hideDropDownWithoutAnimation:(UIButton *)b {
+    CGRect btn = b.frame;
+    self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+22, btn.size.width, 0);
+    table.frame = CGRectMake(0, 0, btn.size.width, 0);
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }

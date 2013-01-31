@@ -59,6 +59,17 @@
         [arr addObject:[@"Day " stringByAppendingString:[NSString stringWithFormat:@"%d",i+1]]];
     }
     if(dropDown == nil) {
+        //add the dark view part
+        UIView *darkView = [[UIView alloc] initWithFrame:self.view.bounds];
+        darkView.alpha = 0.5;
+        darkView.backgroundColor = [UIColor blackColor];
+        darkView.tag = 22;
+        UITapGestureRecognizer *singleFingerTap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickDarkView:)];
+        [darkView addGestureRecognizer:singleFingerTap];
+        UIPanGestureRecognizer *panGesture =[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(clickDarkView:)];
+        [darkView addGestureRecognizer:panGesture];
+        [self.view addSubview:darkView];
+        
         CGFloat f = ([self.dataController.itineraryDuration intValue]+1)*40;
         dropDown = [[NIDropDown alloc]showDropDown:sender :&f :arr];
         dropDown.delegate = self;
@@ -66,7 +77,16 @@
     else {
         [dropDown hideDropDown:sender];
         dropDown = nil;
+        [[self.view viewWithTag:22] removeFromSuperview];
+        //[self.view viewWithTag:22] = nil;
     }
+}
+
+- (IBAction)clickDarkView:(id)sender
+{
+    [dropDown hideDropDownWithoutAnimation:(UIButton *)self.navigationItem.titleView];
+    dropDown = nil;
+    [[self.view viewWithTag:22] removeFromSuperview];
 }
 
 //Implement PullDownMenuDelegate method
@@ -196,7 +216,7 @@
     self.dataController.itineraryDuration = plan.duration;
     [self.delegate travelPlanDidChange:self];
     [self.tableView reloadData];
-    self.tableView.contentInset = UIEdgeInsetsZero;
+    //self.tableView.contentInset = UIEdgeInsetsZero;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -204,6 +224,7 @@
 - (void) niDropDownDelegateMethod: (NIDropDown *) sender selectRow:(NSInteger)rowIndex
 {
     dropDown = nil;
+    [[self.view viewWithTag:22] removeFromSuperview];
     self.daySelected = [NSNumber numberWithInt:rowIndex];
     if(rowIndex == 0){
         self.dataController.masterTravelDayList = self.itineraryListBackup;
@@ -342,6 +363,8 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    dropDown = nil;
+    self.tableView.contentInset = UIEdgeInsetsZero;
     if ([[segue identifier] isEqualToString:@"ShowLocationDetails"]) {
         itineraryDetailViewController *detailViewController = [segue destinationViewController];
         detailViewController.location = [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] objectAtIndex:[self.tableView indexPathForSelectedRow].row];
@@ -410,6 +433,13 @@
 {
     return YES;
 }
+
+- (void)didMoveToParentViewController:(UIViewController *)parent
+{
+    [dropDown hideDropDownWithoutAnimation:(UIButton *)self.navigationItem.titleView];
+    dropDown = nil;
+}
+
 
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods

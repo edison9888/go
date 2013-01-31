@@ -113,6 +113,20 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+    NSInteger defaultDuration;
+    if(self.plan)
+    {
+        defaultDuration = [self.plan.duration intValue]-1;
+        ((UIDatePicker *)[self.view viewWithTag:13]).date = self.plan.date;
+    }
+    else
+    {
+        defaultDuration = 2;
+    }
+    [(UIPickerView *)[self.view viewWithTag:10] selectRow:defaultDuration inComponent:0 animated:NO];
+}
+
 -(IBAction) done:(id) sender
 {
     if ([self.dateInput.text length] == 0 || [self.durationInput.text length] == 0)
