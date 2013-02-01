@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 #import "ATSDragToReorderTableViewController.h"
 #import "FMDBDataAccess.h" 
 #import "SearchLocationViewController.h"
@@ -14,6 +15,8 @@
 #import "PullDownMenuView.h"
 #import "AddPlanViewController.h"
 #import "FMDBDataAccess.h" 
+
+
 @class itineraryDataController;
 @class itineraryMasterViewController;
 
@@ -23,7 +26,7 @@
 
 @end
 
-@interface itineraryMasterViewController : ATSDragToReorderTableViewController<SearchLocationViewControllerDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate>
+@interface itineraryMasterViewController:UIViewController <UITableViewDataSource, UITableViewDelegate, SearchLocationViewControllerDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
@@ -31,6 +34,10 @@
 }
 
 @property (nonatomic,weak) id<itineraryMasterViewDelegate> delegate;
+
+@property (nonatomic,weak) IBOutlet MKMapView *mapView;
+@property (nonatomic,weak) IBOutlet UITableView *tableView;
+
 @property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
 @property (nonatomic,strong) TravelPlan *plan;
 @property (strong, nonatomic) itineraryDataController *dataController;

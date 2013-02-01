@@ -29,9 +29,27 @@
     self.dataController = [[itineraryDataController alloc] init];
 }
 
+#define MAP_BUTTON_TITLE @"地图"
+#define LIST_BUTTON_TITLE @"列表"
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.mapView = [[MKMapView alloc] init];
+
+    self.tableView.frame = self.view.bounds;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+
+    self.mapView.frame = self.view.bounds;
+    self.mapView.hidden = YES;
+    self.mapView.delegate = self;
+    [self.view addSubview:self.mapView];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:MAP_BUTTON_TITLE style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMap)];
+    
     
     //CGFloat width = self.view.frame.size.width;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -43,11 +61,49 @@
     self.navigationItem.titleView = button;
     
     //sync,edit,share menu part
-    if (pullDownMenuView == nil) {		
+//    if (pullDownMenuView == nil) {		
+//		PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
+//		view.delegate = self;
+//		[self.tableView addSubview:view];
+//		pullDownMenuView = view;
+//	}
+    
+    if (pullDownMenuView == nil) {
 		PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
 		view.delegate = self;
 		[self.tableView addSubview:view];
 		pullDownMenuView = view;
+	}
+}
+
+- (void)toggleMap
+{
+	if (self.mapView.isHidden)
+    {
+        //self.mapView.hidden = NO;
+		//self.tableView.hidden = YES;
+        
+        [UIView transitionWithView:self.view
+                          duration:.8
+                           options:UIViewAnimationOptionTransitionFlipFromRight
+                        animations:^{ self.tableView.hidden = YES; self.mapView.hidden = NO; }
+                        completion:NULL];
+        
+		self.navigationItem.rightBarButtonItem.title = LIST_BUTTON_TITLE;
+	}
+    else
+    {
+		self.tableView.contentInset = UIEdgeInsetsZero;
+        //self.mapView.hidden = YES;
+		//self.tableView.hidden = NO;
+        
+        [UIView transitionWithView:self.view
+                          duration:.8
+                           options:UIViewAnimationOptionTransitionFlipFromLeft
+                        animations:^{ self.mapView.hidden = YES; self.tableView.hidden = NO; }
+                        completion:NULL];
+        
+		self.navigationItem.rightBarButtonItem.title = MAP_BUTTON_TITLE;
 	}
 }
 
@@ -216,7 +272,6 @@
     self.dataController.itineraryDuration = plan.duration;
     [self.delegate travelPlanDidChange:self];
     [self.tableView reloadData];
-    //self.tableView.contentInset = UIEdgeInsetsZero;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -224,6 +279,7 @@
 - (void) niDropDownDelegateMethod: (NIDropDown *) sender selectRow:(NSInteger)rowIndex
 {
     dropDown = nil;
+    self.tableView.contentInset = UIEdgeInsetsZero;
     [[self.view viewWithTag:22] removeFromSuperview];
     self.daySelected = [NSNumber numberWithInt:rowIndex];
     if(rowIndex == 0){

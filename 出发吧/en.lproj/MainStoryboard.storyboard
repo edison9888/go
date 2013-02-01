@@ -53,7 +53,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <connections>
-                                    <segue destination="12" kind="push" identifier="ShowItinerary" id="AdH-8a-RDM"/>
+                                    <segue destination="wjh-IL-Fsz" kind="push" identifier="ShowItinerary" id="LGw-rV-jDE"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -264,54 +264,48 @@
             </objects>
             <point key="canvasLocation" x="390" y="340"/>
         </scene>
-        <!--Itinerary Master View Controller - Master-->
-        <scene sceneID="18">
+        <!--Itinerary Master View Controller-->
+        <scene sceneID="0AX-R0-Z2x">
             <objects>
-                <tableViewController storyboardIdentifier="" title="Master" id="12" customClass="itineraryMasterViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="13">
+                <viewController id="wjh-IL-Fsz" customClass="itineraryMasterViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fqR-aX-1EZ">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TravelLocationCell" textLabel="phq-AM-6qj" style="IBUITableViewCellStyleDefault" id="lJ0-d7-vTF">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="phq-AM-6qj">
-                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TKi-SV-ZJD">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="4YD-pC-7f2" kind="push" identifier="ShowLocationDetails" id="6DC-Qe-WRp"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <sections/>
-                        <connections>
-                            <outlet property="dataSource" destination="12" id="16"/>
-                            <outlet property="delegate" destination="12" id="15"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="36"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TravelLocationCell" id="gSi-vV-5Zu">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="TKi-SV-ZJD" firstAttribute="top" secondItem="fqR-aX-1EZ" secondAttribute="top" type="default" id="3Za-Yp-z2x"/>
+                            <constraint firstItem="TKi-SV-ZJD" firstAttribute="bottom" secondItem="fqR-aX-1EZ" secondAttribute="bottom" type="default" id="4lc-Uz-kwP"/>
+                            <constraint firstItem="TKi-SV-ZJD" firstAttribute="leading" secondItem="fqR-aX-1EZ" secondAttribute="leading" type="default" id="4rl-DE-rdN"/>
+                            <constraint firstItem="TKi-SV-ZJD" firstAttribute="trailing" secondItem="fqR-aX-1EZ" secondAttribute="trailing" type="default" id="Eub-Pm-ofX"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="lBr-nX-lUa"/>
                     <connections>
-                        <outlet property="itineraryNavItem" destination="36" id="X6W-42-vRp"/>
-                        <segue destination="pyN-ZI-4gK" kind="modal" identifier="SearchLocation" id="3ug-T3-LFf"/>
-                        <segue destination="bu1-ru-VTq" kind="modal" identifier="EditPlan" id="asc-wS-MvQ"/>
+                        <outlet property="tableView" destination="TKi-SV-ZJD" id="x2C-BG-xKI"/>
+                        <segue destination="bu1-ru-VTq" kind="modal" identifier="EditPlan" id="5tO-Sh-jiA"/>
+                        <segue destination="pyN-ZI-4gK" kind="modal" identifier="SearchLocation" id="0IM-bG-o9v"/>
+                        <segue destination="4YD-pC-7f2" kind="push" identifier="ShowLocationDetails" id="0EP-qm-nxC"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="17" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I3m-JS-0Gf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="363" y="-405"/>
+            <point key="canvasLocation" x="358" y="-405"/>
         </scene>
         <!--Itinerary Detail View Controller-->
         <scene sceneID="JUy-xw-Mm9">
@@ -519,7 +513,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hqf-Tj-gSw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="777" y="-417"/>
+            <point key="canvasLocation" x="889" y="-398"/>
         </scene>
         <!--Itinerary Transport View Controller - 交通路线-->
         <scene sceneID="igV-bC-jtL">
@@ -553,7 +547,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Mp-H2-zvg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1189" y="-417"/>
+            <point key="canvasLocation" x="1321" y="-423"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vud-1k-yor">
@@ -616,10 +610,12 @@
                 <relationship kind="outlet" name="transportationLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
-        <class className="itineraryMasterViewController" superclassName="ATSDragToReorderTableViewController">
+        <class className="itineraryMasterViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/itineraryMasterViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
         <class className="itineraryTransportViewController" superclassName="UIViewController">
@@ -635,6 +631,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="asc-wS-MvQ"/>
+        <segue reference="5tO-Sh-jiA"/>
     </inferredMetricsTieBreakers>
 </document>
