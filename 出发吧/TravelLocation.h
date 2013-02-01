@@ -16,8 +16,8 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *address;
 @property (nonatomic, copy) NSString *transportation;
-@property (nonatomic, copy) NSNumber *costAmount;
-@property (nonatomic, copy) NSNumber *costUnit;
+@property (nonatomic, copy) NSNumber *cost;
+@property (nonatomic, copy) NSString *currency;
 @property (nonatomic, strong) NSDate *visitBegin;
 @property (nonatomic, strong) NSDate *visitEnd;
 @property (nonatomic, copy) NSString *category;

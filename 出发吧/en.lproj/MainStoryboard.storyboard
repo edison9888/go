@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C3103" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
@@ -275,14 +275,17 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TKi-SV-ZJD">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TravelLocationCell" id="gSi-vV-5Zu">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TravelLocationCell" id="gSi-vV-5Zu">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="4YD-pC-7f2" kind="push" identifier="ShowLocationDetails" id="VVd-6t-0oF"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -300,7 +303,6 @@
                         <outlet property="tableView" destination="TKi-SV-ZJD" id="x2C-BG-xKI"/>
                         <segue destination="bu1-ru-VTq" kind="modal" identifier="EditPlan" id="5tO-Sh-jiA"/>
                         <segue destination="pyN-ZI-4gK" kind="modal" identifier="SearchLocation" id="0IM-bG-o9v"/>
-                        <segue destination="4YD-pC-7f2" kind="push" identifier="ShowLocationDetails" id="0EP-qm-nxC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I3m-JS-0Gf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -392,11 +394,11 @@
                                             <segue destination="IRH-fp-krD" kind="push" identifier="EditTransport" id="hRZ-U1-v7T"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="YSN-CY-PWc" detailTextLabel="uSF-z5-Fg3" style="IBUITableViewCellStyleValue1" id="CIx-D2-cag">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="YSN-CY-PWc" detailTextLabel="uSF-z5-Fg3" style="IBUITableViewCellStyleValue1" id="CIx-D2-cag">
                                         <rect key="frame" x="0.0" y="132" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="预算开销" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YSN-CY-PWc">
@@ -407,7 +409,7 @@
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uSF-z5-Fg3">
-                                                    <rect key="frame" x="266" y="11" width="44" height="21"/>
+                                                    <rect key="frame" x="246" y="11" width="44" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.21960784310000001" green="0.3294117647" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -416,6 +418,9 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="o0E-ce-qyI" kind="push" identifier="EditCost" id="s6p-9t-cyO"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="IuE-4e-9GL" detailTextLabel="5aM-8H-OF0" style="IBUITableViewCellStyleValue1" id="bXH-bC-5QJ">
                                         <rect key="frame" x="0.0" y="176" width="320" height="44"/>
@@ -515,6 +520,98 @@
             </objects>
             <point key="canvasLocation" x="889" y="-398"/>
         </scene>
+        <!--Itinerary Cost View Controller-->
+        <scene sceneID="hx7-sG-hrp">
+            <objects>
+                <tableViewController id="o0E-ce-qyI" customClass="itineraryCostViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="kX6-UQ-7y5">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection id="rqY-MT-1Z4">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="YLd-da-5dA">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="金额" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4I7-8b-fgp">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NYW-sA-kdV">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="150" id="d6V-7T-KBd"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                </textField>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="NYW-sA-kdV" firstAttribute="baseline" secondItem="4I7-8b-fgp" secondAttribute="baseline" type="default" id="1C5-6A-vqY"/>
+                                            <constraint firstItem="4I7-8b-fgp" firstAttribute="centerY" secondItem="YLd-da-5dA" secondAttribute="centerY" type="default" id="Ifa-Eb-9nZ"/>
+                                            <constraint firstItem="4I7-8b-fgp" firstAttribute="leading" secondItem="YLd-da-5dA" secondAttribute="leading" constant="20" type="default" id="JjJ-Tc-Mhl"/>
+                                            <constraint firstAttribute="trailing" secondItem="NYW-sA-kdV" secondAttribute="trailing" constant="20" type="default" id="l1N-Sq-aqk"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Asp-pY-nba">
+                                        <rect key="frame" x="0.0" y="44" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="货币" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5MD-l3-x1l">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="42" id="8L7-ri-OkZ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="RMB" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l1G-9A-zeP">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="150" id="RM3-u3-VcM"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="l1G-9A-zeP" firstAttribute="centerY" secondItem="Asp-pY-nba" secondAttribute="centerY" type="default" id="Eao-Rc-WEA"/>
+                                            <constraint firstItem="5MD-l3-x1l" firstAttribute="top" secondItem="Asp-pY-nba" secondAttribute="top" constant="11" id="Vie-cY-rbh"/>
+                                            <constraint firstItem="5MD-l3-x1l" firstAttribute="leading" secondItem="Asp-pY-nba" secondAttribute="leading" constant="20" type="default" id="ej1-zl-cXD"/>
+                                            <constraint firstAttribute="trailing" secondItem="l1G-9A-zeP" secondAttribute="trailing" constant="20" type="default" id="fEL-mJ-FIA"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="o0E-ce-qyI" id="IrY-4E-1Pf"/>
+                            <outlet property="delegate" destination="o0E-ce-qyI" id="dHs-WM-rF1"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="M8Z-aE-nih">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="fmE-60-UcE"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="amountInput" destination="NYW-sA-kdV" id="IC1-VR-LMt"/>
+                        <outlet property="currencyInput" destination="l1G-9A-zeP" id="wdl-tI-qbu"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dwx-Tp-Nu2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1274" y="-279"/>
+        </scene>
         <!--Itinerary Transport View Controller - 交通路线-->
         <scene sceneID="igV-bC-jtL">
             <objects>
@@ -547,7 +644,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Mp-H2-zvg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1321" y="-423"/>
+            <point key="canvasLocation" x="1287" y="-939"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vud-1k-yor">
@@ -598,6 +695,13 @@
         <class className="TravelPlanMasterViewController" superclassName="ATSDragToReorderTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TravelPlanMasterViewController.h"/>
         </class>
+        <class className="itineraryCostViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/itineraryCostViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="amountInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="currencyInput" candidateClass="UITextField"/>
+            </relationships>
+        </class>
         <class className="itineraryDetailViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/itineraryDetailViewController.h"/>
             <relationships>
@@ -613,6 +717,8 @@
         <class className="itineraryMasterViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/itineraryMasterViewController.h"/>
             <relationships>
+                <relationship kind="action" name="clickDarkView:"/>
+                <relationship kind="action" name="pushSearchLocationViewController:"/>
                 <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>

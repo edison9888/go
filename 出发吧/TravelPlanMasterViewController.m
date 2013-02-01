@@ -176,8 +176,8 @@
             location.address = [results stringForColumn:@"address"];
             location.transportation = [results stringForColumn:@"transportation"];
             location.name = [results stringForColumn:@"name"];
-            location.costAmount = [NSNumber numberWithInt:[results intForColumn:@"cost_amount"]];
-            location.costUnit = [NSNumber numberWithInt:[results intForColumn:@"cost_unit"]];
+            location.cost = [NSNumber numberWithInt:[results intForColumn:@"cost"]];
+            location.currency = [results stringForColumn:@"currency"];
             location.visitBegin = [results dateForColumn:@"visit_begin"];
             location.visitEnd = [results dateForColumn:@"visit_end"];
             location.detail = [results stringForColumn:@"detail"];

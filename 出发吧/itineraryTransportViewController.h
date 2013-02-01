@@ -7,18 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "itineraryDetailViewController.h"
 
-@protocol itineraryTransportViewDelegate<NSObject>
-
--(void) didEditTransport:(NSString *)transportation;
-
-@end
 
 @interface itineraryTransportViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITextView *transportInput;
 @property (nonatomic, copy) NSString *transportation;
 
-@property (nonatomic,weak) id<itineraryTransportViewDelegate> delegate;
+@property (nonatomic,weak) id<locationEditDelegate> delegate;
 
 @end
