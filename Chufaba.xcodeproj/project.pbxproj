@@ -118,7 +118,7 @@
 		C2E1BF5816B3D03400E9750A /* JSONFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONFetcher.m; sourceTree = "<group>"; };
 		D2579A0D16B7CD9400462094 /* PullDownMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullDownMenuView.h; sourceTree = "<group>"; };
 		D2579A0E16B7CD9400462094 /* PullDownMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullDownMenuView.m; sourceTree = "<group>"; };
-		D25F6FE316A6332D00ED7AF5 /* Chufaba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chufaba.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D25F6FE316A6332D00ED7AF5 /* 出发吧.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "出发吧.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D25F6FE716A6332D00ED7AF5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D25F6FE916A6332D00ED7AF5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D25F6FEB16A6332D00ED7AF5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -297,7 +297,7 @@
 		D25F6FE416A6332D00ED7AF5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D25F6FE316A6332D00ED7AF5 /* Chufaba.app */,
+				D25F6FE316A6332D00ED7AF5 /* 出发吧.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -330,8 +330,7 @@
 				D25F6FF716A6332E00ED7AF5 /* itineraryAppDelegate.m */,
 				D25F6FFF16A6332E00ED7AF5 /* MainStoryboard.storyboard */,
 			);
-			name = Chufaba;
-			path = "Chufaba";
+			path = Chufaba;
 			sourceTree = "<group>";
 		};
 		D25F6FEE16A6332D00ED7AF5 /* Supporting Files */ = {
@@ -349,7 +348,7 @@
 				D25F6FFD16A6332E00ED7AF5 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
-			path = "Chufaba";
+			path = Chufaba;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,8 +367,8 @@
 			dependencies = (
 			);
 			name = Chufaba;
-			productName = "Chufaba";
-			productReference = D25F6FE316A6332D00ED7AF5 /* Chufaba.app */;
+			productName = Chufaba;
+			productReference = D25F6FE316A6332D00ED7AF5 /* 出发吧.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -506,6 +505,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -527,6 +527,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -538,7 +539,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chufaba/Chufaba-Prefix.pch";
 				INFOPLIST_FILE = "Chufaba/Chufaba-Info.plist";
-				PRODUCT_NAME = Chufaba;
+				PRODUCT_NAME = "出发吧";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -549,7 +550,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chufaba/Chufaba-Prefix.pch";
 				INFOPLIST_FILE = "Chufaba/Chufaba-Info.plist";
-				PRODUCT_NAME = Chufaba;
+				PRODUCT_NAME = "出发吧";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
