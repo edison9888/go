@@ -8,12 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Location.h"
-
-@protocol SearchLocationViewControllerDelegate<NSObject>
-
--(void) didAddLocation:(Location *) locationSelected;
-
-@end
+#import "LocationViewController.h"
 
 @interface SearchLocationViewController : UITableViewController <UISearchBarDelegate>
 {
@@ -23,6 +18,6 @@
 }
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (nonatomic,weak) id<SearchLocationViewControllerDelegate> delegate;
+@property (nonatomic,weak) id<AddLocationDelegate> delegate;
 
 @end
