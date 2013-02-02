@@ -11,7 +11,6 @@
 
 @protocol EditLocationDelegate<NSObject>
 
--(void) didAddLocation:(Location *)location;
 -(void) didEditTransport:(NSString *)transportation;
 -(void) didEditCostWithAmount:(NSNumber *)amount AndCurrency:(NSString *)currency;
 -(void) didEditScheduleWithStart:(NSDate *)start AndEnd:(NSDate *)end;

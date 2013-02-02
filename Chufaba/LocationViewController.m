@@ -46,6 +46,12 @@
 
 - (void)updateCostLabelWithAmount: (NSNumber *)amount AndCurrency:(NSString *)currency
 {
+    if(!amount){
+        amount = [NSNumber numberWithInt:0];
+    }
+    if(!currency){
+        currency = @"RMB";
+    }
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
     self.costLabel.text = [NSString stringWithFormat:@"%@ %@", currency, [formatter stringFromNumber:amount]];
