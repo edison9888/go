@@ -37,7 +37,7 @@
     [self.amountInput becomeFirstResponder];
     self.navigationItem.rightBarButtonItem.action = @selector(done);
     
-    if(self.amount){
+    if(self.amount && [self.amount intValue] != 0){
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
         [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
         self.amountInput.text = [formatter stringFromNumber:self.amount];
