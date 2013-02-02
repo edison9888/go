@@ -12,6 +12,7 @@
 #import "Location.h"
 #import "ItineraryDataController.h"
 #import "SearchLocationViewController.h"
+#import "LocationAnnotation.h"
 
 /*
 @interface itineraryMasterViewController () {
@@ -31,6 +32,38 @@
 #define MAP_BUTTON_TITLE @"地图"
 #define LIST_BUTTON_TITLE @"列表"
 
+#pragma mark - Synchronize Model and View
+- (void)updateMapView
+{
+    if (self.mapView.annotations) [self.mapView removeAnnotations:self.mapView.annotations];
+    if (self.annotations) [self.mapView addAnnotations:self.annotations];
+}
+
+- (void)setMapView:(MKMapView *)mapView
+{
+    _mapView = mapView;
+    [self updateMapView];
+}
+
+- (void)setAnnotations:(NSArray *)annotations
+{
+    _annotations = annotations;
+    [self updateMapView];
+}
+
+- (NSArray *)mapAnnotations
+{
+    //NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[self.photos count]];
+    NSMutableArray *annotations = [[NSMutableArray alloc] init];
+    for(int i=0;i<[self.dataController.masterTravelDayList count];i++)
+    {
+        for (Location *location in [self.dataController.masterTravelDayList objectAtIndex:i]) {
+            [annotations addObject:[LocationAnnotation annotationForLocation:location]];
+        }
+    }
+    return annotations;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -45,6 +78,8 @@
     self.mapView.frame = self.view.bounds;
     self.mapView.hidden = YES;
     self.mapView.delegate = self;
+    self.annotations = [self mapAnnotations];
+    self.mapView.showsUserLocation = YES;
     [self.view addSubview:self.mapView];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:MAP_BUTTON_TITLE style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMap)];
@@ -104,6 +139,90 @@
         
 		self.navigationItem.rightBarButtonItem.title = MAP_BUTTON_TITLE;
 	}
+}
+
+//Implement MKMapView delegate methods
+#define LOCATION_ANNOTATION_VIEWS @"LocationAnnotationViews"
+
+- (MKAnnotationView *)mapView:(MKMapView *)sender viewForAnnotation:(id <MKAnnotation>)annotation
+{
+	MKAnnotationView *aView = [sender dequeueReusableAnnotationViewWithIdentifier:LOCATION_ANNOTATION_VIEWS];
+    
+	if (!aView) {
+		aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
+		aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+		aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,30,30)];
+		aView.canShowCallout = YES;
+	}
+	
+	// might be a reuse, so re(set) everything
+	//((UIImageView *)aView.leftCalloutAccessoryView).image = nil;
+    ((UIImageView *)aView.leftCalloutAccessoryView).image = [UIImage imageNamed:@"photo_add.png"];
+	aView.annotation = annotation;
+    
+	return aView;
+}
+
+- (void)mapView:(MKMapView *)sender didSelectAnnotationView:(MKAnnotationView *)aView
+{
+//	Photographer *photographer = nil;
+//	UIImageView *imageView = nil;
+//	
+//	if ([aView.annotation isKindOfClass:[Photographer class]]) {
+//		photographer = (Photographer *)aView.annotation;
+//	}
+//	if ([aView.leftCalloutAccessoryView isKindOfClass:[UIImageView class]]) {
+//		imageView = (UIImageView *)aView.leftCalloutAccessoryView;
+//	}
+//	
+//	if (photographer && imageView)
+//	{
+//		NSString *thumbnailURL = photographer.representativePhoto.thumbnailURL;
+//		if (thumbnailURL) {
+//			dispatch_queue_t downloader = dispatch_queue_create("map view downloader", NULL);
+//			dispatch_async(downloader, ^{
+//				UIImage *image = [UIImage imageWithData:[FlickrFetcher imageDataForPhotoWithURLString:thumbnailURL]];
+//				dispatch_async(dispatch_get_main_queue(), ^{
+//					imageView.image = image;
+//				});
+//			});
+//			dispatch_release(downloader);
+//		}
+//	}
+}
+
+- (void)mapView:(MKMapView *)sender annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
+{
+	
+}
+
+
+//Add 4 methods to make UIViewCtroller behave like UITableViewController
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+	[super setEditing:editing animated:animated];
+	[self.tableView setEditing:editing animated:animated];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	// Unselect the selected row if any
+	NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
+	if (selection)
+		[self.tableView deselectRowAtIndexPath:selection animated:YES];
+    
+	[self.tableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	//	The scrollbars won't flash unless the tableview is long enough.
+	[self.tableView flashScrollIndicators];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+	[self.tableView flashScrollIndicators];
 }
 
 - (IBAction)selectClicked:(id)sender {
