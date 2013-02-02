@@ -82,6 +82,13 @@
     self.mapView.showsUserLocation = YES;
     [self.view addSubview:self.mapView];
     
+    //location manager part
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;    
+    self.locationManager.delegate = self;
+    self.curLocation = nil;
+    [self.locationManager startUpdatingLocation];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:MAP_BUTTON_TITLE style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMap)];
     
     
@@ -95,13 +102,6 @@
     self.navigationItem.titleView = button;
     
     //sync,edit,share menu part
-//    if (pullDownMenuView == nil) {		
-//		PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
-//		view.delegate = self;
-//		[self.tableView addSubview:view];
-//		pullDownMenuView = view;
-//	}
-    
     if (pullDownMenuView == nil) {
 		PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
 		view.delegate = self;
@@ -114,8 +114,16 @@
 {
 	if (self.mapView.isHidden)
     {
-        //self.mapView.hidden = NO;
-		//self.tableView.hidden = YES;
+        Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
+        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
+        [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
+        MKCoordinateRegion region;
+        region.center = customLoc2D_5;
+        MKCoordinateSpan span;
+        span.latitudeDelta = 0.4;
+        span.longitudeDelta = 0.4;
+        region.span=span;
+        [self.mapView setRegion:region animated:TRUE];
         
         [UIView transitionWithView:self.view
                           duration:.8
@@ -123,13 +131,13 @@
                         animations:^{ self.tableView.hidden = YES; self.mapView.hidden = NO; }
                         completion:NULL];
         
+        [self.mapView selectAnnotation:[self.mapView.annotations objectAtIndex:0] animated:YES];
+        
 		self.navigationItem.rightBarButtonItem.title = LIST_BUTTON_TITLE;
 	}
     else
     {
 		self.tableView.contentInset = UIEdgeInsetsZero;
-        //self.mapView.hidden = YES;
-		//self.tableView.hidden = NO;
         
         [UIView transitionWithView:self.view
                           duration:.8
@@ -151,13 +159,17 @@
 	if (!aView) {
 		aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
 		aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-		aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,30,30)];
+		//aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,30,30)];
+        aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
+        NSUInteger index = [self.annotations indexOfObject:annotation];
+        ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", index+1];
+        ((UILabel *)aView.leftCalloutAccessoryView).textAlignment = NSTextAlignmentCenter;
 		aView.canShowCallout = YES;
 	}
 	
 	// might be a reuse, so re(set) everything
 	//((UIImageView *)aView.leftCalloutAccessoryView).image = nil;
-    ((UIImageView *)aView.leftCalloutAccessoryView).image = [UIImage imageNamed:@"photo_add.png"];
+    //((UIImageView *)aView.leftCalloutAccessoryView).image = [UIImage imageNamed:@"photo_add.png"];
 	aView.annotation = annotation;
     
 	return aView;
@@ -194,6 +206,18 @@
 - (void)mapView:(MKMapView *)sender annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
 {
 	
+}
+
+//- (void) mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
+//{
+//    [self.mapView selectAnnotation:[self.mapView.annotations objectAtIndex:0] animated:YES];
+//}
+
+//CLLocationManagerDelegate part
+- (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+//    CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake(31.27006030476515, 120.70549774169922);
+//    [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
 }
 
 

@@ -27,12 +27,15 @@
 
 @end
 
-@interface ItineraryViewController:UIViewController <UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate>
+@interface ItineraryViewController:UIViewController <UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
     BOOL singleDayMode;
 }
+
+@property (nonatomic) CLLocationManager *locationManager;
+@property (nonatomic) CLLocation *curLocation;
 
 @property (nonatomic,weak) id<ItineraryDelegate> delegate;
 @property (nonatomic, strong) NSArray *annotations; // of id <MKAnnotation>
