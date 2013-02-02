@@ -182,6 +182,8 @@
     location.name = [locationAtIndex objectForKey:@"name"];
     location.address = [locationAtIndex objectForKey:@"addr"];
     location.category = category;
+    location.latitude = [locationAtIndex objectForKey:@"lat"];
+    location.longitude = [locationAtIndex objectForKey:@"lon"];
     [self.delegate didAddLocation: location];
 }
 

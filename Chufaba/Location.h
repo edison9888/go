@@ -22,8 +22,7 @@
 @property (nonatomic, strong) NSDate *visitEnd;
 @property (nonatomic, copy) NSString *category;
 @property (nonatomic, copy) NSString *detail;
-//@property (nonatomic, strong) NSDate *date;
-
-//-(id)initWithName:(NSString *)name address:(NSString *)address transportation:(NSString *)transportation cost:(NSString *)cost schedule:(NSString *)schedule detail:(NSString *)detail;
+@property (nonatomic, copy) NSNumber *latitude;
+@property (nonatomic, copy) NSNumber *longitude;
 
 @end

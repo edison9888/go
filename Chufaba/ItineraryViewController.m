@@ -300,13 +300,13 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void) didAddLocation:(Location *) locationToAdd
+-(void) didAddLocation:(Location *) location
 {
     if(singleDayMode){
-        [[self.dataController objectInListAtIndex:0] addObject:locationToAdd];
+        [[self.dataController objectInListAtIndex:0] addObject:location];
     }
     else{
-        [[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] addObject:locationToAdd];
+        [[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] addObject:location];
     }
     
     //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue] inSection:[self.dayToAdd intValue]];
@@ -317,7 +317,7 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
     //[db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
+    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category,latitude,longitude) VALUES (?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,location.name,location.address,location.category,location.latitude,location.longitude];
     [db close];
     
     [self dismissViewControllerAnimated:YES completion:nil];
