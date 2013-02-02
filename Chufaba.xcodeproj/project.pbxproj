@@ -35,6 +35,9 @@
 		C207026B16B4269C0087B6D7 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025F16B4269C0087B6D7 /* SBJsonWriter.m */; };
 		C207212B16B6C207000E75A5 /* EditTransportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207212A16B6C207000E75A5 /* EditTransportViewController.m */; };
 		C207213716B80B37000E75A5 /* EditCostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207213616B80B37000E75A5 /* EditCostViewController.m */; };
+		C220388F16BD371A00173D29 /* EditDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C220388E16BD371A00173D29 /* EditDetailViewController.m */; };
+		C220389216BD3B5C00173D29 /* EditScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C220389116BD3B5C00173D29 /* EditScheduleViewController.m */; };
+		C220389516BD56D300173D29 /* EditCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C220389416BD56D300173D29 /* EditCategoryViewController.m */; };
 		C2E1BF5916B3D03400E9750A /* HTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2E1BF5A16B3D03400E9750A /* JSONFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5816B3D03400E9750A /* JSONFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D2579A0F16B7CD9400462094 /* PullDownMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2579A0E16B7CD9400462094 /* PullDownMenuView.m */; };
@@ -112,6 +115,12 @@
 		C207212A16B6C207000E75A5 /* EditTransportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditTransportViewController.m; sourceTree = "<group>"; };
 		C207213516B80B37000E75A5 /* EditCostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCostViewController.h; sourceTree = "<group>"; };
 		C207213616B80B37000E75A5 /* EditCostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCostViewController.m; sourceTree = "<group>"; };
+		C220388D16BD371A00173D29 /* EditDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDetailViewController.h; sourceTree = "<group>"; };
+		C220388E16BD371A00173D29 /* EditDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditDetailViewController.m; sourceTree = "<group>"; };
+		C220389016BD3B5C00173D29 /* EditScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditScheduleViewController.h; sourceTree = "<group>"; };
+		C220389116BD3B5C00173D29 /* EditScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditScheduleViewController.m; sourceTree = "<group>"; };
+		C220389316BD56D300173D29 /* EditCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCategoryViewController.h; sourceTree = "<group>"; };
+		C220389416BD56D300173D29 /* EditCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCategoryViewController.m; sourceTree = "<group>"; };
 		C2E1BF5516B3D03400E9750A /* HTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPFetcher.h; sourceTree = "<group>"; };
 		C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPFetcher.m; sourceTree = "<group>"; };
 		C2E1BF5716B3D03400E9750A /* JSONFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONFetcher.h; sourceTree = "<group>"; };
@@ -276,6 +285,12 @@
 				C207212A16B6C207000E75A5 /* EditTransportViewController.m */,
 				C207213516B80B37000E75A5 /* EditCostViewController.h */,
 				C207213616B80B37000E75A5 /* EditCostViewController.m */,
+				C220388D16BD371A00173D29 /* EditDetailViewController.h */,
+				C220388E16BD371A00173D29 /* EditDetailViewController.m */,
+				C220389016BD3B5C00173D29 /* EditScheduleViewController.h */,
+				C220389116BD3B5C00173D29 /* EditScheduleViewController.m */,
+				C220389316BD56D300173D29 /* EditCategoryViewController.h */,
+				C220389416BD56D300173D29 /* EditCategoryViewController.m */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -385,7 +400,7 @@
 		D25F6FDA16A6332D00ED7AF5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = itinerary;
+				CLASSPREFIX = "";
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "ChufabaAPP团队";
 			};
@@ -464,6 +479,9 @@
 				D2579A0F16B7CD9400462094 /* PullDownMenuView.m in Sources */,
 				C207213716B80B37000E75A5 /* EditCostViewController.m in Sources */,
 				139DACA516BD554900B73AFA /* LocationAnnotation.m in Sources */,
+				C220388F16BD371A00173D29 /* EditDetailViewController.m in Sources */,
+				C220389216BD3B5C00173D29 /* EditScheduleViewController.m in Sources */,
+				C220389516BD56D300173D29 /* EditCategoryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

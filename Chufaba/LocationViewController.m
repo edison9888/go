@@ -10,6 +10,9 @@
 #import "Location.h"
 #import "EditTransportViewController.h"
 #import "EditCostViewController.h"
+#import "EditDetailViewController.h"
+#import "EditScheduleViewController.h"
+#import "EditCategoryViewController.h"
 
 @interface LocationViewController ()
 - (void)configureView;
@@ -37,24 +40,34 @@
         self.nameLabel.text = self.location.name;
         self.addressLabel.text = self.location.address;
         self.transportationLabel.text = self.location.transportation;
-        [self updateCostLabelWithAmount:self.location.cost AndCurrency:self.location.currency];
-        //self.scheduleLabel.text = self.location.schedule;
+        [self configureCostCell];
+        [self configureScheduleCell];
         self.detailLabel.text = self.location.detail;
         self.categoryLabel.text = self.location.category;
     }
 }
 
-- (void)updateCostLabelWithAmount: (NSNumber *)amount AndCurrency:(NSString *)currency
+- (void)configureCostCell
 {
-    if(!amount){
-        amount = [NSNumber numberWithInt:0];
+    if(!self.location.cost){
+        self.location.cost = [NSNumber numberWithInt:0];
     }
-    if(!currency){
-        currency = @"RMB";
+    if(!self.location.currency){
+        self.location.currency = @"RMB";
     }
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    self.costLabel.text = [NSString stringWithFormat:@"%@ %@", currency, [formatter stringFromNumber:amount]];
+    self.costLabel.text = [NSString stringWithFormat:@"%@ %@", self.location.currency, [formatter stringFromNumber:self.location.cost]];
+}
+
+- (void)configureScheduleCell
+{
+    if(self.location.visitBegin || self.location.visitEnd){
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateStyle:NSDateFormatterNoStyle];
+        [formatter setTimeStyle:NSDateFormatterShortStyle];
+        self.scheduleLabel.text = [NSString stringWithFormat:@"%@ - %@", [formatter stringFromDate:self.location.visitBegin] ?: @"", [formatter stringFromDate:self.location.visitEnd] ?: @""];
+    }
 }
 
 - (void)viewDidLoad
@@ -81,6 +94,20 @@
         costViewController.amount = self.location.cost;
         costViewController.currency = self.location.currency;
         costViewController.delegate = self;
+    }else if ([[segue identifier] isEqualToString:@"EditDetail"]) {
+        EditDetailViewController *detailViewController = [segue destinationViewController];
+        detailViewController.detail = self.location.detail;
+        detailViewController.delegate = self;
+        detailViewController.delegate = self;
+    }else if ([[segue identifier] isEqualToString:@"EditSchedule"]) {
+        EditScheduleViewController *scheduleViewController = [segue destinationViewController];
+        scheduleViewController.start = self.location.visitBegin;
+        scheduleViewController.end = self.location.visitEnd;
+        scheduleViewController.delegate = self;
+    }else if ([[segue identifier] isEqualToString:@"EditCategory"]) {
+        EditCategoryViewController *categoryViewController = [segue destinationViewController];
+        categoryViewController.category = self.location.category;
+        categoryViewController.delegate = self;
     }
 }
 
@@ -94,22 +121,26 @@
 {
     self.location.cost = amount;
     self.location.currency = currency;
-    [self updateCostLabelWithAmount:amount AndCurrency:currency];
+    [self configureCostCell];
 }
 
 -(void) didEditScheduleWithStart:(NSDate *)start AndEnd:(NSDate *)end
 {
-    
+    self.location.visitBegin = start;
+    self.location.visitEnd = end;
+    [self configureScheduleCell];
 }
 
 -(void) didEditDetail:(NSString *)detail
 {
-    
+    self.location.detail = detail;
+    self.detailLabel.text = detail;
 }
 
 -(void) didEditCategory:(NSString *)category
 {
-    
+    self.location.category = category;
+    self.categoryLabel.text = category;
 }
 
 @end
