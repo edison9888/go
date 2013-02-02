@@ -6,13 +6,13 @@
 //  Copyright (c) 2013年 出发吧APP团队. All rights reserved.
 //
 
-#import "itineraryTransportViewController.h"
+#import "EditTransportViewController.h"
 
-@interface itineraryTransportViewController ()
+@interface EditTransportViewController ()
 
 @end
 
-@implementation itineraryTransportViewController
+@implementation EditTransportViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

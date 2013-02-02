@@ -15,32 +15,33 @@
 #import "PullDownMenuView.h"
 #import "AddPlanViewController.h"
 #import "FMDBDataAccess.h" 
+#import "LocationViewController.h"
 
 
-@class itineraryDataController;
-@class itineraryMasterViewController;
+@class ItineraryDataController;
+@class ItineraryViewController;
 
-@protocol itineraryMasterViewDelegate<NSObject>
+@protocol ItineraryDelegate<NSObject>
 
--(void) travelPlanDidChange:(itineraryMasterViewController *) controller;
+-(void) travelPlanDidChange:(ItineraryViewController *) controller;
 
 @end
 
-@interface itineraryMasterViewController:UIViewController <UITableViewDataSource, UITableViewDelegate, SearchLocationViewControllerDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate>
+@interface ItineraryViewController:UIViewController <UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
     BOOL singleDayMode;
 }
 
-@property (nonatomic,weak) id<itineraryMasterViewDelegate> delegate;
+@property (nonatomic,weak) id<ItineraryDelegate> delegate;
 
 @property (nonatomic,weak) IBOutlet MKMapView *mapView;
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
-@property (nonatomic,strong) TravelPlan *plan;
-@property (strong, nonatomic) itineraryDataController *dataController;
+@property (nonatomic,strong) Plan *plan;
+@property (strong, nonatomic) ItineraryDataController *dataController;
 @property (strong, nonatomic) NSMutableArray *itineraryListBackup;
 @property (nonatomic,weak) NSNumber *daySelected;
 @property (nonatomic,weak) NSNumber *dayToAdd;

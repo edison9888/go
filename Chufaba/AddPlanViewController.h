@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "Utility.h" 
-@class TravelPlan;
+@class Plan;
 
 @class AddPlanViewController;
 
 @protocol AddPlanViewControllerDelegate<NSObject>
 @optional
 -(void) addPlanViewController:(AddPlanViewController *) controller
-                   didAddTravelPlan:(TravelPlan *) plan;
+                   didAddTravelPlan:(Plan *) plan;
 
--(void) addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(TravelPlan *)plan;
+-(void) addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(Plan *)plan;
 
 -(void) addPlanViewControllerDidCancel:(AddPlanViewController *) controller;
 
@@ -34,7 +34,7 @@
 - (IBAction)done:(id)sender;
 - (IBAction)cancel:(id)sender;
 
-@property (strong, nonatomic) TravelPlan *plan;
+@property (strong, nonatomic) Plan *plan;
 @property (nonatomic,strong) NSArray *durationPick;
 
 @property (nonatomic) UIImagePickerController *imgPickerController;

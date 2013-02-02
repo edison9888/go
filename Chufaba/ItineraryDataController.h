@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TravelLocation.h"
+#import "Location.h"
 //@class TravelLocation;
 
-@interface itineraryDataController : NSObject
+@interface ItineraryDataController : NSObject
 
 @property (nonatomic, strong) NSDate *date;
 @property (nonatomic,weak) NSNumber *itineraryDuration;

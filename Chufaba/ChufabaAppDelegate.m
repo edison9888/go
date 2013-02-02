@@ -6,9 +6,9 @@
 //  Copyright (c) 2013年 出发吧APP团队. All rights reserved.
 //
 
-#import "itineraryAppDelegate.h"
+#import "ChufabaAppDelegate.h"
 
-@implementation itineraryAppDelegate
+@implementation ChufabaAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

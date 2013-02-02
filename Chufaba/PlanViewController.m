@@ -6,16 +6,16 @@
 //  Copyright (c) 2013年 出发吧APP团队. All rights reserved.
 //
 
-#import "TravelPlanMasterViewController.h"
-#import "TravelPlan.h"
-#import "itineraryMasterViewController.h"
-#import "itineraryDataController.h"
+#import "PlanViewController.h"
+#import "Plan.h"
+#import "ItineraryViewController.h"
+#import "ItineraryDataController.h"
 
-@interface TravelPlanMasterViewController ()
+@interface PlanViewController ()
 
 @end
 
-@implementation TravelPlanMasterViewController
+@implementation PlanViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -32,7 +32,7 @@
     self.dataController = [[TravelPlanDataController alloc] init];
 }*/
 
--(void) travelPlanDidChange:(itineraryMasterViewController *) controller
+-(void) travelPlanDidChange:(ItineraryViewController *) controller
 {
     [self populateTravelPlans];
     [self.tableView reloadData];
@@ -43,7 +43,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void) addPlanViewController:(AddPlanViewController *)controller didAddTravelPlan:(TravelPlan *)plan
+- (void) addPlanViewController:(AddPlanViewController *)controller didAddTravelPlan:(Plan *)plan
 {
     FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
     
@@ -133,7 +133,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     //NSUInteger planIndex = [self.travelPlans count] - 1 - indexPath.row;
     //TravelPlan *planAtIndex = [self.travelPlans objectAtIndex:planIndex];
-    TravelPlan *planAtIndex = [self.travelPlans objectAtIndex:indexPath.row];
+    Plan *planAtIndex = [self.travelPlans objectAtIndex:indexPath.row];
     
     NSString *dateStr = [formatter stringFromDate:planAtIndex.date];
     NSString *detailStr = [dateStr stringByAppendingString:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
@@ -147,8 +147,8 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ShowItinerary"]) {
-        itineraryMasterViewController *itineraryViewController = [segue destinationViewController];
-        TravelPlan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        ItineraryViewController *itineraryViewController = [segue destinationViewController];
+        Plan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
         itineraryViewController.dataController.date = selectedPlan.date;
         NSMutableArray *tempList = [[NSMutableArray alloc] init];
         for (int i = 0; i < [selectedPlan.duration intValue]; i++)
@@ -167,7 +167,7 @@
         {
             int dayID = [results intForColumn:@"whichday"]-1;
             
-            TravelLocation *location = [[TravelLocation alloc] init];
+            Location *location = [[Location alloc] init];
             //location.locationId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
             location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
             location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
@@ -214,7 +214,7 @@
         
         FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
         
-        TravelPlan *planToDelete = [self.travelPlans objectAtIndex:indexPath.row];
+        Plan *planToDelete = [self.travelPlans objectAtIndex:indexPath.row];
         
         [db deleteTravelPlan:planToDelete];
         

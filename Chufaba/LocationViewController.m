@@ -6,20 +6,20 @@
 //  Copyright (c) 2013年 出发吧APP团队. All rights reserved.
 //
 
-#import "itineraryDetailViewController.h"
-#import "TravelLocation.h"
-#import "itineraryTransportViewController.h"
-#import "itineraryCostViewController.h"
+#import "LocationViewController.h"
+#import "Location.h"
+#import "EditTransportViewController.h"
+#import "EditCostViewController.h"
 
-@interface itineraryDetailViewController ()
+@interface LocationViewController ()
 - (void)configureView;
 @end
 
-@implementation itineraryDetailViewController
+@implementation LocationViewController
 
 #pragma mark - Managing the detail item
 
-- (void)setLocation:(TravelLocation *) newLocation
+- (void)setLocation:(Location *) newLocation
 {
     if (_location != newLocation) {
         _location = newLocation;
@@ -67,11 +67,11 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"EditTransport"]) {
-        itineraryTransportViewController *transportViewController = [segue destinationViewController];
+        EditTransportViewController *transportViewController = [segue destinationViewController];
         transportViewController.transportation = self.location.transportation;
         transportViewController.delegate = self;
     }else if ([[segue identifier] isEqualToString:@"EditCost"]) {
-        itineraryCostViewController *costViewController = [segue destinationViewController];
+        EditCostViewController *costViewController = [segue destinationViewController];
         costViewController.amount = self.location.cost;
         costViewController.currency = self.location.currency;
         costViewController.delegate = self;

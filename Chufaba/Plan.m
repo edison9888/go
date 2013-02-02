@@ -6,10 +6,10 @@
 //  Copyright (c) 2013年 出发吧APP团队. All rights reserved.
 //
 
-#import "TravelPlan.h"
-#import "TravelLocation.h"
+#import "Plan.h"
+#import "Location.h"
 
-@implementation TravelPlan
+@implementation Plan
 
 -(id)initWithName:(NSString *)name duration:(NSNumber *)duration date:(NSDate *)date image:(UIImage *)image
 {

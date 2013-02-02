@@ -8,7 +8,7 @@
 
 #import "SearchLocationViewController.h"
 #import "JsonFetcher.h"
-#import "SearchLocation.h"
+#import "Location.h"
 
 @interface SearchLocationViewController ()
 
@@ -178,8 +178,11 @@
     NSArray *categories = [locationAtIndex objectForKey:@"categories"];
     NSDictionary *primaryCategory = [categories objectAtIndex:0];
     NSString *category = [self getLocationCategoryByJiepangCategoryId:[primaryCategory objectForKey:@"id"]];
-    SearchLocation *location = [[SearchLocation alloc] initWithName:[locationAtIndex objectForKey:@"name"] address:[locationAtIndex objectForKey:@"addr"] cagetory:category];
-    [self.delegate searchLocationViewController:self didAddSearchLocation: location];
+    Location *location = [Location alloc];
+    location.name = [locationAtIndex objectForKey:@"name"];
+    location.address = [locationAtIndex objectForKey:@"addr"];
+    location.category = category;
+    [self.delegate didAddLocation: location];
 }
 
 - (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category

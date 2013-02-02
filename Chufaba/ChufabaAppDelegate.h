@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface itineraryAppDelegate : UIResponder <UIApplicationDelegate>
+@interface ChufabaAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

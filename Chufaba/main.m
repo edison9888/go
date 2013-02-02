@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "itineraryAppDelegate.h"
+#import "ChufabaAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([itineraryAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([ChufabaAppDelegate class]));
     }
 }

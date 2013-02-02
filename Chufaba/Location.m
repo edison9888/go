@@ -6,9 +6,9 @@
 //  Copyright (c) 2013年 出发吧APP团队. All rights reserved.
 //
 
-#import "TravelLocation.h"
+#import "Location.h"
 
-@implementation TravelLocation
+@implementation Location
 
 //-(id)initWithName:(NSString *)name address:(NSString *)address transportation:(NSString *)transportation cost:(NSString *)cost schedule:(NSString *)schedule detail:(NSString *)detail
 //{

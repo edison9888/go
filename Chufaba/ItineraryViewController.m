@@ -6,13 +6,12 @@
 //  Copyright (c) 2013年 出发吧APP团队. All rights reserved.
 //
 
-#import "itineraryMasterViewController.h"
+#import "ItineraryViewController.h"
 #import "Utility.h"
-#import "itineraryDetailViewController.h"
-#import "TravelLocation.h"
-#import "itineraryDataController.h"
+#import "LocationViewController.h"
+#import "Location.h"
+#import "ItineraryDataController.h"
 #import "SearchLocationViewController.h"
-#import "SearchLocation.h"
 
 /*
 @interface itineraryMasterViewController () {
@@ -21,12 +20,12 @@
 @end
 */
 
-@implementation itineraryMasterViewController
+@implementation ItineraryViewController
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    self.dataController = [[itineraryDataController alloc] init];
+    self.dataController = [[ItineraryDataController alloc] init];
 }
 
 #define MAP_BUTTON_TITLE @"地图"
@@ -157,7 +156,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(TravelPlan *)plan
+- (void)addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(Plan *)plan
 {
     FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
     [dba updateTravelPlan:plan];
@@ -301,12 +300,8 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void) searchLocationViewController:(SearchLocationViewController *) controller didAddSearchLocation:(SearchLocation *) locationSelected
+-(void) didAddLocation:(Location *) locationToAdd
 {
-    TravelLocation *locationToAdd = [[TravelLocation alloc] init];
-    locationToAdd.name = locationSelected.name;
-    locationToAdd.address = locationSelected.address;
-    locationToAdd.category = locationSelected.category;
     if(singleDayMode){
         [[self.dataController objectInListAtIndex:0] addObject:locationToAdd];
     }
@@ -347,7 +342,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    TravelLocation *locationAtIndex = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    Location *locationAtIndex = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [[cell textLabel] setText:locationAtIndex.name];
     return cell;
 }
@@ -422,7 +417,7 @@
     dropDown = nil;
     self.tableView.contentInset = UIEdgeInsetsZero;
     if ([[segue identifier] isEqualToString:@"ShowLocationDetails"]) {
-        itineraryDetailViewController *detailViewController = [segue destinationViewController];
+        LocationViewController *detailViewController = [segue destinationViewController];
         detailViewController.location = [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] objectAtIndex:[self.tableView indexPathForSelectedRow].row];
     }
     else if ([[segue identifier] isEqualToString:@"SearchLocation"])
@@ -444,7 +439,7 @@
         AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
         addPlanViewController.navigationItem.title = @"编辑旅行计划";
         addPlanViewController.delegate = self;
-        addPlanViewController.plan = [[TravelPlan alloc] initWithName:self.plan.name duration:self.plan.duration date:self.plan.date image:self.plan.image];
+        addPlanViewController.plan = [[Plan alloc] initWithName:self.plan.name duration:self.plan.duration date:self.plan.date image:self.plan.image];
         addPlanViewController.plan.planId = self.plan.planId;
         //addPlanViewController.plan = self.plan;
     }
@@ -458,7 +453,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        TravelLocation *locationToDelete = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        Location *locationToDelete = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         [[self.dataController objectInListAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
@@ -472,7 +467,7 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    TravelLocation *locationToMove = [[self.dataController objectInListAtIndex:fromIndexPath.section] objectAtIndex:fromIndexPath.row];
+    Location *locationToMove = [[self.dataController objectInListAtIndex:fromIndexPath.section] objectAtIndex:fromIndexPath.row];
     [[self.dataController objectInListAtIndex:fromIndexPath.section] removeObjectAtIndex:fromIndexPath.row];
     [[self.dataController objectInListAtIndex:toIndexPath.section] insertObject:locationToMove atIndex:toIndexPath.row];
     

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TravelLocation : NSObject
+@interface Location : NSObject
 
 @property (nonatomic, copy) NSNumber *locationId;
 @property (nonatomic, copy) NSNumber *whichday;

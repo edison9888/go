@@ -12,7 +12,7 @@
 
 +(NSString *) getDatabasePath
 {
-    NSString *databasePath = [(itineraryAppDelegate *)[[UIApplication sharedApplication] delegate] databasePath];
+    NSString *databasePath = [(ChufabaAppDelegate *)[[UIApplication sharedApplication] delegate] databasePath];
     
     return databasePath;
 }

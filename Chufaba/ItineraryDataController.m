@@ -6,13 +6,13 @@
 //  Copyright (c) 2013年 出发吧APP团队. All rights reserved.
 //
 
-#import "itineraryDataController.h"
+#import "ItineraryDataController.h"
 
-@interface itineraryDataController ()
+@interface ItineraryDataController ()
 
 @end
 
-@implementation itineraryDataController
+@implementation ItineraryDataController
 
 - (void)setMasterTravelDayList:(NSMutableArray *)newList {
     if (_masterTravelDayList != newList) {

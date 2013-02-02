@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TravelPlan : NSObject
+@interface Plan : NSObject
 
 @property (nonatomic, copy) NSNumber *planId;
 @property (nonatomic, strong) NSDate *date;

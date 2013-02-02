@@ -19,10 +19,10 @@
             </objects>
             <point key="canvasLocation" x="-627" y="-398"/>
         </scene>
-        <!--Travel Plan Master View Controller - 出发吧-->
+        <!--Plan View Controller - 出发吧-->
         <scene sceneID="VYg-d7-R3G">
             <objects>
-                <tableViewController id="UlT-wR-sjT" customClass="TravelPlanMasterViewController" sceneMemberID="viewController">
+                <tableViewController id="UlT-wR-sjT" customClass="PlanViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="wzd-Zl-70w">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -264,10 +264,10 @@
             </objects>
             <point key="canvasLocation" x="390" y="340"/>
         </scene>
-        <!--Itinerary Master View Controller-->
+        <!--Itinerary View Controller-->
         <scene sceneID="0AX-R0-Z2x">
             <objects>
-                <viewController id="wjh-IL-Fsz" customClass="itineraryMasterViewController" sceneMemberID="viewController">
+                <viewController id="wjh-IL-Fsz" customClass="ItineraryViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fqR-aX-1EZ">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -309,10 +309,10 @@
             </objects>
             <point key="canvasLocation" x="358" y="-405"/>
         </scene>
-        <!--Itinerary Detail View Controller-->
+        <!--Location View Controller-->
         <scene sceneID="JUy-xw-Mm9">
             <objects>
-                <tableViewController id="4YD-pC-7f2" customClass="itineraryDetailViewController" sceneMemberID="viewController">
+                <tableViewController id="4YD-pC-7f2" customClass="LocationViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="N9w-n2-fFy">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -520,10 +520,10 @@
             </objects>
             <point key="canvasLocation" x="889" y="-398"/>
         </scene>
-        <!--Itinerary Cost View Controller-->
+        <!--Edit Cost View Controller-->
         <scene sceneID="hx7-sG-hrp">
             <objects>
-                <tableViewController id="o0E-ce-qyI" customClass="itineraryCostViewController" sceneMemberID="viewController">
+                <tableViewController id="o0E-ce-qyI" customClass="EditCostViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="kX6-UQ-7y5">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -612,10 +612,10 @@
             </objects>
             <point key="canvasLocation" x="1274" y="-279"/>
         </scene>
-        <!--Itinerary Transport View Controller - 交通路线-->
+        <!--Edit Transport View Controller - 交通路线-->
         <scene sceneID="igV-bC-jtL">
             <objects>
-                <viewController id="IRH-fp-krD" customClass="itineraryTransportViewController" sceneMemberID="viewController">
+                <viewController id="IRH-fp-krD" customClass="EditTransportViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rId-e4-GXV">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -669,9 +669,6 @@
         <image name="travel.png" width="128" height="128"/>
     </resources>
     <classes>
-        <class className="ATSDragToReorderTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ATSDragToReorderTableViewController.h"/>
-        </class>
         <class className="AddPlanViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanViewController.h"/>
             <relationships>
@@ -690,44 +687,6 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchLocationViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-            </relationships>
-        </class>
-        <class className="TravelPlanMasterViewController" superclassName="ATSDragToReorderTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TravelPlanMasterViewController.h"/>
-        </class>
-        <class className="itineraryCostViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/itineraryCostViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="amountInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="currencyInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="itineraryDetailViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/itineraryDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="addressLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="categoryLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="costLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="detailLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="scheduleLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="transportationLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="itineraryMasterViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/itineraryMasterViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="clickDarkView:"/>
-                <relationship kind="action" name="pushSearchLocationViewController:"/>
-                <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="itineraryTransportViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/itineraryTransportViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="transportInput" candidateClass="UITextView"/>
             </relationships>
         </class>
     </classes>

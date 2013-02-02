@@ -32,9 +32,8 @@
 		C207026916B4269C0087B6D7 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025B16B4269C0087B6D7 /* SBJsonTokeniser.m */; };
 		C207026A16B4269C0087B6D7 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025D16B4269C0087B6D7 /* SBJsonUTF8Stream.m */; };
 		C207026B16B4269C0087B6D7 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025F16B4269C0087B6D7 /* SBJsonWriter.m */; };
-		C207027216B4276C0087B6D7 /* SearchLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C207027116B4276C0087B6D7 /* SearchLocation.m */; };
-		C207212B16B6C207000E75A5 /* itineraryTransportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207212A16B6C207000E75A5 /* itineraryTransportViewController.m */; };
-		C207213716B80B37000E75A5 /* itineraryCostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207213616B80B37000E75A5 /* itineraryCostViewController.m */; };
+		C207212B16B6C207000E75A5 /* EditTransportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207212A16B6C207000E75A5 /* EditTransportViewController.m */; };
+		C207213716B80B37000E75A5 /* EditCostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207213616B80B37000E75A5 /* EditCostViewController.m */; };
 		C2E1BF5916B3D03400E9750A /* HTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2E1BF5A16B3D03400E9750A /* JSONFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5816B3D03400E9750A /* JSONFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D2579A0F16B7CD9400462094 /* PullDownMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2579A0E16B7CD9400462094 /* PullDownMenuView.m */; };
@@ -43,17 +42,17 @@
 		D25F6FEC16A6332D00ED7AF5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25F6FEB16A6332D00ED7AF5 /* CoreGraphics.framework */; };
 		D25F6FF216A6332E00ED7AF5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D25F6FF016A6332E00ED7AF5 /* InfoPlist.strings */; };
 		D25F6FF416A6332E00ED7AF5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F6FF316A6332E00ED7AF5 /* main.m */; };
-		D25F6FF816A6332E00ED7AF5 /* itineraryAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F6FF716A6332E00ED7AF5 /* itineraryAppDelegate.m */; };
+		D25F6FF816A6332E00ED7AF5 /* ChufabaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F6FF716A6332E00ED7AF5 /* ChufabaAppDelegate.m */; };
 		D25F6FFA16A6332E00ED7AF5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D25F6FF916A6332E00ED7AF5 /* Default.png */; };
 		D25F6FFC16A6332E00ED7AF5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D25F6FFB16A6332E00ED7AF5 /* Default@2x.png */; };
 		D25F6FFE16A6332E00ED7AF5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D25F6FFD16A6332E00ED7AF5 /* Default-568h@2x.png */; };
 		D25F700116A6332E00ED7AF5 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D25F6FFF16A6332E00ED7AF5 /* MainStoryboard.storyboard */; };
-		D25F700416A6332E00ED7AF5 /* itineraryMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F700316A6332E00ED7AF5 /* itineraryMasterViewController.m */; };
-		D25F700716A6332E00ED7AF5 /* itineraryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F700616A6332E00ED7AF5 /* itineraryDetailViewController.m */; };
-		D25F700F16A6354F00ED7AF5 /* TravelLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F700E16A6354F00ED7AF5 /* TravelLocation.m */; };
-		D25F701616A637C300ED7AF5 /* itineraryDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F701516A637C300ED7AF5 /* itineraryDataController.m */; };
-		D25F701916A6420400ED7AF5 /* TravelPlan.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F701816A6420400ED7AF5 /* TravelPlan.m */; };
-		D25F702816A645F700ED7AF5 /* TravelPlanMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F702716A645F700ED7AF5 /* TravelPlanMasterViewController.m */; };
+		D25F700416A6332E00ED7AF5 /* ItineraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F700316A6332E00ED7AF5 /* ItineraryViewController.m */; };
+		D25F700716A6332E00ED7AF5 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F700616A6332E00ED7AF5 /* LocationViewController.m */; };
+		D25F700F16A6354F00ED7AF5 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F700E16A6354F00ED7AF5 /* Location.m */; };
+		D25F701616A637C300ED7AF5 /* ItineraryDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F701516A637C300ED7AF5 /* ItineraryDataController.m */; };
+		D25F701916A6420400ED7AF5 /* Plan.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F701816A6420400ED7AF5 /* Plan.m */; };
+		D25F702816A645F700ED7AF5 /* PlanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F702716A645F700ED7AF5 /* PlanViewController.m */; };
 		D25F703116A653C600ED7AF5 /* travel.png in Resources */ = {isa = PBXBuildFile; fileRef = D25F703016A653C600ED7AF5 /* travel.png */; };
 		D25F703C16A6746600ED7AF5 /* AddPlanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F703B16A6746600ED7AF5 /* AddPlanViewController.m */; };
 		D25F704A16A7A36C00ED7AF5 /* photo_add.png in Resources */ = {isa = PBXBuildFile; fileRef = D25F704916A7A36C00ED7AF5 /* photo_add.png */; };
@@ -106,12 +105,10 @@
 		C207025D16B4269C0087B6D7 /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
 		C207025E16B4269C0087B6D7 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		C207025F16B4269C0087B6D7 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		C207027016B4276C0087B6D7 /* SearchLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchLocation.h; sourceTree = "<group>"; };
-		C207027116B4276C0087B6D7 /* SearchLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchLocation.m; sourceTree = "<group>"; };
-		C207212916B6C207000E75A5 /* itineraryTransportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = itineraryTransportViewController.h; sourceTree = "<group>"; };
-		C207212A16B6C207000E75A5 /* itineraryTransportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = itineraryTransportViewController.m; sourceTree = "<group>"; };
-		C207213516B80B37000E75A5 /* itineraryCostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = itineraryCostViewController.h; sourceTree = "<group>"; };
-		C207213616B80B37000E75A5 /* itineraryCostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = itineraryCostViewController.m; sourceTree = "<group>"; };
+		C207212916B6C207000E75A5 /* EditTransportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditTransportViewController.h; sourceTree = "<group>"; };
+		C207212A16B6C207000E75A5 /* EditTransportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditTransportViewController.m; sourceTree = "<group>"; };
+		C207213516B80B37000E75A5 /* EditCostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCostViewController.h; sourceTree = "<group>"; };
+		C207213616B80B37000E75A5 /* EditCostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCostViewController.m; sourceTree = "<group>"; };
 		C2E1BF5516B3D03400E9750A /* HTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPFetcher.h; sourceTree = "<group>"; };
 		C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPFetcher.m; sourceTree = "<group>"; };
 		C2E1BF5716B3D03400E9750A /* JSONFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONFetcher.h; sourceTree = "<group>"; };
@@ -126,24 +123,24 @@
 		D25F6FF116A6332E00ED7AF5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D25F6FF316A6332E00ED7AF5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D25F6FF516A6332E00ED7AF5 /* Chufaba-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Chufaba-Prefix.pch"; sourceTree = "<group>"; };
-		D25F6FF616A6332E00ED7AF5 /* itineraryAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = itineraryAppDelegate.h; sourceTree = "<group>"; };
-		D25F6FF716A6332E00ED7AF5 /* itineraryAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = itineraryAppDelegate.m; sourceTree = "<group>"; };
+		D25F6FF616A6332E00ED7AF5 /* ChufabaAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChufabaAppDelegate.h; sourceTree = "<group>"; };
+		D25F6FF716A6332E00ED7AF5 /* ChufabaAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChufabaAppDelegate.m; sourceTree = "<group>"; };
 		D25F6FF916A6332E00ED7AF5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		D25F6FFB16A6332E00ED7AF5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D25F6FFD16A6332E00ED7AF5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D25F700016A6332E00ED7AF5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		D25F700216A6332E00ED7AF5 /* itineraryMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = itineraryMasterViewController.h; sourceTree = "<group>"; };
-		D25F700316A6332E00ED7AF5 /* itineraryMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = itineraryMasterViewController.m; sourceTree = "<group>"; };
-		D25F700516A6332E00ED7AF5 /* itineraryDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = itineraryDetailViewController.h; sourceTree = "<group>"; };
-		D25F700616A6332E00ED7AF5 /* itineraryDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = itineraryDetailViewController.m; sourceTree = "<group>"; };
-		D25F700D16A6354F00ED7AF5 /* TravelLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelLocation.h; sourceTree = "<group>"; };
-		D25F700E16A6354F00ED7AF5 /* TravelLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelLocation.m; sourceTree = "<group>"; };
-		D25F701416A637C300ED7AF5 /* itineraryDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = itineraryDataController.h; sourceTree = "<group>"; };
-		D25F701516A637C300ED7AF5 /* itineraryDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = itineraryDataController.m; sourceTree = "<group>"; };
-		D25F701716A6420400ED7AF5 /* TravelPlan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelPlan.h; sourceTree = "<group>"; };
-		D25F701816A6420400ED7AF5 /* TravelPlan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelPlan.m; sourceTree = "<group>"; };
-		D25F702616A645F700ED7AF5 /* TravelPlanMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelPlanMasterViewController.h; sourceTree = "<group>"; };
-		D25F702716A645F700ED7AF5 /* TravelPlanMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelPlanMasterViewController.m; sourceTree = "<group>"; };
+		D25F700216A6332E00ED7AF5 /* ItineraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItineraryViewController.h; sourceTree = "<group>"; };
+		D25F700316A6332E00ED7AF5 /* ItineraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItineraryViewController.m; sourceTree = "<group>"; };
+		D25F700516A6332E00ED7AF5 /* LocationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationViewController.h; sourceTree = "<group>"; };
+		D25F700616A6332E00ED7AF5 /* LocationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
+		D25F700D16A6354F00ED7AF5 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		D25F700E16A6354F00ED7AF5 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		D25F701416A637C300ED7AF5 /* ItineraryDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItineraryDataController.h; sourceTree = "<group>"; };
+		D25F701516A637C300ED7AF5 /* ItineraryDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItineraryDataController.m; sourceTree = "<group>"; };
+		D25F701716A6420400ED7AF5 /* Plan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plan.h; sourceTree = "<group>"; };
+		D25F701816A6420400ED7AF5 /* Plan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plan.m; sourceTree = "<group>"; };
+		D25F702616A645F700ED7AF5 /* PlanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlanViewController.h; sourceTree = "<group>"; };
+		D25F702716A645F700ED7AF5 /* PlanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlanViewController.m; sourceTree = "<group>"; };
 		D25F703016A653C600ED7AF5 /* travel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = travel.png; sourceTree = "<group>"; };
 		D25F703A16A6746600ED7AF5 /* AddPlanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPlanViewController.h; sourceTree = "<group>"; };
 		D25F703B16A6746600ED7AF5 /* AddPlanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPlanViewController.m; sourceTree = "<group>"; };
@@ -227,12 +224,12 @@
 		C26413F016BD025100B175A8 /* Plan */ = {
 			isa = PBXGroup;
 			children = (
-				D25F702616A645F700ED7AF5 /* TravelPlanMasterViewController.h */,
-				D25F702716A645F700ED7AF5 /* TravelPlanMasterViewController.m */,
+				D25F702616A645F700ED7AF5 /* PlanViewController.h */,
+				D25F702716A645F700ED7AF5 /* PlanViewController.m */,
 				D25F703A16A6746600ED7AF5 /* AddPlanViewController.h */,
 				D25F703B16A6746600ED7AF5 /* AddPlanViewController.m */,
-				D25F701716A6420400ED7AF5 /* TravelPlan.h */,
-				D25F701816A6420400ED7AF5 /* TravelPlan.m */,
+				D25F701716A6420400ED7AF5 /* Plan.h */,
+				D25F701816A6420400ED7AF5 /* Plan.m */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -246,10 +243,10 @@
 				1C70A1BD16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m */,
 				132D453416B5515200A1D3B0 /* NIDropDown.h */,
 				132D453516B5515200A1D3B0 /* NIDropDown.m */,
-				D25F701416A637C300ED7AF5 /* itineraryDataController.h */,
-				D25F701516A637C300ED7AF5 /* itineraryDataController.m */,
-				D25F700216A6332E00ED7AF5 /* itineraryMasterViewController.h */,
-				D25F700316A6332E00ED7AF5 /* itineraryMasterViewController.m */,
+				D25F701416A637C300ED7AF5 /* ItineraryDataController.h */,
+				D25F701516A637C300ED7AF5 /* ItineraryDataController.m */,
+				D25F700216A6332E00ED7AF5 /* ItineraryViewController.h */,
+				D25F700316A6332E00ED7AF5 /* ItineraryViewController.m */,
 			);
 			name = Itinerary;
 			sourceTree = "<group>";
@@ -257,18 +254,16 @@
 		C26413F216BD029A00B175A8 /* Location */ = {
 			isa = PBXGroup;
 			children = (
-				D25F700D16A6354F00ED7AF5 /* TravelLocation.h */,
-				D25F700E16A6354F00ED7AF5 /* TravelLocation.m */,
-				D25F700516A6332E00ED7AF5 /* itineraryDetailViewController.h */,
-				D25F700616A6332E00ED7AF5 /* itineraryDetailViewController.m */,
+				D25F700D16A6354F00ED7AF5 /* Location.h */,
+				D25F700E16A6354F00ED7AF5 /* Location.m */,
+				D25F700516A6332E00ED7AF5 /* LocationViewController.h */,
+				D25F700616A6332E00ED7AF5 /* LocationViewController.m */,
 				1C428A4616ABE4AB00416C47 /* SearchLocationViewController.h */,
 				1C428A4716ABE4AB00416C47 /* SearchLocationViewController.m */,
-				C207027016B4276C0087B6D7 /* SearchLocation.h */,
-				C207027116B4276C0087B6D7 /* SearchLocation.m */,
-				C207212916B6C207000E75A5 /* itineraryTransportViewController.h */,
-				C207212A16B6C207000E75A5 /* itineraryTransportViewController.m */,
-				C207213516B80B37000E75A5 /* itineraryCostViewController.h */,
-				C207213616B80B37000E75A5 /* itineraryCostViewController.m */,
+				C207212916B6C207000E75A5 /* EditTransportViewController.h */,
+				C207212A16B6C207000E75A5 /* EditTransportViewController.m */,
+				C207213516B80B37000E75A5 /* EditCostViewController.h */,
+				C207213616B80B37000E75A5 /* EditCostViewController.m */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -326,8 +321,8 @@
 				C26413F016BD025100B175A8 /* Plan */,
 				C26413F116BD028100B175A8 /* Itinerary */,
 				C26413F216BD029A00B175A8 /* Location */,
-				D25F6FF616A6332E00ED7AF5 /* itineraryAppDelegate.h */,
-				D25F6FF716A6332E00ED7AF5 /* itineraryAppDelegate.m */,
+				D25F6FF616A6332E00ED7AF5 /* ChufabaAppDelegate.h */,
+				D25F6FF716A6332E00ED7AF5 /* ChufabaAppDelegate.m */,
 				D25F6FFF16A6332E00ED7AF5 /* MainStoryboard.storyboard */,
 			);
 			path = Chufaba;
@@ -422,13 +417,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D25F6FF416A6332E00ED7AF5 /* main.m in Sources */,
-				D25F6FF816A6332E00ED7AF5 /* itineraryAppDelegate.m in Sources */,
-				D25F700416A6332E00ED7AF5 /* itineraryMasterViewController.m in Sources */,
-				D25F700716A6332E00ED7AF5 /* itineraryDetailViewController.m in Sources */,
-				D25F700F16A6354F00ED7AF5 /* TravelLocation.m in Sources */,
-				D25F701616A637C300ED7AF5 /* itineraryDataController.m in Sources */,
-				D25F701916A6420400ED7AF5 /* TravelPlan.m in Sources */,
-				D25F702816A645F700ED7AF5 /* TravelPlanMasterViewController.m in Sources */,
+				D25F6FF816A6332E00ED7AF5 /* ChufabaAppDelegate.m in Sources */,
+				D25F700416A6332E00ED7AF5 /* ItineraryViewController.m in Sources */,
+				D25F700716A6332E00ED7AF5 /* LocationViewController.m in Sources */,
+				D25F700F16A6354F00ED7AF5 /* Location.m in Sources */,
+				D25F701616A637C300ED7AF5 /* ItineraryDataController.m in Sources */,
+				D25F701916A6420400ED7AF5 /* Plan.m in Sources */,
+				D25F702816A645F700ED7AF5 /* PlanViewController.m in Sources */,
 				D25F703C16A6746600ED7AF5 /* AddPlanViewController.m in Sources */,
 				1C428A4816ABE4AB00416C47 /* SearchLocationViewController.m in Sources */,
 				1C70A1BE16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m in Sources */,
@@ -451,11 +446,10 @@
 				C207026916B4269C0087B6D7 /* SBJsonTokeniser.m in Sources */,
 				C207026A16B4269C0087B6D7 /* SBJsonUTF8Stream.m in Sources */,
 				C207026B16B4269C0087B6D7 /* SBJsonWriter.m in Sources */,
-				C207027216B4276C0087B6D7 /* SearchLocation.m in Sources */,
 				132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */,
-				C207212B16B6C207000E75A5 /* itineraryTransportViewController.m in Sources */,
+				C207212B16B6C207000E75A5 /* EditTransportViewController.m in Sources */,
 				D2579A0F16B7CD9400462094 /* PullDownMenuView.m in Sources */,
-				C207213716B80B37000E75A5 /* itineraryCostViewController.m in Sources */,
+				C207213716B80B37000E75A5 /* EditCostViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

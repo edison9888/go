@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "itineraryAppDelegate.h"
+#import "ChufabaAppDelegate.h"
 
 @interface Utility : NSObject
 {

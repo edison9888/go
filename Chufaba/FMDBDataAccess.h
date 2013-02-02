@@ -10,7 +10,7 @@
 #import "FMDatabase.h"
 #import "FMResultSet.h"
 #import "Utility.h"
-#import "TravelPlan.h"
+#import "Plan.h"
 //#import "TravelLocation.h"
 
 @interface FMDBDataAccess : NSObject
@@ -19,8 +19,8 @@
 }
 
 -(NSMutableArray *) getTravelPlans;
--(BOOL) insertTravelPlan:(TravelPlan *) plan;
--(BOOL) deleteTravelPlan:(TravelPlan *) plan;
--(BOOL) updateTravelPlan:(TravelPlan *) plan;
+-(BOOL) insertTravelPlan:(Plan *) plan;
+-(BOOL) deleteTravelPlan:(Plan *) plan;
+-(BOOL) updateTravelPlan:(Plan *) plan;
 
 @end

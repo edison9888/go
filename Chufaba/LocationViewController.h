@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-@class TravelLocation;
+@class Location;
 
-@protocol locationEditDelegate<NSObject>
+@protocol EditLocationDelegate<NSObject>
 
+-(void) didAddLocation:(Location *)location;
 -(void) didEditTransport:(NSString *)transportation;
 -(void) didEditCostWithAmount:(NSNumber *)amount AndCurrency:(NSString *)currency;
 -(void) didEditScheduleWithStart:(NSDate *)start AndEnd:(NSDate *)end;
@@ -19,9 +20,15 @@
 
 @end
 
-@interface itineraryDetailViewController : UITableViewController<locationEditDelegate>
+@protocol AddLocationDelegate <NSObject>
 
-@property (strong, nonatomic) TravelLocation *location;
+-(void) didAddLocation:(Location *)location;
+
+@end
+
+@interface LocationViewController : UITableViewController<EditLocationDelegate>
+
+@property (strong, nonatomic) Location *location;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *transportationLabel;

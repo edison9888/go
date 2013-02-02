@@ -7,7 +7,7 @@
 //
 
 #import "AddPlanViewController.h"
-#import "TravelPlan.h"
+#import "Plan.h"
 
 @interface AddPlanViewController ()
 
@@ -152,7 +152,7 @@
     
     else
     {
-        TravelPlan *plan = [[TravelPlan alloc] init];
+        Plan *plan = [[Plan alloc] init];
         plan.name = self.nameInput.text;
         plan.duration = [f numberFromString:self.durationInput.text];
         plan.date = [(UIDatePicker *)self.dateInput.inputView date];

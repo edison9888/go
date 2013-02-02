@@ -6,13 +6,13 @@
 //  Copyright (c) 2013年 出发吧APP团队. All rights reserved.
 //
 
-#import "itineraryCostViewController.h"
+#import "EditCostViewController.h"
 
-@interface itineraryCostViewController ()
+@interface EditCostViewController ()
 
 @end
 
-@implementation itineraryCostViewController
+@implementation EditCostViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

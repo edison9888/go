@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "itineraryDetailViewController.h"
+#import "LocationViewController.h"
 
-@interface itineraryCostViewController : UITableViewController <UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource>
+@interface EditCostViewController : UITableViewController <UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITextField *amountInput;
 @property (weak, nonatomic) IBOutlet UITextField *currencyInput;
@@ -17,7 +17,7 @@
 @property (nonatomic, copy) NSNumber *amount;
 @property (nonatomic, copy) NSString *currency;
 
-@property (nonatomic,weak) id<locationEditDelegate> delegate;
+@property (nonatomic,weak) id<EditLocationDelegate> delegate;
 
 @property (nonatomic,strong) NSArray *currencyOptions;
 

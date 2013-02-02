@@ -11,7 +11,7 @@
 @implementation FMDBDataAccess
 
 
--(BOOL) updateTravelPlan:(TravelPlan *)plan
+-(BOOL) updateTravelPlan:(Plan *)plan
 {
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
@@ -22,7 +22,7 @@
     return success;
 }
 
--(BOOL) insertTravelPlan:(TravelPlan *)plan
+-(BOOL) insertTravelPlan:(Plan *)plan
 {
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
@@ -33,7 +33,7 @@
     return success;
 }
 
--(BOOL) deleteTravelPlan:(TravelPlan *)plan
+-(BOOL) deleteTravelPlan:(Plan *)plan
 {
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];    
     [db open];    
@@ -51,7 +51,7 @@
     FMResultSet *results = [db executeQuery:@"SELECT * FROM plan"];    
     while([results next])
     {
-        TravelPlan *plan = [[TravelPlan alloc] init];
+        Plan *plan = [[Plan alloc] init];
         plan.planId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
         plan.date = [results dateForColumn:@"startdate"];
         plan.duration = [NSNumber numberWithInt:[results intForColumn:@"duration"]];

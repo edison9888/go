@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-@class SearchLocation;
-@class SearchLocationViewController;
+#import "Location.h"
 
 @protocol SearchLocationViewControllerDelegate<NSObject>
 
--(void) searchLocationViewController:(SearchLocationViewController *) controller didAddSearchLocation:(SearchLocation *) locationSelected;
+-(void) didAddLocation:(Location *) locationSelected;
 
 @end
 
