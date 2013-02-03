@@ -69,13 +69,17 @@
     }
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    UIDatePicker *datePicker = textField.inputView;
     if(textField == self.startInput){
         self.selectedRow = 0;
+        [datePicker setDate:self.start];
     }else if (textField == self.endInput){
         self.selectedRow = 1;
+        [datePicker setDate:self.end];
     }
+    return YES;
 }
 
 - (void)timeChanged:(id)sender
@@ -107,6 +111,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end
