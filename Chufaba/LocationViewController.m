@@ -15,12 +15,34 @@
 #import "EditCategoryViewController.h"
 
 @interface LocationViewController ()
+
+@property (nonatomic) BOOL changed;
+
 - (void)configureView;
+
 @end
 
 @implementation LocationViewController
 
 #pragma mark - Managing the detail item
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view, typically from a nib.
+    [self configureView];
+    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+    self.navigationItem.rightBarButtonItem = doneButton;
+}
+
+- (void)done
+{
+    if (self.changed) {
+        [self.delegate didChangeLocation:self.location];
+    }
+    [self.navigationController popViewControllerAnimated:true];
+}
 
 - (void)setLocation:(Location *) newLocation
 {
@@ -29,6 +51,7 @@
         
         // Update the view.
         [self configureView];
+        self.changed = false;
     }
 }
 
@@ -70,19 +93,6 @@
     }
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    [self configureView];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"EditTransport"]) {
@@ -115,6 +125,7 @@
 {
     self.location.transportation = transportation;
     self.transportationLabel.text = transportation;
+    self.changed = true;
 }
 
 -(void) didEditCostWithAmount:(NSNumber *)amount AndCurrency:(NSString *)currency
@@ -122,6 +133,7 @@
     self.location.cost = amount;
     self.location.currency = currency;
     [self configureCostCell];
+    self.changed = true;
 }
 
 -(void) didEditScheduleWithStart:(NSDate *)start AndEnd:(NSDate *)end
@@ -129,18 +141,27 @@
     self.location.visitBegin = start;
     self.location.visitEnd = end;
     [self configureScheduleCell];
+    self.changed = true;
 }
 
 -(void) didEditDetail:(NSString *)detail
 {
     self.location.detail = detail;
     self.detailLabel.text = detail;
+    self.changed = true;
 }
 
 -(void) didEditCategory:(NSString *)category
 {
     self.location.category = category;
     self.categoryLabel.text = category;
+    self.changed = true;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end

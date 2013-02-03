@@ -466,6 +466,18 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(void) didChangeLocation:(Location *)location
+{
+    [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] replaceObjectAtIndex:[self.tableView indexPathForSelectedRow].row withObject:location];
+    [self.tableView reloadData];
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    //[db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
+    BOOL success = [db executeUpdate:@"UPDATE location set transportation = ?, cost = ?, currency = ?, visit_begin = ?, visit_end = ?, detail = ?, category = ? WHERE id = ?", location.transportation, location.cost, location.currency, location.visitBegin, location.visitEnd, location.detail, location.category, location.locationId];
+    [db close];
+}
+
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -562,6 +574,7 @@
     if ([[segue identifier] isEqualToString:@"ShowLocationDetails"]) {
         LocationViewController *detailViewController = [segue destinationViewController];
         detailViewController.location = [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        detailViewController.delegate = self;
     }
     else if ([[segue identifier] isEqualToString:@"SearchLocation"])
     {

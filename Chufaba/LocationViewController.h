@@ -22,12 +22,15 @@
 @protocol AddLocationDelegate <NSObject>
 
 -(void) didAddLocation:(Location *)location;
+-(void) didChangeLocation:(Location *)location;
 
 @end
 
 @interface LocationViewController : UITableViewController<EditLocationDelegate>
 
 @property (strong, nonatomic) Location *location;
+@property (nonatomic,weak) id<AddLocationDelegate> delegate;
+
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *transportationLabel;
