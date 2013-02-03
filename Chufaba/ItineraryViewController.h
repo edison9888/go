@@ -34,6 +34,8 @@
     BOOL singleDayMode;
 }
 
+- (BOOL) hasOneLocation;
+
 @property (nonatomic) CLLocationManager *locationManager;
 @property (nonatomic) CLLocation *curLocation;
 

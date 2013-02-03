@@ -78,7 +78,7 @@
         }
         NSString *encodedString = [keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSString *url = [NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=20&lat=%f&lon=%f", encodedString, [self.lastLatitude floatValue], [self.lastLongitude floatValue]];
-        NSLog(url);
+        //NSLog(url);
         fetcher = [[JSONFetcher alloc]
                                 initWithURLString: url
                                 receiver:self
@@ -96,7 +96,7 @@
         allLocationList = [locations mutableCopy];
         [self.tableView reloadData];
     }
-    [self.searchBar resignFirstResponder];
+    //[self.searchBar resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

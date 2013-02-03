@@ -64,6 +64,29 @@
     return annotations;
 }
 
+- (BOOL) hasOneLocation
+{
+    BOOL flag = FALSE;
+    if(singleDayMode)
+    {
+        if([[self.dataController.masterTravelDayList objectAtIndex:0] count])
+        {
+            flag = TRUE;
+        }    
+    }
+    else
+    {
+        for(int i=0;i<[self.dataController.masterTravelDayList count];i++)
+        {
+            if([[self.dataController.masterTravelDayList objectAtIndex:i] count])
+            {
+                flag = TRUE;
+            }       
+        }
+    }
+    return flag;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -79,7 +102,7 @@
     self.mapView.hidden = YES;
     self.mapView.delegate = self;
     self.annotations = [self mapAnnotations];
-    self.mapView.showsUserLocation = YES;
+    //self.mapView.showsUserLocation = YES;
     [self.view addSubview:self.mapView];
     
     //location manager part
@@ -114,24 +137,26 @@
 {
 	if (self.mapView.isHidden)
     {
-        Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
-        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
-        [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
-        MKCoordinateRegion region;
-        region.center = customLoc2D_5;
-        MKCoordinateSpan span;
-        span.latitudeDelta = 0.4;
-        span.longitudeDelta = 0.4;
-        region.span=span;
-        [self.mapView setRegion:region animated:TRUE];
+        if([self hasOneLocation])
+        {
+            Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
+            CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
+            [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
+            MKCoordinateRegion region;
+            region.center = customLoc2D_5;
+            MKCoordinateSpan span;
+            span.latitudeDelta = 0.4;
+            span.longitudeDelta = 0.4;
+            region.span=span;
+            [self.mapView setRegion:region animated:TRUE];
+            [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
+        }
         
         [UIView transitionWithView:self.view
                           duration:.8
                            options:UIViewAnimationOptionTransitionFlipFromRight
                         animations:^{ self.tableView.hidden = YES; self.mapView.hidden = NO; }
                         completion:NULL];
-        
-        [self.mapView selectAnnotation:[self.mapView.annotations objectAtIndex:0] animated:YES];
         
 		self.navigationItem.rightBarButtonItem.title = LIST_BUTTON_TITLE;
 	}
@@ -161,8 +186,6 @@
 		aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 		//aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,30,30)];
         aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
-        NSUInteger index = [self.annotations indexOfObject:annotation];
-        ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", index+1];
         ((UILabel *)aView.leftCalloutAccessoryView).textAlignment = NSTextAlignmentCenter;
 		aView.canShowCallout = YES;
 	}
@@ -170,6 +193,8 @@
 	// might be a reuse, so re(set) everything
 	//((UIImageView *)aView.leftCalloutAccessoryView).image = nil;
     //((UIImageView *)aView.leftCalloutAccessoryView).image = [UIImage imageNamed:@"photo_add.png"];
+    NSUInteger index = [self.annotations indexOfObject:annotation];
+    ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", index+1];
 	aView.annotation = annotation;
     
 	return aView;
@@ -435,6 +460,22 @@
         [self.dataController.masterTravelDayList addObject:dayList];
     }
     [self.tableView reloadData];
+    self.annotations = [self mapAnnotations];
+    
+    if([self hasOneLocation])
+    {
+        Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
+        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
+        [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
+        MKCoordinateRegion region;
+        region.center = customLoc2D_5;
+        MKCoordinateSpan span;
+        span.latitudeDelta = 0.4;
+        span.longitudeDelta = 0.4;
+        region.span=span;
+        [self.mapView setRegion:region animated:TRUE];
+        [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning
