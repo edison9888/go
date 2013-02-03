@@ -96,7 +96,6 @@
         allLocationList = [locations mutableCopy];
         [self.tableView reloadData];
     }
-    [self.searchBar resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -155,6 +154,11 @@
     location.latitude = [locationAtIndex objectForKey:@"lat"];
     location.longitude = [locationAtIndex objectForKey:@"lon"];
     [self.delegate didAddLocation: location];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.searchBar resignFirstResponder];
 }
 
 
