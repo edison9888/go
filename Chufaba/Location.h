@@ -25,4 +25,7 @@
 @property (nonatomic, copy) NSNumber *latitude;
 @property (nonatomic, copy) NSNumber *longitude;
 
++ (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category;
++ (UIImage *)getCategoryIcon:(NSString *)category;
+
 @end

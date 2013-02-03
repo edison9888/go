@@ -127,48 +127,16 @@
     NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
     [[cell textLabel] setText:[locationAtIndex objectForKey: @"name"]];
     [[cell detailTextLabel] setText:[locationAtIndex objectForKey: @"addr"]];
-    
+     
+     NSArray *categories = [locationAtIndex objectForKey:@"categories"];
+    if ([categories count] > 0) {
+        NSDictionary *primaryCategory = [categories objectAtIndex:0];
+        NSString *category = [Location getLocationCategoryByJiepangCategoryId:[primaryCategory objectForKey:@"id"]];
+        
+        cell.imageView.image = [Location getCategoryIcon:category];
+    }
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
@@ -177,7 +145,7 @@
     NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
     NSArray *categories = [locationAtIndex objectForKey:@"categories"];
     NSDictionary *primaryCategory = [categories objectAtIndex:0];
-    NSString *category = [self getLocationCategoryByJiepangCategoryId:[primaryCategory objectForKey:@"id"]];
+    NSString *category = [Location getLocationCategoryByJiepangCategoryId:[primaryCategory objectForKey:@"id"]];
     Location *location = [Location alloc];
     location.name = [locationAtIndex objectForKey:@"name"];
     location.address = [locationAtIndex objectForKey:@"addr"];
@@ -187,27 +155,5 @@
     [self.delegate didAddLocation: location];
 }
 
-- (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category
-{
-    NSString *prefix = [category substringToIndex:2];
-    if ([prefix isEqualToString:@"01"]) {
-        return @"美食";
-    }
-    if ([prefix isEqualToString:@"03"]) {
-        if ([category isEqualToString:@"0312"] || [category isEqualToString:@"0313"] || [category isEqualToString:@"0314"] || [category isEqualToString:@"0315"] || [category
-            isEqualToString:@"0316"]) {
-            return @"住宿";
-        } else {
-            return @"交通";
-        }
-    }
-    if ([prefix isEqualToString:@"04"]) {
-        return @"娱乐";
-    }
-    if ([prefix isEqualToString:@"05"]) {
-        return @"景点";
-    }
-    return @"其它";
-}
 
 @end

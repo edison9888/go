@@ -474,7 +474,7 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
     //[db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
-    BOOL success = [db executeUpdate:@"UPDATE location set transportation = ?, cost = ?, currency = ?, visit_begin = ?, visit_end = ?, detail = ?, category = ? WHERE id = ?", location.transportation, location.cost, location.currency, location.visitBegin, location.visitEnd, location.detail, location.category, location.locationId];
+    [db executeUpdate:@"UPDATE location set transportation = ?, cost = ?, currency = ?, visit_begin = ?, visit_end = ?, detail = ?, category = ? WHERE id = ?", location.transportation, location.cost, location.currency, location.visitBegin, location.visitEnd, location.detail, location.category, location.locationId];
     [db close];
 }
 
@@ -499,6 +499,13 @@
     
     Location *locationAtIndex = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [[cell textLabel] setText:locationAtIndex.name];
+    if (locationAtIndex.visitBegin || locationAtIndex.visitEnd) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateStyle:NSDateFormatterNoStyle];
+        [formatter setTimeStyle:NSDateFormatterShortStyle];
+        [[cell detailTextLabel] setText:[NSString stringWithFormat:@"%@ - %@", [formatter stringFromDate:locationAtIndex.visitBegin] ?: @"", [formatter stringFromDate:locationAtIndex.visitEnd] ?: @""]];
+    }
+    [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];
     return cell;
 }
 
