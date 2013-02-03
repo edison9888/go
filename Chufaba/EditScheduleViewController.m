@@ -74,10 +74,14 @@
     UIDatePicker *datePicker = textField.inputView;
     if(textField == self.startInput){
         self.selectedRow = 0;
-        [datePicker setDate:self.start];
+        if (self.start) {
+            [datePicker setDate:self.start];
+        }
     }else if (textField == self.endInput){
         self.selectedRow = 1;
-        [datePicker setDate:self.end];
+        if (self.end) {
+            [datePicker setDate:self.end];
+        }
     }
     return YES;
 }
