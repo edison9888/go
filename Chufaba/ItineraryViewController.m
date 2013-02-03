@@ -14,12 +14,12 @@
 #import "SearchLocationViewController.h"
 #import "LocationAnnotation.h"
 
-/*
-@interface itineraryMasterViewController () {
-    NSMutableArray *_objects;
+
+@interface ItineraryViewController () {
+    NSNumber *lastLatitude;
+    NSNumber *lastLongitude;
 }
 @end
-*/
 
 @implementation ItineraryViewController
 
@@ -464,6 +464,9 @@
     [db close];
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    lastLatitude = location.latitude;
+    lastLongitude = location.longitude;
 }
 
 -(void) didChangeLocation:(Location *)location
@@ -595,6 +598,12 @@
         }
         SearchLocationViewController *searchLocationViewController = segue.destinationViewController;
         searchLocationViewController.delegate = self;
+        if(lastLatitude){
+            searchLocationViewController.lastLatitude = lastLatitude;
+        }
+        if(lastLongitude){
+            searchLocationViewController.lastLongitude = lastLongitude;
+        }
     }
     else if ([[segue identifier] isEqualToString:@"EditPlan"])
     {

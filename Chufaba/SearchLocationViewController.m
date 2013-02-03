@@ -7,7 +7,6 @@
 //
 
 #import "SearchLocationViewController.h"
-#import "JsonFetcher.h"
 #import "Location.h"
 
 @interface SearchLocationViewController ()
@@ -32,8 +31,10 @@
     _searchBar.delegate = (id)self;
     [_searchBar becomeFirstResponder];
     [_searchBar setShowsCancelButton:YES];
-    
-    searching = NO;
+    if (!self.lastLatitude) {
+        self.lastLatitude = [NSNumber numberWithFloat:0];
+        self.lastLongitude = [NSNumber numberWithFloat:0];
+    }
 }
 
 - (void)enableCancelButton:(UISearchBar*)searchBar
@@ -69,12 +70,16 @@
 }
 
 - (void)searchJiepangByKeyword:(NSString *)keyword {
-    if(!searching && [keyword length] > 0)
+    if([keyword length] > 0)
     {
-        searching = YES;
+        if (fetcher) {
+            [fetcher cancel];
+            [fetcher close];
+        }
         NSString *encodedString = [keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *url = [NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=5", encodedString];
-        JSONFetcher *fetcher = [[JSONFetcher alloc]
+        NSString *url = [NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=20&lat=%f&lon=%f", encodedString, [self.lastLatitude floatValue], [self.lastLongitude floatValue]];
+        NSLog(url);
+        fetcher = [[JSONFetcher alloc]
                                 initWithURLString: url
                                 receiver:self
                                 action:@selector(receiveResponse:)];
@@ -84,14 +89,14 @@
     }
 }
 
-- (void)receiveResponse:(JSONFetcher *)fetcher
+- (void)receiveResponse:(JSONFetcher *)aFetcher
 {
-    NSArray *locations = [fetcher.result objectForKey:@"items"];
+    NSArray *locations = [aFetcher.result objectForKey:@"items"];
     if (locations) {
         allLocationList = [locations mutableCopy];
         [self.tableView reloadData];
     }
-    searching = NO;
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -109,10 +114,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {    
-    if (searching)
-        return [allLocationList count];
-    else
-        return 0;
+    return [allLocationList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
