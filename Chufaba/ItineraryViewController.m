@@ -87,6 +87,32 @@
     return flag;
 }
 
+- (NSIndexPath *) indexPathForTappedAnnotation
+{
+    int row;
+    int section;
+    if(singleDayMode)
+    {
+        section = 0;
+        row = [self.annotations indexOfObject:tappedAnnotation];
+    }
+    else
+    {
+        int annotationCount = [self.annotations indexOfObject:tappedAnnotation]+1;
+        for(int i=0;i<[self.dataController.masterTravelDayList count];i++)
+        {
+            annotationCount = annotationCount-[[self.dataController.masterTravelDayList objectAtIndex:i] count];
+            if(annotationCount<=0)
+            {
+                section = i;
+                row = annotationCount + [[self.dataController.masterTravelDayList objectAtIndex:i] count] - 1;
+                break;
+            }
+        }
+    }
+    return [NSIndexPath indexPathForRow:row inSection:section];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -149,6 +175,7 @@
             span.longitudeDelta = 0.4;
             region.span=span;
             [self.mapView setRegion:region animated:TRUE];
+            self.annotations = [self mapAnnotations];
             [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
         }
         
@@ -230,7 +257,9 @@
 
 - (void)mapView:(MKMapView *)sender annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
 {
-	
+    tappedAnnotation = aView.annotation;
+    [self performSegueWithIdentifier:@"ShowLocationDetails" sender:control];
+    //int tapIndex = [self.annotations indexOfObject:tappedAnnotation];
 }
 
 //- (void) mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
@@ -624,8 +653,16 @@
     self.tableView.contentInset = UIEdgeInsetsZero;
     if ([[segue identifier] isEqualToString:@"ShowLocationDetails"]) {
         LocationViewController *detailViewController = [segue destinationViewController];
-        detailViewController.location = [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] objectAtIndex:[self.tableView indexPathForSelectedRow].row];
-        detailViewController.delegate = self;
+        if (self.mapView.isHidden)
+        {
+            detailViewController.location = [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+            detailViewController.delegate = self;
+        }
+        else
+        {
+            NSIndexPath *indexPath = [self indexPathForTappedAnnotation];
+            detailViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        }
     }
     else if ([[segue identifier] isEqualToString:@"SearchLocation"])
     {

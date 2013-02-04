@@ -32,9 +32,11 @@
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
     BOOL singleDayMode;
+    id <MKAnnotation> tappedAnnotation;
 }
 
 - (BOOL) hasOneLocation;
+- (NSIndexPath *) indexPathForTappedAnnotation;
 
 @property (nonatomic) CLLocationManager *locationManager;
 @property (nonatomic) CLLocation *curLocation;
