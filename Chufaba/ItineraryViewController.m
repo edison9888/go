@@ -19,6 +19,7 @@
     NSNumber *lastLatitude;
     NSNumber *lastLongitude;
 }
+- (NSMutableArray *) getOneDimensionLocationList;
 @end
 
 @implementation ItineraryViewController
@@ -27,6 +28,18 @@
 {
     [super awakeFromNib];
     self.dataController = [[ItineraryDataController alloc] init];
+}
+
+- (NSMutableArray *) getOneDimensionLocationList
+{
+    NSMutableArray *locationList = [[NSMutableArray alloc] init];
+    for(int i=0;i<[self.itineraryListBackup count];i++)
+    {
+        for (Location *location in [self.itineraryListBackup objectAtIndex:i]) {
+            [locationList addObject:location];
+        }
+    }
+    return locationList;
 }
 
 #define MAP_BUTTON_TITLE @"地图"
@@ -116,6 +129,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    oneDimensionLocationList = [self getOneDimensionLocationList];
     
     self.mapView = [[MKMapView alloc] init];
 
@@ -199,6 +213,20 @@
         
 		self.navigationItem.rightBarButtonItem.title = MAP_BUTTON_TITLE;
 	}
+}
+
+//Implement NavigationLocation delegate
+-(Location *) getPreviousLocation:(Location *)curLocation;
+{
+    int index = [oneDimensionLocationList indexOfObject:curLocation];
+    return [oneDimensionLocationList objectAtIndex:index-1];
+}
+
+
+-(Location *) getNextLocation:(Location *)curLocation
+{
+    int index = [oneDimensionLocationList indexOfObject:curLocation];
+    return [oneDimensionLocationList objectAtIndex:index+1];
 }
 
 //Implement MKMapView delegate methods
@@ -463,6 +491,7 @@
     self.plan.duration = plan.duration;
     self.plan.image = plan.image;
     self.itineraryListBackup = [self.dataController.masterTravelDayList mutableCopy];
+    oneDimensionLocationList = [self getOneDimensionLocationList];
     
     self.dataController.date = plan.date;
     self.dataController.itineraryDuration = plan.duration;
@@ -662,7 +691,11 @@
         {
             NSIndexPath *indexPath = [self indexPathForTappedAnnotation];
             detailViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+            
         }
+        detailViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:detailViewController.location]];
+        detailViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
+        detailViewController.navDelegate = self;
     }
     else if ([[segue identifier] isEqualToString:@"SearchLocation"])
     {

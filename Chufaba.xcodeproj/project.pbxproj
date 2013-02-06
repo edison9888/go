@@ -66,6 +66,8 @@
 		D25F703116A653C600ED7AF5 /* travel.png in Resources */ = {isa = PBXBuildFile; fileRef = D25F703016A653C600ED7AF5 /* travel.png */; };
 		D25F703C16A6746600ED7AF5 /* AddPlanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F703B16A6746600ED7AF5 /* AddPlanViewController.m */; };
 		D25F704A16A7A36C00ED7AF5 /* photo_add.png in Resources */ = {isa = PBXBuildFile; fileRef = D25F704916A7A36C00ED7AF5 /* photo_add.png */; };
+		D2BD36C816C1FCEB008A1577 /* arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = D2BD36C616C1FCEB008A1577 /* arrow_down.png */; };
+		D2BD36C916C1FCEB008A1577 /* arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = D2BD36C716C1FCEB008A1577 /* arrow_up.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -169,6 +171,8 @@
 		D25F703A16A6746600ED7AF5 /* AddPlanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPlanViewController.h; sourceTree = "<group>"; };
 		D25F703B16A6746600ED7AF5 /* AddPlanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPlanViewController.m; sourceTree = "<group>"; };
 		D25F704916A7A36C00ED7AF5 /* photo_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_add.png; sourceTree = "<group>"; };
+		D2BD36C616C1FCEB008A1577 /* arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down.png; sourceTree = "<group>"; };
+		D2BD36C716C1FCEB008A1577 /* arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_up.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -384,6 +388,8 @@
 		D25F6FEE16A6332D00ED7AF5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D2BD36C616C1FCEB008A1577 /* arrow_down.png */,
+				D2BD36C716C1FCEB008A1577 /* arrow_up.png */,
 				C220389616BE40D600173D29 /* category */,
 				1C02972416B1029E003F676A /* travelplan.sqlite */,
 				D25F704916A7A36C00ED7AF5 /* photo_add.png */,
@@ -466,6 +472,8 @@
 				C22038A016BE410900173D29 /* other.gif in Resources */,
 				C22038A116BE410900173D29 /* scene.jpg in Resources */,
 				C22038A216BE410900173D29 /* transport.gif in Resources */,
+				D2BD36C816C1FCEB008A1577 /* arrow_down.png in Resources */,
+				D2BD36C916C1FCEB008A1577 /* arrow_up.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

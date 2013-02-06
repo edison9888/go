@@ -32,8 +32,54 @@
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
     
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
-    self.navigationItem.rightBarButtonItem = doneButton;
+    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
+                                            [NSArray arrayWithObjects:
+                                             [UIImage imageNamed:@"arrow_up.png"],
+                                             [UIImage imageNamed:@"arrow_down.png"],
+                                             nil]];
+    [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
+    segmentedControl.frame = CGRectMake(0, 0, 90, 30);
+    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    segmentedControl.momentary = YES;
+    
+    //defaultTintColor = [segmentedControl.tintColor retain];
+    
+    UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+    
+    self.navigationItem.rightBarButtonItem = segmentBarItem;
+    self.navigationItem.title = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
+    
+//    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+//    self.navigationItem.rightBarButtonItem = doneButton;
+}
+
+- (IBAction) segmentAction:(id)sender
+{
+    int clickedSegmentIndex = [(UISegmentedControl *)sender selectedSegmentIndex];
+    if(clickedSegmentIndex == 0)
+    {
+        [(UISegmentedControl *)(self.navigationItem.rightBarButtonItem.customView) setEnabled:YES forSegmentAtIndex:1];
+        self.location = [self.navDelegate getPreviousLocation:self.location];
+        [self configureView];
+        if([self.locationIndex intValue] == 1)
+        {
+            [(UISegmentedControl *)(self.navigationItem.rightBarButtonItem.customView) setEnabled:NO forSegmentAtIndex:0];
+        }
+        self.locationIndex = [NSNumber numberWithInt:[self.locationIndex intValue]-1];
+        self.navigationItem.title = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
+    }
+    else
+    {
+        [(UISegmentedControl *)(self.navigationItem.rightBarButtonItem.customView) setEnabled:YES forSegmentAtIndex:0];
+        self.location = [self.navDelegate getNextLocation:self.location];
+        [self configureView];
+        if([self.locationIndex intValue] == [self.totalLocationCount intValue]-2)
+        {
+            [(UISegmentedControl *)(self.navigationItem.rightBarButtonItem.customView) setEnabled:NO forSegmentAtIndex:1];
+        }
+        self.locationIndex = [NSNumber numberWithInt:[self.locationIndex intValue]+1];
+        self.navigationItem.title = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
+    }
 }
 
 - (void)done

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C3103" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="11G56" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
@@ -799,6 +799,86 @@
         <image name="other.gif" width="32" height="32"/>
         <image name="travel.png" width="128" height="128"/>
     </resources>
+    <classes>
+        <class className="ATSDragToReorderTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ATSDragToReorderTableViewController.h"/>
+        </class>
+        <class className="AddPlanViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancel:"/>
+                <relationship kind="action" name="done:"/>
+                <relationship kind="outlet" name="coverImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="dateInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="durationInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="nameInput" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="EditCategoryViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditCategoryViewController.h"/>
+        </class>
+        <class className="EditCostViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditCostViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="amountInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="currencyInput" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="EditDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="detailInput" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="EditScheduleViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditScheduleViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="endInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="startInput" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="EditTransportViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditTransportViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="transportInput" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="ItineraryViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ItineraryViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="clickDarkView:"/>
+                <relationship kind="action" name="pushSearchLocationViewController:"/>
+                <relationship kind="action" name="selectClicked:"/>
+                <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="LocationViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addressLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="categoryLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="costLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="detailLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="scheduleLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="transportationLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PlanViewController" superclassName="ATSDragToReorderTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlanViewController.h"/>
+        </class>
+        <class className="SearchLocationViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchLocationViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

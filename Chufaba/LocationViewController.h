@@ -26,10 +26,20 @@
 
 @end
 
+@protocol NavigateLocationDelegate <NSObject>
+
+-(Location *) getPreviousLocation:(Location *)curLocation;
+-(Location *) getNextLocation:(Location *)curLocation;
+
+@end
+
 @interface LocationViewController : UITableViewController<EditLocationDelegate>
 
 @property (strong, nonatomic) Location *location;
+@property (strong, nonatomic) NSNumber *locationIndex;
+@property (strong, nonatomic) NSNumber *totalLocationCount;
 @property (nonatomic,weak) id<AddLocationDelegate> delegate;
+@property (nonatomic,weak) id<NavigateLocationDelegate> navDelegate;
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;

@@ -27,12 +27,13 @@
 
 @end
 
-@interface ItineraryViewController:UIViewController <UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate>
+@interface ItineraryViewController:UIViewController <UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
     BOOL singleDayMode;
     id <MKAnnotation> tappedAnnotation;
+    NSMutableArray *oneDimensionLocationList;
 }
 
 - (BOOL) hasOneLocation;
