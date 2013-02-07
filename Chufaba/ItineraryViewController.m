@@ -141,9 +141,41 @@
     self.mapView.frame = self.view.bounds;
     self.mapView.hidden = YES;
     self.mapView.delegate = self;
+    
     self.annotations = [self mapAnnotations];
-    //self.mapView.showsUserLocation = YES;
+    self.mapView.showsUserLocation = YES;
+    
+    UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, 370, 80, 40)];
+    mapNavView.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.5];
+    mapNavView.tag = 21;
+    
+    UIButton *mapPreviousButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,40)];
+    mapPreviousButton.tag = 22;
+    [mapPreviousButton setImage:[UIImage imageNamed:@"previous.png"] forState:UIControlStateNormal];
+    [mapPreviousButton addTarget:self action:@selector(previousMapLocation:) forControlEvents:UIControlEventTouchDown];
+    
+    UIButton *mapNextButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,40)];
+    mapNextButton.tag = 23;
+    [mapNextButton setImage:[UIImage imageNamed:@"next.png"] forState:UIControlStateNormal];
+    [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchDown];
+    
+    UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, 370, 40, 40)];
+    mapPositionView.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.5];
+    mapPositionView.tag = 24;
+    
+    UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,40)];
+    [positionButton setImage:[UIImage imageNamed:@"position.png"] forState:UIControlStateNormal];
+    [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchDown];
+    
+    [mapNavView addSubview:mapPreviousButton];
+    [mapNavView addSubview:mapNextButton];
+    [mapPositionView addSubview:positionButton];
+    [self.mapView addSubview:mapNavView];
+    [self.mapView addSubview:mapPositionView];
+    //[self.mapView bringSubviewToFront:mapNavView];
+    
     [self.view addSubview:self.mapView];
+    
     
     //location manager part
     self.locationManager = [[CLLocationManager alloc] init];
@@ -173,10 +205,58 @@
 	}
 }
 
+- (IBAction)previousMapLocation:(id)sender
+{
+    [(UIButton *)[self.mapView viewWithTag:23] setEnabled:YES];
+    LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
+    NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
+    
+    Location *previousLocation;
+    if(singleDayMode)
+    {
+        previousLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:indexOfCurSelected-1];
+    }
+    else
+    {
+        previousLocation = [oneDimensionLocationList objectAtIndex:indexOfCurSelected-1];
+    }
+    CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([previousLocation.latitude doubleValue], [previousLocation.longitude doubleValue]);
+
+    [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
+    [self.mapView selectAnnotation:[self.annotations objectAtIndex:indexOfCurSelected-1] animated:YES];
+}
+
+- (IBAction)nextMapLocation:(id)sender
+{
+    [(UIButton *)[self.mapView viewWithTag:22] setEnabled:YES];
+    LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
+    NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
+    
+    Location *nextLocation;
+    if(singleDayMode)
+    {
+        nextLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:indexOfCurSelected+1];
+    }
+    else
+    {
+        nextLocation = [oneDimensionLocationList objectAtIndex:indexOfCurSelected+1];
+    }
+    CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([nextLocation.latitude doubleValue], [nextLocation.longitude doubleValue]);
+    [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
+    [self.mapView selectAnnotation:[self.annotations objectAtIndex:indexOfCurSelected+1] animated:YES];
+}
+
+- (IBAction)positionMe:(id)sender
+{
+    [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
+    [self.mapView selectAnnotation:self.mapView.userLocation animated:YES];
+}
+
 - (void)toggleMap
 {
 	if (self.mapView.isHidden)
     {
+        [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
         if([self hasOneLocation])
         {
             Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
@@ -189,7 +269,7 @@
             span.longitudeDelta = 0.4;
             region.span=span;
             [self.mapView setRegion:region animated:TRUE];
-            self.annotations = [self mapAnnotations];
+            //self.annotations = [self mapAnnotations];
             [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
         }
         
@@ -234,21 +314,30 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)sender viewForAnnotation:(id <MKAnnotation>)annotation
 {
-	MKAnnotationView *aView = [sender dequeueReusableAnnotationViewWithIdentifier:LOCATION_ANNOTATION_VIEWS];
+	if ([annotation isKindOfClass:[MKUserLocation class]])
+    {
+        ((MKUserLocation *)annotation).title = @"我在这";
+        MKPinAnnotationView *userLocationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"UserLocation"];
+        userLocationView.pinColor = MKPinAnnotationColorGreen;
+        userLocationView.canShowCallout = YES;
+        return userLocationView;
+        //return nil;  //return nil to use default blue dot view
+    }
+    
+    MKAnnotationView *aView = [sender dequeueReusableAnnotationViewWithIdentifier:LOCATION_ANNOTATION_VIEWS];
     
 	if (!aView) {
 		aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
 		aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-		//aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,30,30)];
         aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
         ((UILabel *)aView.leftCalloutAccessoryView).textAlignment = NSTextAlignmentCenter;
+        ((UILabel *)aView.leftCalloutAccessoryView).textColor = [UIColor whiteColor];
+        ((UILabel *)aView.leftCalloutAccessoryView).backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.1];
 		aView.canShowCallout = YES;
 	}
-	
-	// might be a reuse, so re(set) everything
-	//((UIImageView *)aView.leftCalloutAccessoryView).image = nil;
-    //((UIImageView *)aView.leftCalloutAccessoryView).image = [UIImage imageNamed:@"photo_add.png"];
-    NSUInteger index = [self.annotations indexOfObject:annotation];
+
+    LocationAnnotation *locationAnnotation = (LocationAnnotation *)annotation;
+    NSUInteger index = [oneDimensionLocationList indexOfObject:locationAnnotation.location];
     ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", index+1];
 	aView.annotation = annotation;
     
@@ -257,30 +346,36 @@
 
 - (void)mapView:(MKMapView *)sender didSelectAnnotationView:(MKAnnotationView *)aView
 {
-//	Photographer *photographer = nil;
-//	UIImageView *imageView = nil;
-//	
-//	if ([aView.annotation isKindOfClass:[Photographer class]]) {
-//		photographer = (Photographer *)aView.annotation;
-//	}
-//	if ([aView.leftCalloutAccessoryView isKindOfClass:[UIImageView class]]) {
-//		imageView = (UIImageView *)aView.leftCalloutAccessoryView;
-//	}
-//	
-//	if (photographer && imageView)
-//	{
-//		NSString *thumbnailURL = photographer.representativePhoto.thumbnailURL;
-//		if (thumbnailURL) {
-//			dispatch_queue_t downloader = dispatch_queue_create("map view downloader", NULL);
-//			dispatch_async(downloader, ^{
-//				UIImage *image = [UIImage imageWithData:[FlickrFetcher imageDataForPhotoWithURLString:thumbnailURL]];
-//				dispatch_async(dispatch_get_main_queue(), ^{
-//					imageView.image = image;
-//				});
-//			});
-//			dispatch_release(downloader);
-//		}
-//	}
+    LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
+    if ([selectedAnnotation isKindOfClass:[MKUserLocation class]])
+    {
+        [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
+        [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
+    }
+    else
+    {
+        [(UIButton *)[self.mapView viewWithTag:22] setEnabled:YES];
+        [(UIButton *)[self.mapView viewWithTag:23] setEnabled:YES];
+        
+        NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
+        if(indexOfCurSelected == 0)
+        {
+            [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
+        }
+        else if(indexOfCurSelected == [self.annotations count]-1)
+        {
+            [(UIButton *)[self.mapView viewWithTag:23] setEnabled:NO];
+        }
+    }
+}
+
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    if([self.mapView.selectedAnnotations count] == 0)
+    {
+        [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
+        [(UIButton *)[self.mapView viewWithTag:23] setEnabled:NO];
+    }
 }
 
 - (void)mapView:(MKMapView *)sender annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
@@ -343,7 +438,7 @@
         UIView *darkView = [[UIView alloc] initWithFrame:self.view.bounds];
         darkView.alpha = 0.5;
         darkView.backgroundColor = [UIColor blackColor];
-        darkView.tag = 22;
+        darkView.tag = 55;
         UITapGestureRecognizer *singleFingerTap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickDarkView:)];
         [darkView addGestureRecognizer:singleFingerTap];
         UIPanGestureRecognizer *panGesture =[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(clickDarkView:)];
@@ -357,7 +452,7 @@
     else {
         [dropDown hideDropDown:sender];
         dropDown = nil;
-        [[self.view viewWithTag:22] removeFromSuperview];
+        [[self.view viewWithTag:55] removeFromSuperview];
         //[self.view viewWithTag:22] = nil;
     }
 }
@@ -366,7 +461,7 @@
 {
     [dropDown hideDropDownWithoutAnimation:(UIButton *)self.navigationItem.titleView];
     dropDown = nil;
-    [[self.view viewWithTag:22] removeFromSuperview];
+    [[self.view viewWithTag:55] removeFromSuperview];
 }
 
 //Implement PullDownMenuDelegate method
@@ -505,7 +600,7 @@
 {
     dropDown = nil;
     self.tableView.contentInset = UIEdgeInsetsZero;
-    [[self.view viewWithTag:22] removeFromSuperview];
+    [[self.view viewWithTag:55] removeFromSuperview];
     self.daySelected = [NSNumber numberWithInt:rowIndex];
     if(rowIndex == 0){
         self.dataController.masterTravelDayList = self.itineraryListBackup;
