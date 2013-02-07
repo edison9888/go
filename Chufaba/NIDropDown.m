@@ -41,14 +41,19 @@
         table.delegate = self;
         table.dataSource = self;
         table.layer.cornerRadius = 5;
-        table.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:1];
+        table.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.8];
+        //table.backgroundColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:0.8];
         table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         table.separatorColor = [UIColor grayColor];
+        
+        table.scrollEnabled = YES;
         
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.5];
         self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+22, btn.size.width, *height);
-        table.frame = CGRectMake(0, 0, btn.size.width, *height);
+        //table.frame = CGRectMake(0, 0, btn.size.width, *height);
+        //decrease the table height to make it scrollable
+        table.frame = CGRectMake(0, 0, btn.size.width, 240);
         [UIView commitAnimations];
         
         [b.superview.superview addSubview:self];

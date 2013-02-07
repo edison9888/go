@@ -36,9 +36,12 @@
     imgTap.numberOfTouchesRequired = 1;
     self.imgPickerController.delegate = self;
     [self.coverImageView addGestureRecognizer:imgTap];
-    
-    //show duration picker part
-    _durationPick = [[NSArray alloc]initWithObjects:@"1",@"2",@"3",@"4",@"5",@"6",@"7",nil];
+
+    _durationPick = [[NSMutableArray alloc] initWithCapacity:100];
+    for (int i = 1; i < 101; i++)
+    {
+        [_durationPick addObject:[NSNumber numberWithInt:i]];
+    }
     
     UIPickerView *durationPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
     durationPicker.tag = 10;
@@ -184,7 +187,7 @@
         {
             UIPickerView *currentPicker = (UIPickerView *)self.durationInput.inputView;
             NSInteger row = [currentPicker selectedRowInComponent:0];
-            self.durationInput.text = [_durationPick objectAtIndex:row];
+            self.durationInput.text = [[_durationPick objectAtIndex:row] stringValue];
         }
     }
     
@@ -241,7 +244,7 @@
     return [_durationPick count];
 }
 -(NSString*) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    return [_durationPick objectAtIndex:row];
+    return [[_durationPick objectAtIndex:row] stringValue];
 }
 
 -(void)handleImageTap:(UITapGestureRecognizer *)sender{

@@ -192,6 +192,7 @@
     [button setFrame:CGRectMake(100,22,120,44)];
     [button setTitle:@"全部" forState:UIControlStateNormal];
     [button setBackgroundColor:[UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:1]];
+    //[button setBackgroundColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1]];
     button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [button addTarget:self action:@selector(selectClicked:) forControlEvents:UIControlEventTouchDown];
     self.navigationItem.titleView = button;
@@ -256,6 +257,12 @@
 {
 	if (self.mapView.isHidden)
     {
+        if(dropDown)
+        {
+            [dropDown hideDropDownWithoutAnimation:(UIButton *)self.navigationItem.titleView];
+            dropDown = nil;
+            [[self.view viewWithTag:55] removeFromSuperview];
+        }
         [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
         if([self hasOneLocation])
         {
@@ -759,7 +766,13 @@
     [button addTarget:self action:@selector(pushSearchLocationViewController:) forControlEvents:UIControlEventTouchDown];
     
     label.text = [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", dayValue+1]] stringByAppendingString:dateOfDay];
-    myView.backgroundColor = [UIColor grayColor];
+    myView.backgroundColor = [UIColor orangeColor];
+    
+//    CALayer *bottomBorder = [CALayer layer];
+//    bottomBorder.frame = CGRectMake(0.0, 50.0, 320.0, 1.0);
+//    bottomBorder.backgroundColor = [UIColor whiteColor].CGColor;
+//    [myView.layer addSublayer:bottomBorder];
+    
     [myView addSubview:label];
     [myView addSubview:button];
     [myView bringSubviewToFront:button];

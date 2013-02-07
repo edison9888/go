@@ -35,7 +35,7 @@
 - (IBAction)cancel:(id)sender;
 
 @property (strong, nonatomic) Plan *plan;
-@property (nonatomic,strong) NSArray *durationPick;
+@property (nonatomic,strong) NSMutableArray *durationPick;
 
 @property (nonatomic) UIImagePickerController *imgPickerController;
 
