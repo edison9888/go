@@ -17,6 +17,10 @@
 #import "FMDBDataAccess.h" 
 #import "LocationViewController.h"
 
+#import "JTTransformableTableViewCell.h"
+#import "JTTableViewGestureRecognizer.h"
+#import "UIColor+JTGestureBasedTableViewHelper.h"
+
 
 @class ItineraryDataController;
 @class ItineraryViewController;
@@ -27,7 +31,7 @@
 
 @end
 
-@interface ItineraryViewController:UIViewController <UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate>
+@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
@@ -38,6 +42,11 @@
 
 - (BOOL) hasOneLocation;
 - (NSIndexPath *) indexPathForTappedAnnotation;
+
+//JTGesture code
+//@property (nonatomic, strong) NSMutableArray *rows;
+@property (nonatomic, strong) JTTableViewGestureRecognizer *tableViewRecognizer;
+@property (nonatomic, strong) id grabbedObject;
 
 @property (nonatomic) CLLocationManager *locationManager;
 @property (nonatomic) CLLocation *curLocation;

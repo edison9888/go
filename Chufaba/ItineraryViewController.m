@@ -45,6 +45,12 @@
 #define MAP_BUTTON_TITLE @"地图"
 #define LIST_BUTTON_TITLE @"列表"
 
+#define ADDING_CELL @"Continue..."
+#define DONE_CELL @"Done"
+#define DUMMY_CELL @"Dummy"
+#define COMMITING_CREATE_CELL_HEIGHT 60
+#define NORMAL_CELL_FINISHING_HEIGHT 60
+
 #pragma mark - Synchronize Model and View
 - (void)updateMapView
 {
@@ -136,6 +142,8 @@
     self.tableView.frame = self.view.bounds;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    self.tableViewRecognizer = [self.tableView enableGestureTableViewWithDelegate:self];
     [self.view addSubview:self.tableView];
 
     self.mapView.frame = self.view.bounds;
@@ -300,6 +308,48 @@
         
 		self.navigationItem.rightBarButtonItem.title = MAP_BUTTON_TITLE;
 	}
+}
+
+#pragma mark JTTableViewGestureMoveRowDelegate
+
+- (BOOL)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsCreatePlaceholderForRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.grabbedObject = [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:DUMMY_CELL];
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",indexPath.row+1, indexPath.section+1]];
+    [db close];
+}
+
+- (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsMoveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    id object = [[self.dataController.masterTravelDayList objectAtIndex:sourceIndexPath.section] objectAtIndex:sourceIndexPath.row];
+    [[self.dataController.masterTravelDayList objectAtIndex:sourceIndexPath.section] removeObjectAtIndex:sourceIndexPath.row];
+    [[self.dataController.masterTravelDayList objectAtIndex:destinationIndexPath.section] insertObject:object atIndex:destinationIndexPath.row];
+    
+//    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+//    [db open];
+//    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",sourceIndexPath.row+1, sourceIndexPath.section+1]];
+//    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday >= %d and whichday = %d",destinationIndexPath.row, destinationIndexPath.section+1]];
+//    [db close];
+}
+
+- (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsReplacePlaceholderForRowAtIndexPath:(NSIndexPath *)indexPath {
+    [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:self.grabbedObject];
+    
+    Location *locationToMove = (Location *)self.grabbedObject;
+    int idOfLocationToMove = [locationToMove.locationId intValue];
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday >= %d and whichday = %d",indexPath.row, indexPath.section+1]];
+    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",indexPath.section+1, indexPath.row+1, idOfLocationToMove]];
+    [db close];
+    
+    self.grabbedObject = nil;
 }
 
 //Implement NavigationLocation delegate
@@ -701,15 +751,25 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    Location *locationAtIndex = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    [[cell textLabel] setText:locationAtIndex.name];
-    if (locationAtIndex.visitBegin || locationAtIndex.visitEnd) {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateStyle:NSDateFormatterNoStyle];
-        [formatter setTimeStyle:NSDateFormatterShortStyle];
-        [[cell detailTextLabel] setText:[NSString stringWithFormat:@"%@ - %@", [formatter stringFromDate:locationAtIndex.visitBegin] ?: @"", [formatter stringFromDate:locationAtIndex.visitEnd] ?: @""]];
+    //Location *locationAtIndex = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    
+    if ([object isEqual:DUMMY_CELL])
+    {
+        cell.textLabel.text = @"";
     }
-    [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];
+    else
+    {
+        Location *locationAtIndex = (Location *)object;
+        [[cell textLabel] setText:locationAtIndex.name];
+        if (locationAtIndex.visitBegin || locationAtIndex.visitEnd) {
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateStyle:NSDateFormatterNoStyle];
+            [formatter setTimeStyle:NSDateFormatterShortStyle];
+            [[cell detailTextLabel] setText:[NSString stringWithFormat:@"%@ - %@", [formatter stringFromDate:locationAtIndex.visitBegin] ?: @"", [formatter stringFromDate:locationAtIndex.visitEnd] ?: @""]];
+        }
+        [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];
+    }
     return cell;
 }
 
@@ -858,17 +918,9 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    Location *locationToMove = [[self.dataController objectInListAtIndex:fromIndexPath.section] objectAtIndex:fromIndexPath.row];
-    [[self.dataController objectInListAtIndex:fromIndexPath.section] removeObjectAtIndex:fromIndexPath.row];
-    [[self.dataController objectInListAtIndex:toIndexPath.section] insertObject:locationToMove atIndex:toIndexPath.row];
-    
-    //adjust the day and sequence of location
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",fromIndexPath.row+1, fromIndexPath.section+1]];
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday > %d and whichday = %d",toIndexPath.row, toIndexPath.section+1]];
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",toIndexPath.section+1, toIndexPath.row+1, [locationToMove.locationId intValue]]];
-    [db close];
+//    Location *locationToMove = [[self.dataController objectInListAtIndex:fromIndexPath.section] objectAtIndex:fromIndexPath.row];
+//    [[self.dataController objectInListAtIndex:fromIndexPath.section] removeObjectAtIndex:fromIndexPath.row];
+//    [[self.dataController objectInListAtIndex:toIndexPath.section] insertObject:locationToMove atIndex:toIndexPath.row];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
