@@ -33,4 +33,5 @@ typedef enum{
 
 @protocol PullDownMenuDelegate
 - (void)showEditTravelPlan:(PullDownMenuView *)view;
+- (void)showShareMenu:(PullDownMenuView *)view;
 @end

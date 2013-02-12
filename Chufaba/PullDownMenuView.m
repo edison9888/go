@@ -41,6 +41,7 @@
         btn.backgroundColor = [UIColor clearColor];
         [[btn layer] setBorderWidth:1.0f];
         [[btn layer] setBorderColor:[UIColor grayColor].CGColor];
+        [btn addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchDown];
         shareBtn = btn;
         [self addSubview:btn];		
     }
@@ -51,6 +52,11 @@
 - (IBAction)pushAddPlanViewController:(id)sender
 {
     [self.delegate showEditTravelPlan:self];
+}
+
+- (IBAction)showMenu:(id)sender
+{
+    [self.delegate showShareMenu:self];
 }
 
 - (void)setState:(PullDownMenuState)aState

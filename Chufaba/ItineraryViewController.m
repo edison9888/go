@@ -13,6 +13,7 @@
 #import "ItineraryDataController.h"
 #import "SearchLocationViewController.h"
 #import "LocationAnnotation.h"
+#import "ShareViewController.h"
 
 
 @interface ItineraryViewController () {
@@ -527,6 +528,80 @@
     [self performSegueWithIdentifier:@"EditPlan" sender:nil];
 }
 
+- (void) showShareMenu:(PullDownMenuView *)view
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到新浪微博", @"分享给微信好友", @"分享到微信朋友圈", nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    [actionSheet showInView:self.view];
+}
+
+//Implement UIActionSheetDelegate
+
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if(buttonIndex == 0)
+    {        
+        if([self.sinaweibo isAuthValid])
+        {
+            ShareViewController *shareController = [[ShareViewController alloc] init];
+            shareController.delegate = self;
+            
+            // Create the navigation controller and present it.
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareController];
+            [self presentViewController:navigationController animated:YES completion: nil];
+        }
+        else
+        {
+            SinaWeibo *sinaweibo = [self sinaweibo];
+            [sinaweibo logIn];
+        }
+    }
+    else if(buttonIndex == 1)
+    {
+
+    }
+    else if(buttonIndex == 2)
+    {
+
+    }
+}
+
+//Implement ShareViewController delegate
+- (void)ShareViewController:(ShareViewController *)ShareViewController didConfirmShare:(NSString *)content
+{
+    postStatusText = nil;
+    postStatusText = [[NSString alloc] initWithFormat:@"test post status haha: %@", [NSDate date]];
+    SinaWeibo *sinaweibo = [self sinaweibo];
+    [sinaweibo requestWithURL:@"statuses/update.json"
+                       params:[NSMutableDictionary dictionaryWithObjectsAndKeys:postStatusText, @"status", nil]
+                   httpMethod:@"POST"
+                     delegate:self];
+    
+    [self dismissViewControllerAnimated:YES completion: nil];
+    self.tableView.contentInset = UIEdgeInsetsZero;
+}
+
+- (void)ShareViewController:(ShareViewController *)ShareViewController didCancelShare:(NSString *)content
+{
+    [self dismissViewControllerAnimated:YES completion: nil];
+    self.tableView.contentInset = UIEdgeInsetsZero;
+}
+
+- (void)ShareViewController:(ShareViewController *)ShareViewController doWeiboOauth:(NSString *)content
+{
+    SinaWeibo *sinaweibo = [self sinaweibo];
+    if([self.sinaweibo isAuthValid])
+    {
+        [sinaweibo logOut];
+    }
+    else
+    {
+        userInfo = nil;
+        statuses = nil;
+        [sinaweibo logIn];
+    }
+}
+
 //Implement AddPlanViewControllerDelegate
 - (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller
 {
@@ -932,6 +1007,150 @@
 {
     [dropDown hideDropDownWithoutAnimation:(UIButton *)self.navigationItem.titleView];
     dropDown = nil;
+}
+
+//sina weibo part
+- (SinaWeibo *)sinaweibo
+{
+    ChufabaAppDelegate *delegate = (ChufabaAppDelegate *)[UIApplication sharedApplication].delegate;
+    //set itineraryviewcontroller as the delegate of sinaweibo
+    delegate.sinaweibo.delegate = self;
+    return delegate.sinaweibo;
+}
+
+- (void)removeAuthData
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SinaWeiboAuthData"];
+}
+
+- (void)storeAuthData
+{
+    SinaWeibo *sinaweibo = [self sinaweibo];
+    
+    NSDictionary *authData = [NSDictionary dictionaryWithObjectsAndKeys:
+                              sinaweibo.accessToken, @"AccessTokenKey",
+                              sinaweibo.expirationDate, @"ExpirationDateKey",
+                              sinaweibo.userID, @"UserIDKey",
+                              sinaweibo.refreshToken, @"refresh_token", nil];
+    [[NSUserDefaults standardUserDefaults] setObject:authData forKey:@"SinaWeiboAuthData"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - SinaWeibo Delegate
+
+- (void)sinaweiboDidLogIn:(SinaWeibo *)sinaweibo
+{
+    NSLog(@"sinaweiboDidLogIn userID = %@ accesstoken = %@ expirationDate = %@ refresh_token = %@", sinaweibo.userID, sinaweibo.accessToken, sinaweibo.expirationDate,sinaweibo.refreshToken);
+    
+    //[self resetButtons];
+    [self storeAuthData];
+    
+//    ShareViewController *shareController = [[ShareViewController alloc] init];
+//    shareController.delegate = self;
+//    
+//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareController];
+//    [self presentViewController:navigationController animated:YES completion: nil];
+}
+
+- (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
+{
+    NSLog(@"sinaweiboDidLogOut");
+    [self removeAuthData];
+    //[self resetButtons];
+}
+
+- (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo
+{
+    NSLog(@"sinaweiboLogInDidCancel");
+}
+
+- (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error
+{
+    NSLog(@"sinaweibo logInDidFailWithError %@", error);
+}
+
+- (void)sinaweibo:(SinaWeibo *)sinaweibo accessTokenInvalidOrExpired:(NSError *)error
+{
+    NSLog(@"sinaweiboAccessTokenInvalidOrExpired %@", error);
+    [self removeAuthData];
+    //[self resetButtons];
+}
+
+- (void)bringPostStatusView:(SinaWeibo *)sinaweibo
+{
+    ShareViewController *shareController = [[ShareViewController alloc] init];
+    shareController.delegate = self;
+    
+    // Create the navigation controller and present it.
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareController];
+    [self presentViewController:navigationController animated:YES completion: nil];
+}
+
+#pragma mark - SinaWeiboRequest Delegate
+
+- (void)request:(SinaWeiboRequest *)request didFailWithError:(NSError *)error
+{
+    if ([request.url hasSuffix:@"users/show.json"])
+    {
+        userInfo = nil;
+    }
+    else if ([request.url hasSuffix:@"statuses/user_timeline.json"])
+    {
+        statuses = nil;
+    }
+    else if ([request.url hasSuffix:@"statuses/update.json"])
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert"
+                                                            message:[NSString stringWithFormat:@"Post status \"%@\" failed!", postStatusText]
+                                                           delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alertView show];
+        
+        NSLog(@"Post status failed with error : %@", error);
+    }
+    else if ([request.url hasSuffix:@"statuses/upload.json"])
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert"
+                                                            message:[NSString stringWithFormat:@"Post image status \"%@\" failed!", postImageStatusText]
+                                                           delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alertView show];
+        
+        NSLog(@"Post image status failed with error : %@", error);
+    }
+    
+    
+    //[self resetButtons];
+}
+
+- (void)request:(SinaWeiboRequest *)request didFinishLoadingWithResult:(id)result
+{
+    if ([request.url hasSuffix:@"users/show.json"])
+    {
+        //userInfo = [result retain];
+    }
+    else if ([request.url hasSuffix:@"statuses/user_timeline.json"])
+    {
+        //statuses = [[result objectForKey:@"statuses"] retain];
+    }
+    else if ([request.url hasSuffix:@"statuses/update.json"])
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert"
+                                                            message:[NSString stringWithFormat:@"Post status \"%@\" succeed!", [result objectForKey:@"text"]]
+                                                           delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alertView show];
+        
+        postStatusText = nil;
+    }
+    else if ([request.url hasSuffix:@"statuses/upload.json"])
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert"
+                                                            message:[NSString stringWithFormat:@"Post image status \"%@\" succeed!", [result objectForKey:@"text"]]
+                                                           delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alertView show];
+        
+        postImageStatusText = nil;
+    }
+    
+    //[self resetButtons];
 }
 
 

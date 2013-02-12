@@ -10,6 +10,12 @@
 #import "UIColor+JTGestureBasedTableViewHelper.h"
 #import <QuartzCore/QuartzCore.h>
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
+#define TDLineBreakModeClip NSLineBreakByClipping
+#else
+#define TDLineBreakModeClip UILineBreakModeClip
+#endif
+
 
 #pragma mark -
 
@@ -184,7 +190,7 @@
     // 05/07/2012 : Added by SungDong Kim 
     CGSize requiredLabelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
                                                constrainedToSize:contentViewSize
-                                                   lineBreakMode:UILineBreakModeClip];
+                                                   lineBreakMode:TDLineBreakModeClip];
     self.imageView.frame = CGRectMake(10.0 + requiredLabelSize.width + 10.0,
                                       (self.finishedHeight - self.imageView.frame.size.height)/2,
                                       self.imageView.frame.size.width,

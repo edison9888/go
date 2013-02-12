@@ -7,6 +7,8 @@
 //
 
 #import "ChufabaAppDelegate.h"
+#import "ItineraryViewController.h"
+#import "SinaWeibo.h"
 
 @implementation ChufabaAppDelegate
 
@@ -20,7 +22,20 @@
     
     [self createAndCheckDatabase];
     
-    // Override point for customization after application launch.
+    //self.sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:_viewController];
+    self.sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:nil];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *sinaweiboInfo = [defaults objectForKey:@"SinaWeiboAuthData"];
+    if ([sinaweiboInfo objectForKey:@"AccessTokenKey"] && [sinaweiboInfo objectForKey:@"ExpirationDateKey"] && [sinaweiboInfo objectForKey:@"UserIDKey"])
+    {
+        self.sinaweibo.accessToken = [sinaweiboInfo objectForKey:@"AccessTokenKey"];
+        self.sinaweibo.expirationDate = [sinaweiboInfo objectForKey:@"ExpirationDateKey"];
+        self.sinaweibo.userID = [sinaweiboInfo objectForKey:@"UserIDKey"];
+    }
+    
+    //weixin part
+    [WXApi registerApp:@"wx9a0654e1d41f2482"];
+    
     return YES;
 }
 
@@ -57,12 +72,38 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self.sinaweibo applicationDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    if ([[url scheme] isEqualToString:@"sinaweibosso.3237810134"])
+    {
+        return [self.sinaweibo handleOpenURL:url];
+    }
+    else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+    {
+        return [WXApi handleOpenURL:url delegate:self];
+    }
+    return NO;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([[url scheme] isEqualToString:@"sinaweibosso.3237810134"])
+    {
+        return [self.sinaweibo handleOpenURL:url];
+    }
+    else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+    {
+        return [WXApi handleOpenURL:url delegate:self];
+    }
+    return NO;
 }
 
 @end

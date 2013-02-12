@@ -24,9 +24,16 @@
 		1C0D677A16C774A5008FBBA7 /* JTTableViewGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D677516C774A5008FBBA7 /* JTTableViewGestureRecognizer.m */; };
 		1C0D677B16C774A5008FBBA7 /* JTTransformableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D677716C774A5008FBBA7 /* JTTransformableTableViewCell.m */; };
 		1C0D677C16C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D677916C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m */; };
+		1C38053516C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C38053216C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a */; };
+		1C38054816C920C200D3CDDD /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C38054716C920C200D3CDDD /* ShareViewController.m */; };
 		1C428A4816ABE4AB00416C47 /* SearchLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C428A4716ABE4AB00416C47 /* SearchLocationViewController.m */; };
 		1C70A1BB16B02BC90031A1D0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C70A1BA16B02BC90031A1D0 /* QuartzCore.framework */; };
 		1C70A1BE16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C70A1BD16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m */; };
+		1CE918C416C8B7A000AA5987 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE918BA16C8B7A000AA5987 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1CE918C516C8B7A000AA5987 /* SinaWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1CE918BC16C8B7A000AA5987 /* SinaWeibo.bundle */; };
+		1CE918C616C8B7A000AA5987 /* SinaWeibo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE918BE16C8B7A000AA5987 /* SinaWeibo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1CE918C716C8B7A000AA5987 /* SinaWeiboAuthorizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE918C016C8B7A000AA5987 /* SinaWeiboAuthorizeView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1CE918C816C8B7A000AA5987 /* SinaWeiboRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE918C316C8B7A000AA5987 /* SinaWeiboRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C207026016B4269C0087B6D7 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = C207024816B4269C0087B6D7 /* NSObject+SBJson.m */; };
 		C207026116B4269C0087B6D7 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C207024B16B4269C0087B6D7 /* SBJsonParser.m */; };
 		C207026216B4269C0087B6D7 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C207024D16B4269C0087B6D7 /* SBJsonStreamParser.m */; };
@@ -104,11 +111,26 @@
 		1C0D677716C774A5008FBBA7 /* JTTransformableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTTransformableTableViewCell.m; sourceTree = "<group>"; };
 		1C0D677816C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+JTGestureBasedTableViewHelper.h"; sourceTree = "<group>"; };
 		1C0D677916C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+JTGestureBasedTableViewHelper.m"; sourceTree = "<group>"; };
+		1C38053216C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK_armv7_armv7s.a; sourceTree = "<group>"; };
+		1C38053316C903F600D3CDDD /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		1C38053416C903F600D3CDDD /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		1C38054616C920C200D3CDDD /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
+		1C38054716C920C200D3CDDD /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		1C428A4616ABE4AB00416C47 /* SearchLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchLocationViewController.h; sourceTree = "<group>"; };
 		1C428A4716ABE4AB00416C47 /* SearchLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchLocationViewController.m; sourceTree = "<group>"; };
 		1C70A1BA16B02BC90031A1D0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1C70A1BC16B02BF80031A1D0 /* ATSDragToReorderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATSDragToReorderTableViewController.h; sourceTree = "<group>"; };
 		1C70A1BD16B02BF80031A1D0 /* ATSDragToReorderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATSDragToReorderTableViewController.m; sourceTree = "<group>"; };
+		1CE918B916C8B7A000AA5987 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		1CE918BA16C8B7A000AA5987 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		1CE918BC16C8B7A000AA5987 /* SinaWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SinaWeibo.bundle; sourceTree = "<group>"; };
+		1CE918BD16C8B7A000AA5987 /* SinaWeibo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinaWeibo.h; sourceTree = "<group>"; };
+		1CE918BE16C8B7A000AA5987 /* SinaWeibo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinaWeibo.m; sourceTree = "<group>"; };
+		1CE918BF16C8B7A000AA5987 /* SinaWeiboAuthorizeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinaWeiboAuthorizeView.h; sourceTree = "<group>"; };
+		1CE918C016C8B7A000AA5987 /* SinaWeiboAuthorizeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinaWeiboAuthorizeView.m; sourceTree = "<group>"; };
+		1CE918C116C8B7A000AA5987 /* SinaWeiboConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinaWeiboConstants.h; sourceTree = "<group>"; };
+		1CE918C216C8B7A000AA5987 /* SinaWeiboRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinaWeiboRequest.h; sourceTree = "<group>"; };
+		1CE918C316C8B7A000AA5987 /* SinaWeiboRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinaWeiboRequest.m; sourceTree = "<group>"; };
 		C207024716B4269C0087B6D7 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
 		C207024816B4269C0087B6D7 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
 		C207024916B4269C0087B6D7 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
@@ -202,6 +224,7 @@
 				D25F6FEA16A6332D00ED7AF5 /* Foundation.framework in Frameworks */,
 				D25F6FEC16A6332D00ED7AF5 /* CoreGraphics.framework in Frameworks */,
 				1C70A1BB16B02BC90031A1D0 /* QuartzCore.framework in Frameworks */,
+				1C38053516C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +275,51 @@
 				1C0D677916C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m */,
 			);
 			name = JTGesture;
+			sourceTree = "<group>";
+		};
+		1C38053016C903C900D3CDDD /* weixin */ = {
+			isa = PBXGroup;
+			children = (
+				1C38053216C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a */,
+				1C38053316C903F600D3CDDD /* WXApi.h */,
+				1C38053416C903F600D3CDDD /* WXApiObject.h */,
+			);
+			name = weixin;
+			sourceTree = "<group>";
+		};
+		1CE918B616C8B77900AA5987 /* SinaWeibo */ = {
+			isa = PBXGroup;
+			children = (
+				1CE918B816C8B7A000AA5987 /* JSONKit */,
+				1CE918BB16C8B7A000AA5987 /* SinaWeibo */,
+				1C38054616C920C200D3CDDD /* ShareViewController.h */,
+				1C38054716C920C200D3CDDD /* ShareViewController.m */,
+			);
+			name = SinaWeibo;
+			sourceTree = "<group>";
+		};
+		1CE918B816C8B7A000AA5987 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				1CE918B916C8B7A000AA5987 /* JSONKit.h */,
+				1CE918BA16C8B7A000AA5987 /* JSONKit.m */,
+			);
+			path = JSONKit;
+			sourceTree = "<group>";
+		};
+		1CE918BB16C8B7A000AA5987 /* SinaWeibo */ = {
+			isa = PBXGroup;
+			children = (
+				1CE918BC16C8B7A000AA5987 /* SinaWeibo.bundle */,
+				1CE918BD16C8B7A000AA5987 /* SinaWeibo.h */,
+				1CE918BE16C8B7A000AA5987 /* SinaWeibo.m */,
+				1CE918BF16C8B7A000AA5987 /* SinaWeiboAuthorizeView.h */,
+				1CE918C016C8B7A000AA5987 /* SinaWeiboAuthorizeView.m */,
+				1CE918C116C8B7A000AA5987 /* SinaWeiboConstants.h */,
+				1CE918C216C8B7A000AA5987 /* SinaWeiboRequest.h */,
+				1CE918C316C8B7A000AA5987 /* SinaWeiboRequest.m */,
+			);
+			path = SinaWeibo;
 			sourceTree = "<group>";
 		};
 		C207024616B426440087B6D7 /* SBJson */ = {
@@ -398,6 +466,8 @@
 		D25F6FED16A6332D00ED7AF5 /* Chufaba */ = {
 			isa = PBXGroup;
 			children = (
+				1C38053016C903C900D3CDDD /* weixin */,
+				1CE918B616C8B77900AA5987 /* SinaWeibo */,
 				1C0D677216C773B4008FBBA7 /* JTGesture */,
 				C207024616B426440087B6D7 /* SBJson */,
 				C2E1BF5416B3D00400E9750A /* HTTPFetcher */,
@@ -509,6 +579,7 @@
 				13F9227816C3510700957327 /* previous.png in Resources */,
 				13F9227916C3510700957327 /* next.png in Resources */,
 				13F9227A16C3510700957327 /* position.png in Resources */,
+				1CE918C516C8B7A000AA5987 /* SinaWeibo.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,6 +631,11 @@
 				1C0D677A16C774A5008FBBA7 /* JTTableViewGestureRecognizer.m in Sources */,
 				1C0D677B16C774A5008FBBA7 /* JTTransformableTableViewCell.m in Sources */,
 				1C0D677C16C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m in Sources */,
+				1CE918C416C8B7A000AA5987 /* JSONKit.m in Sources */,
+				1CE918C616C8B7A000AA5987 /* SinaWeibo.m in Sources */,
+				1CE918C716C8B7A000AA5987 /* SinaWeiboAuthorizeView.m in Sources */,
+				1CE918C816C8B7A000AA5987 /* SinaWeiboRequest.m in Sources */,
+				1C38054816C920C200D3CDDD /* ShareViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,6 +719,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chufaba/Chufaba-Prefix.pch";
 				INFOPLIST_FILE = "Chufaba/Chufaba-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Chufaba\"",
+				);
 				PRODUCT_NAME = "出发吧";
 				WRAPPER_EXTENSION = app;
 			};
@@ -654,6 +734,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chufaba/Chufaba-Prefix.pch";
 				INFOPLIST_FILE = "Chufaba/Chufaba-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Chufaba\"",
+				);
 				PRODUCT_NAME = "出发吧";
 				WRAPPER_EXTENSION = app;
 			};
