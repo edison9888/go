@@ -14,7 +14,7 @@
 #define kAppRedirectURI     @"http://chufaba.me"
 
 @class SinaWeibo;
-@class ItineraryViewController;
+//@class ItineraryViewController;
 @interface ChufabaAppDelegate : UIResponder <UIApplicationDelegate, WXApiDelegate>
 
 @property (strong, nonatomic) SinaWeibo *sinaweibo;

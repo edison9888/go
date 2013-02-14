@@ -21,14 +21,12 @@
 #import "JTTableViewGestureRecognizer.h"
 #import "UIColor+JTGestureBasedTableViewHelper.h"
 
-#import "SinaWeibo.h"
-#import "SinaWeiboRequest.h"
 #import "ShareViewController.h"
 
 
 @class ItineraryDataController;
 @class ItineraryViewController;
-@class SinaWeibo;
+//@class SinaWeibo;
 
 @protocol ItineraryDelegate<NSObject>
 
@@ -36,25 +34,19 @@
 
 @end
 
-@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate,SinaWeiboDelegate, SinaWeiboRequestDelegate, UIActionSheetDelegate, ShareViewControllerDelegate>
+@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, ShareViewControllerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
     BOOL singleDayMode;
     id <MKAnnotation> tappedAnnotation;
     NSMutableArray *oneDimensionLocationList;
-    
-    //sina weibo part
-    NSDictionary *userInfo;
-    NSArray *statuses;
-    NSString *postStatusText;
-    NSString *postImageStatusText;
 }
 
 - (BOOL) hasOneLocation;
 - (NSIndexPath *) indexPathForTappedAnnotation;
 
-@property (readonly, nonatomic) SinaWeibo *sinaweibo;
+//@property (readonly, nonatomic) SinaWeibo *sinaweibo;
 
 //JTGesture code
 //@property (nonatomic, strong) NSMutableArray *rows;

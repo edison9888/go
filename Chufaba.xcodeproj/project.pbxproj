@@ -24,6 +24,10 @@
 		1C0D677A16C774A5008FBBA7 /* JTTableViewGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D677516C774A5008FBBA7 /* JTTableViewGestureRecognizer.m */; };
 		1C0D677B16C774A5008FBBA7 /* JTTransformableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D677716C774A5008FBBA7 /* JTTransformableTableViewCell.m */; };
 		1C0D677C16C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D677916C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m */; };
+		1C1FBE5B16CB572A00FF3FBC /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C1FBE5A16CB572A00FF3FBC /* setting.png */; };
+		1C1FBE5E16CB59BE00FF3FBC /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C1FBE5D16CB59BE00FF3FBC /* user.png */; };
+		1C1FBE6216CB5AD000FF3FBC /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1FBE6116CB5AD000FF3FBC /* SettingViewController.m */; };
+		1C1FBE6916CB7B3300FF3FBC /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1FBE6816CB7B3300FF3FBC /* AccountViewController.m */; };
 		1C38053516C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C38053216C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a */; };
 		1C38054816C920C200D3CDDD /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C38054716C920C200D3CDDD /* ShareViewController.m */; };
 		1C428A4816ABE4AB00416C47 /* SearchLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C428A4716ABE4AB00416C47 /* SearchLocationViewController.m */; };
@@ -111,6 +115,12 @@
 		1C0D677716C774A5008FBBA7 /* JTTransformableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTTransformableTableViewCell.m; sourceTree = "<group>"; };
 		1C0D677816C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+JTGestureBasedTableViewHelper.h"; sourceTree = "<group>"; };
 		1C0D677916C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+JTGestureBasedTableViewHelper.m"; sourceTree = "<group>"; };
+		1C1FBE5A16CB572A00FF3FBC /* setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting.png; sourceTree = "<group>"; };
+		1C1FBE5D16CB59BE00FF3FBC /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
+		1C1FBE6016CB5AD000FF3FBC /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		1C1FBE6116CB5AD000FF3FBC /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		1C1FBE6716CB7B3300FF3FBC /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
+		1C1FBE6816CB7B3300FF3FBC /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
 		1C38053216C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK_armv7_armv7s.a; sourceTree = "<group>"; };
 		1C38053316C903F600D3CDDD /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		1C38053416C903F600D3CDDD /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
@@ -275,6 +285,17 @@
 				1C0D677916C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m */,
 			);
 			name = JTGesture;
+			sourceTree = "<group>";
+		};
+		1C1FBE5F16CB5AA800FF3FBC /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				1C1FBE6016CB5AD000FF3FBC /* SettingViewController.h */,
+				1C1FBE6116CB5AD000FF3FBC /* SettingViewController.m */,
+				1C1FBE6716CB7B3300FF3FBC /* AccountViewController.h */,
+				1C1FBE6816CB7B3300FF3FBC /* AccountViewController.m */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		1C38053016C903C900D3CDDD /* weixin */ = {
@@ -466,6 +487,7 @@
 		D25F6FED16A6332D00ED7AF5 /* Chufaba */ = {
 			isa = PBXGroup;
 			children = (
+				1C1FBE5F16CB5AA800FF3FBC /* Settings */,
 				1C38053016C903C900D3CDDD /* weixin */,
 				1CE918B616C8B77900AA5987 /* SinaWeibo */,
 				1C0D677216C773B4008FBBA7 /* JTGesture */,
@@ -487,6 +509,8 @@
 		D25F6FEE16A6332D00ED7AF5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1C1FBE5D16CB59BE00FF3FBC /* user.png */,
+				1C1FBE5A16CB572A00FF3FBC /* setting.png */,
 				13F9227516C3510700957327 /* previous.png */,
 				13F9227616C3510700957327 /* next.png */,
 				13F9227716C3510700957327 /* position.png */,
@@ -580,6 +604,8 @@
 				13F9227916C3510700957327 /* next.png in Resources */,
 				13F9227A16C3510700957327 /* position.png in Resources */,
 				1CE918C516C8B7A000AA5987 /* SinaWeibo.bundle in Resources */,
+				1C1FBE5B16CB572A00FF3FBC /* setting.png in Resources */,
+				1C1FBE5E16CB59BE00FF3FBC /* user.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -636,6 +662,8 @@
 				1CE918C716C8B7A000AA5987 /* SinaWeiboAuthorizeView.m in Sources */,
 				1CE918C816C8B7A000AA5987 /* SinaWeiboRequest.m in Sources */,
 				1C38054816C920C200D3CDDD /* ShareViewController.m in Sources */,
+				1C1FBE6216CB5AD000FF3FBC /* SettingViewController.m in Sources */,
+				1C1FBE6916CB7B3300FF3FBC /* AccountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -215,8 +215,6 @@
             [delegate sinaweiboDidLogIn:self];
         }
     }
-    //zxx add to bring post status view after login
-    [self.delegate bringPostStatusView:self];
 }
 
 - (void)logInDidFailWithErrorInfo:(NSDictionary *)errorInfo
