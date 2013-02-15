@@ -77,8 +77,7 @@
             [fetcher close];
         }
         NSString *encodedString = [keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *url = [NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=20&lat=%f&lon=%f", encodedString, [self.lastLatitude floatValue], [self.lastLongitude floatValue]];
-        //NSLog(url);
+        NSString *url = [NSString stringWithFormat:@"http://106.187.34.224:3000/pois.json?name=%@", encodedString];
         fetcher = [[JSONFetcher alloc]
                                 initWithURLString: url
                                 receiver:self
@@ -91,7 +90,7 @@
 
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
-    NSArray *locations = [aFetcher.result objectForKey:@"items"];
+    NSArray *locations = aFetcher.result;
     if (locations) {
         allLocationList = [locations mutableCopy];
         [self.tableView reloadData];
@@ -126,16 +125,11 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
-    [[cell textLabel] setText:[locationAtIndex objectForKey: @"name"]];
-    [[cell detailTextLabel] setText:[locationAtIndex objectForKey: @"addr"]];
-     
-     NSArray *categories = [locationAtIndex objectForKey:@"categories"];
-    if ([categories count] > 0) {
-        NSDictionary *primaryCategory = [categories objectAtIndex:0];
-        NSString *category = [Location getLocationCategoryByJiepangCategoryId:[primaryCategory objectForKey:@"id"]];
-        
-        cell.imageView.image = [Location getCategoryIcon:category];
-    }
+    NSString *name = [locationAtIndex objectForKey: @"name"];
+    NSString *nameEn = [locationAtIndex objectForKey: @"name_en"];
+    [[cell textLabel] setText: name.length > 0 ? name : nameEn];
+    [[cell detailTextLabel] setText:[locationAtIndex objectForKey: @"address"]];
+    cell.imageView.image = [Location getCategoryIcon:[locationAtIndex objectForKey:@"category"]];
     return cell;
 }
 
@@ -143,16 +137,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
-    NSArray *categories = [locationAtIndex objectForKey:@"categories"];
-    NSDictionary *primaryCategory = [categories objectAtIndex:0];
-    NSString *category = [Location getLocationCategoryByJiepangCategoryId:[primaryCategory objectForKey:@"id"]];
+    NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row]; 
     Location *location = [Location alloc];
-    location.name = [locationAtIndex objectForKey:@"name"];
-    location.address = [locationAtIndex objectForKey:@"addr"];
-    location.category = category;
-    location.latitude = [locationAtIndex objectForKey:@"lat"];
-    location.longitude = [locationAtIndex objectForKey:@"lon"];
+    NSString *name = [locationAtIndex objectForKey: @"name"];
+    NSString *nameEn = [locationAtIndex objectForKey: @"name_en"];
+    location.name = name.length > 0 ? name : nameEn;
+    location.address = [locationAtIndex objectForKey:@"address"];
+    location.transportation = [locationAtIndex objectForKey:@"transport"];
+    location.category = [locationAtIndex objectForKey:@"category"];
+    location.latitude = [locationAtIndex objectForKey:@"latitude"];
+    location.longitude = [locationAtIndex objectForKey:@"longitude"];
     [self.delegate didAddLocation: location];
 }
 
