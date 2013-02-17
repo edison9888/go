@@ -76,7 +76,12 @@
             [fetcher cancel];
             [fetcher close];
         }
-        NSString *encodedString = [keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *encodedString = (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                       NULL,
+                                                                                       (CFStringRef)keyword,
+                                                                                       NULL,
+                                                                                       CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                                       kCFStringEncodingUTF8));
         NSString *url = [NSString stringWithFormat:@"http://106.187.34.224:3000/pois.json?name=%@", encodedString];
         fetcher = [[JSONFetcher alloc]
                                 initWithURLString: url
