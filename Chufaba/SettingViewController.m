@@ -7,7 +7,7 @@
 //
 
 #import "SettingViewController.h"
-#import "AccountViewController.h"
+#import "SocialAccountManager.h"
 
 @interface SettingViewController ()
 
@@ -27,6 +27,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.accountManager = [[SocialAccountManager alloc] init];
+    
+    if([self.accountManager.sinaweibo isAuthValid])
+    {
+        self.logoutCell.hidden = NO;
+    }
+    else
+    {
+        self.logoutCell.hidden = YES;
+    }
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -43,11 +53,22 @@
 
  - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-//    if ([[segue identifier] isEqualToString:@"AccountBinding"])
-//    {
+    if ([[segue identifier] isEqualToString:@"ShowLogin"])
+    {
+        LoginViewController *loginController = [segue destinationViewController];
+        //loginController.delegate = self;
+    }
+    else if ([[segue identifier] isEqualToString:@"AccountBinding"])
+    {
 //        AccountViewController *accountController = [segue destinationViewController];
-//        accountController.isSinaBinding.text
-//    }
+//        [accountController.sinaweibo logOut];
+    }
+}
+
+//implement loginviewcontroller delegate
+-(void) loginViewController:(LoginViewController *) controller updateDisplayName:(NSString *) displayName
+{
+    self.userName.text = displayName;
 }
 
 #pragma mark - Table view data source
@@ -95,20 +116,38 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    if(self.tableView.indexPathForSelectedRow.section == 0 && self.tableView.indexPathForSelectedRow.row == 0)
+    {
+        [self performSegueWithIdentifier:@"ShowLogin" sender:[tableView cellForRowAtIndexPath:indexPath]];
+    }
+    else if(self.tableView.indexPathForSelectedRow.section == 0 && self.tableView.indexPathForSelectedRow.row == 1)
+    {
+        [self performSegueWithIdentifier:@"AccountBinding" sender:[tableView cellForRowAtIndexPath:indexPath]];
+    }
+    else if(self.tableView.indexPathForSelectedRow.section == 2)
+    {
+        [self.accountManager.sinaweibo logOut];
+        self.logoutCell.hidden = YES;
+        self.userName.text = @"点击登录";
+    }
     
-//    AccountViewController *accountController = [[AccountViewController alloc] init];
-//    [self.navigationController pushViewController:accountController animated:YES];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (IBAction)saveSetting:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
+
+//implement socialaccountmanager delegate
+-(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName
+{
+    self.userName.text = displayName;
+}
+
+-(void) socialAccountManager:(SocialAccountManager *) manager updateLogoutcell:(BOOL) display
+{
+    self.logoutCell.hidden = display;
+}
+
 @end

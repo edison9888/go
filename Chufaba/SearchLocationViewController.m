@@ -158,6 +158,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.searchBar resignFirstResponder];
+    [self enableCancelButton:self.searchBar];
 }
 
 

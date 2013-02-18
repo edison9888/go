@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import "SinaWeibo.h"
 #import "SinaWeiboRequest.h"
 
@@ -16,6 +15,7 @@
     NSDictionary *userInfo;
 }
 
+@property (weak, nonatomic) SinaWeibo *sinaweibo;
 @property (weak, nonatomic) IBOutlet UILabel *isSinaBinding;
 
 @end

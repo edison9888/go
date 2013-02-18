@@ -745,10 +745,11 @@
     if([self hasOneLocation])
     {
         Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
-        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
-        [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
+        CLLocationCoordinate2D firstLocationCoordinate = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
+        //需要处理第一个地点经纬度有错误的问题
+        [self.mapView setCenterCoordinate:firstLocationCoordinate animated:YES];
         MKCoordinateRegion region;
-        region.center = customLoc2D_5;
+        region.center = firstLocationCoordinate;
         MKCoordinateSpan span;
         span.latitudeDelta = 0.4;
         span.longitudeDelta = 0.4;
