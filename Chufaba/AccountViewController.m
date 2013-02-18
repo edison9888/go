@@ -7,7 +7,6 @@
 //
 
 #import "AccountViewController.h"
-#import "ChufabaAppDelegate.h"
 
 @interface AccountViewController ()
 
@@ -27,14 +26,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    SinaWeibo *sinaweibo = [self sinaweibo];
-    if([sinaweibo isAuthValid])
+    if([self.accountManager.sinaweibo isAuthValid])
     {
-        [sinaweibo requestWithURL:@"users/show.json"
-                           params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
+        [self.accountManager.sinaweibo requestWithURL:@"users/show.json"
+                           params:[NSMutableDictionary dictionaryWithObject:self.accountManager.sinaweibo.userID forKey:@"uid"]
                        httpMethod:@"GET"
-                         delegate:self];
-        //self.isSinaBinding.text = [userInfo objectForKey:@"screen_name"];
+                         delegate:self.accountManager];
     }
     else
     {
@@ -48,106 +45,64 @@
     // Dispose of any resources that can be recreated.
 }
 
-//sina weibo part
-- (SinaWeibo *)sinaweibo
+//implement SocialAccountManagerDelegate
+-(void) socialAccountManager:(SocialAccountManager *) manager updateAccountView:(NSString *) displayName
 {
-    ChufabaAppDelegate *delegate = (ChufabaAppDelegate *)[UIApplication sharedApplication].delegate;
-    delegate.sinaweibo.delegate = self;
-    return delegate.sinaweibo;
+    self.isSinaBinding.text = displayName;
 }
 
-- (void)removeAuthData
+-(void) socialAccountManager:(SocialAccountManager *) manager deselectAccount:(NSIndexPath *) indexPath
 {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SinaWeiboAuthData"];
-}
-
-- (void)storeAuthData
-{
-    SinaWeibo *sinaweibo = [self sinaweibo];
-    
-    NSDictionary *authData = [NSDictionary dictionaryWithObjectsAndKeys:
-                              sinaweibo.accessToken, @"AccessTokenKey",
-                              sinaweibo.expirationDate, @"ExpirationDateKey",
-                              sinaweibo.userID, @"UserIDKey",
-                              sinaweibo.refreshToken, @"refresh_token", nil];
-    [[NSUserDefaults standardUserDefaults] setObject:authData forKey:@"SinaWeiboAuthData"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
+    if(selection)
+        [self.tableView deselectRowAtIndexPath:selection animated:YES];
 }
 
 #pragma mark - SinaWeibo Delegate
 
-- (void)sinaweiboDidLogIn:(SinaWeibo *)sinaweibo
-{
-    NSLog(@"sinaweiboDidLogIn userID = %@ accesstoken = %@ expirationDate = %@ refresh_token = %@", sinaweibo.userID, sinaweibo.accessToken, sinaweibo.expirationDate,sinaweibo.refreshToken);
+//- (void)sinaweiboDidLogIn:(SinaWeibo *)sinaweibo
+//{
+//    NSLog(@"sinaweiboDidLogIn userID = %@ accesstoken = %@ expirationDate = %@ refresh_token = %@", sinaweibo.userID, sinaweibo.accessToken, sinaweibo.expirationDate,sinaweibo.refreshToken);
+//
+//    [self storeAuthData];
+//    
+//    [sinaweibo requestWithURL:@"users/show.json"
+//                       params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
+//                   httpMethod:@"GET"
+//                     delegate:self];
+//    
+//    NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
+//	if (selection)
+//		[self.tableView deselectRowAtIndexPath:selection animated:YES];
+//}
+//
+//- (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
+//{
+//    NSLog(@"sinaweiboDidLogOut");
+//    [self removeAuthData];
+//    self.isSinaBinding.text = @"未绑定";
+//    
+//    NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
+//	if (selection)
+//		[self.tableView deselectRowAtIndexPath:selection animated:YES];
+//}
+//
+//- (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo
+//{
+//    NSLog(@"sinaweiboLogInDidCancel");
+//    NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
+//	if (selection)
+//		[self.tableView deselectRowAtIndexPath:selection animated:YES];
+//}
 
-    [self storeAuthData];
-    
-    [sinaweibo requestWithURL:@"users/show.json"
-                       params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
-                   httpMethod:@"GET"
-                     delegate:self];
-    
-    NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
-	if (selection)
-		[self.tableView deselectRowAtIndexPath:selection animated:YES];
-    
-    //self.isSinaBinding.text = [userInfo objectForKey:@"screen_name"];
-    //    ShareViewController *shareController = [[ShareViewController alloc] init];
-    //    shareController.delegate = self;
-    //
-    //    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareController];
-    //    [self presentViewController:navigationController animated:YES completion: nil];
-}
-
-- (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
-{
-    NSLog(@"sinaweiboDidLogOut");
-    [self removeAuthData];
-    self.isSinaBinding.text = @"未绑定";
-    
-    NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
-	if (selection)
-		[self.tableView deselectRowAtIndexPath:selection animated:YES];
-}
-
-- (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo
-{
-    NSLog(@"sinaweiboLogInDidCancel");
-    NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
-	if (selection)
-		[self.tableView deselectRowAtIndexPath:selection animated:YES];
-}
-
-- (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error
-{
-    NSLog(@"sinaweibo logInDidFailWithError %@", error);
-}
-
-- (void)sinaweibo:(SinaWeibo *)sinaweibo accessTokenInvalidOrExpired:(NSError *)error
-{
-    NSLog(@"sinaweiboAccessTokenInvalidOrExpired %@", error);
-    [self removeAuthData];
-    //[self resetButtons];
-}
-
-#pragma mark - SinaWeiboRequest Delegate
-
-- (void)request:(SinaWeiboRequest *)request didFailWithError:(NSError *)error
-{
-    if ([request.url hasSuffix:@"users/show.json"])
-    {
-        userInfo = nil;
-    }
-}
-
-- (void)request:(SinaWeiboRequest *)request didFinishLoadingWithResult:(id)result
-{
-    if ([request.url hasSuffix:@"users/show.json"])
-    {
-        userInfo = result;
-        self.isSinaBinding.text = [userInfo objectForKey:@"screen_name"];
-    }
-}
+//- (void)request:(SinaWeiboRequest *)request didFinishLoadingWithResult:(id)result
+//{
+//    if ([request.url hasSuffix:@"users/show.json"])
+//    {
+//        userInfo = result;
+//        self.isSinaBinding.text = [userInfo objectForKey:@"screen_name"];
+//    }
+//}
 
 #pragma mark - Table view delegate
 
@@ -156,8 +111,7 @@
     switch (indexPath.row) {
         case 0:
         {
-            SinaWeibo *sinaweibo = [self sinaweibo];
-            if([sinaweibo isAuthValid])
+            if([self.accountManager.sinaweibo isAuthValid])
             {
                 UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"解除", nil];
                 actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
@@ -165,7 +119,7 @@
             }
             else
             {
-                [sinaweibo logIn];
+                [self.accountManager.sinaweibo logIn];
             }
         }
             break;
@@ -184,8 +138,7 @@
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 0)
     {
-        SinaWeibo *sinaweibo = [self sinaweibo];
-        [sinaweibo logOut];
+        [self.accountManager.sinaweibo logOut];
     }
 }
 

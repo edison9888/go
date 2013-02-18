@@ -9,10 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SocialAccountManager.h"
 
-@interface LoginViewController : UIViewController
-{
-    NSDictionary *userInfo;
-}
+@interface LoginViewController : UIViewController 
 
 @property (strong, nonatomic) SocialAccountManager *accountManager;
 

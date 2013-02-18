@@ -14,8 +14,12 @@
 
 @protocol SocialAccountManagerDelegate<NSObject>
 
+@optional
 -(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName;
--(void) socialAccountManager:(SocialAccountManager *) manager updateLogoutcell:(BOOL) display;
+-(void) socialAccountManager:(SocialAccountManager *) manager updateLogoutcell:(BOOL) hide;
+-(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show;
+-(void) socialAccountManager:(SocialAccountManager *) manager updateAccountView:(NSString *) displayName;
+-(void) socialAccountManager:(SocialAccountManager *) manager deselectAccount:(NSIndexPath *) indexPath;
 
 @end
 

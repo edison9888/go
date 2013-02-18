@@ -7,15 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SinaWeibo.h"
-#import "SinaWeiboRequest.h"
+#import "SocialAccountManager.h"
 
-@interface AccountViewController : UITableViewController <SinaWeiboDelegate, SinaWeiboRequestDelegate,UIActionSheetDelegate>
-{
-    NSDictionary *userInfo;
-}
+@interface AccountViewController : UITableViewController <UIActionSheetDelegate, SocialAccountManagerDelegate>
 
-@property (weak, nonatomic) SinaWeibo *sinaweibo;
 @property (weak, nonatomic) IBOutlet UILabel *isSinaBinding;
+@property (strong, nonatomic) SocialAccountManager *accountManager;
 
 @end

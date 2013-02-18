@@ -11,6 +11,20 @@
 
 @implementation SocialAccountManager
 
+//- (id) init
+//{
+//    if(self = [super init])
+//    {
+//        self.delegate
+//    }
+//    return self;
+//}
+//
+//- (void) setDelegate:(id<SocialAccountManagerDelegate>)delegate
+//{
+//
+//}
+
 //sina weibo part
 - (SinaWeibo *)sinaweibo
 {
@@ -45,24 +59,45 @@
     
     [self storeAuthData];
     
+    //self.delegate
+    
     [sinaweibo requestWithURL:@"users/show.json"
                        params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
                    httpMethod:@"GET"
                      delegate:self];
-    
-    [self.delegate socialAccountManager:self updateLogoutcell:YES];
+    if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateLogoutcell:)])
+    {
+        [self.delegate socialAccountManager:self updateLogoutcell:NO];
+        [self.delegate socialAccountManager:self dismissLoginView:YES];
+    }
+    else if ([self.delegate respondsToSelector:@selector(socialAccountManager:deselectAccount:)])
+    {
+        [self.delegate socialAccountManager:self deselectAccount:nil];
+    }
 }
 
 - (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
 {
     NSLog(@"sinaweiboDidLogOut");
     [self removeAuthData];
-    [self.delegate socialAccountManager:self updateLogoutcell:NO];
+    if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateLogoutcell:)])
+    {
+        [self.delegate socialAccountManager:self updateLogoutcell:NO];
+    }
+    else if ([self.delegate respondsToSelector:@selector(socialAccountManager:deselectAccount:)])
+    {
+        [self.delegate socialAccountManager:self deselectAccount:nil];
+        [self.delegate socialAccountManager:self updateAccountView:@"未绑定"];
+    }
 }
 
 - (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo
 {
     NSLog(@"sinaweiboLogInDidCancel");
+    if ([self.delegate respondsToSelector:@selector(socialAccountManager:deselectAccount:)])
+    {
+        [self.delegate socialAccountManager:self deselectAccount:nil];
+    }
 }
 
 - (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error
@@ -92,7 +127,15 @@
     if ([request.url hasSuffix:@"users/show.json"])
     {
         userInfo = result;
-        [self.delegate socialAccountManager:self updateDisplayName:[userInfo objectForKey:@"screen_name"]];
+        
+        if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateDisplayName:)])
+        {
+            [self.delegate socialAccountManager:self updateDisplayName:[userInfo objectForKey:@"screen_name"]];
+        }
+        if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateAccountView:)])
+        {
+            [self.delegate socialAccountManager:self updateAccountView:[userInfo objectForKey:@"screen_name"]];
+        }        
     }
 }
 
