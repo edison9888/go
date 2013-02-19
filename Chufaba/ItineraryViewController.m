@@ -78,7 +78,7 @@
     for(int i=0;i<[self.dataController.masterTravelDayList count];i++)
     {
         for (Location *location in [self.dataController.masterTravelDayList objectAtIndex:i]) {
-            [annotations addObject:[LocationAnnotation annotationForLocation:location]];
+            [annotations addObject:[LocationAnnotation annotationForLocation:location ShowTitle:true]];
         }
     }
     return annotations;
@@ -930,7 +930,6 @@
         {
             NSIndexPath *indexPath = [self indexPathForTappedAnnotation];
             detailViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-            
         }
         detailViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:detailViewController.location]];
         detailViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
