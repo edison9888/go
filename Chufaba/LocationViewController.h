@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 @class Location;
 
 @protocol EditLocationDelegate<NSObject>
@@ -47,6 +48,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *costLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scheduleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
-@property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dayLabel;
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end

@@ -10,21 +10,22 @@
 
 @implementation LocationAnnotation
 
-+ (LocationAnnotation *)annotationForLocation:(Location *)location
++ (LocationAnnotation *)annotationForLocation:(Location *)location ShowTitle:(Boolean *)showTitle
 {
     LocationAnnotation *annotation = [[LocationAnnotation alloc] init];
     annotation.location = location;
+    annotation.showTitle = showTitle;
     return annotation;
 }
 
 - (NSString *)title
 {
-    return self.location.name;
+    return self.showTitle ? self.location.name : nil;    
 }
 
 - (NSString *)subtitle
 {
-    return self.location.category;
+    return self.showTitle ? self.location.category : nil;
 }
 
 - (CLLocationCoordinate2D)coordinate

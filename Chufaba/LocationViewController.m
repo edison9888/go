@@ -8,6 +8,7 @@
 
 #import "LocationViewController.h"
 #import "Location.h"
+#import "LocationAnnotation.h"
 #import "EditTransportViewController.h"
 #import "EditCostViewController.h"
 #import "EditDetailViewController.h"
@@ -49,8 +50,8 @@
     self.navigationItem.rightBarButtonItem = segmentBarItem;
     self.navigationItem.title = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
     
-//    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
-//    self.navigationItem.rightBarButtonItem = doneButton;
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+    self.navigationItem.leftBarButtonItem = doneButton;
 }
 
 - (IBAction) segmentAction:(id)sender
@@ -90,17 +91,6 @@
     [self.navigationController popViewControllerAnimated:true];
 }
 
-- (void)setLocation:(Location *) newLocation
-{
-    if (_location != newLocation) {
-        _location = newLocation;
-        
-        // Update the view.
-        [self configureView];
-        self.changed = false;
-    }
-}
-
 - (void)configureView
 {
     // Update the user interface for the detail item.
@@ -112,7 +102,7 @@
         [self configureCostCell];
         [self configureScheduleCell];
         self.detailLabel.text = self.location.detail;
-        self.categoryLabel.text = self.location.category;
+        [self configureMap];
     }
 }
 
@@ -137,6 +127,20 @@
         [formatter setTimeStyle:NSDateFormatterShortStyle];
         self.scheduleLabel.text = [NSString stringWithFormat:@"%@ - %@", [formatter stringFromDate:self.location.visitBegin] ?: @"", [formatter stringFromDate:self.location.visitEnd] ?: @""];
     }
+}
+
+- (void)configureMap
+{
+    CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
+    [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
+    MKCoordinateRegion region;
+    region.center = customLoc2D_5;
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.4;
+    span.longitudeDelta = 0.4;
+    region.span=span;
+    [self.mapView setRegion:region animated:TRUE];
+    [self.mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -200,7 +204,6 @@
 -(void) didEditCategory:(NSString *)category
 {
     self.location.category = category;
-    self.categoryLabel.text = category;
     self.changed = true;
 }
 
