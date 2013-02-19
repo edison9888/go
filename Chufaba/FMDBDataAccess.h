@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FMDatabase.h"
+#import "FMDatabaseAdditions.h"
 #import "FMResultSet.h"
 #import "Utility.h"
 #import "Plan.h"
@@ -22,5 +23,9 @@
 -(BOOL) insertTravelPlan:(Plan *) plan;
 -(BOOL) deleteTravelPlan:(Plan *) plan;
 -(BOOL) updateTravelPlan:(Plan *) plan;
+
+-(BOOL) userExist:(NSNumber *) service_uid logintype:(NSInteger) type;
+-(BOOL) createUser:(NSNumber *) service_uid accesstoken:(NSString *)token mainAccountType:(NSInteger) type;
+-(BOOL) unbindWeibo:(NSNumber *)weibo_id;
 
 @end

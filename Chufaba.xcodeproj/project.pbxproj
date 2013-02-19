@@ -10,6 +10,7 @@
 		132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 132D453516B5515200A1D3B0 /* NIDropDown.m */; };
 		1337E51716BBEBFE0039F257 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51616BBEBFE0039F257 /* MapKit.framework */; };
 		1337E51A16BBEC070039F257 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51916BBEC070039F257 /* CoreLocation.framework */; };
+		13628A1D16D3B0120032743B /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 13628A1C16D3B0120032743B /* FMDatabaseAdditions.m */; };
 		139DACA516BD554900B73AFA /* LocationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 139DACA416BD554900B73AFA /* LocationAnnotation.m */; };
 		13F9227816C3510700957327 /* previous.png in Resources */ = {isa = PBXBuildFile; fileRef = 13F9227516C3510700957327 /* previous.png */; };
 		13F9227916C3510700957327 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = 13F9227616C3510700957327 /* next.png */; };
@@ -94,6 +95,8 @@
 		132D453516B5515200A1D3B0 /* NIDropDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NIDropDown.m; sourceTree = "<group>"; };
 		1337E51616BBEBFE0039F257 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1337E51916BBEC070039F257 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		13628A1B16D3B0120032743B /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		13628A1C16D3B0120032743B /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
 		139DACA316BD554900B73AFA /* LocationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationAnnotation.h; sourceTree = "<group>"; };
 		139DACA416BD554900B73AFA /* LocationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationAnnotation.m; sourceTree = "<group>"; };
 		13F9227516C3510700957327 /* previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = previous.png; sourceTree = "<group>"; };
@@ -259,6 +262,8 @@
 		1C02972016B0DDC0003F676A /* FMDB */ = {
 			isa = PBXGroup;
 			children = (
+				13628A1B16D3B0120032743B /* FMDatabaseAdditions.h */,
+				13628A1C16D3B0120032743B /* FMDatabaseAdditions.m */,
 				1C02972116B0DE15003F676A /* FMDatabasePool.h */,
 				1C02972216B0DE15003F676A /* FMDatabasePool.m */,
 				1C02971A16B0DC86003F676A /* FMDatabase.h */,
@@ -676,6 +681,7 @@
 				1C1FBE6916CB7B3300FF3FBC /* AccountViewController.m in Sources */,
 				D22806AD16D2254E00CA2158 /* LoginViewController.m in Sources */,
 				D22806B116D2354500CA2158 /* SocialAccountManager.m in Sources */,
+				13628A1D16D3B0120032743B /* FMDatabaseAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

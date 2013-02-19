@@ -64,5 +64,71 @@
     return travelPlans;    
 }
 
+-(BOOL) userExist:(NSNumber *) service_uid logintype:(NSInteger) type
+{
+    BOOL flag = NO;
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];    
+    [db open];
+    
+    if (type == 1) {
+        if([db intForQuery:@"SELECT * FROM user WHERE weibo_uid = ?", service_uid] == 1)
+            flag = YES;
+    }
+    else if(type == 2)
+    {
+        if([db intForQuery:@"SELECT * FROM user WHERE qq_uid = ?", service_uid] == 1)
+            flag = YES;
+    }
+    else
+    {
+        if([db intForQuery:@"SELECT * FROM user WHERE douban_uid = ?", service_uid] == 1)
+            flag = YES;
+    }
+    
+    [db close];
+    return flag;
+}
+
+-(BOOL) createUser:(NSNumber *) service_uid accesstoken:(NSString *)token mainAccountType:(NSInteger) type
+{
+    BOOL success;
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    
+    double temp = [[NSDate date] timeIntervalSince1970];
+    NSNumber *dateToWriteDB = [NSNumber numberWithDouble:temp];
+    
+    NSNumber *typeToInsert = [NSNumber numberWithInt:type];
+    
+    if (type == 1)
+    {
+        success =  [db executeUpdate:@"INSERT INTO user (weibo_uid,weibo_token,register_time,main_account) VALUES (?,?,?,?);",service_uid,token,dateToWriteDB,typeToInsert,nil];
+    }
+    else if(type == 2)
+    {
+        success =  [db executeUpdate:@"INSERT INTO user (qq_uid,qq_token,register_time,main_account) VALUES (?,?,?,?);",service_uid,token,dateToWriteDB,typeToInsert,nil];
+    }
+    else
+    {
+        success =  [db executeUpdate:@"INSERT INTO user (douban_uid,douban_token,register_time,main_account) VALUES (?,?,?,?);",service_uid,token,dateToWriteDB,typeToInsert,nil];
+    }
+    
+    [db close];
+    return success;
+}
+
+-(BOOL) unbindWeibo:(NSNumber *)weibo_id
+{
+    BOOL success;
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    
+    success = [db executeUpdate:@"UPDATE user SET weibo_token = '' WHERE weibo_id = ?", weibo_id];
+    
+    [db close];
+    return success;
+}
+
 @end
 

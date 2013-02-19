@@ -8,22 +8,41 @@
 
 #import "SocialAccountManager.h"
 #import "ChufabaAppDelegate.h"
+#import "FMDBDataAccess.h"
 
 @implementation SocialAccountManager
 
-//- (id) init
-//{
-//    if(self = [super init])
-//    {
-//        self.delegate
-//    }
-//    return self;
-//}
-//
-//- (void) setDelegate:(id<SocialAccountManagerDelegate>)delegate
-//{
-//
-//}
+- (BOOL) hasLogin
+{
+    SinaWeibo *sinaweibo = [self sinaweibo];
+    if(sinaweibo.isLoggedIn)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+- (BOOL) isWeiboAuthValid
+{
+    SinaWeibo *sinaweibo = [self sinaweibo];
+    if(sinaweibo.isAuthValid)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+- (NSString *)getWeiboUid
+{
+    SinaWeibo *sinaweibo = [self sinaweibo];
+    return sinaweibo.userID;
+}
 
 //sina weibo part
 - (SinaWeibo *)sinaweibo
@@ -59,20 +78,24 @@
     
     [self storeAuthData];
     
-    //self.delegate
-    
     [sinaweibo requestWithURL:@"users/show.json"
                        params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
                    httpMethod:@"GET"
                      delegate:self];
-    if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateLogoutcell:)])
+    if ([self.delegate respondsToSelector:@selector(socialAccountManager:dismissLoginView:)])
     {
-        [self.delegate socialAccountManager:self updateLogoutcell:NO];
         [self.delegate socialAccountManager:self dismissLoginView:YES];
     }
-    else if ([self.delegate respondsToSelector:@selector(socialAccountManager:deselectAccount:)])
+    
+    FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
+    
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    //新建一个用户，如果该weibo_uid不存在
+    if(![dba userExist:[f numberFromString:sinaweibo.userID] logintype:1])
     {
-        [self.delegate socialAccountManager:self deselectAccount:nil];
+        [dba createUser:[f numberFromString:sinaweibo.userID] accesstoken:sinaweibo.accessToken mainAccountType:1];
     }
 }
 
@@ -80,24 +103,15 @@
 {
     NSLog(@"sinaweiboDidLogOut");
     [self removeAuthData];
-    if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateLogoutcell:)])
-    {
-        [self.delegate socialAccountManager:self updateLogoutcell:NO];
-    }
-    else if ([self.delegate respondsToSelector:@selector(socialAccountManager:deselectAccount:)])
-    {
-        [self.delegate socialAccountManager:self deselectAccount:nil];
-        [self.delegate socialAccountManager:self updateAccountView:@"未绑定"];
-    }
+//    if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateAccountView:)])
+//    {
+//        [self.delegate socialAccountManager:self updateAccountView:@"未绑定"];
+//    }
 }
 
 - (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo
 {
     NSLog(@"sinaweiboLogInDidCancel");
-    if ([self.delegate respondsToSelector:@selector(socialAccountManager:deselectAccount:)])
-    {
-        [self.delegate socialAccountManager:self deselectAccount:nil];
-    }
 }
 
 - (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error

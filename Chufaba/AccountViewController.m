@@ -7,6 +7,7 @@
 //
 
 #import "AccountViewController.h"
+#import "FMDBDataAccess.h"
 
 @interface AccountViewController ()
 
@@ -51,59 +52,6 @@
     self.isSinaBinding.text = displayName;
 }
 
--(void) socialAccountManager:(SocialAccountManager *) manager deselectAccount:(NSIndexPath *) indexPath
-{
-    NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
-    if(selection)
-        [self.tableView deselectRowAtIndexPath:selection animated:YES];
-}
-
-#pragma mark - SinaWeibo Delegate
-
-//- (void)sinaweiboDidLogIn:(SinaWeibo *)sinaweibo
-//{
-//    NSLog(@"sinaweiboDidLogIn userID = %@ accesstoken = %@ expirationDate = %@ refresh_token = %@", sinaweibo.userID, sinaweibo.accessToken, sinaweibo.expirationDate,sinaweibo.refreshToken);
-//
-//    [self storeAuthData];
-//    
-//    [sinaweibo requestWithURL:@"users/show.json"
-//                       params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
-//                   httpMethod:@"GET"
-//                     delegate:self];
-//    
-//    NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
-//	if (selection)
-//		[self.tableView deselectRowAtIndexPath:selection animated:YES];
-//}
-//
-//- (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
-//{
-//    NSLog(@"sinaweiboDidLogOut");
-//    [self removeAuthData];
-//    self.isSinaBinding.text = @"未绑定";
-//    
-//    NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
-//	if (selection)
-//		[self.tableView deselectRowAtIndexPath:selection animated:YES];
-//}
-//
-//- (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo
-//{
-//    NSLog(@"sinaweiboLogInDidCancel");
-//    NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
-//	if (selection)
-//		[self.tableView deselectRowAtIndexPath:selection animated:YES];
-//}
-
-//- (void)request:(SinaWeiboRequest *)request didFinishLoadingWithResult:(id)result
-//{
-//    if ([request.url hasSuffix:@"users/show.json"])
-//    {
-//        userInfo = result;
-//        self.isSinaBinding.text = [userInfo objectForKey:@"screen_name"];
-//    }
-//}
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -138,7 +86,13 @@
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 0)
     {
-        [self.accountManager.sinaweibo logOut];
+        //update the binding status
+        FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
+        
+        NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+        [f setNumberStyle:NSNumberFormatterDecimalStyle];
+        
+        [dba unbindWeibo:[f numberFromString:[self.accountManager getWeiboUid]]];
     }
 }
 

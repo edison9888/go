@@ -30,36 +30,25 @@
     [super viewDidLoad];
     self.accountManager = [[SocialAccountManager alloc] init];
     self.accountManager.delegate = self;
-    
-//    if([self.accountManager.sinaweibo isAuthValid])
-//    {
-//        self.logoutCell.hidden = NO;
-//        [self.accountManager.sinaweibo requestWithURL:@"users/show.json"
-//                           params:[NSMutableDictionary dictionaryWithObject:self.accountManager.sinaweibo.userID forKey:@"uid"]
-//                       httpMethod:@"GET"
-//                         delegate:self.accountManager];
-//    }
-//    else
-//    {
-//        self.logoutCell.hidden = YES;
-//        self.userName.text = @"点击登录";
-//    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if([self.accountManager.sinaweibo isAuthValid])
+    if([self.accountManager hasLogin])
     {
         self.logoutCell.hidden = NO;
-        [self.accountManager.sinaweibo requestWithURL:@"users/show.json"
-                                               params:[NSMutableDictionary dictionaryWithObject:self.accountManager.sinaweibo.userID forKey:@"uid"]
-                                           httpMethod:@"GET"
-                                             delegate:self.accountManager];
     }
     else
     {
         self.logoutCell.hidden = YES;
         self.userName.text = @"点击登录";
+    }
+    if([self.accountManager isWeiboAuthValid])
+    {
+        [self.accountManager.sinaweibo requestWithURL:@"users/show.json"
+                                               params:[NSMutableDictionary dictionaryWithObject:self.accountManager.sinaweibo.userID forKey:@"uid"]
+                                           httpMethod:@"GET"
+                                             delegate:self.accountManager];
     }
 }
 
@@ -90,14 +79,22 @@
 {
     if(self.tableView.indexPathForSelectedRow.section == 0 && self.tableView.indexPathForSelectedRow.row == 0)
     {
-        if(![self.accountManager.sinaweibo isAuthValid])
+        //if(![self.accountManager.sinaweibo isAuthValid])
+        if(![self.accountManager hasLogin])
         {
             [self performSegueWithIdentifier:@"ShowLogin" sender:[tableView cellForRowAtIndexPath:indexPath]];
         }
     }
     else if(self.tableView.indexPathForSelectedRow.section == 0 && self.tableView.indexPathForSelectedRow.row == 1)
     {
-        [self performSegueWithIdentifier:@"AccountBinding" sender:[tableView cellForRowAtIndexPath:indexPath]];
+        if([self.accountManager hasLogin])
+        {
+            [self performSegueWithIdentifier:@"AccountBinding" sender:[tableView cellForRowAtIndexPath:indexPath]];
+        }
+        else
+        {
+            [self performSegueWithIdentifier:@"ShowLogin" sender:[tableView cellForRowAtIndexPath:indexPath]];
+        }
     }
     else if(self.tableView.indexPathForSelectedRow.section == 2)
     {
@@ -118,11 +115,6 @@
 -(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName
 {
     self.userName.text = displayName;
-}
-
--(void) socialAccountManager:(SocialAccountManager *) manager updateLogoutcell:(BOOL) hide
-{
-    self.logoutCell.hidden = hide;
 }
 
 -(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show

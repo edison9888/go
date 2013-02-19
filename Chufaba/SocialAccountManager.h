@@ -16,10 +16,8 @@
 
 @optional
 -(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName;
--(void) socialAccountManager:(SocialAccountManager *) manager updateLogoutcell:(BOOL) hide;
 -(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show;
 -(void) socialAccountManager:(SocialAccountManager *) manager updateAccountView:(NSString *) displayName;
--(void) socialAccountManager:(SocialAccountManager *) manager deselectAccount:(NSIndexPath *) indexPath;
 
 @end
 
@@ -28,6 +26,11 @@
     NSDictionary *userInfo;
 }
 
+- (BOOL) hasLogin;
+- (BOOL) isWeiboAuthValid;
+- (NSString *)getWeiboUid;
+
+//@property (nonatomic,assign) BOOL hasLogin;
 @property (weak, nonatomic) SinaWeibo *sinaweibo;
 @property (nonatomic,weak) id<SocialAccountManagerDelegate> delegate;
 

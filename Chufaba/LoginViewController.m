@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "ChufabaAppDelegate.h"
 
+
 @interface LoginViewController ()
 
 @end
@@ -46,8 +47,9 @@
     
 }
 
-- (IBAction)login:(id)sender
+- (IBAction)doubanLogin:(id)sender
 {
     
 }
+
 @end

@@ -15,6 +15,6 @@
 
 - (IBAction)weiboLogin:(id)sender;
 - (IBAction)qqLogin:(id)sender;
-- (IBAction)login:(id)sender;
+- (IBAction)doubanLogin:(id)sender;
 
 @end
