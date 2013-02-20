@@ -151,7 +151,13 @@
     location.transportation = [locationAtIndex objectForKey:@"transport"];
     location.category = [locationAtIndex objectForKey:@"category"];
     location.latitude = [locationAtIndex objectForKey:@"latitude"];
+    if ([location.latitude intValue] == 10000) {
+        location.latitude = nil;
+    }
     location.longitude = [locationAtIndex objectForKey:@"longitude"];
+    if ([location.longitude intValue] == 10000) {
+        location.longitude = nil;
+    }
     [self.delegate didAddLocation: location];
 }
 
