@@ -17,8 +17,6 @@
 
 @interface LocationViewController ()
 
-@property (nonatomic) BOOL changed;
-
 - (void)configureView;
 
 @end
@@ -49,9 +47,6 @@
     
     self.navigationItem.rightBarButtonItem = segmentBarItem;
     self.navigationItem.title = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
-    
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
-    self.navigationItem.leftBarButtonItem = doneButton;
 }
 
 - (IBAction) segmentAction:(id)sender
@@ -83,14 +78,6 @@
     }
 }
 
-- (void)done
-{
-    if (self.changed) {
-        [self.delegate didChangeLocation:self.location];
-    }
-    [self.navigationController popViewControllerAnimated:true];
-}
-
 - (void)configureView
 {
     // Update the user interface for the detail item.
@@ -103,6 +90,8 @@
         [self configureScheduleCell];
         self.detailLabel.text = self.location.detail;
         [self configureMap];
+        int day = self.day;
+        self.dayLabel.text = [NSString stringWithFormat:@"第 %d 天", day + 1];
     }
 }
 
@@ -131,16 +120,18 @@
 
 - (void)configureMap
 {
-    CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
-    [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
-    MKCoordinateRegion region;
-    region.center = customLoc2D_5;
-    MKCoordinateSpan span;
-    span.latitudeDelta = 0.4;
-    span.longitudeDelta = 0.4;
-    region.span=span;
-    [self.mapView setRegion:region animated:TRUE];
-    [self.mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
+    if ([self.location.latitude intValue] != 10000) {
+        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
+        [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
+        MKCoordinateRegion region;
+        region.center = customLoc2D_5;
+        MKCoordinateSpan span;
+        span.latitudeDelta = 0.4;
+        span.longitudeDelta = 0.4;
+        region.span=span;
+        [self.mapView setRegion:region animated:TRUE];
+        [self.mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -175,7 +166,7 @@
 {
     self.location.transportation = transportation;
     self.transportationLabel.text = transportation;
-    self.changed = true;
+    [self.delegate didChangeLocation:self.location];
 }
 
 -(void) didEditCostWithAmount:(NSNumber *)amount AndCurrency:(NSString *)currency
@@ -183,7 +174,7 @@
     self.location.cost = amount;
     self.location.currency = currency;
     [self configureCostCell];
-    self.changed = true;
+    [self.delegate didChangeLocation:self.location];
 }
 
 -(void) didEditScheduleWithStart:(NSDate *)start AndEnd:(NSDate *)end
@@ -191,20 +182,20 @@
     self.location.visitBegin = start;
     self.location.visitEnd = end;
     [self configureScheduleCell];
-    self.changed = true;
+    [self.delegate didChangeLocation:self.location];
 }
 
 -(void) didEditDetail:(NSString *)detail
 {
     self.location.detail = detail;
     self.detailLabel.text = detail;
-    self.changed = true;
+    [self.delegate didChangeLocation:self.location];
 }
 
 -(void) didEditCategory:(NSString *)category
 {
     self.location.category = category;
-    self.changed = true;
+    [self.delegate didChangeLocation:self.location];
 }
 
 - (void)didReceiveMemoryWarning

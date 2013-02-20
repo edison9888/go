@@ -756,7 +756,7 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
     //[db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category,latitude,longitude) VALUES (?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,location.name,location.address,location.category,location.latitude,location.longitude];
+    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,transportation,category,latitude,longitude) VALUES (?,?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,location.name,location.address,location.transportation,location.category,location.latitude,location.longitude];
     [db close];
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -895,18 +895,20 @@
     self.tableView.contentInset = UIEdgeInsetsZero;
     if ([[segue identifier] isEqualToString:@"ShowLocationDetails"]) {
         LocationViewController *detailViewController = [segue destinationViewController];
+        NSIndexPath *indexPath = nil;
         if (self.mapView.isHidden)
         {
-            detailViewController.location = [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+            indexPath = [self.tableView indexPathForSelectedRow];
             detailViewController.delegate = self;
         }
         else
         {
-            NSIndexPath *indexPath = [self indexPathForTappedAnnotation];
-            detailViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+            indexPath = [self indexPathForTappedAnnotation];
         }
+        detailViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         detailViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:detailViewController.location]];
         detailViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
+        detailViewController.day = indexPath.section;
         detailViewController.navDelegate = self;
     }
     else if ([[segue identifier] isEqualToString:@"SearchLocation"])
