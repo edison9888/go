@@ -133,6 +133,17 @@
     return [NSIndexPath indexPathForRow:row inSection:section];
 }
 
+- (NSInteger) oneDimensionCountOfIndexPath:(NSIndexPath *)indexPath
+{
+    int count = 0;
+    for(int i=0;i<indexPath.section;i++)
+    {
+        count += [self.tableView numberOfRowsInSection:i];
+    }
+    count = count+ indexPath.row +1;
+    return count;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -735,7 +746,9 @@
         [[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] addObject:location];
     }
     
-    //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue] inSection:[self.dayToAdd intValue]];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue]-2 inSection:[self.dayToAdd intValue]-1];
+    NSInteger indexToInsert = [self oneDimensionCountOfIndexPath:indexPath];
+    [oneDimensionLocationList insertObject:location atIndex:indexToInsert];
     //[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView reloadData];
     
@@ -935,9 +948,11 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:indexPath] - 1;
         Location *locationToDelete = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         [[self.dataController objectInListAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [oneDimensionLocationList removeObjectAtIndex:deleteIndex];
         
         //delete travel location in database
         FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
