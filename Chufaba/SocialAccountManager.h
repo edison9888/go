@@ -15,10 +15,9 @@
 @protocol SocialAccountManagerDelegate<NSObject>
 
 @optional
--(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName;
+-(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName updateProfileImg:(NSString *) url;
 -(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show;
--(void) socialAccountManager:(SocialAccountManager *) manager updateAccountView:(NSString *) displayName;
-
+-(void) socialAccountManager:(SocialAccountManager *) manager updateShareView:(BOOL) hasLogin;
 @end
 
 @interface SocialAccountManager : NSObject <SinaWeiboDelegate, SinaWeiboRequestDelegate>
@@ -30,7 +29,6 @@
 - (BOOL) isWeiboAuthValid;
 - (NSString *)getWeiboUid;
 
-//@property (nonatomic,assign) BOOL hasLogin;
 @property (weak, nonatomic) SinaWeibo *sinaweibo;
 @property (nonatomic,weak) id<SocialAccountManagerDelegate> delegate;
 

@@ -10,7 +10,7 @@
 
 @implementation LocationAnnotation
 
-+ (LocationAnnotation *)annotationForLocation:(Location *)location ShowTitle:(Boolean *)showTitle
++ (LocationAnnotation *)annotationForLocation:(Location *)location ShowTitle:(BOOL)showTitle
 {
     LocationAnnotation *annotation = [[LocationAnnotation alloc] init];
     annotation.location = location;

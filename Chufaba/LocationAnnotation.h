@@ -12,9 +12,9 @@
 
 @interface LocationAnnotation : NSObject <MKAnnotation>
 
-+ (LocationAnnotation *)annotationForLocation:(Location *)location ShowTitle:(Boolean *)showTitle;
++ (LocationAnnotation *)annotationForLocation:(Location *)location ShowTitle:(BOOL)showTitle;
 
 @property (nonatomic, strong) Location *location;
-@property (nonatomic) Boolean *showTitle;
+@property (nonatomic, assign) BOOL showTitle;
 
 @end

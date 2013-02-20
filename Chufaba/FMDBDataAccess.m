@@ -118,17 +118,17 @@
     return success;
 }
 
--(BOOL) unbindWeibo:(NSNumber *)weibo_id
-{
-    BOOL success;
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    
-    success = [db executeUpdate:@"UPDATE user SET weibo_token = '' WHERE weibo_id = ?", weibo_id];
-    
-    [db close];
-    return success;
-}
+//-(BOOL) unbindWeibo:(NSNumber *)weibo_id
+//{
+//    BOOL success;
+//    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+//    [db open];
+//    
+//    success = [db executeUpdate:@"UPDATE user SET weibo_token = '' WHERE weibo_id = ?", weibo_id];
+//    
+//    [db close];
+//    return success;
+//}
 
 @end
 

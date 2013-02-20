@@ -86,6 +86,10 @@
     {
         [self.delegate socialAccountManager:self dismissLoginView:YES];
     }
+    if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateShareView:)])
+    {
+        [self.delegate socialAccountManager:self updateShareView:YES];
+    }
     
     FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
     
@@ -103,10 +107,6 @@
 {
     NSLog(@"sinaweiboDidLogOut");
     [self removeAuthData];
-//    if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateAccountView:)])
-//    {
-//        [self.delegate socialAccountManager:self updateAccountView:@"未绑定"];
-//    }
 }
 
 - (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo
@@ -123,7 +123,6 @@
 {
     NSLog(@"sinaweiboAccessTokenInvalidOrExpired %@", error);
     [self removeAuthData];
-    //[self resetButtons];
 }
 
 #pragma mark - SinaWeiboRequest Delegate
@@ -142,14 +141,10 @@
     {
         userInfo = result;
         
-        if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateDisplayName:)])
+        if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateDisplayName:updateProfileImg:)])
         {
-            [self.delegate socialAccountManager:self updateDisplayName:[userInfo objectForKey:@"screen_name"]];
-        }
-        if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateAccountView:)])
-        {
-            [self.delegate socialAccountManager:self updateAccountView:[userInfo objectForKey:@"screen_name"]];
-        }        
+            [self.delegate socialAccountManager:self updateDisplayName:[userInfo objectForKey:@"screen_name"] updateProfileImg:[userInfo objectForKey:@"profile_image_url"]];
+        }     
     }
 }
 

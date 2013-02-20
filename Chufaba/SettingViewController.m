@@ -8,7 +8,6 @@
 
 #import "SettingViewController.h"
 #import "LoginViewController.h"
-#import "AccountViewController.h"
 
 @interface SettingViewController ()
 
@@ -34,6 +33,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    //self.loginCell.imageView.frame =  CGRectMake(0,0,50,50);
     if([self.accountManager hasLogin])
     {
         self.logoutCell.hidden = NO;
@@ -42,6 +42,7 @@
     {
         self.logoutCell.hidden = YES;
         self.userName.text = @"点击登录";
+        self.loginCell.imageView.image = [UIImage imageNamed:@"user.png"];
     }
     if([self.accountManager isWeiboAuthValid])
     {
@@ -65,42 +66,24 @@
         loginController.accountManager = [[SocialAccountManager alloc] init];
         loginController.accountManager.delegate = self;
     }
-    else if ([[segue identifier] isEqualToString:@"AccountBinding"])
-    {
-        AccountViewController *accountController = [segue destinationViewController];
-        accountController.accountManager = [[SocialAccountManager alloc] init];
-        accountController.accountManager.delegate = accountController;
-    }
 }
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(self.tableView.indexPathForSelectedRow.section == 0 && self.tableView.indexPathForSelectedRow.row == 0)
+    if(self.tableView.indexPathForSelectedRow.section == 0)
     {
-        //if(![self.accountManager.sinaweibo isAuthValid])
         if(![self.accountManager hasLogin])
-        {
-            [self performSegueWithIdentifier:@"ShowLogin" sender:[tableView cellForRowAtIndexPath:indexPath]];
-        }
-    }
-    else if(self.tableView.indexPathForSelectedRow.section == 0 && self.tableView.indexPathForSelectedRow.row == 1)
-    {
-        if([self.accountManager hasLogin])
-        {
-            [self performSegueWithIdentifier:@"AccountBinding" sender:[tableView cellForRowAtIndexPath:indexPath]];
-        }
-        else
         {
             [self performSegueWithIdentifier:@"ShowLogin" sender:[tableView cellForRowAtIndexPath:indexPath]];
         }
     }
     else if(self.tableView.indexPathForSelectedRow.section == 2)
     {
-        [self.accountManager.sinaweibo logOut];
-        self.logoutCell.hidden = YES;
-        self.userName.text = @"点击登录";
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"你确定登出账户吗？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"确定", nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+        [actionSheet showInView:self.view];
     }
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -112,14 +95,27 @@
 }
 
 //implement socialaccountmanager delegate
--(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName
+-(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName updateProfileImg:(NSString *) url
 {
     self.userName.text = displayName;
+    self.loginCell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
+    [self.loginCell setNeedsLayout];
 }
 
 -(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+//UIActionSheetDelegate
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex == 0)
+    {
+        [self.accountManager.sinaweibo logOut];
+        self.logoutCell.hidden = YES;
+        self.userName.text = @"点击登录";
+        self.loginCell.imageView.image = [UIImage imageNamed:@"user.png"];
+    }
 }
 
 @end

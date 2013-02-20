@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "SocialAccountManager.h"
 
-@interface SettingViewController : UITableViewController <SocialAccountManagerDelegate>
+@interface SettingViewController : UITableViewController <SocialAccountManagerDelegate, UIActionSheetDelegate>
 
 @property (strong, nonatomic) SocialAccountManager *accountManager;
 
+@property (weak, nonatomic) IBOutlet UITableViewCell *loginCell;
 @property (weak, nonatomic) IBOutlet UILabel *userName;
 @property (weak, nonatomic) IBOutlet UILabel *userEmail;
 @property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;

@@ -78,7 +78,7 @@
     for(int i=0;i<[self.dataController.masterTravelDayList count];i++)
     {
         for (Location *location in [self.dataController.masterTravelDayList objectAtIndex:i]) {
-            [annotations addObject:[LocationAnnotation annotationForLocation:location ShowTitle:true]];
+            [annotations addObject:[LocationAnnotation annotationForLocation:location ShowTitle:YES]];
         }
     }
     return annotations;
@@ -530,20 +530,19 @@
 
 - (void) showShareMenu:(PullDownMenuView *)view
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到新浪微博", @"分享给微信好友", @"分享到微信朋友圈", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到社交网络", @"分享给微信好友", @"分享到微信朋友圈", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
     [actionSheet showInView:self.view];
 }
 
 //Implement UIActionSheetDeleg
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    //SinaWeibo *sinaweibo = [self sinaweibo];
+    self.tableView.contentInset = UIEdgeInsetsZero;
     if(buttonIndex == 0)
     {        
-        //BOOL sinaEnabled = [sinaweibo isAuthValid];
         ShareViewController *shareController = [[ShareViewController alloc] init];
-        shareController.delegate = self;
-        //shareController.socialServiceEnabled = [[NSArray alloc] initWithObjects:[NSNumber numberWithBool:sinaEnabled], nil];
+        shareController.accountManager = [[SocialAccountManager alloc] init];
+        shareController.accountManager.delegate = shareController;
         
         // Create the navigation controller and present it.
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareController];
@@ -558,44 +557,6 @@
 
     }
 }
-
-//Implement ShareViewController delegate
-//- (void)ShareViewController:(ShareViewController *)ShareViewController didConfirmShare:(NSString *)content
-//{
-//    //postStatusText = nil;
-//    //postStatusText = [[NSString alloc] initWithFormat:@"test post status haha: %@", [NSDate date]];
-//    SinaWeibo *sinaweibo = [self sinaweibo];
-//    [sinaweibo requestWithURL:@"statuses/update.json"
-//                       params:[NSMutableDictionary dictionaryWithObjectsAndKeys:content, @"status", nil]
-//                   httpMethod:@"POST"
-//                     delegate:self];
-//    
-//    [self dismissViewControllerAnimated:YES completion: nil];
-//    self.tableView.contentInset = UIEdgeInsetsZero;
-//}
-//
-//- (void)ShareViewController:(ShareViewController *)ShareViewController didCancelShare:(NSString *)content
-//{
-//    [self dismissViewControllerAnimated:YES completion: nil];
-//    self.tableView.contentInset = UIEdgeInsetsZero;
-//}
-//
-//- (void)ShareViewController:(ShareViewController *)ShareViewController doWeiboOauth:(NSString *)content
-//{
-//    SinaWeibo *sinaweibo = [self sinaweibo];
-//    if([sinaweibo isAuthValid])
-//    {
-//        [sinaweibo logOut];
-//        //ShareViewController.navigationItem.rightBarButtonItem = nil;
-//    }
-//    else
-//    {
-//        userInfo = nil;
-//        statuses = nil;
-//        [sinaweibo logIn];
-//        //ShareViewController.navigationItem.rightBarButtonItem = ShareViewController.confirmBtnBackup;
-//    }
-//}
 
 //Implement AddPlanViewControllerDelegate
 - (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller

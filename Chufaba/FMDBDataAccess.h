@@ -26,6 +26,6 @@
 
 -(BOOL) userExist:(NSNumber *) service_uid logintype:(NSInteger) type;
 -(BOOL) createUser:(NSNumber *) service_uid accesstoken:(NSString *)token mainAccountType:(NSInteger) type;
--(BOOL) unbindWeibo:(NSNumber *)weibo_id;
+//-(BOOL) unbindWeibo:(NSNumber *)weibo_id;
 
 @end

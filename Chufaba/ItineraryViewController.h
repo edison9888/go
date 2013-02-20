@@ -34,7 +34,7 @@
 
 @end
 
-@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, ShareViewControllerDelegate>
+@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
@@ -46,10 +46,7 @@
 - (BOOL) hasOneLocation;
 - (NSIndexPath *) indexPathForTappedAnnotation;
 
-//@property (readonly, nonatomic) SinaWeibo *sinaweibo;
-
 //JTGesture code
-//@property (nonatomic, strong) NSMutableArray *rows;
 @property (nonatomic, strong) JTTableViewGestureRecognizer *tableViewRecognizer;
 @property (nonatomic, strong) id grabbedObject;
 

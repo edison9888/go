@@ -28,7 +28,6 @@
 		1C1FBE5B16CB572A00FF3FBC /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C1FBE5A16CB572A00FF3FBC /* setting.png */; };
 		1C1FBE5E16CB59BE00FF3FBC /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C1FBE5D16CB59BE00FF3FBC /* user.png */; };
 		1C1FBE6216CB5AD000FF3FBC /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1FBE6116CB5AD000FF3FBC /* SettingViewController.m */; };
-		1C1FBE6916CB7B3300FF3FBC /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1FBE6816CB7B3300FF3FBC /* AccountViewController.m */; };
 		1C38053516C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C38053216C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a */; };
 		1C38054816C920C200D3CDDD /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C38054716C920C200D3CDDD /* ShareViewController.m */; };
 		1C428A4816ABE4AB00416C47 /* SearchLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C428A4716ABE4AB00416C47 /* SearchLocationViewController.m */; };
@@ -128,8 +127,6 @@
 		1C1FBE5D16CB59BE00FF3FBC /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		1C1FBE6016CB5AD000FF3FBC /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		1C1FBE6116CB5AD000FF3FBC /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
-		1C1FBE6716CB7B3300FF3FBC /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
-		1C1FBE6816CB7B3300FF3FBC /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
 		1C38053216C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK_armv7_armv7s.a; sourceTree = "<group>"; };
 		1C38053316C903F600D3CDDD /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		1C38053416C903F600D3CDDD /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
@@ -311,8 +308,6 @@
 			children = (
 				1C1FBE6016CB5AD000FF3FBC /* SettingViewController.h */,
 				1C1FBE6116CB5AD000FF3FBC /* SettingViewController.m */,
-				1C1FBE6716CB7B3300FF3FBC /* AccountViewController.h */,
-				1C1FBE6816CB7B3300FF3FBC /* AccountViewController.m */,
 				D22806AB16D2254E00CA2158 /* LoginViewController.h */,
 				D22806AC16D2254E00CA2158 /* LoginViewController.m */,
 				D22806AF16D2354500CA2158 /* SocialAccountManager.h */,
@@ -694,7 +689,6 @@
 				1CE918C816C8B7A000AA5987 /* SinaWeiboRequest.m in Sources */,
 				1C38054816C920C200D3CDDD /* ShareViewController.m in Sources */,
 				1C1FBE6216CB5AD000FF3FBC /* SettingViewController.m in Sources */,
-				1C1FBE6916CB7B3300FF3FBC /* AccountViewController.m in Sources */,
 				D22806AD16D2254E00CA2158 /* LoginViewController.m in Sources */,
 				D22806B116D2354500CA2158 /* SocialAccountManager.m in Sources */,
 				13628A1D16D3B0120032743B /* FMDatabaseAdditions.m in Sources */,
