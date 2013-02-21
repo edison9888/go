@@ -39,7 +39,6 @@
 @property (strong, nonatomic) Location *location;
 @property (strong, nonatomic) NSNumber *locationIndex;
 @property (strong, nonatomic) NSNumber *totalLocationCount;
-@property (nonatomic, assign) NSInteger day;
 @property (nonatomic,weak) id<AddLocationDelegate> delegate;
 @property (nonatomic,weak) id<NavigateLocationDelegate> navDelegate;
 

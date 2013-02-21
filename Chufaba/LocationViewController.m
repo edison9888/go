@@ -14,6 +14,7 @@
 #import "EditDetailViewController.h"
 #import "EditScheduleViewController.h"
 #import "EditCategoryViewController.h"
+#import "LocationMapViewController.h"
 
 @interface LocationViewController ()
 
@@ -90,8 +91,7 @@
         [self configureScheduleCell];
         self.detailLabel.text = self.location.detail;
         [self configureMap];
-        int day = self.day;
-        self.dayLabel.text = [NSString stringWithFormat:@"第 %d 天", day + 1];
+        self.dayLabel.text = [NSString stringWithFormat:@"第 %d 天", [self.location.whichday intValue]];
     }
 }
 
@@ -159,6 +159,9 @@
         EditCategoryViewController *categoryViewController = [segue destinationViewController];
         categoryViewController.category = self.location.category;
         categoryViewController.delegate = self;
+    }else if ([[segue identifier] isEqualToString:@"ShowMap"]) {
+        LocationMapViewController *mapViewController = [segue destinationViewController];
+        mapViewController.location = self.location;
     }
 }
 

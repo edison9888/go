@@ -371,16 +371,35 @@
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="czN-RJ-Zhs">
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="74" id="Qve-Vq-mm9"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <segue destination="uT5-Yg-1bL" kind="push" identifier="ShowMap" id="tVd-ux-Lv8"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="Lws-K6-UDM" firstAttribute="trailing" secondItem="SxU-FB-Gca" secondAttribute="trailing" type="default" id="5BQ-ah-aGk"/>
                                 <constraint firstItem="4DG-gU-3jo" firstAttribute="trailing" secondItem="JHG-cM-PoU" secondAttribute="trailing" type="default" id="7xK-71-Tuc"/>
-                                <constraint firstAttribute="bottom" secondItem="JHG-cM-PoU" secondAttribute="bottom" constant="23" id="BZP-F1-qBg"/>
                                 <constraint firstItem="JHG-cM-PoU" firstAttribute="centerX" secondItem="Lws-K6-UDM" secondAttribute="centerX" type="default" id="He5-2a-KYP"/>
+                                <constraint firstItem="JHG-cM-PoU" firstAttribute="top" secondItem="czN-RJ-Zhs" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Kmb-Yc-bLb"/>
+                                <constraint firstItem="czN-RJ-Zhs" firstAttribute="leading" secondItem="SxU-FB-Gca" secondAttribute="leading" type="default" id="PYT-Jo-dZm"/>
                                 <constraint firstItem="4DG-gU-3jo" firstAttribute="leading" secondItem="JHG-cM-PoU" secondAttribute="leading" type="default" id="dc6-Gm-xgD"/>
                                 <constraint firstItem="Lws-K6-UDM" firstAttribute="top" secondItem="SxU-FB-Gca" secondAttribute="top" type="default" id="gJh-zb-oKr"/>
                                 <constraint firstAttribute="bottom" secondItem="4DG-gU-3jo" secondAttribute="bottom" constant="2" id="jbp-ug-mYU"/>
+                                <constraint firstItem="czN-RJ-Zhs" firstAttribute="trailing" secondItem="SxU-FB-Gca" secondAttribute="trailing" type="default" id="pjQ-wi-emX"/>
+                                <constraint firstItem="czN-RJ-Zhs" firstAttribute="top" secondItem="SxU-FB-Gca" secondAttribute="top" type="default" id="rLm-Rs-g0C"/>
                                 <constraint firstItem="Lws-K6-UDM" firstAttribute="leading" secondItem="SxU-FB-Gca" secondAttribute="leading" type="default" id="tWM-wL-OCI"/>
                             </constraints>
                         </view>
@@ -534,6 +553,37 @@
                 </mapView>
             </objects>
             <point key="canvasLocation" x="1081" y="-405"/>
+        </scene>
+        <!--Location Map View Controller-->
+        <scene sceneID="NqD-JV-lwb">
+            <objects>
+                <viewController id="uT5-Yg-1bL" customClass="LocationMapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iFF-6a-1Vo">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="uxg-5e-Y1n">
+                                <connections>
+                                    <outlet property="delegate" destination="uT5-Yg-1bL" id="tNQ-GD-KSt"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="uxg-5e-Y1n" firstAttribute="trailing" secondItem="iFF-6a-1Vo" secondAttribute="trailing" type="default" id="OM9-1x-Q3Z"/>
+                            <constraint firstItem="uxg-5e-Y1n" firstAttribute="bottom" secondItem="iFF-6a-1Vo" secondAttribute="bottom" type="default" id="dTE-4h-hvZ"/>
+                            <constraint firstItem="uxg-5e-Y1n" firstAttribute="leading" secondItem="iFF-6a-1Vo" secondAttribute="leading" type="default" id="ieh-pM-9wo"/>
+                            <constraint firstItem="uxg-5e-Y1n" firstAttribute="top" secondItem="iFF-6a-1Vo" secondAttribute="top" type="default" id="srb-ig-dvc"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="yRs-9v-v9r"/>
+                    <connections>
+                        <outlet property="mapView" destination="uxg-5e-Y1n" id="eKH-n6-DkO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mAq-fq-FOv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1763" y="-403"/>
         </scene>
         <!--Edit Cost View Controller - 预算开销-->
         <scene sceneID="hx7-sG-hrp">
@@ -1026,7 +1076,6 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ItineraryViewController.h"/>
             <relationships>
                 <relationship kind="action" name="clickDarkView:"/>
-                <relationship kind="action" name="nextMapLocation:"/>
                 <relationship kind="action" name="positionMe:"/>
                 <relationship kind="action" name="previousMapLocation:"/>
                 <relationship kind="action" name="pushSearchLocationViewController:"/>
@@ -1036,10 +1085,15 @@
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
+        <class className="LocationMapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationMapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
         <class className="LocationViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationViewController.h"/>
             <relationships>
-                <relationship kind="action" name="segmentAction:"/>
                 <relationship kind="outlet" name="addressLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="costLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="dayLabel" candidateClass="UILabel"/>
