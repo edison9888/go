@@ -908,7 +908,6 @@
         detailViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         detailViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:detailViewController.location]];
         detailViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
-        detailViewController.day = indexPath.section;
         detailViewController.navDelegate = self;
     }
     else if ([[segue identifier] isEqualToString:@"SearchLocation"])

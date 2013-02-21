@@ -90,8 +90,7 @@
         [self configureScheduleCell];
         self.detailLabel.text = self.location.detail;
         [self configureMap];
-        int day = self.day;
-        self.dayLabel.text = [NSString stringWithFormat:@"第 %d 天", day + 1];
+        self.dayLabel.text = [NSString stringWithFormat:@"第 %d 天", [self.location.whichday intValue]];
     }
 }
 
