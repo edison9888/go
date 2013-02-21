@@ -14,6 +14,7 @@
 #import "EditDetailViewController.h"
 #import "EditScheduleViewController.h"
 #import "EditCategoryViewController.h"
+#import "LocationMapViewController.h"
 
 @interface LocationViewController ()
 
@@ -158,6 +159,9 @@
         EditCategoryViewController *categoryViewController = [segue destinationViewController];
         categoryViewController.category = self.location.category;
         categoryViewController.delegate = self;
+    }else if ([[segue identifier] isEqualToString:@"ShowMap"]) {
+        LocationMapViewController *mapViewController = [segue destinationViewController];
+        mapViewController.location = self.location;
     }
 }
 
