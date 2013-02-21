@@ -8,7 +8,8 @@
 
 #import "ChufabaAppDelegate.h"
 #import "ItineraryViewController.h"
-#import "SinaWeibo.h"
+//#import "SinaWeibo.h"
+#import "SocialAccountManager.h"
 
 @implementation ChufabaAppDelegate
 
@@ -86,6 +87,10 @@
     {
         return [self.sinaweibo handleOpenURL:url];
     }
+    else if ([[url scheme] isEqualToString:@"tencent100379396"])
+    {
+        return [TencentOAuth HandleOpenURL:url];
+    }
     else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
     {
         return [WXApi handleOpenURL:url delegate:self];
@@ -98,6 +103,10 @@
     if ([[url scheme] isEqualToString:@"sinaweibosso.3237810134"])
     {
         return [self.sinaweibo handleOpenURL:url];
+    }
+    else if ([[url scheme] isEqualToString:@"tencent100379396"])
+    {
+        return [TencentOAuth HandleOpenURL:url];
     }
     else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
     {

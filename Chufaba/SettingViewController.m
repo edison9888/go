@@ -33,23 +33,27 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    //self.loginCell.imageView.frame =  CGRectMake(0,0,50,50);
     if([self.accountManager hasLogin])
     {
         self.logoutCell.hidden = NO;
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        if([ud stringForKey:@"LoginType"] == @"sina" && [self.accountManager isWeiboAuthValid])
+        {
+            [self.accountManager.sinaweibo requestWithURL:@"users/show.json"
+                                                       params:[NSMutableDictionary dictionaryWithObject:self.accountManager.sinaweibo.userID forKey:@"uid"]
+                                                   httpMethod:@"GET"
+                                                     delegate:self.accountManager];
+        }
+        else if([ud stringForKey:@"LoginType"] == @"tencent" && [[self.accountManager getTencentOAuth] isSessionValid])
+        {
+            [[self.accountManager getTencentOAuth] getUserInfo];
+        }
     }
     else
     {
         self.logoutCell.hidden = YES;
         self.userName.text = @"点击登录";
         self.loginCell.imageView.image = [UIImage imageNamed:@"user.png"];
-    }
-    if([self.accountManager isWeiboAuthValid])
-    {
-        [self.accountManager.sinaweibo requestWithURL:@"users/show.json"
-                                               params:[NSMutableDictionary dictionaryWithObject:self.accountManager.sinaweibo.userID forKey:@"uid"]
-                                           httpMethod:@"GET"
-                                             delegate:self.accountManager];
     }
 }
 
@@ -105,16 +109,28 @@
 -(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show
 {
     [self.navigationController popViewControllerAnimated:YES];
+    self.logoutCell.hidden = NO;
 }
 
 //UIActionSheetDelegate
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 0)
     {
-        [self.accountManager.sinaweibo logOut];
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        if([ud stringForKey:@"LoginType"] == @"sina")
+        {
+            [self.accountManager.sinaweibo logOut];
+        }
+        else
+        {
+            [[self.accountManager getTencentOAuth] logout:self.accountManager];
+        }
+        //[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LoginType"];
+        
         self.logoutCell.hidden = YES;
         self.userName.text = @"点击登录";
         self.loginCell.imageView.image = [UIImage imageNamed:@"user.png"];
+        [self.loginCell setNeedsLayout];
     }
 }
 

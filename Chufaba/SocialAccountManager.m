@@ -12,17 +12,44 @@
 
 @implementation SocialAccountManager
 
+- (id) init
+{
+    if (self = [super init]) {
+        permissions = [NSArray arrayWithObjects:
+                        kOPEN_PERMISSION_GET_USER_INFO,
+                        kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,
+                        kOPEN_PERMISSION_ADD_SHARE,
+                        nil];
+        tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"100379396" andDelegate:self];
+    }
+    return self;
+}
+
+- (TencentOAuth *) getTencentOAuth
+{
+    return tencentOAuth;
+}
+
+- (NSMutableArray *) getPermissions
+{
+    return permissions;
+}
+
 - (BOOL) hasLogin
 {
-    SinaWeibo *sinaweibo = [self sinaweibo];
-    if(sinaweibo.isLoggedIn)
+    BOOL loginFlag = NO;
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    if([ud stringForKey:@"LoginType"] == @"sina")
     {
-        return YES;
+        SinaWeibo *sinaweibo = [self sinaweibo];
+        if(sinaweibo.isLoggedIn)
+            loginFlag = YES;
     }
-    else
+    else if([ud stringForKey:@"LoginType"] == @"tencent")
     {
-        return NO;
+        loginFlag = YES;
     }
+    return loginFlag;
 }
 
 - (BOOL) isWeiboAuthValid
@@ -93,13 +120,17 @@
     
     FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
     
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-    [f setNumberStyle:NSNumberFormatterDecimalStyle];
-    
     //新建一个用户，如果该weibo_uid不存在
-    if(![dba userExist:[f numberFromString:sinaweibo.userID] logintype:1])
+    if(![dba userExist:sinaweibo.userID logintype:1])
     {
-        [dba createUser:[f numberFromString:sinaweibo.userID] accesstoken:sinaweibo.accessToken mainAccountType:1];
+        [dba createUser:sinaweibo.userID accesstoken:sinaweibo.accessToken mainAccountType:1];
+    }
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    if(![ud objectForKey:@"LoginType"])
+    {
+        [ud setObject:@"sina" forKey:@"LoginType"];
+        [ud synchronize];
     }
 }
 
@@ -107,6 +138,7 @@
 {
     NSLog(@"sinaweiboDidLogOut");
     [self removeAuthData];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LoginType"];
 }
 
 - (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo
@@ -146,6 +178,70 @@
             [self.delegate socialAccountManager:self updateDisplayName:[userInfo objectForKey:@"screen_name"] updateProfileImg:[userInfo objectForKey:@"profile_image_url"]];
         }     
     }
+}
+
+//QQ Login part
+
+#pragma mark - Tencent oauth delegate
+- (void)tencentDidLogin {
+    if (tencentOAuth.accessToken&& 0 != [tencentOAuth.accessToken length])
+    {
+        FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
+        
+        //新建一个用户，如果该weibo_uid不存在
+        if(![dba userExist:tencentOAuth.openId logintype:2])
+        {
+            [dba createUser:tencentOAuth.openId accesstoken:tencentOAuth.accessToken mainAccountType:2];
+        }
+        
+        [tencentOAuth getUserInfo];
+        if ([self.delegate respondsToSelector:@selector(socialAccountManager:dismissLoginView:)])
+        {
+            [self.delegate socialAccountManager:self dismissLoginView:YES];
+        }
+//        if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateShareView:)])
+//        {
+//            [self.delegate socialAccountManager:self updateShareView:YES];
+//        }
+        
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        if(![ud objectForKey:@"LoginType"])
+        {
+            [ud setObject:@"tencent" forKey:@"LoginType"];
+            [ud synchronize];
+        }
+    }
+}
+
+- (void)tencentDidNotLogin:(BOOL)cancelled
+{
+	if (cancelled){
+		//用户取消登录
+	}
+	else {
+		//登录失败
+	}
+	
+}
+
+-(void)tencentDidNotNetWork
+{
+	//无网络连接，请设置网络
+}
+
+-(void)tencentDidLogout
+{
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LoginType"];
+}
+
+- (void)getUserInfoResponse:(APIResponse*) response {
+	if (response.retCode == URLREQUEST_SUCCEED)
+	{
+		if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateDisplayName:updateProfileImg:)])
+        {
+            [self.delegate socialAccountManager:self updateDisplayName:[response.jsonResponse objectForKey:@"nickname"] updateProfileImg:[response.jsonResponse objectForKey:@"figureurl"]];
+        }
+	}
 }
 
 @end

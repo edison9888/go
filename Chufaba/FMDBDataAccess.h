@@ -12,7 +12,6 @@
 #import "FMResultSet.h"
 #import "Utility.h"
 #import "Plan.h"
-//#import "TravelLocation.h"
 
 @interface FMDBDataAccess : NSObject
 {
@@ -24,8 +23,7 @@
 -(BOOL) deleteTravelPlan:(Plan *) plan;
 -(BOOL) updateTravelPlan:(Plan *) plan;
 
--(BOOL) userExist:(NSNumber *) service_uid logintype:(NSInteger) type;
--(BOOL) createUser:(NSNumber *) service_uid accesstoken:(NSString *)token mainAccountType:(NSInteger) type;
-//-(BOOL) unbindWeibo:(NSNumber *)weibo_id;
+-(BOOL) userExist:(NSString *) service_uid logintype:(NSInteger) type;
+-(BOOL) createUser:(NSString *) service_uid accesstoken:(NSString *)token mainAccountType:(NSInteger) type;
 
 @end

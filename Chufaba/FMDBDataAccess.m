@@ -64,7 +64,7 @@
     return travelPlans;    
 }
 
--(BOOL) userExist:(NSNumber *) service_uid logintype:(NSInteger) type
+-(BOOL) userExist:(NSString *) service_uid logintype:(NSInteger) type
 {
     BOOL flag = NO;
     
@@ -72,17 +72,17 @@
     [db open];
     
     if (type == 1) {
-        if([db intForQuery:@"SELECT * FROM user WHERE weibo_uid = ?", service_uid] == 1)
+        if([db stringForQuery:@"SELECT weibo_uid FROM user WHERE weibo_uid = ?", service_uid] != @"")
             flag = YES;
     }
     else if(type == 2)
     {
-        if([db intForQuery:@"SELECT * FROM user WHERE qq_uid = ?", service_uid] == 1)
+        if([db stringForQuery:@"SELECT qq_uid FROM user WHERE qq_uid = ?", service_uid] != @"")
             flag = YES;
     }
     else
     {
-        if([db intForQuery:@"SELECT * FROM user WHERE douban_uid = ?", service_uid] == 1)
+        if([db stringForQuery:@"SELECT douban_uid FROM user WHERE douban_uid = ?", service_uid] != @"")
             flag = YES;
     }
     
@@ -90,7 +90,7 @@
     return flag;
 }
 
--(BOOL) createUser:(NSNumber *) service_uid accesstoken:(NSString *)token mainAccountType:(NSInteger) type
+-(BOOL) createUser:(NSString *) service_uid accesstoken:(NSString *)token mainAccountType:(NSInteger) type
 {
     BOOL success;
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];

@@ -44,7 +44,8 @@
 
 - (IBAction)qqLogin:(id)sender
 {
-    
+    //[self.accountManager.tencentOAuth authorize:self.accountManager.permissions inSafari:NO];
+    [[self.accountManager getTencentOAuth] authorize:[self.accountManager getPermissions] inSafari:NO];
 }
 
 - (IBAction)doubanLogin:(id)sender

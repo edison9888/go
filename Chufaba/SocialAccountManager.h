@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SinaWeibo.h"
 #import "SinaWeiboRequest.h"
+#import <TencentOpenAPI/TencentOAuth.h>
 
 @class SocialAccountManager;
 
@@ -20,9 +21,11 @@
 -(void) socialAccountManager:(SocialAccountManager *) manager updateShareView:(BOOL) hasLogin;
 @end
 
-@interface SocialAccountManager : NSObject <SinaWeiboDelegate, SinaWeiboRequestDelegate>
+@interface SocialAccountManager : NSObject <SinaWeiboDelegate, SinaWeiboRequestDelegate, TencentSessionDelegate>
 {
     NSDictionary *userInfo;
+    TencentOAuth* tencentOAuth;
+    NSMutableArray* permissions;
 }
 
 - (BOOL) hasLogin;
@@ -31,5 +34,9 @@
 
 @property (weak, nonatomic) SinaWeibo *sinaweibo;
 @property (nonatomic,weak) id<SocialAccountManagerDelegate> delegate;
+
+- (TencentOAuth *) getTencentOAuth;
+
+- (NSMutableArray *) getPermissions;
 
 @end

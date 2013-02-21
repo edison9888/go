@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		131BF67916D64337001D4422 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67816D64337001D4422 /* TencentOpenAPI.framework */; };
+		131BF67C16D64381001D4422 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67B16D64381001D4422 /* SystemConfiguration.framework */; };
+		131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67D16D6439A001D4422 /* libiconv.dylib */; };
+		131BF68016D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 132D453516B5515200A1D3B0 /* NIDropDown.m */; };
 		1337E51716BBEBFE0039F257 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51616BBEBFE0039F257 /* MapKit.framework */; };
 		1337E51A16BBEC070039F257 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51916BBEC070039F257 /* CoreLocation.framework */; };
@@ -94,6 +98,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		131BF67816D64337001D4422 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = Chufaba/TencentOpenAPI.framework; sourceTree = "<group>"; };
+		131BF67B16D64381001D4422 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		131BF67D16D6439A001D4422 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = Chufaba/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		132D453416B5515200A1D3B0 /* NIDropDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIDropDown.h; sourceTree = "<group>"; };
 		132D453516B5515200A1D3B0 /* NIDropDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NIDropDown.m; sourceTree = "<group>"; };
 		1337E51616BBEBFE0039F257 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -241,6 +249,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */,
+				131BF67C16D64381001D4422 /* SystemConfiguration.framework in Frameworks */,
 				1337E51A16BBEC070039F257 /* CoreLocation.framework in Frameworks */,
 				1337E51716BBEBFE0039F257 /* MapKit.framework in Frameworks */,
 				1C02971916B0D994003F676A /* libsqlite3.dylib in Frameworks */,
@@ -249,6 +259,7 @@
 				D25F6FEC16A6332D00ED7AF5 /* CoreGraphics.framework in Frameworks */,
 				1C70A1BB16B02BC90031A1D0 /* QuartzCore.framework in Frameworks */,
 				1C38053516C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a in Frameworks */,
+				131BF67916D64337001D4422 /* TencentOpenAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,6 +484,7 @@
 		D25F6FD816A6332D00ED7AF5 = {
 			isa = PBXGroup;
 			children = (
+				131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */,
 				D25F6FED16A6332D00ED7AF5 /* Chufaba */,
 				D25F6FEE16A6332D00ED7AF5 /* Supporting Files */,
 				D25F6FE616A6332D00ED7AF5 /* Frameworks */,
@@ -491,6 +503,9 @@
 		D25F6FE616A6332D00ED7AF5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				131BF67D16D6439A001D4422 /* libiconv.dylib */,
+				131BF67B16D64381001D4422 /* SystemConfiguration.framework */,
+				131BF67816D64337001D4422 /* TencentOpenAPI.framework */,
 				1337E51916BBEC070039F257 /* CoreLocation.framework */,
 				1337E51616BBEBFE0039F257 /* MapKit.framework */,
 				1C02971816B0D994003F676A /* libsqlite3.dylib */,
@@ -606,6 +621,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				131BF68016D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				D25F6FF216A6332E00ED7AF5 /* InfoPlist.strings in Resources */,
 				D25F6FFA16A6332E00ED7AF5 /* Default.png in Resources */,
 				D25F6FFC16A6332E00ED7AF5 /* Default@2x.png in Resources */,
@@ -772,6 +788,10 @@
 		D25F700B16A6332E00ED7AF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Chufaba\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chufaba/Chufaba-Prefix.pch";
 				INFOPLIST_FILE = "Chufaba/Chufaba-Info.plist";
@@ -779,6 +799,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Chufaba\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "出发吧";
 				WRAPPER_EXTENSION = app;
 			};
@@ -787,6 +808,10 @@
 		D25F700C16A6332E00ED7AF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Chufaba\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chufaba/Chufaba-Prefix.pch";
 				INFOPLIST_FILE = "Chufaba/Chufaba-Info.plist";
@@ -794,6 +819,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Chufaba\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "出发吧";
 				WRAPPER_EXTENSION = app;
 			};
