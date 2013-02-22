@@ -354,23 +354,6 @@
                                         <outlet property="delegate" destination="vyC-lb-6vn" id="BOt-bC-Igf"/>
                                     </connections>
                                 </mapView>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHG-cM-PoU">
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="307" id="6cA-Us-mXM"/>
-                                        <constraint firstAttribute="height" constant="26" id="VUA-f7-nif"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4DG-gU-3jo">
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="21" id="Z6x-NB-OEZ"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="czN-RJ-Zhs">
                                     <constraints>
                                         <constraint firstAttribute="height" constant="74" id="Qve-Vq-mm9"/>
@@ -387,20 +370,25 @@
                                         <segue destination="uT5-Yg-1bL" kind="push" identifier="ShowMap" id="tVd-ux-Lv8"/>
                                     </connections>
                                 </button>
+                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tww-xF-scG"/>
+                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="boH-Vv-w2D"/>
                             </subviews>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstItem="boH-Vv-w2D" firstAttribute="top" secondItem="SxU-FB-Gca" secondAttribute="top" constant="102" id="4tH-ez-sE0"/>
                                 <constraint firstItem="Lws-K6-UDM" firstAttribute="trailing" secondItem="SxU-FB-Gca" secondAttribute="trailing" type="default" id="5BQ-ah-aGk"/>
-                                <constraint firstItem="4DG-gU-3jo" firstAttribute="trailing" secondItem="JHG-cM-PoU" secondAttribute="trailing" type="default" id="7xK-71-Tuc"/>
-                                <constraint firstItem="JHG-cM-PoU" firstAttribute="centerX" secondItem="Lws-K6-UDM" secondAttribute="centerX" type="default" id="He5-2a-KYP"/>
-                                <constraint firstItem="JHG-cM-PoU" firstAttribute="top" secondItem="czN-RJ-Zhs" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Kmb-Yc-bLb"/>
+                                <constraint firstAttribute="bottom" secondItem="tww-xF-scG" secondAttribute="bottom" constant="26" id="Etl-U7-3UP"/>
+                                <constraint firstItem="boH-Vv-w2D" firstAttribute="leading" secondItem="SxU-FB-Gca" secondAttribute="leading" type="default" id="JBd-0J-jbk"/>
                                 <constraint firstItem="czN-RJ-Zhs" firstAttribute="leading" secondItem="SxU-FB-Gca" secondAttribute="leading" type="default" id="PYT-Jo-dZm"/>
-                                <constraint firstItem="4DG-gU-3jo" firstAttribute="leading" secondItem="JHG-cM-PoU" secondAttribute="leading" type="default" id="dc6-Gm-xgD"/>
+                                <constraint firstAttribute="bottom" secondItem="boH-Vv-w2D" secondAttribute="bottom" constant="-1" id="TZ7-WR-tlA"/>
+                                <constraint firstItem="tww-xF-scG" firstAttribute="top" secondItem="SxU-FB-Gca" secondAttribute="top" constant="75" id="aSM-Jn-NIW"/>
                                 <constraint firstItem="Lws-K6-UDM" firstAttribute="top" secondItem="SxU-FB-Gca" secondAttribute="top" type="default" id="gJh-zb-oKr"/>
-                                <constraint firstAttribute="bottom" secondItem="4DG-gU-3jo" secondAttribute="bottom" constant="2" id="jbp-ug-mYU"/>
+                                <constraint firstItem="tww-xF-scG" firstAttribute="trailing" secondItem="SxU-FB-Gca" secondAttribute="trailing" type="default" id="mn2-i6-Tvb"/>
                                 <constraint firstItem="czN-RJ-Zhs" firstAttribute="trailing" secondItem="SxU-FB-Gca" secondAttribute="trailing" type="default" id="pjQ-wi-emX"/>
+                                <constraint firstItem="tww-xF-scG" firstAttribute="leading" secondItem="SxU-FB-Gca" secondAttribute="leading" type="default" id="qUV-Eu-p89"/>
                                 <constraint firstItem="czN-RJ-Zhs" firstAttribute="top" secondItem="SxU-FB-Gca" secondAttribute="top" type="default" id="rLm-Rs-g0C"/>
                                 <constraint firstItem="Lws-K6-UDM" firstAttribute="leading" secondItem="SxU-FB-Gca" secondAttribute="leading" type="default" id="tWM-wL-OCI"/>
+                                <constraint firstItem="boH-Vv-w2D" firstAttribute="trailing" secondItem="SxU-FB-Gca" secondAttribute="trailing" type="default" id="xwE-Ck-wMZ"/>
                             </constraints>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="FFv-sB-UV3">
@@ -536,12 +524,12 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="UMU-zb-TVb"/>
                     <connections>
-                        <outlet property="addressLabel" destination="4DG-gU-3jo" id="mky-4c-qv8"/>
+                        <outlet property="addressScrollView" destination="boH-Vv-w2D" id="nYw-Wg-j2R"/>
                         <outlet property="costLabel" destination="kuW-cW-CcX" id="M78-TT-rEl"/>
                         <outlet property="dayLabel" destination="Wc9-ur-iwO" id="5dC-iR-pKa"/>
                         <outlet property="detailLabel" destination="xsV-sj-q84" id="N52-bd-n5N"/>
                         <outlet property="mapView" destination="Lws-K6-UDM" id="mDX-3L-BdA"/>
-                        <outlet property="nameLabel" destination="JHG-cM-PoU" id="dP0-Ou-ak4"/>
+                        <outlet property="nameScrollView" destination="tww-xF-scG" id="nw2-i4-nLx"/>
                         <outlet property="scheduleLabel" destination="bRm-Ak-haj" id="TTa-1B-QTq"/>
                         <outlet property="transportationLabel" destination="f8f-OP-C47" id="YvM-Ig-ChU"/>
                     </connections>
@@ -1075,11 +1063,6 @@
         <class className="ItineraryViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ItineraryViewController.h"/>
             <relationships>
-                <relationship kind="action" name="clickDarkView:"/>
-                <relationship kind="action" name="positionMe:"/>
-                <relationship kind="action" name="previousMapLocation:"/>
-                <relationship kind="action" name="pushSearchLocationViewController:"/>
-                <relationship kind="action" name="selectClicked:"/>
                 <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
@@ -1094,12 +1077,13 @@
         <class className="LocationViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="addressLabel" candidateClass="UILabel"/>
+                <relationship kind="action" name="segmentAction:"/>
+                <relationship kind="outlet" name="addressScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="costLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="dayLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="detailLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="nameScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="scheduleLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="transportationLabel" candidateClass="UILabel"/>
             </relationships>

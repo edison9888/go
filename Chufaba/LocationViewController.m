@@ -30,7 +30,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [self configureView];
     
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
                                             [NSArray arrayWithObjects:
@@ -48,6 +47,17 @@
     
     self.navigationItem.rightBarButtonItem = segmentBarItem;
     self.navigationItem.title = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
+    
+    self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 8, 320, 30)];
+    self.nameLabel.font = [UIFont systemFontOfSize:15];
+    self.nameLabel.backgroundColor = [UIColor lightGrayColor];
+    [self.nameScrollView addSubview: self.nameLabel];
+    self.addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 320, 30)];
+    self.addressLabel.backgroundColor = [UIColor lightGrayColor];
+    self.addressLabel.font = [UIFont systemFontOfSize:14];
+    [self.addressScrollView addSubview:self.addressLabel];
+ 
+    [self configureView];
 }
 
 - (IBAction) segmentAction:(id)sender
@@ -84,8 +94,15 @@
     // Update the user interface for the detail item.
     
     if (self.location) {
+        
         self.nameLabel.text = self.location.name;
+        [self.nameLabel sizeToFit];
+        self.nameScrollView.contentSize = self.nameLabel.frame.size;
+        
         self.addressLabel.text = self.location.address;
+        [self.addressLabel sizeToFit];
+        self.addressScrollView.contentSize = self.addressLabel.frame.size;
+        
         self.transportationLabel.text = self.location.transportation;
         [self configureCostCell];
         [self configureScheduleCell];
