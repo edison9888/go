@@ -22,6 +22,7 @@
 #import "UIColor+JTGestureBasedTableViewHelper.h"
 
 #import "ShareViewController.h"
+#import "LoginViewController.h"
 
 
 @class ItineraryDataController;
@@ -34,13 +35,15 @@
 
 @end
 
-@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate>
+@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, SocialAccountManagerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
     BOOL singleDayMode;
     id <MKAnnotation> tappedAnnotation;
     NSMutableArray *oneDimensionLocationList;
+    
+    BOOL loginForShare;
 }
 
 - (BOOL) hasOneLocation;
@@ -67,5 +70,7 @@
 @property (nonatomic,weak) NSNumber *daySelected;
 @property (nonatomic,weak) NSNumber *dayToAdd;
 @property (nonatomic,weak) NSNumber *seqToAdd;
+
+//@property (strong, nonatomic) SocialAccountManager *accountManager;
 
 @end

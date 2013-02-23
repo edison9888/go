@@ -22,6 +22,7 @@
         btn.backgroundColor = [UIColor clearColor];
         [[btn layer] setBorderWidth:1.0f];
         [[btn layer] setBorderColor:[UIColor grayColor].CGColor];
+        [btn addTarget:self action:@selector(synchronizeItinerary:) forControlEvents:UIControlEventTouchDown];
         syncBtn = btn;
         [self addSubview:btn];
         
@@ -57,6 +58,11 @@
 - (IBAction)showMenu:(id)sender
 {
     [self.delegate showShareMenu:self];
+}
+
+- (IBAction)synchronizeItinerary:(id)sender
+{
+    [self.delegate startSynchronize:self];
 }
 
 - (void)setState:(PullDownMenuState)aState

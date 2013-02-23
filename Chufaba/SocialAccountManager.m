@@ -143,6 +143,10 @@
     {
         [self.delegate socialAccountManager:self updateShareView:1];
     }
+    if ([self.delegate respondsToSelector:@selector(socialAccountManager:openShareMenu:)])
+    {
+        [self.delegate socialAccountManager:self openShareMenu:1];
+    }
     
     FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
     
@@ -241,6 +245,10 @@
         if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateShareView:)])
         {
             [self.delegate socialAccountManager:self updateShareView:2];
+        }
+        if ([self.delegate respondsToSelector:@selector(socialAccountManager:openShareMenu:)])
+        {
+            [self.delegate socialAccountManager:self openShareMenu:2];
         }
     }
 }

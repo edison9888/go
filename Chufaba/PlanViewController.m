@@ -73,38 +73,11 @@
 {
     [super viewDidLoad];
     [self populateTravelPlans];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
-
-//- (IBAction)done:(UIStoryboardSegue *)segue
-//{
-//    if ([[segue identifier] isEqualToString:@"ReturnInput"]) {
-//        
-//        AddPlanViewController *addController = [segue sourceViewController];
-//        if (addController.plan) {
-//            [self.dataController addTravelPlanWithPlan:addController.plan];
-//            [[self tableView] reloadData];
-//        }
-//        [self dismissViewControllerAnimated:YES completion:NULL];
-//    }
-//}
-//
-//- (IBAction)cancel:(UIStoryboardSegue *)segue
-//{
-//    if ([[segue identifier] isEqualToString:@"CancelInput"]) {
-//        [self dismissViewControllerAnimated:YES completion:NULL];
-//    }
-//}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -139,7 +112,6 @@
     NSString *detailStr = [dateStr stringByAppendingString:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
     
     [[cell textLabel] setText:planAtIndex.name];
-    //[[cell detailTextLabel] setText:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
     [[cell detailTextLabel] setText:detailStr];
     cell.imageView.image = planAtIndex.image;
     return cell;

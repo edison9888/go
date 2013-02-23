@@ -13,8 +13,12 @@
 
 @property (strong, nonatomic) SocialAccountManager *accountManager;
 
-- (IBAction)weiboLogin:(id)sender;
-- (IBAction)qqLogin:(id)sender;
-- (IBAction)doubanLogin:(id)sender;
+//@property (weak, nonatomic) IBOutlet UIButton *weiboLoginBtn;
+//@property (weak, nonatomic) IBOutlet UIButton *qqLoginBtn;
+//@property (weak, nonatomic) IBOutlet UIButton *doubanLoginBtn;
+
+//- (IBAction)weiboLogin:(id)sender;
+//- (IBAction)qqLogin:(id)sender;
+//- (IBAction)doubanLogin:(id)sender;
 
 @end

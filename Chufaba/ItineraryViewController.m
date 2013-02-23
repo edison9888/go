@@ -224,6 +224,8 @@
 		[self.tableView addSubview:view];
 		pullDownMenuView = view;
 	}
+    
+    //account manager part
 }
 
 - (IBAction)previousMapLocation:(id)sender
@@ -541,9 +543,40 @@
 
 - (void) showShareMenu:(PullDownMenuView *)view
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到社交网络", @"分享给微信好友", @"分享到微信朋友圈", nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showInView:self.view];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    if([ud stringForKey:@"LoginType"] == @"sina" || [ud stringForKey:@"LoginType"] == @"tencent")
+    {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到社交网络", @"分享给微信好友", @"分享到微信朋友圈", nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+        [actionSheet showInView:self.view];
+    }
+    else
+    {
+        loginForShare = YES;
+        LoginViewController *loginController = [[LoginViewController alloc] init];
+        loginController.accountManager = [[SocialAccountManager alloc] init];
+        loginController.accountManager.delegate = self;
+        [self.navigationController pushViewController:loginController animated:YES];
+    }
+}
+
+- (void) startSynchronize:(PullDownMenuView *)view
+{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    if([ud stringForKey:@"LoginType"] == @"sina" || [ud stringForKey:@"LoginType"] == @"tencent")
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"开始同步" message:@"哈哈" delegate:self cancelButtonTitle:@"我知道啦" otherButtonTitles: nil];
+		[alert show];
+    }
+    else
+    {
+        loginForShare = NO;
+        LoginViewController *loginController = [[LoginViewController alloc] init];
+        loginController.accountManager = [[SocialAccountManager alloc] init];
+        loginController.accountManager.delegate = self;
+        [self.navigationController pushViewController:loginController animated:YES];
+    }
+
 }
 
 //Implement UIActionSheetDeleg
@@ -979,6 +1012,22 @@
     dropDown = nil;
 }
 
+//Implement SocialAccountManager delegate
+-(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void) socialAccountManager:(SocialAccountManager *) manager openShareMenu:(NSInteger) loginType
+{
+    if(loginForShare)
+    {
+        self.tableView.contentInset = UIEdgeInsetsZero;
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到社交网络", @"分享给微信好友", @"分享到微信朋友圈", nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+        [actionSheet showInView:self.view];
+    }
+}
 
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods

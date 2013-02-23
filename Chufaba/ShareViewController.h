@@ -18,7 +18,6 @@
 }
 
 @property (strong, nonatomic) SocialAccountManager *accountManager;
-//@property (nonatomic,weak) id<SocialAccountManagerDelegate> delegate;
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UIButton *weiboBtn;
 @property (nonatomic, strong) UIButton *tWeiboBtn;

@@ -56,16 +56,6 @@
     [super didReceiveMemoryWarning];
 }
 
- - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"ShowLogin"])
-    {
-        LoginViewController *loginController = [segue destinationViewController];
-        loginController.accountManager = [[SocialAccountManager alloc] init];
-        loginController.accountManager.delegate = self;
-    }
-}
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -74,7 +64,12 @@
     {
         if(![self.accountManager hasLogin])
         {
-            [self performSegueWithIdentifier:@"ShowLogin" sender:[tableView cellForRowAtIndexPath:indexPath]];
+            //[self performSegueWithIdentifier:@"ShowLogin" sender:[tableView cellForRowAtIndexPath:indexPath]];
+            
+            LoginViewController *loginController = [[LoginViewController alloc] init];
+            loginController.accountManager = [[SocialAccountManager alloc] init];
+            loginController.accountManager.delegate = self;
+            [self.navigationController pushViewController:loginController animated:YES];
         }
     }
     else if(self.tableView.indexPathForSelectedRow.section == 2)

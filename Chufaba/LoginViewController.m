@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "ChufabaAppDelegate.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 @interface LoginViewController ()
@@ -29,6 +30,30 @@
 {
     [super viewDidLoad];
     //self.accountManager = [[SocialAccountManager alloc] init];
+    
+    UIButton *weiboLoginBtn = [[UIButton alloc] initWithFrame:CGRectMake(60,60,200,45)];
+    [weiboLoginBtn setImage:[UIImage imageNamed:@"weibologin.png"] forState:UIControlStateNormal];
+    
+    UIButton *qqLoginBtn = [[UIButton alloc] initWithFrame:CGRectMake(60,160,200,45)];
+    [qqLoginBtn setImage:[UIImage imageNamed:@"qqlogin.png"] forState:UIControlStateNormal];
+    
+    UIButton *doubanLoginBtn = [[UIButton alloc] initWithFrame:CGRectMake(60,260,200,45)];
+    [doubanLoginBtn setImage:[UIImage imageNamed:@"doubanlogin.png"] forState:UIControlStateNormal];
+    
+    [weiboLoginBtn addTarget:self action:@selector(weiboLogin:) forControlEvents:UIControlEventTouchDown];
+    [qqLoginBtn addTarget:self action:@selector(qqLogin:) forControlEvents:UIControlEventTouchDown];
+    [doubanLoginBtn addTarget:self action:@selector(doubanLogin:) forControlEvents:UIControlEventTouchDown];
+    
+    [self.view addSubview:weiboLoginBtn];
+    [self.view addSubview:qqLoginBtn];
+    [self.view addSubview:doubanLoginBtn];
+    
+    self.navigationItem.title = @"登录";
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+//    [self.weiboLoginBtn addTarget:self action:@selector(weiboLogin:) forControlEvents:UIControlEventTouchDown];
+//    [self.qqLoginBtn addTarget:self action:@selector(qqLogin:) forControlEvents:UIControlEventTouchDown];
+//    [self.doubanLoginBtn addTarget:self action:@selector(doubanLogin:) forControlEvents:UIControlEventTouchDown];
 }
 
 
@@ -44,7 +69,6 @@
 
 - (IBAction)qqLogin:(id)sender
 {
-    //[self.accountManager.tencentOAuth authorize:self.accountManager.permissions inSafari:NO];
     [[self.accountManager getTencentOAuth] authorize:[self.accountManager getPermissions] inSafari:NO];
 }
 

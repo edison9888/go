@@ -31,7 +31,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
     //set the state of all the social service
     self.accountManager = [[SocialAccountManager alloc] init];
@@ -88,9 +87,7 @@
         [self.weiboBtn setImage:[UIImage imageNamed:@"wlogogray.jpg"] forState:UIControlStateNormal];
         sinaEnabled = NO;
     }
-    TencentOAuth *tOauth = [self.accountManager getTencentOAuth];
-    //if([[self.accountManager getTencentOAuth] isSessionValid])
-    if([tOauth isSessionValid])
+    if([[self.accountManager getTencentOAuth] isSessionValid])
     {
         [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogo.png"] forState:UIControlStateNormal];
         tencentEnabled = YES;
@@ -108,27 +105,7 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-//    if([self.accountManager.sinaweibo isAuthValid])
-//    {
-//        [self.weiboBtn setImage:[UIImage imageNamed:@"wlogo.png"] forState:UIControlStateNormal];
-//        sinaEnabled = YES;
-//    }
-//    else
-//    {
-//        [self.weiboBtn setImage:[UIImage imageNamed:@"wlogogray.jpg"] forState:UIControlStateNormal];
-//        sinaEnabled = NO;
-//    }
-//    if([[self.accountManager getTencentOAuth] isSessionValid])
-//    {
-//        [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogo.png"] forState:UIControlStateNormal];
-//        tencentEnabled = YES;
-//    }
-//    else
-//    {
-//        [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogogray.jpg"] forState:UIControlStateNormal];
-//        tencentEnabled = NO;
-//    }
-//    shareBtnEnabled = sinaEnabled | tencentEnabled;
+
 }
 
 -(IBAction) weiboOauth:(id) sender

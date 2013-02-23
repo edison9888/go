@@ -19,6 +19,7 @@
 -(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName updateProfileImg:(NSString *) url;
 -(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show;
 -(void) socialAccountManager:(SocialAccountManager *) manager updateShareView:(NSInteger) loginType;
+-(void) socialAccountManager:(SocialAccountManager *) manager openShareMenu:(NSInteger) loginType;
 @end
 
 @interface SocialAccountManager : NSObject <SinaWeiboDelegate, SinaWeiboRequestDelegate, TencentSessionDelegate>
