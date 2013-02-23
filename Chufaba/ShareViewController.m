@@ -34,6 +34,7 @@
 	// Do any additional setup after loading the view.
     
     //set the state of all the social service
+    self.accountManager = [[SocialAccountManager alloc] init];
     
     self.textView = [[UITextView alloc] initWithFrame:CGRectMake(10.0, 10.0, 300.0, 160.0)];
     
@@ -67,22 +68,16 @@
     [self.view addSubview:label];
     
     self.weiboBtn = [[UIButton alloc] initWithFrame:(CGRectMake(10.0, 200.0, 32.0, 32.0))];
-    [self.weiboBtn setImage:[UIImage imageNamed:@"wlogo.png"] forState:UIControlStateNormal];
+    //[self.weiboBtn setImage:[UIImage imageNamed:@"wlogo.png"] forState:UIControlStateNormal];
     
     self.tWeiboBtn = [[UIButton alloc] initWithFrame:(CGRectMake(80.0, 200.0, 32.0, 32.0))];
-    [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogo.png"] forState:UIControlStateNormal];
+    //[self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogo.png"] forState:UIControlStateNormal];
     
     [self.weiboBtn addTarget:self action:@selector(weiboOauth:) forControlEvents:UIControlEventTouchDown];
     [self.tWeiboBtn addTarget:self action:@selector(tWeiboOauth:) forControlEvents:UIControlEventTouchDown];
     
     self.confirmBtnBackup = self.navigationItem.rightBarButtonItem;
     
-    [self.view addSubview:self.weiboBtn];
-    [self.view addSubview:self.tWeiboBtn];
-}
-
--(void) viewDidAppear:(BOOL)animated
-{
     if([self.accountManager.sinaweibo isAuthValid])
     {
         [self.weiboBtn setImage:[UIImage imageNamed:@"wlogo.png"] forState:UIControlStateNormal];
@@ -93,7 +88,9 @@
         [self.weiboBtn setImage:[UIImage imageNamed:@"wlogogray.jpg"] forState:UIControlStateNormal];
         sinaEnabled = NO;
     }
-    if([[self.accountManager getTencentOAuth] isSessionValid])
+    TencentOAuth *tOauth = [self.accountManager getTencentOAuth];
+    //if([[self.accountManager getTencentOAuth] isSessionValid])
+    if([tOauth isSessionValid])
     {
         [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogo.png"] forState:UIControlStateNormal];
         tencentEnabled = YES;
@@ -104,6 +101,34 @@
         tencentEnabled = NO;
     }
     shareBtnEnabled = sinaEnabled | tencentEnabled;
+    
+    [self.view addSubview:self.weiboBtn];
+    [self.view addSubview:self.tWeiboBtn];
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+//    if([self.accountManager.sinaweibo isAuthValid])
+//    {
+//        [self.weiboBtn setImage:[UIImage imageNamed:@"wlogo.png"] forState:UIControlStateNormal];
+//        sinaEnabled = YES;
+//    }
+//    else
+//    {
+//        [self.weiboBtn setImage:[UIImage imageNamed:@"wlogogray.jpg"] forState:UIControlStateNormal];
+//        sinaEnabled = NO;
+//    }
+//    if([[self.accountManager getTencentOAuth] isSessionValid])
+//    {
+//        [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogo.png"] forState:UIControlStateNormal];
+//        tencentEnabled = YES;
+//    }
+//    else
+//    {
+//        [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogogray.jpg"] forState:UIControlStateNormal];
+//        tencentEnabled = NO;
+//    }
+//    shareBtnEnabled = sinaEnabled | tencentEnabled;
 }
 
 -(IBAction) weiboOauth:(id) sender

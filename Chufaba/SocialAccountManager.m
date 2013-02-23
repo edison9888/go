@@ -21,6 +21,15 @@
                         kOPEN_PERMISSION_ADD_SHARE,
                         nil];
         tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"100379396" andDelegate:self];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSDictionary *tencentAuthInfo = [defaults objectForKey:@"TencentAuthData"];
+        if ([tencentAuthInfo objectForKey:@"AccessTokenKey"] && [tencentAuthInfo objectForKey:@"ExpirationDateKey"] && [tencentAuthInfo objectForKey:@"OpenIDKey"])
+        {
+            tencentOAuth.accessToken = [tencentAuthInfo objectForKey:@"AccessTokenKey"];
+            tencentOAuth.expirationDate = [tencentAuthInfo objectForKey:@"ExpirationDateKey"];
+            tencentOAuth.openId = [tencentAuthInfo objectForKey:@"OpenIDKey"];
+        }
     }
     return self;
 }
@@ -39,13 +48,7 @@
 {
     BOOL loginFlag = NO;
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if([ud stringForKey:@"LoginType"] == @"sina")
-    {
-        SinaWeibo *sinaweibo = [self sinaweibo];
-        if(sinaweibo.isLoggedIn)
-            loginFlag = YES;
-    }
-    else if([ud stringForKey:@"LoginType"] == @"tencent")
+    if([ud stringForKey:@"LoginType"] == @"sina" || [ud stringForKey:@"LoginType"] == @"tencent")
     {
         loginFlag = YES;
     }
@@ -97,6 +100,21 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)removeTencentAuthData
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"TencentAuthData"];
+}
+
+- (void)storeTencentAuthData
+{
+    NSDictionary *authData = [NSDictionary dictionaryWithObjectsAndKeys:
+                              tencentOAuth.accessToken, @"AccessTokenKey",
+                              tencentOAuth.expirationDate, @"ExpirationDateKey",
+                              tencentOAuth.openId, @"OpenIDKey", nil];
+    [[NSUserDefaults standardUserDefaults] setObject:authData forKey:@"TencentAuthData"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 #pragma mark - SinaWeibo Delegate
 
 - (void)sinaweiboDidLogIn:(SinaWeibo *)sinaweibo
@@ -106,7 +124,8 @@
     [self storeAuthData];
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if(![ud objectForKey:@"LoginType"])
+    NSString *loginTypeVal = [ud objectForKey:@"LoginType"];
+    if(loginTypeVal != @"tencent")
     {
         [ud setObject:@"sina" forKey:@"LoginType"];
         [ud synchronize];
@@ -137,9 +156,10 @@
 
 - (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
 {
-    NSLog(@"sinaweiboDidLogOut");
     [self removeAuthData];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LoginType"];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud removeObjectForKey:@"LoginType"];
+    [ud synchronize];
 }
 
 - (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo
@@ -195,8 +215,11 @@
 - (void)tencentDidLogin {
     if (tencentOAuth.accessToken&& 0 != [tencentOAuth.accessToken length])
     {
+        [self storeTencentAuthData];
+        
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        if(![ud objectForKey:@"LoginType"])
+        NSString *loginTypeVal = [ud objectForKey:@"LoginType"];
+        if(loginTypeVal != @"sina")
         {
             [ud setObject:@"tencent" forKey:@"LoginType"];
             [ud synchronize];
@@ -240,7 +263,10 @@
 
 -(void)tencentDidLogout
 {
-	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LoginType"];
+	[self removeTencentAuthData];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud removeObjectForKey:@"LoginType"];
+    [ud synchronize];
 }
 
 - (void)getUserInfoResponse:(APIResponse*) response {

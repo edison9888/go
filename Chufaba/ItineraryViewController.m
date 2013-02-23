@@ -552,10 +552,8 @@
     if(buttonIndex == 0)
     {        
         ShareViewController *shareController = [[ShareViewController alloc] init];
-        shareController.accountManager = [[SocialAccountManager alloc] init];
         shareController.accountManager.delegate = shareController;
         
-        // Create the navigation controller and present it.
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareController];
         [self presentViewController:navigationController animated:YES completion: nil];
     }

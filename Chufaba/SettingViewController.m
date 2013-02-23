@@ -29,12 +29,9 @@
     [super viewDidLoad];
     self.accountManager = [[SocialAccountManager alloc] init];
     self.accountManager.delegate = self;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
+    
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if([ud stringForKey:@"LoginType"] == @"sina" || [ud stringForKey:@"LoginType"] == @"tencent")
+    if([self.accountManager hasLogin])
     {
         self.logoutCell.hidden = NO;
         self.userName.text = [ud stringForKey:@"LoginName"];
@@ -47,6 +44,11 @@
         self.loginCell.imageView.image = [UIImage imageNamed:@"user.png"];
     }
     [self.loginCell setNeedsLayout];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -113,11 +115,10 @@
         {
             [self.accountManager.sinaweibo logOut];
         }
-        else
+        else if([ud stringForKey:@"LoginType"] == @"tencent")
         {
             [[self.accountManager getTencentOAuth] logout:self.accountManager];
         }
-        //[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LoginType"];
         
         self.logoutCell.hidden = YES;
         self.userName.text = @"点击登录";
