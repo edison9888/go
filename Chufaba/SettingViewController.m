@@ -33,21 +33,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if([self.accountManager hasLogin])
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    if([ud stringForKey:@"LoginType"] == @"sina" || [ud stringForKey:@"LoginType"] == @"tencent")
     {
         self.logoutCell.hidden = NO;
-        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        if([ud stringForKey:@"LoginType"] == @"sina" && [self.accountManager isWeiboAuthValid])
-        {
-            [self.accountManager.sinaweibo requestWithURL:@"users/show.json"
-                                                       params:[NSMutableDictionary dictionaryWithObject:self.accountManager.sinaweibo.userID forKey:@"uid"]
-                                                   httpMethod:@"GET"
-                                                     delegate:self.accountManager];
-        }
-        else if([ud stringForKey:@"LoginType"] == @"tencent" && [[self.accountManager getTencentOAuth] isSessionValid])
-        {
-            [[self.accountManager getTencentOAuth] getUserInfo];
-        }
+        self.userName.text = [ud stringForKey:@"LoginName"];
+        self.loginCell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[ud stringForKey:@"LoginImage"]]]];
     }
     else
     {
@@ -55,6 +46,7 @@
         self.userName.text = @"点击登录";
         self.loginCell.imageView.image = [UIImage imageNamed:@"user.png"];
     }
+    [self.loginCell setNeedsLayout];
 }
 
 - (void)didReceiveMemoryWarning

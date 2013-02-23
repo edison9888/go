@@ -105,17 +105,24 @@
     
     [self storeAuthData];
     
-    [sinaweibo requestWithURL:@"users/show.json"
-                       params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
-                   httpMethod:@"GET"
-                     delegate:self];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    if(![ud objectForKey:@"LoginType"])
+    {
+        [ud setObject:@"sina" forKey:@"LoginType"];
+        [ud synchronize];
+        [sinaweibo requestWithURL:@"users/show.json"
+                           params:[NSMutableDictionary dictionaryWithObject:sinaweibo.userID forKey:@"uid"]
+                       httpMethod:@"GET"
+                         delegate:self];
+    }    
+    
     if ([self.delegate respondsToSelector:@selector(socialAccountManager:dismissLoginView:)])
     {
         [self.delegate socialAccountManager:self dismissLoginView:YES];
     }
     if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateShareView:)])
     {
-        [self.delegate socialAccountManager:self updateShareView:YES];
+        [self.delegate socialAccountManager:self updateShareView:1];
     }
     
     FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
@@ -126,12 +133,6 @@
         [dba createUser:sinaweibo.userID accesstoken:sinaweibo.accessToken mainAccountType:1];
     }
     
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if(![ud objectForKey:@"LoginType"])
-    {
-        [ud setObject:@"sina" forKey:@"LoginType"];
-        [ud synchronize];
-    }
 }
 
 - (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
@@ -173,6 +174,14 @@
     {
         userInfo = result;
         
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        if([ud stringForKey:@"LoginType"] == @"sina")
+        {
+            [ud setObject:[userInfo objectForKey:@"screen_name"] forKey:@"LoginName"];
+            [ud setObject:[userInfo objectForKey:@"profile_image_url"] forKey:@"LoginImage"];
+            [ud synchronize];
+        }
+        
         if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateDisplayName:updateProfileImg:)])
         {
             [self.delegate socialAccountManager:self updateDisplayName:[userInfo objectForKey:@"screen_name"] updateProfileImg:[userInfo objectForKey:@"profile_image_url"]];
@@ -186,6 +195,14 @@
 - (void)tencentDidLogin {
     if (tencentOAuth.accessToken&& 0 != [tencentOAuth.accessToken length])
     {
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        if(![ud objectForKey:@"LoginType"])
+        {
+            [ud setObject:@"tencent" forKey:@"LoginType"];
+            [ud synchronize];
+            [tencentOAuth getUserInfo];
+        }
+        
         FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
         
         //新建一个用户，如果该weibo_uid不存在
@@ -194,21 +211,13 @@
             [dba createUser:tencentOAuth.openId accesstoken:tencentOAuth.accessToken mainAccountType:2];
         }
         
-        [tencentOAuth getUserInfo];
         if ([self.delegate respondsToSelector:@selector(socialAccountManager:dismissLoginView:)])
         {
             [self.delegate socialAccountManager:self dismissLoginView:YES];
         }
-//        if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateShareView:)])
-//        {
-//            [self.delegate socialAccountManager:self updateShareView:YES];
-//        }
-        
-        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        if(![ud objectForKey:@"LoginType"])
+        if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateShareView:)])
         {
-            [ud setObject:@"tencent" forKey:@"LoginType"];
-            [ud synchronize];
+            [self.delegate socialAccountManager:self updateShareView:2];
         }
     }
 }
@@ -237,7 +246,15 @@
 - (void)getUserInfoResponse:(APIResponse*) response {
 	if (response.retCode == URLREQUEST_SUCCEED)
 	{
-		if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateDisplayName:updateProfileImg:)])
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        if([ud stringForKey:@"LoginType"] == @"tencent")
+        {
+            [ud setObject:[response.jsonResponse objectForKey:@"nickname"] forKey:@"LoginName"];
+            [ud setObject:[response.jsonResponse objectForKey:@"figureurl"] forKey:@"LoginImage"];
+            [ud synchronize];
+        }
+        
+        if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateDisplayName:updateProfileImg:)])
         {
             [self.delegate socialAccountManager:self updateDisplayName:[response.jsonResponse objectForKey:@"nickname"] updateProfileImg:[response.jsonResponse objectForKey:@"figureurl"]];
         }

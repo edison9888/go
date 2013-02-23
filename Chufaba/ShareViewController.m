@@ -66,60 +66,101 @@
     label.text = @"分享至：";
     [self.view addSubview:label];
     
-    //chooseService = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 200.0, 300.0, 60.0)];
+    self.weiboBtn = [[UIButton alloc] initWithFrame:(CGRectMake(10.0, 200.0, 32.0, 32.0))];
+    [self.weiboBtn setImage:[UIImage imageNamed:@"wlogo.png"] forState:UIControlStateNormal];
     
-    self.weiboBtn = [[UIButton alloc] initWithFrame:(CGRectMake(10.0, 200.0, 80.0, 40.0))];
+    self.tWeiboBtn = [[UIButton alloc] initWithFrame:(CGRectMake(80.0, 200.0, 32.0, 32.0))];
+    [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogo.png"] forState:UIControlStateNormal];
     
-    [self.weiboBtn setTitleColor:[UIColor colorWithRed:36/255.0 green:71/255.0 blue:113/255.0 alpha:1.0] forState:UIControlStateNormal];
-    self.weiboBtn.backgroundColor = [UIColor clearColor];
-    [[self.weiboBtn layer] setBorderWidth:1.0f];
-    [[self.weiboBtn layer] setBorderColor:[UIColor grayColor].CGColor];
     [self.weiboBtn addTarget:self action:@selector(weiboOauth:) forControlEvents:UIControlEventTouchDown];
+    [self.tWeiboBtn addTarget:self action:@selector(tWeiboOauth:) forControlEvents:UIControlEventTouchDown];
     
     self.confirmBtnBackup = self.navigationItem.rightBarButtonItem;
     
     [self.view addSubview:self.weiboBtn];
+    [self.view addSubview:self.tWeiboBtn];
 }
 
 -(void) viewDidAppear:(BOOL)animated
 {
     if([self.accountManager.sinaweibo isAuthValid])
     {
-        [self.weiboBtn setTitle:@"微博已选" forState:UIControlStateNormal];
+        [self.weiboBtn setImage:[UIImage imageNamed:@"wlogo.png"] forState:UIControlStateNormal];
         sinaEnabled = YES;
-        if(!self.navigationItem.rightBarButtonItem)
-        {
-            self.navigationItem.rightBarButtonItem = self.confirmBtnBackup;
-        }
     }
     else
     {
-        [self.weiboBtn setTitle:@"微博未选" forState:UIControlStateNormal];
+        [self.weiboBtn setImage:[UIImage imageNamed:@"wlogogray.jpg"] forState:UIControlStateNormal];
         sinaEnabled = NO;
-        self.navigationItem.rightBarButtonItem = nil;
     }
+    if([[self.accountManager getTencentOAuth] isSessionValid])
+    {
+        [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogo.png"] forState:UIControlStateNormal];
+        tencentEnabled = YES;
+    }
+    else
+    {
+        [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogogray.jpg"] forState:UIControlStateNormal];
+        tencentEnabled = NO;
+    }
+    shareBtnEnabled = sinaEnabled | tencentEnabled;
 }
 
 -(IBAction) weiboOauth:(id) sender
 {
-    //[self.delegate ShareViewController:self doWeiboOauth:self.textView.text];
     if([self.accountManager.sinaweibo isAuthValid])
     {
         sinaEnabled = !sinaEnabled;
         if(sinaEnabled)
         {
-            [self.weiboBtn setTitle:@"微博已选" forState:UIControlStateNormal];
-            self.navigationItem.rightBarButtonItem = self.confirmBtnBackup;
+            [self.weiboBtn setImage:[UIImage imageNamed:@"wlogo.png"] forState:UIControlStateNormal];
         }
         else
         {
-            [self.weiboBtn setTitle:@"微博未选" forState:UIControlStateNormal];
-            self.navigationItem.rightBarButtonItem = nil;
+            [self.weiboBtn setImage:[UIImage imageNamed:@"wlogogray.jpg"] forState:UIControlStateNormal];
         }
     }
     else
     {
         [self.accountManager.sinaweibo logIn];
+    }
+    shareBtnEnabled = sinaEnabled | tencentEnabled;
+    if(shareBtnEnabled)
+    {
+        self.navigationItem.rightBarButtonItem = self.confirmBtnBackup;
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
+-(IBAction) tWeiboOauth:(id) sender
+{
+    if([[self.accountManager getTencentOAuth] isSessionValid])
+    {
+        tencentEnabled = !tencentEnabled;
+        if(tencentEnabled)
+        {
+            [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogo.png"] forState:UIControlStateNormal];
+        }
+        else
+        {
+            [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogogray.jpg"] forState:UIControlStateNormal];
+        }
+    }
+    else
+    {
+        [[self.accountManager getTencentOAuth] authorize:[self.accountManager getPermissions] inSafari:NO];
+    }
+    shareBtnEnabled = sinaEnabled | tencentEnabled;
+    if(shareBtnEnabled)
+    {
+        self.navigationItem.rightBarButtonItem = self.confirmBtnBackup;
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem = nil;
     }
 }
 
@@ -138,10 +179,18 @@
     [self dismissViewControllerAnimated:YES completion: nil];
 }
 
--(void) socialAccountManager:(SocialAccountManager *) manager updateShareView:(BOOL) hasLogin
+-(void) socialAccountManager:(SocialAccountManager *) manager updateShareView:(NSInteger) loginType
 {
-    [self.weiboBtn setTitle:@"微博已选" forState:UIControlStateNormal];
-    sinaEnabled = YES;
+    if(loginType == 1)
+    {
+        sinaEnabled = YES;
+        [self.weiboBtn setImage:[UIImage imageNamed:@"wlogo.png"] forState:UIControlStateNormal];
+    }
+    else if(loginType == 2)
+    {
+        tencentEnabled = YES;
+        [self.tWeiboBtn setImage:[UIImage imageNamed:@"tlogo.png"] forState:UIControlStateNormal];
+    }
     if(!self.navigationItem.rightBarButtonItem)
     {
         self.navigationItem.rightBarButtonItem = self.confirmBtnBackup;

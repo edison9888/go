@@ -14,6 +14,10 @@
 		132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 132D453516B5515200A1D3B0 /* NIDropDown.m */; };
 		1337E51716BBEBFE0039F257 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51616BBEBFE0039F257 /* MapKit.framework */; };
 		1337E51A16BBEC070039F257 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51916BBEC070039F257 /* CoreLocation.framework */; };
+		133CE8AA16D87B5C009E0481 /* wlogogray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 133CE8A816D87B5C009E0481 /* wlogogray.jpg */; };
+		133CE8AB16D87B5C009E0481 /* wlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 133CE8A916D87B5C009E0481 /* wlogo.png */; };
+		133CE8AF16D87C00009E0481 /* tlogogray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 133CE8AD16D87C00009E0481 /* tlogogray.jpg */; };
+		133CE8B016D87C00009E0481 /* tlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 133CE8AE16D87C00009E0481 /* tlogo.png */; };
 		13628A1D16D3B0120032743B /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 13628A1C16D3B0120032743B /* FMDatabaseAdditions.m */; };
 		139DACA516BD554900B73AFA /* LocationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 139DACA416BD554900B73AFA /* LocationAnnotation.m */; };
 		13F9227816C3510700957327 /* previous.png in Resources */ = {isa = PBXBuildFile; fileRef = 13F9227516C3510700957327 /* previous.png */; };
@@ -107,6 +111,10 @@
 		132D453516B5515200A1D3B0 /* NIDropDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NIDropDown.m; sourceTree = "<group>"; };
 		1337E51616BBEBFE0039F257 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1337E51916BBEC070039F257 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		133CE8A816D87B5C009E0481 /* wlogogray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wlogogray.jpg; sourceTree = "<group>"; };
+		133CE8A916D87B5C009E0481 /* wlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wlogo.png; sourceTree = "<group>"; };
+		133CE8AD16D87C00009E0481 /* tlogogray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tlogogray.jpg; sourceTree = "<group>"; };
+		133CE8AE16D87C00009E0481 /* tlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tlogo.png; sourceTree = "<group>"; };
 		13628A1B16D3B0120032743B /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
 		13628A1C16D3B0120032743B /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
 		139DACA316BD554900B73AFA /* LocationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationAnnotation.h; sourceTree = "<group>"; };
@@ -547,6 +555,10 @@
 		D25F6FEE16A6332D00ED7AF5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				133CE8AD16D87C00009E0481 /* tlogogray.jpg */,
+				133CE8AE16D87C00009E0481 /* tlogo.png */,
+				133CE8A816D87B5C009E0481 /* wlogogray.jpg */,
+				133CE8A916D87B5C009E0481 /* wlogo.png */,
 				C2126AE316D3B395005B0353 /* location_money.png */,
 				C2126AE416D3B395005B0353 /* location_note.png */,
 				C2126AE516D3B395005B0353 /* location_time.png */,
@@ -653,6 +665,10 @@
 				C2126AE816D3B395005B0353 /* location_note.png in Resources */,
 				C2126AE916D3B395005B0353 /* location_time.png in Resources */,
 				C2126AEA16D3B395005B0353 /* location_transport.png in Resources */,
+				133CE8AA16D87B5C009E0481 /* wlogogray.jpg in Resources */,
+				133CE8AB16D87B5C009E0481 /* wlogo.png in Resources */,
+				133CE8AF16D87C00009E0481 /* tlogogray.jpg in Resources */,
+				133CE8B016D87C00009E0481 /* tlogo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

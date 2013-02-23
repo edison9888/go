@@ -72,17 +72,21 @@
     [db open];
     
     if (type == 1) {
-        if([db stringForQuery:@"SELECT weibo_uid FROM user WHERE weibo_uid = ?", service_uid] != @"")
+        //if([db stringForQuery:@"SELECT weibo_uid FROM user WHERE weibo_uid = ?", service_uid] != @"")
+        FMResultSet *results = [db executeQuery:@"SELECT weibo_uid FROM user WHERE weibo_uid = ?", service_uid];
+        if ([results next])
             flag = YES;
     }
     else if(type == 2)
     {
-        if([db stringForQuery:@"SELECT qq_uid FROM user WHERE qq_uid = ?", service_uid] != @"")
+        FMResultSet *results = [db executeQuery:@"SELECT weibo_uid FROM user WHERE qq_uid = ?", service_uid];
+        if ([results next])
             flag = YES;
     }
     else
     {
-        if([db stringForQuery:@"SELECT douban_uid FROM user WHERE douban_uid = ?", service_uid] != @"")
+        FMResultSet *results = [db executeQuery:@"SELECT weibo_uid FROM user WHERE douban_uid = ?", service_uid];
+        if ([results next])
             flag = YES;
     }
     
