@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "LocationViewController.h"
 
-@interface EditDetailViewController : UIViewController
+@interface EditDetailViewController : UIViewController<UITextViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextView *detailInput;
 @property (nonatomic, copy) NSString *detail;
 
 @property (nonatomic,weak) id<EditLocationDelegate> delegate;

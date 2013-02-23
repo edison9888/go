@@ -10,9 +10,8 @@
 #import "LocationViewController.h"
 
 
-@interface EditTransportViewController : UIViewController
+@interface EditTransportViewController : UIViewController<UITextViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextView *transportInput;
 @property (nonatomic, copy) NSString *transportation;
 
 @property (nonatomic,weak) id<EditLocationDelegate> delegate;

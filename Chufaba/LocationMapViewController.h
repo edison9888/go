@@ -11,10 +11,9 @@
 #import "Location.h"
 #import "LocationAnnotation.h"
 
-@interface LocationMapViewController : UIViewController
-
-@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@interface LocationMapViewController : UIViewController<MKMapViewDelegate>
 
 @property (strong, nonatomic) Location *location;
+@property NSNumber *index;
 
 @end

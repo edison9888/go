@@ -14,20 +14,19 @@
 
 @implementation EditTransportViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+#define TAG_TEXTVIEW 1
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    self.transportInput.text = self.transportation;
+    self.title = @"交通";
+    
+    UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
+    textView.tag = TAG_TEXTVIEW;
+    textView.delegate = self;
+    textView.font = [UIFont systemFontOfSize:17];
+    [self.view addSubview:textView];
+	textView.text = self.transportation;
     
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editTransport)];
     self.navigationItem.rightBarButtonItem = editButton;
@@ -47,13 +46,18 @@
 
 - (void)editTransport
 {
-    [self.transportInput becomeFirstResponder];
+    [[self textView] becomeFirstResponder];
 }
 
 - (void)done
 {
-    [self.delegate didEditTransport:self.transportInput.text];
+    [self.delegate didEditTransport:[self textView].text];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (UITextView *)textView
+{
+    return (UITextView *)[self.view viewWithTag:TAG_TEXTVIEW];
 }
 
 @end

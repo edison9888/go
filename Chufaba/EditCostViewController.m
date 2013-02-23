@@ -66,7 +66,6 @@
     
     self.currencyInput.inputView = currencyPicker;
     
-    self.currencyInput.delegate = self;
     currencyPicker.delegate = self;
     currencyPicker.dataSource = self;
     currencyPicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);

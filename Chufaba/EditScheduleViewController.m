@@ -16,15 +16,6 @@
 
 @implementation EditScheduleViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -47,8 +38,6 @@
     
     self.startInput.inputView = datePicker;
     self.endInput.inputView = datePicker;
-    self.startInput.delegate = self;
-    self.endInput.delegate = self;
     
     [self.startInput becomeFirstResponder];
 }
@@ -114,6 +103,17 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
 }
 
 @end

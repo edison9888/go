@@ -478,16 +478,13 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	// Unselect the selected row if any
-	NSIndexPath	*selection = [self.tableView indexPathForSelectedRow];
-	if (selection)
-		[self.tableView deselectRowAtIndexPath:selection animated:YES];
-    
-	[self.tableView reloadData];
+    [super viewWillAppear:animated];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
 	//	The scrollbars won't flash unless the tableview is long enough.
 	[self.tableView flashScrollIndicators];
 }
@@ -919,6 +916,17 @@
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LocationViewController *locationViewController = [[LocationViewController alloc] init];
+    locationViewController.delegate = self;
+    locationViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    locationViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:locationViewController.location]];
+    locationViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
+    locationViewController.navDelegate = self;
+    [self.navigationController pushViewController:locationViewController animated:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

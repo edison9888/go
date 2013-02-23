@@ -17,5 +17,4 @@
 
 @property (nonatomic,strong) NSArray *categoryOptions;
 
-
 @end

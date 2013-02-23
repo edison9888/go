@@ -28,6 +28,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @"地点类型";
+    
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
     self.navigationItem.rightBarButtonItem = doneButton;
     

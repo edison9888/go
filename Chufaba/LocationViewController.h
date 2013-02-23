@@ -34,24 +34,12 @@
 
 @end
 
-@interface LocationViewController : UITableViewController<EditLocationDelegate>
+@interface LocationViewController : UIViewController<EditLocationDelegate, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate>
 
 @property (strong, nonatomic) Location *location;
 @property (strong, nonatomic) NSNumber *locationIndex;
 @property (strong, nonatomic) NSNumber *totalLocationCount;
 @property (nonatomic,weak) id<AddLocationDelegate> delegate;
 @property (nonatomic,weak) id<NavigateLocationDelegate> navDelegate;
-
-
-@property (weak, nonatomic) IBOutlet UIScrollView *addressScrollView;
-@property (strong, nonatomic) UILabel *addressLabel;
-@property (weak, nonatomic) IBOutlet UIScrollView *nameScrollView;
-@property (strong, nonatomic) UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *transportationLabel;
-@property (weak, nonatomic) IBOutlet UILabel *costLabel;
-@property (weak, nonatomic) IBOutlet UILabel *scheduleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
-@property (weak, nonatomic) IBOutlet UILabel *dayLabel;
-@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
