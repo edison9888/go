@@ -840,6 +840,8 @@
             [formatter setDateStyle:NSDateFormatterNoStyle];
             [formatter setTimeStyle:NSDateFormatterShortStyle];
             [[cell detailTextLabel] setText:[NSString stringWithFormat:@"%@ - %@", [formatter stringFromDate:locationAtIndex.visitBegin] ?: @"", [formatter stringFromDate:locationAtIndex.visitEnd] ?: @""]];
+        } else {
+            [[cell detailTextLabel] setText:@""];
         }
         [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];
     }
