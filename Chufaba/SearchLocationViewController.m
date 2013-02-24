@@ -82,7 +82,7 @@
                                                                                        NULL,
                                                                                        CFSTR("!*'();:@&=+$,/?%#[]"),
                                                                                        kCFStringEncodingUTF8));
-        NSString *url = [NSString stringWithFormat:@"http://106.187.34.224:3000/pois.json?name=%@", encodedString];
+        NSString *url = [NSString stringWithFormat:@"http://chufaba.me/pois.json?name=%@", encodedString];
         fetcher = [[JSONFetcher alloc]
                                 initWithURLString: url
                                 receiver:self
