@@ -29,10 +29,9 @@
 #define TAG_MAPVIEW 1
 #define TAG_NAMESCROLL 2
 #define TAG_NAMELABEL 3
-#define TAG_ADDRESSSCROLL 4
-#define TAG_ADDRESSLABEL 5
-#define TAG_TABLEVIEW 6
-#define TAG_DAYLABEL 7
+#define TAG_ADDRESSLABEL 4
+#define TAG_TABLEVIEW 5
+#define TAG_DAYLABEL 6
 
 #pragma mark - Managing the detail item
 
@@ -68,7 +67,7 @@
     [self.view addSubview:button];
     [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
     
-    UIScrollView *nameScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 75, self.view.frame.size.width, 30)];
+    UIScrollView *nameScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 75, self.view.frame.size.width, 60)];
     nameScroll.tag = TAG_NAMESCROLL;
     nameScroll.showsHorizontalScrollIndicator = FALSE;
     nameScroll.showsVerticalScrollIndicator = FALSE;
@@ -81,18 +80,11 @@
     nameLabel.font = [UIFont systemFontOfSize:15];
     [nameScroll addSubview:nameLabel];
     
-    UIScrollView *addressScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 105, self.view.frame.size.width, 30)];
-    addressScroll.tag = TAG_ADDRESSSCROLL;
-    addressScroll.showsHorizontalScrollIndicator = FALSE;
-    addressScroll.showsVerticalScrollIndicator = FALSE;
-    addressScroll.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:addressScroll];
-    
-    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, self.view.frame.size.width, 25)];
+    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 35, self.view.frame.size.width, 25)];
     addressLabel.tag = TAG_ADDRESSLABEL;
     addressLabel.backgroundColor = [UIColor lightGrayColor];
     addressLabel.font = [UIFont systemFontOfSize:14];
-    [addressScroll addSubview:addressLabel];
+    [nameScroll addSubview:addressLabel];
    
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 135, 320, self.view.frame.size.height-199) style:UITableViewStyleGrouped];
     tableView.tag = TAG_TABLEVIEW;
@@ -147,12 +139,15 @@
         UILabel *nameLabel = (UILabel *)[self.view viewWithTag:TAG_NAMELABEL];
         nameLabel.text = self.location.name;
         [nameLabel sizeToFit];
-        ((UIScrollView *)[self.view viewWithTag:TAG_NAMESCROLL]).contentSize = nameLabel.frame.size;
-        
+                
         UILabel *addressLabel = (UILabel *)[self.view viewWithTag:TAG_ADDRESSLABEL];
         addressLabel.text = self.location.address;
         [addressLabel sizeToFit];
-        ((UIScrollView *)[self.view viewWithTag:TAG_ADDRESSSCROLL]).contentSize = addressLabel.frame.size;
+        
+        CGFloat nameWidth = nameLabel.frame.size.width;
+        CGFloat addressWidth = addressLabel.frame.size.width;
+        
+        ((UIScrollView *)[self.view viewWithTag:TAG_NAMESCROLL]).contentSize = CGSizeMake((nameWidth > addressWidth) ? nameWidth : addressWidth, 60);
         
         ((UILabel *)[self.view viewWithTag:TAG_DAYLABEL]).text = [NSString stringWithFormat:@"第 %d 天", [self.location.whichday intValue]];
         

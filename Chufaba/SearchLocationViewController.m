@@ -82,7 +82,7 @@
                                                                                        NULL,
                                                                                        CFSTR("!*'();:@&=+$,/?%#[]"),
                                                                                        kCFStringEncodingUTF8));
-        NSString *url = [NSString stringWithFormat:@"http://106.187.34.224:3000/pois.json?name=%@", encodedString];
+        NSString *url = [NSString stringWithFormat:@"http://chufaba.me:9200/cfb/poi/_search?q=%@", encodedString];
         fetcher = [[JSONFetcher alloc]
                                 initWithURLString: url
                                 receiver:self
@@ -95,7 +95,7 @@
 
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
-    NSArray *locations = aFetcher.result;
+    NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
     if (locations) {
         allLocationList = [locations mutableCopy];
         [self.tableView reloadData];
@@ -129,7 +129,7 @@
     if (cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row];
+    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
     NSString *name = [locationAtIndex objectForKey: @"name"];
     NSString *nameEn = [locationAtIndex objectForKey: @"name_en"];
     [[cell textLabel] setText: name.length > 0 ? name : nameEn];
@@ -142,7 +142,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *locationAtIndex = [allLocationList objectAtIndex:indexPath.row]; 
+    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
     Location *location = [Location alloc];
     NSString *name = [locationAtIndex objectForKey: @"name"];
     NSString *nameEn = [locationAtIndex objectForKey: @"name_en"];
@@ -150,11 +150,12 @@
     location.address = [locationAtIndex objectForKey:@"address"];
     location.transportation = [locationAtIndex objectForKey:@"transport"];
     location.category = [locationAtIndex objectForKey:@"category"];
-    location.latitude = [locationAtIndex objectForKey:@"latitude"];
+    NSDictionary *point = [locationAtIndex objectForKey:@"location"];
+    location.latitude = [point objectForKey:@"lat"];
     if ([location.latitude intValue] == 10000) {
         location.latitude = nil;
     }
-    location.longitude = [locationAtIndex objectForKey:@"longitude"];
+    location.longitude = [point objectForKey:@"lon"];
     if ([location.longitude intValue] == 10000) {
         location.longitude = nil;
     }
