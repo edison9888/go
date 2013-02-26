@@ -10,7 +10,6 @@
 #import "ChufabaAppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 
-
 @interface LoginViewController ()
 
 @end
@@ -50,10 +49,6 @@
     
     self.navigationItem.title = @"登录";
     self.view.backgroundColor = [UIColor whiteColor];
-    
-//    [self.weiboLoginBtn addTarget:self action:@selector(weiboLogin:) forControlEvents:UIControlEventTouchDown];
-//    [self.qqLoginBtn addTarget:self action:@selector(qqLogin:) forControlEvents:UIControlEventTouchDown];
-//    [self.doubanLoginBtn addTarget:self action:@selector(doubanLogin:) forControlEvents:UIControlEventTouchDown];
 }
 
 
@@ -74,7 +69,7 @@
 
 - (IBAction)doubanLogin:(id)sender
 {
-    
+    [[self.accountManager getGTDouban] logIn];
 }
 
 @end

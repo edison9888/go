@@ -16,6 +16,9 @@
 
 @property (nonatomic,strong) NSMutableArray *travelPlans;
 
+@property (strong, nonatomic) SocialAccountManager *accountManager;
+- (IBAction)showLogin:(id)sender;
+
 -(void) populateTravelPlans;
 
 @end

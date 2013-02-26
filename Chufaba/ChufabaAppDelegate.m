@@ -8,7 +8,6 @@
 
 #import "ChufabaAppDelegate.h"
 #import "ItineraryViewController.h"
-//#import "SinaWeibo.h"
 #import "SocialAccountManager.h"
 
 @implementation ChufabaAppDelegate

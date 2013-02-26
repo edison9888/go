@@ -30,8 +30,16 @@
             tencentOAuth.expirationDate = [tencentAuthInfo objectForKey:@"ExpirationDateKey"];
             tencentOAuth.openId = [tencentAuthInfo objectForKey:@"OpenIDKey"];
         }
+        
+        aDouban = [[GTDouban alloc] init];
+        [aDouban setDelegate:self];
     }
     return self;
+}
+
+- (GTDouban *) getGTDouban
+{
+    return aDouban;
 }
 
 - (TencentOAuth *) getTencentOAuth
@@ -48,7 +56,7 @@
 {
     BOOL loginFlag = NO;
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if([ud stringForKey:@"LoginType"] == @"sina" || [ud stringForKey:@"LoginType"] == @"tencent")
+    if([ud stringForKey:@"LoginType"] == @"sina" || [ud stringForKey:@"LoginType"] == @"tencent" || [ud stringForKey:@"LoginType"] == @"douban")
     {
         loginFlag = YES;
     }
@@ -155,7 +163,6 @@
     {
         [dba createUser:sinaweibo.userID accesstoken:sinaweibo.accessToken mainAccountType:1];
     }
-    
 }
 
 - (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
@@ -293,6 +300,87 @@
             [self.delegate socialAccountManager:self updateDisplayName:[response.jsonResponse objectForKey:@"nickname"] updateProfileImg:[response.jsonResponse objectForKey:@"figureurl"]];
         }
 	}
+}
+
+#pragma mark - GT douban delegate
+
+- (void)engineAlreadyLoggedIn:(GTDouban *)engine
+{
+
+}
+
+- (void)engineDidLogOut:(GTDouban *)engine
+{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud removeObjectForKey:@"LoginType"];
+    [ud synchronize];
+}
+
+- (void)engineNotAuthorized:(GTDouban *)engine
+{
+
+}
+
+- (void)engineAuthorizeExpired:(GTDouban *)engine
+{
+
+}
+
+- (void)engineDidLogIn:(GTDouban *)engine
+{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *loginTypeVal = [ud objectForKey:@"LoginType"];
+    if(loginTypeVal != @"douban")
+    {
+        [ud setObject:@"douban" forKey:@"LoginType"];
+        [ud synchronize];
+        [aDouban getUserInfo];
+    }
+    
+    
+    if ([self.delegate respondsToSelector:@selector(socialAccountManager:dismissLoginView:)])
+    {
+        [self.delegate socialAccountManager:self dismissLoginView:YES];
+    }
+    
+    FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
+    
+    //新建一个用户，如果该douban_uid不存在
+    if(![dba userExist:aDouban.userID logintype:3])
+    {
+        [dba createUser:aDouban.userID accesstoken:aDouban.accessToken mainAccountType:3];
+    }
+}
+
+- (void)engine:(GTDouban *)engine didFailToLogInWithError:(NSError *)error
+{
+
+}
+
+- (void)engine:(GTDouban *)engine didCancel:(BOOL)cancel
+{
+
+}
+
+- (void)engine:(GTDouban *)engine requestDidFailWithError:(NSError *)error
+{
+
+}
+
+- (void)engine:(GTDouban *)engine requestDidSucceedWithResult:(id)result
+{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    if([ud stringForKey:@"LoginType"] == @"douban")
+    {
+        [ud setObject:[result objectForKey:@"name"] forKey:@"LoginName"];
+        [ud setObject:[result objectForKey:@"avatar"] forKey:@"LoginImage"];
+        [ud synchronize];
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateDisplayName:updateProfileImg:)])
+    {
+        [self.delegate socialAccountManager:self updateDisplayName:[result objectForKey:@"name"] updateProfileImg:[result objectForKey:@"avatar"]];
+    }
 }
 
 @end

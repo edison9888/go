@@ -27,7 +27,6 @@
 
 @class ItineraryDataController;
 @class ItineraryViewController;
-//@class SinaWeibo;
 
 @protocol ItineraryDelegate<NSObject>
 

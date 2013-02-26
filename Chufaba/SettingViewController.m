@@ -9,6 +9,8 @@
 #import "SettingViewController.h"
 #import "LoginViewController.h"
 
+#import "ChufabaAppDelegate.h"
+
 @interface SettingViewController ()
 
 @end
@@ -64,12 +66,13 @@
     {
         if(![self.accountManager hasLogin])
         {
-            //[self performSegueWithIdentifier:@"ShowLogin" sender:[tableView cellForRowAtIndexPath:indexPath]];
-            
             LoginViewController *loginController = [[LoginViewController alloc] init];
             loginController.accountManager = [[SocialAccountManager alloc] init];
             loginController.accountManager.delegate = self;
             [self.navigationController pushViewController:loginController animated:YES];
+            
+            ChufabaAppDelegate *chufabaDelegate = (ChufabaAppDelegate *)[UIApplication sharedApplication].delegate;
+            chufabaDelegate.loginViewController = loginController;
         }
     }
     else if(self.tableView.indexPathForSelectedRow.section == 2)
@@ -95,9 +98,16 @@
     [self.loginCell setNeedsLayout];
 }
 
+//-(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show
+//{
+//    [self.navigationController popViewControllerAnimated:YES];
+//    self.logoutCell.hidden = NO;
+//}
+
 -(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
+    [self.navigationController popViewControllerAnimated:NO];
     self.logoutCell.hidden = NO;
 }
 
@@ -113,6 +123,10 @@
         else if([ud stringForKey:@"LoginType"] == @"tencent")
         {
             [[self.accountManager getTencentOAuth] logout:self.accountManager];
+        }
+        else if([ud stringForKey:@"LoginType"] == @"douban")
+        {
+            [[self.accountManager getGTDouban] logOut];
         }
         
         self.logoutCell.hidden = YES;

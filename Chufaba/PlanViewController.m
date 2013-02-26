@@ -60,6 +60,11 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)showLogin:(id)sender
+{
+    [self performSegueWithIdentifier:@"ShowSettings" sender:self];
+}
+
 - (void) populateTravelPlans
 {
     self.travelPlans = [[NSMutableArray alloc] init];
@@ -72,7 +77,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = @"出发吧";
     [self populateTravelPlans];
+    
+    self.accountManager = [[SocialAccountManager alloc] init];
+    self.accountManager.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning

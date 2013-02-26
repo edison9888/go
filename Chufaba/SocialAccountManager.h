@@ -10,6 +10,7 @@
 #import "SinaWeibo.h"
 #import "SinaWeiboRequest.h"
 #import <TencentOpenAPI/TencentOAuth.h>
+#import "GTDouban.h"
 
 @class SocialAccountManager;
 
@@ -22,10 +23,11 @@
 -(void) socialAccountManager:(SocialAccountManager *) manager openShareMenu:(NSInteger) loginType;
 @end
 
-@interface SocialAccountManager : NSObject <SinaWeiboDelegate, SinaWeiboRequestDelegate, TencentSessionDelegate>
+@interface SocialAccountManager : NSObject <SinaWeiboDelegate, SinaWeiboRequestDelegate, TencentSessionDelegate, GTDoubanDelegate>
 {
     NSDictionary *userInfo;
     TencentOAuth* tencentOAuth;
+    GTDouban *aDouban;
     NSMutableArray* permissions;
 }
 
@@ -37,6 +39,8 @@
 @property (nonatomic,weak) id<SocialAccountManagerDelegate> delegate;
 
 - (TencentOAuth *) getTencentOAuth;
+
+- (GTDouban *) getGTDouban;
 
 - (NSMutableArray *) getPermissions;
 
