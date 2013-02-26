@@ -100,6 +100,7 @@
         allLocationList = [locations mutableCopy];
         [self.tableView reloadData];
     }
+    //UIButton
 }
 
 - (void)didReceiveMemoryWarning
@@ -159,7 +160,8 @@
     if ([location.longitude intValue] == 10000) {
         location.longitude = nil;
     }
-    [self.delegate didAddLocation: location];
+
+    [self.delegate notifyItinerayView:location];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

@@ -79,9 +79,6 @@
     [super viewDidLoad];
     self.navigationItem.title = @"出发吧";
     [self populateTravelPlans];
-    
-    self.accountManager = [[SocialAccountManager alloc] init];
-    self.accountManager.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning

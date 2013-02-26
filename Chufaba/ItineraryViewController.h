@@ -10,7 +10,8 @@
 #import <MapKit/MapKit.h>
 #import "ATSDragToReorderTableViewController.h"
 #import "FMDBDataAccess.h" 
-#import "SearchLocationViewController.h"
+//#import "SearchLocationViewController.h"
+#import "SelectCategoryViewController.h"
 #import "NIDropDown.h"
 #import "PullDownMenuView.h"
 #import "AddPlanViewController.h"

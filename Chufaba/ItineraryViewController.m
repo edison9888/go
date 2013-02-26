@@ -951,7 +951,7 @@
         detailViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
         detailViewController.navDelegate = self;
     }
-    else if ([[segue identifier] isEqualToString:@"SearchLocation"])
+    else if ([[segue identifier] isEqualToString:@"SelectCategory"])
     {
         UIButton *button = (UIButton*)sender;
         self.dayToAdd = [NSNumber numberWithInt:button.tag+1];
@@ -961,14 +961,24 @@
         else{
             self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:button.tag] count]+1];
         }
-        SearchLocationViewController *searchLocationViewController = segue.destinationViewController;
-        searchLocationViewController.delegate = self;
+        
+        SelectCategoryViewController *selectController = segue.destinationViewController;
+        selectController.delegate = self;
         if(lastLatitude){
-            searchLocationViewController.lastLatitude = lastLatitude;
+            selectController.lastLatitude = lastLatitude;
         }
         if(lastLongitude){
-            searchLocationViewController.lastLongitude = lastLongitude;
+            selectController.lastLongitude = lastLongitude;
         }
+        
+//        SearchLocationViewController *searchLocationViewController = segue.destinationViewController;
+//        searchLocationViewController.delegate = self;
+//        if(lastLatitude){
+//            searchLocationViewController.lastLatitude = lastLatitude;
+//        }
+//        if(lastLongitude){
+//            searchLocationViewController.lastLongitude = lastLongitude;
+//        }
     }
     else if ([[segue identifier] isEqualToString:@"EditPlan"])
     {
@@ -984,7 +994,8 @@
 
 - (IBAction)pushSearchLocationViewController:(id)sender
 {
-    [self performSegueWithIdentifier:@"SearchLocation" sender:sender];
+    //[self performSegueWithIdentifier:@"SearchLocation" sender:sender];
+    [self performSegueWithIdentifier:@"SelectCategory" sender:sender];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
