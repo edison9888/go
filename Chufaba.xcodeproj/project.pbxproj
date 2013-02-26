@@ -92,6 +92,8 @@
 		C22038A016BE410900173D29 /* other.gif in Resources */ = {isa = PBXBuildFile; fileRef = C220389A16BE410900173D29 /* other.gif */; };
 		C22038A116BE410900173D29 /* scene.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C220389B16BE410900173D29 /* scene.jpg */; };
 		C22038A216BE410900173D29 /* transport.gif in Resources */ = {isa = PBXBuildFile; fileRef = C220389C16BE410900173D29 /* transport.gif */; };
+		C26B248B16DD0BED0038111D /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = C26B248A16DD0BED0038111D /* loading.gif */; };
+		C26B248E16DD0C850038111D /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C26B248D16DD0C850038111D /* SearchTableViewCell.m */; };
 		C27BF31516D91A7E00309DE3 /* direction.png in Resources */ = {isa = PBXBuildFile; fileRef = C27BF31416D91A7E00309DE3 /* direction.png */; };
 		C2C769AF16D8C7E5007E20AB /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */; };
 		C2E1BF5916B3D03400E9750A /* HTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -261,6 +263,9 @@
 		C220389A16BE410900173D29 /* other.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = other.gif; sourceTree = "<group>"; };
 		C220389B16BE410900173D29 /* scene.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = scene.jpg; sourceTree = "<group>"; };
 		C220389C16BE410900173D29 /* transport.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = transport.gif; sourceTree = "<group>"; };
+		C26B248A16DD0BED0038111D /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
+		C26B248C16DD0C850038111D /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
+		C26B248D16DD0C850038111D /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
 		C27BF31416D91A7E00309DE3 /* direction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = direction.png; sourceTree = "<group>"; };
 		C2C769AD16D8C7E5007E20AB /* LocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTableViewCell.h; sourceTree = "<group>"; };
 		C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewCell.m; sourceTree = "<group>"; };
@@ -591,6 +596,8 @@
 				C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */,
 				13F1C75F16DCFBBA007224B3 /* SelectCategoryViewController.h */,
 				13F1C76016DCFBBA007224B3 /* SelectCategoryViewController.m */,
+				C26B248C16DD0C850038111D /* SearchTableViewCell.h */,
+				C26B248D16DD0C850038111D /* SearchTableViewCell.m */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -669,6 +676,7 @@
 			isa = PBXGroup;
 			children = (
 				13F1C75116DCFAB8007224B3 /* categorylarge */,
+				C26B248A16DD0BED0038111D /* loading.gif */,
 				1318A92E16D908C700D98B74 /* doubanlogin.png */,
 				1318A92F16D908C700D98B74 /* qqlogin.png */,
 				1318A93016D908C700D98B74 /* weibologin.png */,
@@ -797,6 +805,7 @@
 				13F1C75C16DCFAD4007224B3 /* transport.png in Resources */,
 				13F1C75D16DCFAD4007224B3 /* more.png in Resources */,
 				13F1C75E16DCFAD4007224B3 /* sight.png in Resources */,
+				C26B248B16DD0BED0038111D /* loading.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -868,6 +877,7 @@
 				1359811216D9EA3D00CCDE0E /* NSString+SBJSON.m in Sources */,
 				1359812916DA645100CCDE0E /* GTDoubanLoginViewController.m in Sources */,
 				13F1C76116DCFBBA007224B3 /* SelectCategoryViewController.m in Sources */,
+				C26B248E16DD0C850038111D /* SearchTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

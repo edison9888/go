@@ -11,11 +11,12 @@
 #import "LocationViewController.h"
 #import "JsonFetcher.h"
 #import "SelectCategoryViewController.h"
+#import "SearchTableViewCell.h"
 
 @interface SearchLocationViewController : UITableViewController <UISearchBarDelegate>
 {
     JSONFetcher *fetcher;
-    NSArray *allLocationList;
+    NSMutableArray *allLocationList;
 }
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;

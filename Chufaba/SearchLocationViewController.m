@@ -11,6 +11,9 @@
 
 @interface SearchLocationViewController ()
 
+@property NSNumber *total;
+@property NSString *keyword;
+
 @end
 
 @implementation SearchLocationViewController
@@ -72,6 +75,8 @@
 - (void)searchJiepangByKeyword:(NSString *)keyword {
     if([keyword length] > 0)
     {
+        self.total = nil;
+        self.keyword = keyword;
         if (fetcher) {
             [fetcher cancel];
             [fetcher close];
@@ -82,7 +87,7 @@
                                                                                        NULL,
                                                                                        CFSTR("!*'();:@&=+$,/?%#[]"),
                                                                                        kCFStringEncodingUTF8));
-        NSString *url = [NSString stringWithFormat:@"http://chufaba.me:9200/cfb/poi/_search?q=%@", encodedString];
+        NSString *url = [NSString stringWithFormat:@"http://chufaba.me:9200/cfb/poi/_search?q=%@&size=30&from=0", encodedString];
         fetcher = [[JSONFetcher alloc]
                                 initWithURLString: url
                                 receiver:self
@@ -96,11 +101,52 @@
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
     NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
+    self.total = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"total"];
+    
     if (locations) {
         allLocationList = [locations mutableCopy];
         [self.tableView reloadData];
     }
-    //UIButton
+    
+    fetcher = nil;
+}
+
+- (void)fetchRestResult
+{
+    if([self.keyword length] > 0)
+    {
+        NSInteger from = allLocationList.count;
+        if (from >= [self.total intValue]) {
+            return;
+        };
+        if (fetcher) {
+            return;
+        }
+        NSString *encodedString = (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                                         NULL,
+                                                                                                         (CFStringRef)self.keyword,
+                                                                                                         NULL,
+                                                                                                         CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                                                         kCFStringEncodingUTF8));
+        NSString *url = [NSString stringWithFormat:@"http://chufaba.me:9200/cfb/poi/_search?q=%@&size=30&from=%d", encodedString, from];
+        fetcher = [[JSONFetcher alloc]
+                   initWithURLString: url
+                   receiver:self
+                   action:@selector(receiveRestResult:)];
+        [fetcher start];
+    }
+}
+
+- (void)receiveRestResult:(JSONFetcher *)aFetcher
+{
+    NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
+    
+    if (locations) {
+        [allLocationList addObjectsFromArray:locations];
+        [self.tableView reloadData];
+    }
+    
+    fetcher = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -117,25 +163,50 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{    
-    return [allLocationList count];
+{
+    if ([allLocationList count] == 0) {
+        if (fetcher) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        if ([allLocationList count] == [self.total intValue]) {
+            return [allLocationList count];
+        } else {
+            return [allLocationList count] + 1;
+        }
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"SearchLocationCell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    UITableViewCell *cell;
+    if (indexPath.row < [allLocationList count]) {
+        NSString *CellIdentifier = @"SearchLocationCell";
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
+        NSString *name = [locationAtIndex objectForKey: @"name"];
+        NSString *nameEn = [locationAtIndex objectForKey: @"name_en"];
+        [[cell textLabel] setText: name.length > 0 ? name : nameEn];
+        [[cell detailTextLabel] setText:[locationAtIndex objectForKey: @"address"]];
+        cell.imageView.image = [Location getCategoryIcon:[locationAtIndex objectForKey:@"category"]];
+    } else {
+        NSString *CellIdentifier = @"LoadingCell";
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil){
+            cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            cell.imageView.image = [UIImage imageNamed:@"loading.gif"];
+        }
+        [self fetchRestResult];
     }
-    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
-    NSString *name = [locationAtIndex objectForKey: @"name"];
-    NSString *nameEn = [locationAtIndex objectForKey: @"name_en"];
-    [[cell textLabel] setText: name.length > 0 ? name : nameEn];
-    [[cell detailTextLabel] setText:[locationAtIndex objectForKey: @"address"]];
-    cell.imageView.image = [Location getCategoryIcon:[locationAtIndex objectForKey:@"category"]];
     return cell;
 }
 
