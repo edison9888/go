@@ -16,10 +16,12 @@
 {
     JSONFetcher *fetcher;
     NSArray *allLocationList;
+    UIButton *addLocationBtn;
+    BOOL showAddLocationBtn;
 }
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-//@property (nonatomic,weak) id<AddLocationDelegate> delegate;
+//@property (weak, nonatomic) UIButton *addLocationBtn;
 @property (nonatomic,weak) id<SelectCategoryViewControllerDelegate> delegate;
 
 @property (nonatomic, copy) NSNumber *lastLatitude;

@@ -8,6 +8,7 @@
 
 #import "SearchLocationViewController.h"
 #import "Location.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface SearchLocationViewController ()
 
@@ -35,6 +36,21 @@
         self.lastLatitude = [NSNumber numberWithFloat:0];
         self.lastLongitude = [NSNumber numberWithFloat:0];
     }
+    
+    addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 5.0f, 300.0f, 35.0f)];
+    [addLocationBtn setTitle:@"创建旅行地点" forState:UIControlStateNormal];
+    [addLocationBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    addLocationBtn.backgroundColor = [UIColor clearColor];
+    [[addLocationBtn layer] setBorderWidth:1.0f];
+    [[addLocationBtn layer] setBorderColor:[UIColor grayColor].CGColor];
+    [addLocationBtn addTarget:self action:@selector(addCustomLocation:) forControlEvents:UIControlEventTouchDown];
+    
+    showAddLocationBtn = NO;
+}
+
+- (IBAction)addCustomLocation:(id)sender
+{
+
 }
 
 - (void)enableCancelButton:(UISearchBar*)searchBar
@@ -60,7 +76,19 @@
 
 - (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText
 {
-    [self searchJiepangByKeyword:searchText];
+    if([searchText length] == 0)
+    {
+        showAddLocationBtn = NO;
+        allLocationList = nil;
+        [self.tableView reloadData];
+    }
+    else
+    {
+        showAddLocationBtn = YES;
+        NSString *addLocationBtnText = [@"创建旅行地点 " stringByAppendingString:searchText];
+        [addLocationBtn setTitle:addLocationBtnText forState:UIControlStateNormal];
+        [self searchJiepangByKeyword:searchText];
+    }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
@@ -89,7 +117,7 @@
                                 action:@selector(receiveResponse:)];
         [fetcher start];
         allLocationList = nil;
-        [self.tableView reloadData];
+        //[self.tableView reloadData];
     }
 }
 
@@ -100,7 +128,6 @@
         allLocationList = [locations mutableCopy];
         [self.tableView reloadData];
     }
-    //UIButton
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,25 +145,48 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {    
-    return [allLocationList count];
+    if(showAddLocationBtn)
+        return [allLocationList count] + 1;
+    else
+        return [allLocationList count];
+}
+
+- (float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [UIView new];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"SearchLocationCell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    if(indexPath.row != [allLocationList count])
+    {
+        static NSString *CellIdentifier = @"SearchLocationCell";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
+        NSString *name = [locationAtIndex objectForKey: @"name"];
+        NSString *nameEn = [locationAtIndex objectForKey: @"name_en"];
+        [[cell textLabel] setText: name.length > 0 ? name : nameEn];
+        [[cell detailTextLabel] setText:[locationAtIndex objectForKey: @"address"]];
+        cell.imageView.image = [Location getCategoryIcon:[locationAtIndex objectForKey:@"category"]];
+        return cell;
     }
-    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
-    NSString *name = [locationAtIndex objectForKey: @"name"];
-    NSString *nameEn = [locationAtIndex objectForKey: @"name_en"];
-    [[cell textLabel] setText: name.length > 0 ? name : nameEn];
-    [[cell detailTextLabel] setText:[locationAtIndex objectForKey: @"address"]];
-    cell.imageView.image = [Location getCategoryIcon:[locationAtIndex objectForKey:@"category"]];
-    return cell;
+    else
+    {
+        UITableViewCell *addLocationCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addLocation"];
+        [addLocationCell addSubview:addLocationBtn];
+        [addLocationCell bringSubviewToFront:addLocationBtn];
+        return addLocationCell;
+    }
 }
 
 #pragma mark - Table view delegate
