@@ -66,6 +66,10 @@
 	cachePolicy:(NSURLCacheStoragePolicy)aCachePolicy
 	receiver:(id)aReceiver
 	action:(SEL)receiverAction;
+- (id)initWithURLString:(NSString *)aURLString
+                   body:(NSString *)body
+               receiver:(id)aReceiver
+                 action:(SEL)receiverAction;
 - (void)start;
 - (void)cancel;
 - (void)close;

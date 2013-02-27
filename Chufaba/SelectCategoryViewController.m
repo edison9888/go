@@ -42,6 +42,7 @@
     {
         SearchLocationViewController *searchLocationViewController = segue.destinationViewController;
         searchLocationViewController.delegate = self;
+        searchLocationViewController.category = self.category;
     }
 }
 

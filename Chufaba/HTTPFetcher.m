@@ -70,6 +70,26 @@
 	return [self initWithURLRequest:request receiver:aReceiver action:receiverAction];
 }
 
+- (id)initWithURLString:(NSString *)aURLString
+                   body:(NSString *)body
+               receiver:(id)aReceiver
+                 action:(SEL)receiverAction
+{
+	//
+	// Create the URL request and invoke super
+	//
+	NSURL *url = [NSURL URLWithString:aURLString];
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    NSData *bodyData = [body dataUsingEncoding:NSUTF8StringEncoding];
+    if (bodyData == nil) {
+        NSLog(@"encoding error");
+    }
+    [request setHTTPBody:bodyData];
+    
+	return [self initWithURLRequest:request receiver:aReceiver action:receiverAction];
+}
+
 //
 // initWithURLString:timeout:cachePolicy:receiver:action:
 //

@@ -100,6 +100,11 @@
     [self searchJiepangByKeyword:_searchBar.text];
 }
 
+- (NSString *)getPostBody:(NSString *)keyword {
+    return [NSString stringWithFormat:@"{ \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"should\" : { \"multi_match\" : { \"query\" :  \"%@\", \"fields\" : [ \"name\", \"name_en\" ] }     }, \"minimum_number_should_match\" : 1 } } }", self.category, keyword];
+                          
+}
+
 - (void)searchJiepangByKeyword:(NSString *)keyword {
     if([keyword length] > 0)
     {
@@ -109,15 +114,10 @@
             [fetcher cancel];
             [fetcher close];
         }
-        NSString *encodedString = (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
-                                                                                       NULL,
-                                                                                       (CFStringRef)keyword,
-                                                                                       NULL,
-                                                                                       CFSTR("!*'();:@&=+$,/?%#[]"),
-                                                                                       kCFStringEncodingUTF8));
-        NSString *url = [NSString stringWithFormat:@"http://chufaba.me:9200/cfb/poi/_search?q=%@&size=30&from=0", encodedString];
+        NSString *body = [self getPostBody:keyword];
         fetcher = [[JSONFetcher alloc]
-                                initWithURLString: url
+                                initWithURLString:@"http://chufaba.me:9200/cfb/poi/_search?size=30&from=0"
+                                body:body
                                 receiver:self
                                 action:@selector(receiveResponse:)];
         [fetcher start];
@@ -150,15 +150,11 @@
         if (fetcher) {
             return;
         }
-        NSString *encodedString = (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
-                                                                                                         NULL,
-                                                                                                         (CFStringRef)self.keyword,
-                                                                                                         NULL,
-                                                                                                         CFSTR("!*'();:@&=+$,/?%#[]"),
-                                                                                                         kCFStringEncodingUTF8));
-        NSString *url = [NSString stringWithFormat:@"http://chufaba.me:9200/cfb/poi/_search?q=%@&size=30&from=%d", encodedString, from];
+        
+        NSString *body = [self getPostBody:self.keyword];
         fetcher = [[JSONFetcher alloc]
-                   initWithURLString: url
+                   initWithURLString:[NSString stringWithFormat:@"http://chufaba.me:9200/cfb/poi/_search?size=30&from=%d", from]
+                   body:body
                    receiver:self
                    action:@selector(receiveRestResult:)];
         [fetcher start];

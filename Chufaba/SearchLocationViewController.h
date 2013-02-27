@@ -26,6 +26,7 @@
 
 @property (nonatomic, copy) NSNumber *lastLatitude;
 @property (nonatomic, copy) NSNumber *lastLongitude;
+@property (nonatomic, copy) NSString *category;
 
 
 @end
