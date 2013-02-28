@@ -13,7 +13,7 @@
 #import "SelectCategoryViewController.h"
 #import "SearchTableViewCell.h"
 
-@interface SearchLocationViewController : UITableViewController <UISearchBarDelegate>
+@interface SearchLocationViewController : UIViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     JSONFetcher *fetcher;
     UIButton *addLocationBtn;
@@ -22,6 +22,7 @@
 }
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,weak) id<SelectCategoryViewControllerDelegate> delegate;
 
 @property (nonatomic, copy) NSNumber *lastLatitude;

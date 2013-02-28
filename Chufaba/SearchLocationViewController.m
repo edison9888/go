@@ -20,20 +20,9 @@
 
 @implementation SearchLocationViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-        //self.tableView.tableHeaderView = self.searchBar;
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _searchBar.delegate = (id)self;
     [_searchBar becomeFirstResponder];
     [_searchBar setShowsCancelButton:YES];
     if (!self.lastLatitude) {
@@ -42,7 +31,7 @@
     }
     
     addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 5.0f, 300.0f, 35.0f)];
-    [addLocationBtn setTitle:@"创建旅行地点" forState:UIControlStateNormal];
+    [addLocationBtn setTitle:[NSString stringWithFormat:@"创建%@", self.category] forState:UIControlStateNormal];
     [addLocationBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     addLocationBtn.backgroundColor = [UIColor clearColor];
     [[addLocationBtn layer] setBorderWidth:1.0f];
@@ -95,7 +84,7 @@
     else
     {
         showAddLocationBtn = YES;
-        NSString *addLocationBtnText = [@"创建旅行地点 " stringByAppendingString:searchText];
+        NSString *addLocationBtnText = [NSString stringWithFormat:@"创建%@：%@", self.category, searchText];
         [addLocationBtn setTitle:addLocationBtnText forState:UIControlStateNormal];
         [self searchJiepangByKeyword:searchText];
     }
@@ -108,7 +97,7 @@
 }
 
 - (NSString *)getPostBody:(NSString *)keyword {
-    return [NSString stringWithFormat:@"{ \"min_score\":5.0, \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\"}}} } }", self.category, keyword];
+    return [NSString stringWithFormat:@"{ \"min_score\":4.5, \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\"}}} } }", self.category, keyword];
                           
 }
 
