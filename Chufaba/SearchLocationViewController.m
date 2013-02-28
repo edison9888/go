@@ -101,7 +101,7 @@
 }
 
 - (NSString *)getPostBody:(NSString *)keyword {
-    return [NSString stringWithFormat:@"{ \"min_score\":5.0, \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\"}}} } }", self.category, keyword];
+    return [NSString stringWithFormat:@"{ \"min_score\":4.0, \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\"}}} } }", self.category, keyword];
                           
 }
 
