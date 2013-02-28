@@ -94,7 +94,7 @@
 
 - (NSString *)getPostBody:(NSString *)keyword {
     if (self.lastLatitude && [self.lastLatitude intValue] != 10000) {
-        return [NSString stringWithFormat:@"{\"min_score\":4.5, \"sort\" : [ { \"_geo_distance\" : { \"location\" : { \"lat\" : %f, \"lon\" : %f }, \"order\" : \"asc\", \"unit\" : \"km\" } } ], \"query\":{ \"filtered\":{ \"query\" : { \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\" } } } }, \"filter\":{ \"geo_distance\":{ \"distance\" : \"100000km\", \"location\" : { \"lat\" : %f, \"lon\" : %f } } } } } }", [self.lastLatitude floatValue], [self.lastLongitude floatValue], self.category, keyword, [self.lastLatitude floatValue], [self.lastLongitude floatValue]];
+        return [NSString stringWithFormat:@"{\"min_score\":4.5, \"sort\" : [ { \"_geo_distance\" : { \"location\" : { \"lat\" : %f, \"lon\" : %f }, \"order\" : \"asc\", \"unit\" : \"km\" } } ], \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\" } } } } }", [self.lastLatitude floatValue], [self.lastLongitude floatValue], self.category, keyword];
     } else {
         return [NSString stringWithFormat:@"{\"min_score\":4.5, \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\"}}} } }", self.category, keyword];
     }
