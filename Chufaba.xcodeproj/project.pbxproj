@@ -14,6 +14,7 @@
 		131BF67C16D64381001D4422 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67B16D64381001D4422 /* SystemConfiguration.framework */; };
 		131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67D16D6439A001D4422 /* libiconv.dylib */; };
 		131BF68016D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */; };
+		132D205216DF9307004921DD /* AddLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 132D205116DF9307004921DD /* AddLocationViewController.m */; };
 		132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 132D453516B5515200A1D3B0 /* NIDropDown.m */; };
 		1337E51716BBEBFE0039F257 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51616BBEBFE0039F257 /* MapKit.framework */; };
 		1337E51A16BBEC070039F257 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51916BBEC070039F257 /* CoreLocation.framework */; };
@@ -132,6 +133,8 @@
 		131BF67B16D64381001D4422 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		131BF67D16D6439A001D4422 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = Chufaba/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		132D205016DF9307004921DD /* AddLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddLocationViewController.h; sourceTree = "<group>"; };
+		132D205116DF9307004921DD /* AddLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddLocationViewController.m; sourceTree = "<group>"; };
 		132D453416B5515200A1D3B0 /* NIDropDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIDropDown.h; sourceTree = "<group>"; };
 		132D453516B5515200A1D3B0 /* NIDropDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NIDropDown.m; sourceTree = "<group>"; };
 		1337E51616BBEBFE0039F257 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -598,6 +601,8 @@
 				13F1C76016DCFBBA007224B3 /* SelectCategoryViewController.m */,
 				C26B248C16DD0C850038111D /* SearchTableViewCell.h */,
 				C26B248D16DD0C850038111D /* SearchTableViewCell.m */,
+				132D205016DF9307004921DD /* AddLocationViewController.h */,
+				132D205116DF9307004921DD /* AddLocationViewController.m */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -878,6 +883,7 @@
 				1359812916DA645100CCDE0E /* GTDoubanLoginViewController.m in Sources */,
 				13F1C76116DCFBBA007224B3 /* SelectCategoryViewController.m in Sources */,
 				C26B248E16DD0C850038111D /* SearchTableViewCell.m in Sources */,
+				132D205216DF9307004921DD /* AddLocationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

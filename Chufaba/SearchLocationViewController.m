@@ -7,6 +7,7 @@
 //
 
 #import "SearchLocationViewController.h"
+#import "AddLocationViewController.h"
 #import "Location.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -38,7 +39,13 @@
 
 - (IBAction)addCustomLocation:(id)sender
 {
-
+    AddLocationViewController *addLocationViewController = [[AddLocationViewController alloc] init];
+    addLocationViewController.addLocationName = self.searchBar.text;
+    addLocationViewController.lastLatitude = self.lastLatitude;
+    addLocationViewController.lastLongitude = self.lastLongitude;
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addLocationViewController];
+    [self presentViewController:navController animated:YES completion:NULL];
 }
 
 - (void)enableCancelButton:(UISearchBar*)searchBar
