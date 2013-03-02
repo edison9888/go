@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "Location.h"
-#import "LocationViewController.h"
+//#import "LocationViewController.h"
 #import "JsonFetcher.h"
-#import "SelectCategoryViewController.h"
 #import "SearchTableViewCell.h"
+#import "AddLocationViewController.h"
 
-@interface SearchLocationViewController : UIViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+@protocol SearchLocationViewControllerDelegate<NSObject>
+
+-(void) notifyItinerayView:(Location *) location;
+
+@end
+
+@interface SearchLocationViewController : UIViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationViewControllerDelegate>
 {
     JSONFetcher *fetcher;
     UIButton *addLocationBtn;
@@ -23,7 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic,weak) id<SelectCategoryViewControllerDelegate> delegate;
+@property (nonatomic,weak) id<SearchLocationViewControllerDelegate> searchDelegate;
 
 @property (nonatomic, copy) NSNumber *lastLatitude;
 @property (nonatomic, copy) NSNumber *lastLongitude;

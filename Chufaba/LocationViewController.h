@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "AddLocationViewController.h"
 @class Location;
 
 @protocol EditLocationDelegate<NSObject>
@@ -34,7 +35,8 @@
 
 @end
 
-@interface LocationViewController : UIViewController<EditLocationDelegate, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate>
+@interface LocationViewController : UIViewController<EditLocationDelegate, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate, AddLocationViewControllerDelegate>
+//@interface LocationViewController : UIViewController<EditLocationDelegate, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate>
 
 @property (strong, nonatomic) Location *location;
 @property (strong, nonatomic) NSNumber *locationIndex;

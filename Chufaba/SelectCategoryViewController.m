@@ -7,7 +7,6 @@
 //
 
 #import "SelectCategoryViewController.h"
-#import "SearchLocationViewController.h"
 
 @interface SelectCategoryViewController ()
 
@@ -41,7 +40,7 @@
     if ([[segue identifier] isEqualToString:@"SearchLocation"])
     {
         SearchLocationViewController *searchLocationViewController = segue.destinationViewController;
-        searchLocationViewController.delegate = self;
+        searchLocationViewController.searchDelegate = self;
         searchLocationViewController.category = self.category;
         if (self.lastLatitude) {
             searchLocationViewController.lastLatitude = self.lastLatitude;

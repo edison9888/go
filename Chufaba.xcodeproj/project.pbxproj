@@ -14,6 +14,7 @@
 		131BF67C16D64381001D4422 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67B16D64381001D4422 /* SystemConfiguration.framework */; };
 		131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67D16D6439A001D4422 /* libiconv.dylib */; };
 		131BF68016D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */; };
+		1325402C16E2059D005889E3 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 1325402B16E2059D005889E3 /* edit.png */; };
 		132D205216DF9307004921DD /* AddLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 132D205116DF9307004921DD /* AddLocationViewController.m */; };
 		132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 132D453516B5515200A1D3B0 /* NIDropDown.m */; };
 		1337E51716BBEBFE0039F257 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51616BBEBFE0039F257 /* MapKit.framework */; };
@@ -133,6 +134,7 @@
 		131BF67B16D64381001D4422 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		131BF67D16D6439A001D4422 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = Chufaba/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		1325402B16E2059D005889E3 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		132D205016DF9307004921DD /* AddLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddLocationViewController.h; sourceTree = "<group>"; };
 		132D205116DF9307004921DD /* AddLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddLocationViewController.m; sourceTree = "<group>"; };
 		132D453416B5515200A1D3B0 /* NIDropDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIDropDown.h; sourceTree = "<group>"; };
@@ -680,6 +682,7 @@
 		D25F6FEE16A6332D00ED7AF5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1325402B16E2059D005889E3 /* edit.png */,
 				13F1C75116DCFAB8007224B3 /* categorylarge */,
 				C26B248A16DD0BED0038111D /* loading.gif */,
 				1318A92E16D908C700D98B74 /* doubanlogin.png */,
@@ -811,6 +814,7 @@
 				13F1C75D16DCFAD4007224B3 /* more.png in Resources */,
 				13F1C75E16DCFAD4007224B3 /* sight.png in Resources */,
 				C26B248B16DD0BED0038111D /* loading.gif in Resources */,
+				1325402C16E2059D005889E3 /* edit.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

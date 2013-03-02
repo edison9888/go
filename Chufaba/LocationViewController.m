@@ -86,6 +86,15 @@
     nameScroll.showsHorizontalScrollIndicator = FALSE;
     nameScroll.showsVerticalScrollIndicator = FALSE;
     nameScroll.backgroundColor = [UIColor lightGrayColor];
+    
+    if(!showMap)
+    {
+        UIButton *editLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-60,0,60,60)];
+        editLocationBtn.tag = 22;
+        [editLocationBtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+        [editLocationBtn addTarget:self action:@selector(editLocationCoordinate:) forControlEvents:UIControlEventTouchDown];
+        [nameScroll addSubview:editLocationBtn];
+    }
     [self.view addSubview:nameScroll];
     
     UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(5, 5, self.view.frame.size.width, NAME_LABEL_HEIGHT)];
@@ -117,6 +126,21 @@
     [self.view addSubview:dayLabel];
     
     [self configureView];
+}
+
+- (IBAction) editLocationCoordinate:(id)sender
+{
+    AddLocationViewController *addLocationViewController = [[AddLocationViewController alloc] init];
+    addLocationViewController.addLocationName = self.location.name;
+    if(self.location.latitude != 0 && self.location.latitude != nil)
+    {
+        addLocationViewController.lastLatitude = self.location.latitude;
+        addLocationViewController.lastLongitude = self.location.longitude;
+    }
+    addLocationViewController.editLocationDelegate = self;
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addLocationViewController];
+    [self presentViewController:navController animated:YES completion:NULL];
 }
 
 - (IBAction) segmentAction:(id)sender
@@ -368,6 +392,13 @@
     self.location.category = category;
     [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) reloadData];
     [self.delegate didChangeLocation:self.location];
+}
+
+//Implement AddLocationViewControllerDelegate
+-(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *) location
+{
+    self.location = location;
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)didReceiveMemoryWarning

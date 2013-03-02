@@ -9,16 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Location.h"
 #import "LocationViewController.h"
+#import "SearchLocationViewController.h"
 
-@class SelectCategoryViewController;
-@protocol SelectCategoryViewControllerDelegate<NSObject>
-
--(void) notifyItinerayView:(Location *) location;
-
-@end
-
-
-@interface SelectCategoryViewController : UIViewController <SelectCategoryViewControllerDelegate>
+@interface SelectCategoryViewController : UIViewController <SearchLocationViewControllerDelegate>
 
 @property (nonatomic, copy) NSString *category;
 @property (nonatomic, copy) NSNumber *lastLatitude;

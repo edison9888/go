@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "SelectCategoryViewController.h"
+#import "Location.h"
+
+@class AddLocationViewController;
+
+@protocol AddLocationViewControllerDelegate <NSObject>
+@optional
+-(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *) location;
+-(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishAdd:(Location *) location;
+
+@end
 
 @interface AddLocationViewController : UIViewController <MKMapViewDelegate, UIActionSheetDelegate>
 
@@ -18,6 +27,6 @@
 
 @property (nonatomic,strong) MKMapView *mapView;
 
-@property (nonatomic,weak) id<SelectCategoryViewControllerDelegate> delegate;
+@property (nonatomic,weak) id<AddLocationViewControllerDelegate> editLocationDelegate;
 
 @end

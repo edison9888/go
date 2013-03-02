@@ -7,7 +7,6 @@
 //
 
 #import "SearchLocationViewController.h"
-#import "AddLocationViewController.h"
 #import "Location.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -43,7 +42,7 @@
     addLocationViewController.addLocationName = self.searchBar.text;
     addLocationViewController.lastLatitude = self.lastLatitude;
     addLocationViewController.lastLongitude = self.lastLongitude;
-    addLocationViewController.delegate = self.delegate;
+    addLocationViewController.editLocationDelegate = self;
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addLocationViewController];
     [self presentViewController:navController animated:YES completion:NULL];
@@ -288,7 +287,7 @@
         location.longitude = nil;
     }
 
-    [self.delegate notifyItinerayView:location];
+    [self.searchDelegate notifyItinerayView:location];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -297,5 +296,9 @@
     [self enableCancelButton:self.searchBar];
 }
 
+-(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishAdd:(Location *) location
+{
+    [self.searchDelegate notifyItinerayView:location];
+}
 
 @end

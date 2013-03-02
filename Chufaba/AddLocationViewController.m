@@ -7,7 +7,6 @@
 //
 
 #import "AddLocationViewController.h"
-#import "Location.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface AddLocationViewController ()
@@ -107,7 +106,14 @@
     }
     
     [self saveLocationToServer:addLocation];
-    [self.delegate notifyItinerayView:addLocation];
+    if ([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishEdit:)])
+    {
+        [self.editLocationDelegate AddLocationViewController:self didFinishEdit:addLocation];
+    }
+    if([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishAdd:)])
+    {
+        [self.editLocationDelegate AddLocationViewController:self didFinishAdd:addLocation];
+    }
 }
 
 - (IBAction)cancelAddLocation:(id)sender
