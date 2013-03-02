@@ -18,6 +18,9 @@
 #import "LocationTableViewCell.h"
 
 @interface LocationViewController ()
+{
+    BOOL showMap;
+}
 
 - (void)configureView;
 
@@ -32,6 +35,13 @@
 #define TAG_ADDRESSLABEL 4
 #define TAG_TABLEVIEW 5
 #define TAG_DAYLABEL 6
+
+#define MAP_VIEW_HEIGHT 75
+#define DAY_LABEL_HEIGHT 20
+#define NAME_SCROLL_HEIGHT 60
+#define NAME_LABEL_HEIGHT 25
+#define ADDRESS_LABEL_HEIGHT 25
+#define TABLEVIEW_SCROLL_OFFSET 64
 
 #pragma mark - Managing the detail item
 
@@ -59,7 +69,8 @@
     
     if ([self.location.latitude intValue] != 10000 && self.location.latitude != nil && [self.location.latitude intValue] != 0)  
     {
-        MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
+        showMap = YES;
+        MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, MAP_VIEW_HEIGHT)];
         mapView.tag = TAG_MAPVIEW;
         mapView.delegate = self;
         [self.view addSubview:mapView];
@@ -70,34 +81,37 @@
         [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
     }
     
-    UIScrollView *nameScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 75, self.view.frame.size.width, 60)];
+    UIScrollView *nameScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, showMap? MAP_VIEW_HEIGHT : 0, self.view.frame.size.width, NAME_SCROLL_HEIGHT)];
     nameScroll.tag = TAG_NAMESCROLL;
     nameScroll.showsHorizontalScrollIndicator = FALSE;
     nameScroll.showsVerticalScrollIndicator = FALSE;
     nameScroll.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:nameScroll];
     
-    UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(5, 5, self.view.frame.size.width, 25)];
+    UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(5, 5, self.view.frame.size.width, NAME_LABEL_HEIGHT)];
     nameLabel.tag = TAG_NAMELABEL;
     nameLabel.backgroundColor = [UIColor lightGrayColor];
     nameLabel.font = [UIFont systemFontOfSize:15];
     [nameScroll addSubview:nameLabel];
     
-    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 35, self.view.frame.size.width, 25)];
+    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 35, self.view.frame.size.width, ADDRESS_LABEL_HEIGHT)];
     addressLabel.tag = TAG_ADDRESSLABEL;
     addressLabel.backgroundColor = [UIColor lightGrayColor];
     addressLabel.font = [UIFont systemFontOfSize:14];
     [nameScroll addSubview:addressLabel];
    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 135, 320, self.view.frame.size.height-199) style:UITableViewStyleGrouped];
+    NSInteger tableviewHeight = showMap ? self.view.frame.size.height-TABLEVIEW_SCROLL_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT:self.view.frame.size.height-TABLEVIEW_SCROLL_OFFSET-NAME_SCROLL_HEIGHT;
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, showMap? MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT : NAME_SCROLL_HEIGHT, self.view.frame.size.width, tableviewHeight) style:UITableViewStyleGrouped];
     tableView.tag = TAG_TABLEVIEW;
     tableView.delegate = self;
     tableView.dataSource = self;
     [self.view addSubview:tableView];
     
-    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 135+tableView.frame.size.height, self.view.frame.size.width, 20)];
+    //NSLog(@"height:%f", self.navigationController.navigationBar.frame.size.height);
+    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - DAY_LABEL_HEIGHT - self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 20)];
     dayLabel.tag = TAG_DAYLABEL;
-    dayLabel.backgroundColor = [UIColor lightGrayColor];
+    dayLabel.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.9];
+    dayLabel.textColor = [UIColor whiteColor];
     dayLabel.font = [UIFont systemFontOfSize:14];
     dayLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:dayLabel];
@@ -295,7 +309,7 @@
 
 - (void)configureMap
 {
-    if ([self.location.latitude intValue] != 10000 && self.location.latitude != nil && [self.location.latitude intValue] != 0) {
+    if (showMap) {
         CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
         MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];
         [mapView setCenterCoordinate:customLoc2D_5 animated:false];
