@@ -57,15 +57,18 @@
     self.navigationItem.rightBarButtonItem = segmentBarItem;
     self.navigationItem.title = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
     
-    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
-    mapView.tag = TAG_MAPVIEW;
-    mapView.delegate = self;
-    [self.view addSubview:mapView];
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setFrame:mapView.frame];
-    [self.view addSubview:button];
-    [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
+    if ([self.location.latitude intValue] != 10000 && self.location.latitude != nil && [self.location.latitude intValue] != 0)  
+    {
+        MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
+        mapView.tag = TAG_MAPVIEW;
+        mapView.delegate = self;
+        [self.view addSubview:mapView];
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setFrame:mapView.frame];
+        [self.view addSubview:button];
+        [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
+    }
     
     UIScrollView *nameScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 75, self.view.frame.size.width, 60)];
     nameScroll.tag = TAG_NAMESCROLL;
@@ -292,7 +295,7 @@
 
 - (void)configureMap
 {
-    if ([self.location.latitude intValue] != 10000) {
+    if ([self.location.latitude intValue] != 10000 && self.location.latitude != nil && [self.location.latitude intValue] != 0) {
         CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
         MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];
         [mapView setCenterCoordinate:customLoc2D_5 animated:false];

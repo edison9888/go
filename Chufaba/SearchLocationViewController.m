@@ -43,6 +43,7 @@
     addLocationViewController.addLocationName = self.searchBar.text;
     addLocationViewController.lastLatitude = self.lastLatitude;
     addLocationViewController.lastLongitude = self.lastLongitude;
+    addLocationViewController.delegate = self.delegate;
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addLocationViewController];
     [self presentViewController:navController animated:YES completion:NULL];

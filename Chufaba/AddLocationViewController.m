@@ -7,6 +7,7 @@
 //
 
 #import "AddLocationViewController.h"
+#import "Location.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface AddLocationViewController ()
@@ -43,8 +44,9 @@
     [topView bringSubviewToFront:nameOfAddLocation];
     [self.view addSubview:topView];
     
-	MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 50, 320, 430)];
-    mapView.delegate = self;
+	//MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 50, 320, 430)];
+    self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 50, 320, 430)];
+    self.mapView.delegate = self;
     
     UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
     implyLabel.text = @"点击地图，为这个地点标注正确的位置";
@@ -52,9 +54,12 @@
     implyLabel.font = [UIFont systemFontOfSize:14];
     implyLabel.textColor = [UIColor whiteColor];
     implyLabel.textAlignment = NSTextAlignmentCenter;
-    [mapView addSubview:implyLabel];
+    [self.mapView addSubview:implyLabel];
     
-    [self.view addSubview:mapView];
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    [self.mapView addGestureRecognizer:tgr];
+    
+    [self.view addSubview:self.mapView];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(confirmAddLocation:)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAddLocation:)];
@@ -62,25 +67,66 @@
     if ([self.lastLatitude intValue] != 10000 && [self.lastLatitude intValue] != 0)
     {
         CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.lastLatitude doubleValue], [self.lastLongitude doubleValue]);
-        [mapView setCenterCoordinate:customLoc2D_5 animated:YES];
+        [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
         MKCoordinateRegion region;
         region.center = customLoc2D_5;
         MKCoordinateSpan span;
         span.latitudeDelta = 0.4;
         span.longitudeDelta = 0.4;
         region.span=span;
-        [mapView setRegion:region animated:false];
+        [self.mapView setRegion:region animated:false];
     }
+}
+
+- (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
+        return;
+    
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
+    CLLocationCoordinate2D touchMapCoordinate = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
+    
+    MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
+    pa.coordinate = touchMapCoordinate;
+    pa.title = self.addLocationName;
+    [self.mapView addAnnotation:pa];
 }
 
 - (IBAction)confirmAddLocation:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    Location *addLocation = [[Location alloc] init];
+    addLocation.name = self.addLocationName;
+    
+    if ([self.mapView.annotations count] == 1)
+    {
+        id<MKAnnotation> tappedAnnotation = [self.mapView.annotations objectAtIndex:0];
+        CLLocationCoordinate2D tappedPoint = tappedAnnotation.coordinate;
+        addLocation.latitude = [NSNumber numberWithDouble:tappedPoint.latitude];
+        addLocation.longitude = [NSNumber numberWithDouble:tappedPoint.longitude];
+    }
+    
+    [self saveLocationToServer:addLocation];
+    [self.delegate notifyItinerayView:addLocation];
 }
 
 - (IBAction)cancelAddLocation:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"坐标尚未保存，你确定放弃并返回吗？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"确定", nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    [actionSheet showInView:self.view];
+}
+
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex == 0)
+    {
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    }
+}
+
+- (void)saveLocationToServer:(Location *)location
+{
+
 }
 
 - (void)didReceiveMemoryWarning

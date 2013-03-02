@@ -777,20 +777,21 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue]-2 inSection:[self.dayToAdd intValue]-1];
     NSInteger indexToInsert = [self oneDimensionCountOfIndexPath:indexPath];
     [oneDimensionLocationList insertObject:location atIndex:indexToInsert];
-    //[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView reloadData];
     
     //add search location to database
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
-    //[db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
     [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,transportation,category,latitude,longitude) VALUES (?,?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,location.name,location.address,location.transportation,location.category,location.latitude,location.longitude];
     [db close];
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    lastLatitude = location.latitude;
-    lastLongitude = location.longitude;
+    if(location.latitude !=nil && location.longitude != nil)
+    {
+        lastLatitude = location.latitude;
+        lastLongitude = location.longitude;
+    }
 }
 
 -(void) didChangeLocation:(Location *)location
