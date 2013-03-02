@@ -970,15 +970,6 @@
         if(lastLongitude){
             selectController.lastLongitude = lastLongitude;
         }
-        
-//        SearchLocationViewController *searchLocationViewController = segue.destinationViewController;
-//        searchLocationViewController.delegate = self;
-//        if(lastLatitude){
-//            searchLocationViewController.lastLatitude = lastLatitude;
-//        }
-//        if(lastLongitude){
-//            searchLocationViewController.lastLongitude = lastLongitude;
-//        }
     }
     else if ([[segue identifier] isEqualToString:@"EditPlan"])
     {

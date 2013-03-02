@@ -43,6 +43,10 @@
         SearchLocationViewController *searchLocationViewController = segue.destinationViewController;
         searchLocationViewController.delegate = self;
         searchLocationViewController.category = self.category;
+        if (self.lastLatitude) {
+            searchLocationViewController.lastLatitude = self.lastLatitude;
+            searchLocationViewController.lastLongitude = self.lastLongitude;
+        }
     }
 }
 

@@ -25,10 +25,6 @@
     [super viewDidLoad];
     [_searchBar becomeFirstResponder];
     [_searchBar setShowsCancelButton:YES];
-    if (!self.lastLatitude) {
-        self.lastLatitude = [NSNumber numberWithFloat:0];
-        self.lastLongitude = [NSNumber numberWithFloat:0];
-    }
     
     addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 5.0f, 300.0f, 35.0f)];
     [addLocationBtn setTitle:[NSString stringWithFormat:@"创建%@", self.category] forState:UIControlStateNormal];
@@ -97,8 +93,11 @@
 }
 
 - (NSString *)getPostBody:(NSString *)keyword {
-    return [NSString stringWithFormat:@"{ \"min_score\":4.5, \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\"}}} } }", self.category, keyword];
-                          
+    if (self.lastLatitude && [self.lastLatitude intValue] != 10000) {
+        return [NSString stringWithFormat:@"{\"min_score\":4.5, \"sort\" : [ { \"_geo_distance\" : { \"location\" : { \"lat\" : %f, \"lon\" : %f }, \"order\" : \"asc\", \"unit\" : \"km\" } } ], \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\" } } } } }", [self.lastLatitude floatValue], [self.lastLongitude floatValue], self.category, keyword];
+    } else {
+        return [NSString stringWithFormat:@"{\"min_score\":4.5, \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\"}}} } }", self.category, keyword];
+    }
 }
 
 - (void)searchJiepangByKeyword:(NSString *)keyword {
