@@ -116,15 +116,15 @@
     if(buttonIndex == 0)
     {
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        if([ud stringForKey:@"LoginType"] == @"sina")
+        if([[ud stringForKey:@"LoginType"] isEqual: @"sina"])
         {
             [self.accountManager.sinaweibo logOut];
         }
-        else if([ud stringForKey:@"LoginType"] == @"tencent")
+        else if([[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
         {
             [[self.accountManager getTencentOAuth] logout:self.accountManager];
         }
-        else if([ud stringForKey:@"LoginType"] == @"douban")
+        else if([[ud stringForKey:@"LoginType"] isEqual: @"douban"])
         {
             [[self.accountManager getGTDouban] logOut];
         }

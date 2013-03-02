@@ -56,7 +56,7 @@
 {
     BOOL loginFlag = NO;
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if([ud stringForKey:@"LoginType"] == @"sina" || [ud stringForKey:@"LoginType"] == @"tencent" || [ud stringForKey:@"LoginType"] == @"douban")
+    if([[ud stringForKey:@"LoginType"] isEqual: @"sina"] || [[ud stringForKey:@"LoginType"] isEqual: @"tencent"] || [[ud stringForKey:@"LoginType"] isEqual: @"douban"])
     {
         loginFlag = YES;
     }
@@ -133,7 +133,7 @@
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *loginTypeVal = [ud objectForKey:@"LoginType"];
-    if(loginTypeVal != @"tencent")
+    if(![loginTypeVal isEqual: @"tencent"])
     {
         [ud setObject:@"sina" forKey:@"LoginType"];
         [ud synchronize];
@@ -206,7 +206,7 @@
         userInfo = result;
         
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        if([ud stringForKey:@"LoginType"] == @"sina")
+        if([[ud stringForKey:@"LoginType"] isEqual: @"sina"])
         {
             [ud setObject:[userInfo objectForKey:@"screen_name"] forKey:@"LoginName"];
             [ud setObject:[userInfo objectForKey:@"profile_image_url"] forKey:@"LoginImage"];
@@ -230,7 +230,7 @@
         
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
         NSString *loginTypeVal = [ud objectForKey:@"LoginType"];
-        if(loginTypeVal != @"sina")
+        if(![loginTypeVal isEqual: @"sina"])
         {
             [ud setObject:@"tencent" forKey:@"LoginType"];
             [ud synchronize];
@@ -288,7 +288,7 @@
 	if (response.retCode == URLREQUEST_SUCCEED)
 	{
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        if([ud stringForKey:@"LoginType"] == @"tencent")
+        if([[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
         {
             [ud setObject:[response.jsonResponse objectForKey:@"nickname"] forKey:@"LoginName"];
             [ud setObject:[response.jsonResponse objectForKey:@"figureurl"] forKey:@"LoginImage"];
@@ -330,7 +330,7 @@
 {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *loginTypeVal = [ud objectForKey:@"LoginType"];
-    if(loginTypeVal != @"douban")
+    if(![loginTypeVal isEqual: @"douban"])
     {
         [ud setObject:@"douban" forKey:@"LoginType"];
         [ud synchronize];
@@ -370,7 +370,7 @@
 - (void)engine:(GTDouban *)engine requestDidSucceedWithResult:(id)result
 {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if([ud stringForKey:@"LoginType"] == @"douban")
+    if([[ud stringForKey:@"LoginType"] isEqual: @"douban"])
     {
         [ud setObject:[result objectForKey:@"name"] forKey:@"LoginName"];
         [ud setObject:[result objectForKey:@"avatar"] forKey:@"LoginImage"];

@@ -21,7 +21,7 @@
 @synthesize list;
 @synthesize delegate;
 
-- (id)showDropDown:(UIButton *)b:(CGFloat *)height:(NSMutableArray *)arr {
+- (id)showDropDown:(UIButton *)b withHeight:(CGFloat *)height withDays:(NSMutableArray *)arr {
     btnSender = b;
     self.table = (UITableView *)[super init];
     if (self) {

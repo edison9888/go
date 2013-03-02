@@ -60,7 +60,7 @@
 @property (nonatomic,weak) id<ItineraryDelegate> delegate;
 @property (nonatomic, strong) NSArray *annotations; // of id <MKAnnotation>
 
-@property (nonatomic,weak) IBOutlet MKMapView *mapView;
+@property (nonatomic,strong) MKMapView *mapView;
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;

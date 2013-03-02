@@ -109,8 +109,8 @@
 
 - (NSIndexPath *) indexPathForTappedAnnotation
 {
-    int row;
-    int section;
+    int row = 0;
+    int section = 0;
     if(singleDayMode)
     {
         section = 0;
@@ -514,7 +514,7 @@
         [self.view addSubview:darkView];
         
         CGFloat f = ([self.dataController.itineraryDuration intValue]+1)*40;
-        dropDown = [[NIDropDown alloc]showDropDown:sender :&f :arr];
+        dropDown = [[NIDropDown alloc] showDropDown:sender withHeight:&f withDays:arr];
         dropDown.delegate = self;
     }
     else {
@@ -541,7 +541,7 @@
 - (void) showShareMenu:(PullDownMenuView *)view
 {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if([ud stringForKey:@"LoginType"] == @"sina" || [ud stringForKey:@"LoginType"] == @"tencent")
+    if([[ud stringForKey:@"LoginType"] isEqual: @"sina"] || [[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
     {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到社交网络", @"分享给微信好友", @"分享到微信朋友圈", nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
@@ -560,7 +560,7 @@
 - (void) startSynchronize:(PullDownMenuView *)view
 {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if([ud stringForKey:@"LoginType"] == @"sina" || [ud stringForKey:@"LoginType"] == @"tencent")
+    if([[ud stringForKey:@"LoginType"] isEqual: @"sina"] || [[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"开始同步" message:@"哈哈" delegate:self cancelButtonTitle:@"我知道啦" otherButtonTitles: nil];
 		[alert show];

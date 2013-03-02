@@ -18,7 +18,7 @@
 @property (nonatomic, retain) id <NIDropDownDelegate> delegate;
 
 -(void)hideDropDown:(UIButton *)b;
-- (id)showDropDown:(UIButton *)b:(CGFloat *)height:(NSMutableArray *)arr;
+- (id)showDropDown:(UIButton *)b withHeight:(CGFloat *)height withDays:(NSMutableArray *)arr;
 -(void)hideDropDownWithoutAnimation:(UIButton *)b ;
 
 @end

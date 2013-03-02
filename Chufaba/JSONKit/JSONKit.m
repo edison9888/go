@@ -677,6 +677,7 @@ static JKArray *_JKArrayCreate(id *objects, NSUInteger count, BOOL mutableCollec
   NSCParameterAssert((objects != NULL) && (_JKArrayClass != NULL) && (_JKArrayInstanceSize > 0UL));
   JKArray *array = NULL;
   if(JK_EXPECT_T((array = (JKArray *)calloc(1UL, _JKArrayInstanceSize)) != NULL)) { // Directly allocate the JKArray instance via calloc.
+    //array->isa      = _JKArrayClass;
     array->isa      = _JKArrayClass;
     if((array = [array init]) == NULL) { return(NULL); }
     array->capacity = count;
