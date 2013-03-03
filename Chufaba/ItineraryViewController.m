@@ -776,6 +776,17 @@
 
 -(void) didAddLocation:(Location *) location
 {
+    //add search location to database
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,transportation,category,latitude,longitude) VALUES (?,?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,location.name,location.address,location.transportation,location.category,location.latitude,location.longitude];
+    FMResultSet *results = [db executeQuery:@"SELECT * FROM location order by id desc limit 1"];
+    if([results next])
+    {
+        location.locationId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
+    }
+    [db close];
+    
     location.whichday = self.dayToAdd;
     if(singleDayMode){
         [[self.dataController objectInListAtIndex:0] addObject:location];
@@ -788,12 +799,6 @@
     NSInteger indexToInsert = [self oneDimensionCountOfIndexPath:indexPath];
     [oneDimensionLocationList insertObject:location atIndex:indexToInsert];
     [self.tableView reloadData];
-    
-    //add search location to database
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,transportation,category,latitude,longitude) VALUES (?,?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,location.name,location.address,location.transportation,location.category,location.latitude,location.longitude];
-    [db close];
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -812,7 +817,7 @@
     
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
-    [db executeUpdate:@"UPDATE location set transportation = ?, cost = ?, currency = ?, visit_begin = ?, visit_end = ?, detail = ?, category = ? WHERE id = ?", location.transportation, location.cost, location.currency, location.visitBegin, location.visitEnd, location.detail, location.category, location.locationId];
+    [db executeUpdate:@"UPDATE location set name = ?, transportation = ?, cost = ?, currency = ?, visit_begin = ?, visit_end = ?, detail = ?, category = ?, latitude = ?, longitude = ? WHERE id = ?", location.name, location.transportation, location.cost, location.currency, location.visitBegin, location.visitEnd, location.detail, location.category, location.latitude, location.longitude, location.locationId];
     [db close];
 }
 

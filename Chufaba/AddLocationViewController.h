@@ -19,11 +19,12 @@
 
 @end
 
-@interface AddLocationViewController : UIViewController <MKMapViewDelegate, UIActionSheetDelegate>
+@interface AddLocationViewController : UIViewController <MKMapViewDelegate, UIActionSheetDelegate, UITextFieldDelegate>
 
 @property (copy, nonatomic) NSString *addLocationName;
 @property (nonatomic, copy) NSNumber *lastLatitude;
 @property (nonatomic, copy) NSNumber *lastLongitude;
+@property (nonatomic, copy) NSNumber *locationID;
 
 @property (nonatomic,strong) MKMapView *mapView;
 

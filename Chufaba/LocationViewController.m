@@ -109,6 +109,7 @@
     addressLabel.font = [UIFont systemFontOfSize:14];
     [nameScroll addSubview:addressLabel];
    
+    NSLog(@"height1:%f", self.view.frame.size.height);
     NSInteger tableviewHeight = showMap ? self.view.frame.size.height-TABLEVIEW_SCROLL_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT:self.view.frame.size.height-TABLEVIEW_SCROLL_OFFSET-NAME_SCROLL_HEIGHT;
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, showMap? MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT : NAME_SCROLL_HEIGHT, self.view.frame.size.width, tableviewHeight) style:UITableViewStyleGrouped];
     tableView.tag = TAG_TABLEVIEW;
@@ -116,7 +117,6 @@
     tableView.dataSource = self;
     [self.view addSubview:tableView];
     
-    //NSLog(@"height:%f", self.navigationController.navigationBar.frame.size.height);
     UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - DAY_LABEL_HEIGHT - self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 20)];
     dayLabel.tag = TAG_DAYLABEL;
     dayLabel.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.9];
@@ -132,6 +132,7 @@
 {
     AddLocationViewController *addLocationViewController = [[AddLocationViewController alloc] init];
     addLocationViewController.addLocationName = self.location.name;
+    addLocationViewController.locationID = self.location.locationId;
     if(self.location.latitude != 0 && self.location.latitude != nil)
     {
         addLocationViewController.lastLatitude = self.location.latitude;
@@ -405,7 +406,10 @@
     {
         [self didEditCoordinate:location.latitude withLongitude:location.longitude];
         [((UIScrollView *)[self.view viewWithTag:TAG_NAMESCROLL]) setFrame:CGRectMake(0, MAP_VIEW_HEIGHT, self.view.frame.size.width, NAME_SCROLL_HEIGHT)];
-        [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) setFrame:CGRectMake(0, MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT, self.view.frame.size.width, self.view.frame.size.height-TABLEVIEW_SCROLL_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT)];
+        
+        NSLog(@"height2:%f", self.view.frame.size.height);
+        NSInteger tableviewHeight = self.view.frame.size.height+self.navigationController.navigationBar.frame.size.height-TABLEVIEW_SCROLL_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT;
+        [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) setFrame:CGRectMake(0, MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT, self.view.frame.size.width, tableviewHeight)];
     }
     [self.delegate didChangeLocation:self.location];
     [self dismissViewControllerAnimated:YES completion:NULL];

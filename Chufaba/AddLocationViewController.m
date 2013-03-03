@@ -46,6 +46,8 @@
     nameOfAddLocation.layer.borderWidth= 1.0f;
     nameOfAddLocation.text = self.addLocationName;
     nameOfAddLocation.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    [nameOfAddLocation setReturnKeyType:UIReturnKeyDone];
+    nameOfAddLocation.delegate = self;
     
     [topView addSubview:nameOfAddLocation];
     [topView bringSubviewToFront:nameOfAddLocation];
@@ -91,13 +93,13 @@
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
         return;
     
+    [(UITextField *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_NAME_TEXTFIELD] resignFirstResponder];
     [self.mapView removeAnnotations:self.mapView.annotations];
     CGPoint touchPoint = [gestureRecognizer locationInView:self.mapView];
     CLLocationCoordinate2D touchMapCoordinate = [self.mapView convertPoint:touchPoint toCoordinateFromView:self.mapView];
     
     MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
     pa.coordinate = touchMapCoordinate;
-    pa.title = self.addLocationName;
     [self.mapView addAnnotation:pa];
 }
 
@@ -153,6 +155,11 @@
 - (void)saveLocationToServer:(Location *)location
 {
 
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    [theTextField resignFirstResponder];
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning
