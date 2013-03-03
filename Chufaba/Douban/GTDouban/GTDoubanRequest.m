@@ -135,13 +135,38 @@
 //	return result;
 //}
 
+//- (id)parseJSONData:(NSData *)data error:(NSError **)error {
+//	NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//    NSLog(@"dataString:%@", dataString);
+//	SBJsonParser *jsonParser = [[SBJsonParser alloc]init];
+//	NSError *parseError = nil;
+//	id result = [jsonParser objectWithString:dataString error:&parseError];
+//	if (parseError) {
+//        if (error != nil) {
+//            *error = [self errorWithCode:kGTErrorCodeSDK
+//                                userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d", kGTSDKErrorCodeParseError] forKey:kGTSDKErrorCodeKey]];
+//        }
+//	}
+//	[dataString release];
+//	[jsonParser release];
+//	
+//	if ([result isKindOfClass:[NSDictionary class]]) {
+//		if ([result objectForKey:@"error_code"] != nil && [[result objectForKey:@"error_code"] intValue] != 200) {
+//			if (error != nil) {
+//				*error = [self errorWithCode:kGTErrorCodeInterface userInfo:result];
+//			}
+//		}
+//	}
+//	return result;
+//}
+
+//rewrite somecode to fix the deprecated warning
 - (id)parseJSONData:(NSData *)data error:(NSError **)error {
 	NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"dataString:%@", dataString);
 	SBJsonParser *jsonParser = [[SBJsonParser alloc]init];
-	NSError *parseError = nil;
-	id result = [jsonParser objectWithString:dataString error:&parseError];
-	if (parseError) {
+    id result = [jsonParser objectWithString:dataString];
+	if (!result) {
         if (error != nil) {
             *error = [self errorWithCode:kGTErrorCodeSDK
                                 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d", kGTSDKErrorCodeParseError] forKey:kGTSDKErrorCodeKey]];

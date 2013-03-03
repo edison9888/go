@@ -452,8 +452,17 @@
 - (void)mapView:(MKMapView *)sender annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
 {
     tappedAnnotation = aView.annotation;
-    [self performSegueWithIdentifier:@"ShowLocationDetails" sender:control];
-    //int tapIndex = [self.annotations indexOfObject:tappedAnnotation];
+    NSIndexPath *indexPath = [self indexPathForTappedAnnotation];
+    NSLog(@"section:%d", indexPath.section);
+    NSLog(@"section:%d", indexPath.row);
+    
+    LocationViewController *locationViewController = [[LocationViewController alloc] init];
+    locationViewController.delegate = self;
+    locationViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    locationViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:locationViewController.location]];
+    locationViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
+    locationViewController.navDelegate = self;
+    [self.navigationController pushViewController:locationViewController animated:YES];
 }
 
 //- (void) mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
@@ -797,7 +806,6 @@
 
 -(void) didChangeLocation:(Location *)location
 {
-    //NSLog(@"section:%d", [self.tableView indexPathForSelectedRow].section);
     [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] replaceObjectAtIndex:[self.tableView indexPathForSelectedRow].row withObject:location];
     
     [self.tableView reloadData];
@@ -937,24 +945,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     dropDown = nil;
     self.tableView.contentInset = UIEdgeInsetsZero;
-    if ([[segue identifier] isEqualToString:@"ShowLocationDetails"]) {
-        LocationViewController *detailViewController = [segue destinationViewController];
-        NSIndexPath *indexPath = nil;
-        if (self.mapView.isHidden)
-        {
-            indexPath = [self.tableView indexPathForSelectedRow];
-            detailViewController.delegate = self;
-        }
-        else
-        {
-            indexPath = [self indexPathForTappedAnnotation];
-        }
-        detailViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        detailViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:detailViewController.location]];
-        detailViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
-        detailViewController.navDelegate = self;
-    }
-    else if ([[segue identifier] isEqualToString:@"SelectCategory"])
+    if ([[segue identifier] isEqualToString:@"SelectCategory"])
     {
         UIButton *button = (UIButton*)sender;
         self.dayToAdd = [NSNumber numberWithInt:button.tag+1];
