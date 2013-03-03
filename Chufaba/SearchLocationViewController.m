@@ -270,7 +270,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
-    Location *location = [Location alloc];
+    Location *location = [[Location alloc] init];
     NSString *name = [locationAtIndex objectForKey: @"name"];
     NSString *nameEn = [locationAtIndex objectForKey: @"name_en"];
     location.name = name.length > 0 ? name : nameEn;

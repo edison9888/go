@@ -395,10 +395,52 @@
 }
 
 //Implement AddLocationViewControllerDelegate
--(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *) location
+-(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *) location name:(BOOL) nameChanged coordinate:(BOOL) coordinateChanged
 {
-    self.location = location;
+    if(nameChanged)
+    {
+        [self didEditName:location.name];
+    }
+    if(coordinateChanged)
+    {
+        [self didEditCoordinate:location.latitude withLongitude:location.longitude];
+        [((UIScrollView *)[self.view viewWithTag:TAG_NAMESCROLL]) setFrame:CGRectMake(0, MAP_VIEW_HEIGHT, self.view.frame.size.width, NAME_SCROLL_HEIGHT)];
+        [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) setFrame:CGRectMake(0, MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT, self.view.frame.size.width, self.view.frame.size.height-TABLEVIEW_SCROLL_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT)];
+    }
+    [self.delegate didChangeLocation:self.location];
     [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+-(void) didEditName:(NSString *)name
+{
+    showMap = YES;
+    self.location.name = name;
+    ((UILabel *)[self.view viewWithTag:TAG_NAMELABEL]).text = name;
+}
+
+-(void) didEditCoordinate:(NSNumber *)latitude withLongitude:(NSNumber *)longitude
+{
+    self.location.latitude = latitude;
+    self.location.longitude = longitude;
+    showMap = YES;
+    if([self.view viewWithTag:TAG_MAPVIEW])
+    {
+        [self configureMap];
+    }
+    else
+    {
+        MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, MAP_VIEW_HEIGHT)];
+        mapView.tag = TAG_MAPVIEW;
+        mapView.delegate = self;
+        [self.view addSubview:mapView];
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setFrame:mapView.frame];
+        [self.view addSubview:button];
+        [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self configureMap];
+    }
 }
 
 - (void)didReceiveMemoryWarning

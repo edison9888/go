@@ -10,10 +10,17 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface AddLocationViewController ()
+{
+    BOOL nameChanged;
+    BOOL coordinateChanged;
+}
 
 @end
 
 @implementation AddLocationViewController
+
+#define TAG_TOPVIEW 1
+#define TAG_NAME_TEXTFIELD 2
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,6 +35,7 @@
 {
     [super viewDidLoad];
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    topView.tag = TAG_TOPVIEW;
     [topView setBackgroundColor:[UIColor whiteColor]];
     
     UITextField *nameOfAddLocation = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, 300, 40)];
@@ -41,6 +49,7 @@
     
     [topView addSubview:nameOfAddLocation];
     [topView bringSubviewToFront:nameOfAddLocation];
+    nameOfAddLocation.tag = TAG_NAME_TEXTFIELD;
     [self.view addSubview:topView];
     
 	//MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 50, 320, 430)];
@@ -95,6 +104,15 @@
 - (IBAction)confirmAddLocation:(id)sender
 {
     Location *addLocation = [[Location alloc] init];
+    
+    NSString *textFieldValue = ((UITextField *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_NAME_TEXTFIELD]).text;
+    
+    if(![textFieldValue isEqual: self.addLocationName])
+    {
+        self.addLocationName = textFieldValue;
+        nameChanged = YES;
+    }
+    
     addLocation.name = self.addLocationName;
     
     if ([self.mapView.annotations count] == 1)
@@ -103,12 +121,14 @@
         CLLocationCoordinate2D tappedPoint = tappedAnnotation.coordinate;
         addLocation.latitude = [NSNumber numberWithDouble:tappedPoint.latitude];
         addLocation.longitude = [NSNumber numberWithDouble:tappedPoint.longitude];
+        //should check if the coordinate has changed
+        coordinateChanged = YES;
     }
     
     [self saveLocationToServer:addLocation];
-    if ([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishEdit:)])
+    if ([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishEdit:name:coordinate:)])
     {
-        [self.editLocationDelegate AddLocationViewController:self didFinishEdit:addLocation];
+        [self.editLocationDelegate AddLocationViewController:self didFinishEdit:addLocation name:nameChanged coordinate:coordinateChanged];
     }
     if([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishAdd:)])
     {

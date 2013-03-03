@@ -14,7 +14,7 @@
 
 @protocol AddLocationViewControllerDelegate <NSObject>
 @optional
--(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *) location;
+-(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *) location name:(BOOL) nameChanged coordinate:(BOOL) coordinateChanged;
 -(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishAdd:(Location *) location;
 
 @end

@@ -767,6 +767,7 @@
 
 -(void) didAddLocation:(Location *) location
 {
+    location.whichday = self.dayToAdd;
     if(singleDayMode){
         [[self.dataController objectInListAtIndex:0] addObject:location];
     }
@@ -796,12 +797,13 @@
 
 -(void) didChangeLocation:(Location *)location
 {
+    //NSLog(@"section:%d", [self.tableView indexPathForSelectedRow].section);
     [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] replaceObjectAtIndex:[self.tableView indexPathForSelectedRow].row withObject:location];
+    
     [self.tableView reloadData];
     
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
-    //[db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,category) VALUES (?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,locationToAdd.name,locationToAdd.address,locationToAdd.category];
     [db executeUpdate:@"UPDATE location set transportation = ?, cost = ?, currency = ?, visit_begin = ?, visit_end = ?, detail = ?, category = ? WHERE id = ?", location.transportation, location.cost, location.currency, location.visitBegin, location.visitEnd, location.detail, location.category, location.locationId];
     [db close];
 }

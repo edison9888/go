@@ -36,12 +36,14 @@
 @end
 
 @interface LocationViewController : UIViewController<EditLocationDelegate, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate, AddLocationViewControllerDelegate>
-//@interface LocationViewController : UIViewController<EditLocationDelegate, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate>
 
 @property (strong, nonatomic) Location *location;
 @property (strong, nonatomic) NSNumber *locationIndex;
 @property (strong, nonatomic) NSNumber *totalLocationCount;
 @property (nonatomic,weak) id<AddLocationDelegate> delegate;
 @property (nonatomic,weak) id<NavigateLocationDelegate> navDelegate;
+
+-(void) didEditName:(NSString *)name;
+-(void) didEditCoordinate:(NSNumber *)latitude withLongitude:(NSNumber *)longitude;
 
 @end
