@@ -807,6 +807,9 @@
         lastLatitude = location.latitude;
         lastLongitude = location.longitude;
     }
+    
+    //add this to resolve the issue that map annotations doesn't update
+    self.annotations = [self mapAnnotations];
 }
 
 -(void) didChangeLocation:(Location *)location
@@ -996,6 +999,9 @@
         [[self.dataController objectInListAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [oneDimensionLocationList removeObjectAtIndex:deleteIndex];
+        
+        //add this to resolve the issue that map annotations doesn't update
+        self.annotations = [self mapAnnotations];
         
         //delete travel location in database
         FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
