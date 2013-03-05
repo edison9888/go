@@ -369,6 +369,7 @@
 //Implement NavigationLocation delegate
 -(Location *) getPreviousLocation:(Location *)curLocation;
 {
+    [self previousMapLocation:NULL];
     int index = [oneDimensionLocationList indexOfObject:curLocation];
     return [oneDimensionLocationList objectAtIndex:index-1];
 }
@@ -376,6 +377,7 @@
 
 -(Location *) getNextLocation:(Location *)curLocation
 {
+    [self nextMapLocation:NULL];
     int index = [oneDimensionLocationList indexOfObject:curLocation];
     return [oneDimensionLocationList objectAtIndex:index+1];
 }
