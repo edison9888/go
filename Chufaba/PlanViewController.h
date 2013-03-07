@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "AddPlanViewController.h"
-#import "ATSDragToReorderTableViewController.h"
 #import "FMDBDataAccess.h" 
 #import "ItineraryViewController.h"
+#import "SwipeableTableViewCell.h"
 
-@interface PlanViewController : ATSDragToReorderTableViewController<AddPlanViewControllerDelegate, ItineraryDelegate>
+@interface PlanViewController : SwipeableTableViewController <AddPlanViewControllerDelegate, ItineraryDelegate>
 
 @property (nonatomic,strong) NSMutableArray *travelPlans;
 

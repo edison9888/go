@@ -218,14 +218,12 @@
     self.navigationItem.titleView = button;
     
     //sync,edit,share menu part
-    if (pullDownMenuView == nil) {
-		PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
-		view.delegate = self;
-		[self.tableView addSubview:view];
-		pullDownMenuView = view;
-	}
-    
-    //account manager part
+//    if (pullDownMenuView == nil) {
+//		PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
+//		view.delegate = self;
+//		[self.tableView addSubview:view];
+//		pullDownMenuView = view;
+//	}
 }
 
 - (IBAction)previousMapLocation:(id)sender
@@ -544,48 +542,48 @@
 }
 
 //Implement PullDownMenuDelegate method
-- (void) showEditTravelPlan:(PullDownMenuView *)view
-{
-    [self performSegueWithIdentifier:@"EditPlan" sender:nil];
-}
-
-- (void) showShareMenu:(PullDownMenuView *)view
-{
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if([[ud stringForKey:@"LoginType"] isEqual: @"sina"] || [[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
-    {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到社交网络", @"分享给微信好友", @"分享到微信朋友圈", nil];
-        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-        [actionSheet showInView:self.view];
-    }
-    else
-    {
-        loginForShare = YES;
-        LoginViewController *loginController = [[LoginViewController alloc] init];
-        loginController.accountManager = [[SocialAccountManager alloc] init];
-        loginController.accountManager.delegate = self;
-        [self.navigationController pushViewController:loginController animated:YES];
-    }
-}
-
-- (void) startSynchronize:(PullDownMenuView *)view
-{
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    if([[ud stringForKey:@"LoginType"] isEqual: @"sina"] || [[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"开始同步" message:@"哈哈" delegate:self cancelButtonTitle:@"我知道啦" otherButtonTitles: nil];
-		[alert show];
-    }
-    else
-    {
-        loginForShare = NO;
-        LoginViewController *loginController = [[LoginViewController alloc] init];
-        loginController.accountManager = [[SocialAccountManager alloc] init];
-        loginController.accountManager.delegate = self;
-        [self.navigationController pushViewController:loginController animated:YES];
-    }
-
-}
+//- (void) showEditTravelPlan:(PullDownMenuView *)view
+//{
+//    [self performSegueWithIdentifier:@"EditPlan" sender:nil];
+//}
+//
+//- (void) showShareMenu:(PullDownMenuView *)view
+//{
+//    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+//    if([[ud stringForKey:@"LoginType"] isEqual: @"sina"] || [[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
+//    {
+//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到社交网络", @"分享给微信好友", @"分享到微信朋友圈", nil];
+//        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+//        [actionSheet showInView:self.view];
+//    }
+//    else
+//    {
+//        loginForShare = YES;
+//        LoginViewController *loginController = [[LoginViewController alloc] init];
+//        loginController.accountManager = [[SocialAccountManager alloc] init];
+//        loginController.accountManager.delegate = self;
+//        [self.navigationController pushViewController:loginController animated:YES];
+//    }
+//}
+//
+//- (void) startSynchronize:(PullDownMenuView *)view
+//{
+//    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+//    if([[ud stringForKey:@"LoginType"] isEqual: @"sina"] || [[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"开始同步" message:@"哈哈" delegate:self cancelButtonTitle:@"我知道啦" otherButtonTitles: nil];
+//		[alert show];
+//    }
+//    else
+//    {
+//        loginForShare = NO;
+//        LoginViewController *loginController = [[LoginViewController alloc] init];
+//        loginController.accountManager = [[SocialAccountManager alloc] init];
+//        loginController.accountManager.delegate = self;
+//        [self.navigationController pushViewController:loginController animated:YES];
+//    }
+//
+//}
 
 //Implement UIActionSheetDeleg
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -1051,16 +1049,16 @@
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-	
-	[pullDownMenuView pdmScrollViewDidScroll:scrollView];
-    
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	
-	[pullDownMenuView pdmScrollViewDidEndDragging:scrollView];
-	
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//	
+//	[pullDownMenuView pdmScrollViewDidScroll:scrollView];
+//    
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+//	
+//	[pullDownMenuView pdmScrollViewDidEndDragging:scrollView];
+//	
+//}
 
 @end

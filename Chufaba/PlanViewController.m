@@ -109,6 +109,28 @@
     return [UIView new];
 }
 
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSString *CellIdentifier = @"TravelPlanCell";
+//    
+//    static NSDateFormatter *formatter = nil;
+//    if (formatter == nil) {
+//        formatter = [[NSDateFormatter alloc] init];
+//        [formatter setDateStyle:NSDateFormatterMediumStyle];
+//    }
+//    
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    Plan *planAtIndex = [self.travelPlans objectAtIndex:indexPath.row];
+//    
+//    NSString *dateStr = [formatter stringFromDate:planAtIndex.date];
+//    NSString *detailStr = [dateStr stringByAppendingString:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
+//    
+//    [[cell textLabel] setText:planAtIndex.name];
+//    [[cell detailTextLabel] setText:detailStr];
+//    cell.imageView.image = planAtIndex.image;
+//    return cell;
+//}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"TravelPlanCell";
@@ -119,16 +141,18 @@
         [formatter setDateStyle:NSDateFormatterMediumStyle];
     }
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    //NSUInteger planIndex = [self.travelPlans count] - 1 - indexPath.row;
-    //TravelPlan *planAtIndex = [self.travelPlans objectAtIndex:planIndex];
+    SwipeableTableViewCell *cell = (SwipeableTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell)
+        cell = [[SwipeableTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    
     Plan *planAtIndex = [self.travelPlans objectAtIndex:indexPath.row];
     
     NSString *dateStr = [formatter stringFromDate:planAtIndex.date];
     NSString *detailStr = [dateStr stringByAppendingString:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
     
-    [[cell textLabel] setText:planAtIndex.name];
-    [[cell detailTextLabel] setText:detailStr];
+    cell.textLabel.text = planAtIndex.name;
+    cell.detailTextLabel.enabled = YES;
+    cell.detailTextLabel.text = detailStr;
     cell.imageView.image = planAtIndex.image;
     return cell;
 }
@@ -195,7 +219,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    return NO;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -228,13 +252,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [self performSegueWithIdentifier:@"ShowItinerary" sender:nil];
 }
 
 @end
