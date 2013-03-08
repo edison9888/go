@@ -65,47 +65,51 @@
     [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
 	[contentView addGestureRecognizer:swipeRecognizer];
     
-    self.editButton = [[UIButton alloc] initWithFrame:CGRectMake(320,0,40,40)];
-    [self.editButton setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-    [self.editButton addTarget:self action:@selector(editPlan:) forControlEvents:UIControlEventTouchDown];
-	
-	self.deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(360,0,40,40)];
-    [self.deleteButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
-    [self.deleteButton addTarget:self action:@selector(deletePlan:) forControlEvents:UIControlEventTouchDown];
-    
-	//[self.editButton setHidden:YES];
-    //[self.deleteButton setHidden:YES];
-	
-	//[contentView addSubview:self.editButton];
-	//[contentView addSubview:self.deleteButton];
-    
-    [self addSubview:self.editButton];
-    [self addSubview:self.deleteButton];
-    
     [self addSubview:contentView];
 }
 
-//- (void)setFrame:(CGRect)aFrame
-//{
-//	[super setFrame:aFrame];
-//	CGRect newBounds = self.bounds;
-//	newBounds.size.height -= 1;
-//	[contentView setFrame:newBounds];
-//}
-
 - (IBAction)editPlan:(id)sender
 {
-
+    UITableView * tableView = (UITableView *)self.superview;
+    UIView *maskView = [tableView viewWithTag:10];
+    [maskView removeFromSuperview];
 }
 
 - (IBAction)deletePlan:(id)sender
 {
-    
+    UITableView * tableView = (UITableView *)self.superview;
+    UIView *maskView = [tableView viewWithTag:10];
+    [maskView removeFromSuperview];
 }
 
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer
 {	
 	UITableView * tableView = (UITableView *)self.superview;
+    
+    CGPoint location = [recognizer locationInView:tableView];
+    NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
+    //UITableViewCell *swipedCell  = [tableView cellForRowAtIndexPath:swipedIndexPath];
+    NSInteger yPosition = 44*swipedIndexPath.row;
+    
+    UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,480)];
+    maskView.backgroundColor = [UIColor clearColor];
+    maskView.tag = 10;
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
+    [maskView addGestureRecognizer:tapRecognizer];
+    
+    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(232,yPosition,44,44)];
+    [editButton setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+    [editButton addTarget:self action:@selector(editPlan:) forControlEvents:UIControlEventTouchDown];
+	
+	UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(276,yPosition,44,44)];
+    [deleteButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
+    [deleteButton addTarget:self action:@selector(deletePlan:) forControlEvents:UIControlEventTouchDown];
+    
+    [maskView addSubview:editButton];
+    [maskView addSubview:deleteButton];
+    [tableView addSubview:maskView];
+    
 	id delegate = tableView.nextResponder; 
 	
 	if ([delegate respondsToSelector:@selector(tableView:shouldSwipeCellAtIndexPath:)]){
@@ -114,7 +118,6 @@
 		
 		if ([delegate tableView:tableView shouldSwipeCellAtIndexPath:myIndexPath])
         {
-			[self revealButtonAnimated:YES];
 			if ([delegate respondsToSelector:@selector(tableView:didSwipeCellAtIndexPath:)]){
 				[delegate tableView:tableView didSwipeCellAtIndexPath:myIndexPath];
 			}
@@ -122,12 +125,11 @@
 	}
 }
 
-- (void)revealButtonAnimated:(BOOL)animated
+- (IBAction)maskViewTapped:(id)sender
 {
-    CGRect oldBounds = self.bounds;
-    [contentView setFrame:CGRectMake(oldBounds.origin.x-80,oldBounds.origin.y,oldBounds.size.width,oldBounds.size.height)];
-    [self.editButton setFrame:CGRectMake(240,0,40,40)];
-    [self.deleteButton setFrame:CGRectMake(280,0,40,40)];
+    UITableView * tableView = (UITableView *)self.superview;
+    UIView *maskView = [tableView viewWithTag:10];
+    [maskView removeFromSuperview];
 }
 
 - (void)prepareForReuse {
@@ -165,28 +167,5 @@
 	[super setHighlighted:highlighted animated:animated];
 	[self setNeedsDisplay];
 }
-
-//- (void)drawContentView:(CGRect)rect
-//{
-//    UIColor * textColor = [UIColor blackColor];
-//	if (self.selected || self.highlighted){
-//		textColor = [UIColor whiteColor];
-//	}
-//	else
-//	{
-//		[[UIColor whiteColor] set];
-//		UIRectFill(self.bounds);
-//	}
-//	
-//	[textColor set];
-//	
-//	UIFont * textFont = [UIFont boldSystemFontOfSize:22];
-//	
-//	CGSize textSize = [self.text sizeWithFont:textFont constrainedToSize:rect.size];
-//	[self.text drawInRect:CGRectMake((rect.size.width / 2) - (textSize.width / 2),
-//								(rect.size.height / 2) - (textSize.height / 2),
-//								textSize.width, textSize.height)
-//			withFont:textFont];
-//}
 
 @end
