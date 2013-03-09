@@ -12,9 +12,11 @@
 #import "ItineraryViewController.h"
 #import "SwipeableTableViewCell.h"
 
-@interface PlanViewController : SwipeableTableViewController <AddPlanViewControllerDelegate, ItineraryDelegate>
+@interface PlanViewController : SwipeableTableViewController <AddPlanViewControllerDelegate, ItineraryDelegate, UIActionSheetDelegate>
 
 @property (nonatomic,strong) NSMutableArray *travelPlans;
+
+@property (nonatomic,strong) NSIndexPath *indexPathOfplanToEditOrDelete;
 
 - (IBAction)showLogin:(id)sender;
 

@@ -10,20 +10,25 @@
 
 @implementation SwipeableTableViewController
 
-- (BOOL)tableView:(UITableView *)tableView shouldSwipeCellAtIndexPath:(NSIndexPath *)indexPath
-{
-	return YES;
-}
-
 - (void)tableView:(UITableView *)tableView didSwipeCellAtIndexPath:(NSIndexPath *)indexPath
 {
-	//[self hideVisibleBackView:YES];
-	//[self setIndexOfVisibleBackView:indexPath];
+
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	//[self hideVisibleBackView:YES];
+- (void) didEditPlan
+{
+    
 }
+
+- (void) didDeletePlan;
+{
+    
+}
+
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//
+//}
 
 @end
 
@@ -80,6 +85,11 @@
     UITableView * tableView = (UITableView *)self.superview;
     UIView *maskView = [tableView viewWithTag:10];
     [maskView removeFromSuperview];
+    
+    id delegate = tableView.nextResponder;
+    if ([delegate respondsToSelector:@selector(didDeletePlan)]){
+        [delegate didDeletePlan];
+    }
 }
 
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer
@@ -88,6 +98,7 @@
     
     CGPoint location = [recognizer locationInView:tableView];
     NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
+    
     //UITableViewCell *swipedCell  = [tableView cellForRowAtIndexPath:swipedIndexPath];
     NSInteger yPosition = 44*swipedIndexPath.row;
     
@@ -112,17 +123,12 @@
     
 	id delegate = tableView.nextResponder; 
 	
-	if ([delegate respondsToSelector:@selector(tableView:shouldSwipeCellAtIndexPath:)]){
-		
-		NSIndexPath * myIndexPath = [tableView indexPathForCell:self];
-		
-		if ([delegate tableView:tableView shouldSwipeCellAtIndexPath:myIndexPath])
-        {
-			if ([delegate respondsToSelector:@selector(tableView:didSwipeCellAtIndexPath:)]){
-				[delegate tableView:tableView didSwipeCellAtIndexPath:myIndexPath];
-			}
-		}
-	}
+	NSIndexPath * myIndexPath = [tableView indexPathForCell:self];
+    
+    if ([delegate respondsToSelector:@selector(tableView:didSwipeCellAtIndexPath:)])
+    {
+        [delegate tableView:tableView didSwipeCellAtIndexPath:myIndexPath];
+    }
 }
 
 - (IBAction)maskViewTapped:(id)sender

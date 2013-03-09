@@ -14,8 +14,10 @@
 
 @interface SwipeableTableViewController : UITableViewController
 
-- (BOOL)tableView:(UITableView *)tableView shouldSwipeCellAtIndexPath:(NSIndexPath *)indexPath;
 - (void)tableView:(UITableView *)tableView didSwipeCellAtIndexPath:(NSIndexPath *)indexPath;
+
+- (void) didEditPlan;
+- (void) didDeletePlan;
 
 @end
 

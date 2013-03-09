@@ -224,18 +224,18 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-        FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
-        
-        Plan *planToDelete = [self.travelPlans objectAtIndex:indexPath.row];
-        
-        [db deleteTravelPlan:planToDelete];
-        
-        [self.travelPlans removeObjectAtIndex:indexPath.row];
-        
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        
+//        FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
+//        
+//        Plan *planToDelete = [self.travelPlans objectAtIndex:indexPath.row];
+//        
+//        [db deleteTravelPlan:planToDelete];
+//        
+//        [self.travelPlans removeObjectAtIndex:indexPath.row];
+//        
+//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    }
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
@@ -253,6 +253,40 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self performSegueWithIdentifier:@"ShowItinerary" sender:nil];
+}
+
+- (void)tableView:(UITableView *)tableView didSwipeCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.indexPathOfplanToEditOrDelete = indexPath;
+}
+
+- (void) didEditPlan
+{
+
+}
+
+- (void) didDeletePlan;
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"确定删除该计划吗？该操作无法撤销！" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"确定", nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    [actionSheet showInView:self.view];
+}
+
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex == 0)
+    {
+        FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
+        
+        NSLog(@"section:%d", self.indexPathOfplanToEditOrDelete.row);
+        
+        Plan *planToDelete = [self.travelPlans objectAtIndex:self.indexPathOfplanToEditOrDelete.row];
+        
+        [db deleteTravelPlan:planToDelete];
+        
+        [self.travelPlans removeObjectAtIndex:self.indexPathOfplanToEditOrDelete.row];
+        
+        [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfplanToEditOrDelete] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 @end
