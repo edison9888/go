@@ -26,13 +26,6 @@
 
 
 @class ItineraryDataController;
-@class ItineraryViewController;
-
-@protocol ItineraryDelegate<NSObject>
-
--(void) travelPlanDidChange:(ItineraryViewController *) controller;
-
-@end
 
 //@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, SocialAccountManagerDelegate>
 @interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, SocialAccountManagerDelegate>
@@ -57,7 +50,6 @@
 @property (nonatomic) CLLocationManager *locationManager;
 @property (nonatomic) CLLocation *curLocation;
 
-@property (nonatomic,weak) id<ItineraryDelegate> delegate;
 @property (nonatomic, strong) NSArray *annotations; // of id <MKAnnotation>
 
 @property (nonatomic,strong) MKMapView *mapView;

@@ -78,6 +78,11 @@
     UITableView * tableView = (UITableView *)self.superview;
     UIView *maskView = [tableView viewWithTag:10];
     [maskView removeFromSuperview];
+    
+    id delegate = tableView.nextResponder;
+    if ([delegate respondsToSelector:@selector(didEditPlan)]){
+        [delegate didEditPlan];
+    }
 }
 
 - (IBAction)deletePlan:(id)sender

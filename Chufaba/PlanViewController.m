@@ -32,11 +32,11 @@
     self.dataController = [[TravelPlanDataController alloc] init];
 }*/
 
--(void) travelPlanDidChange:(ItineraryViewController *) controller
-{
-    [self populateTravelPlans];
-    [self.tableView reloadData];
-}
+//-(void) travelPlanDidChange:(ItineraryViewController *) controller
+//{
+//    [self populateTravelPlans];
+//    [self.tableView reloadData];
+//}
 
 - (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller
 {
@@ -59,6 +59,70 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+- (void)addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(Plan *)plan
+{
+    Plan *planToEdit = [self.travelPlans objectAtIndex:self.indexPathOfplanToEditOrDelete.row];
+    
+    FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
+    [dba updateTravelPlan:plan];
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    
+    if([plan.date compare: planToEdit.date] == NSOrderedSame)
+    {
+        if([plan.duration intValue] < [planToEdit.duration intValue])
+        {
+            //delete days which are deleted by changing start date.
+            [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", plan.duration,plan.planId];
+        }
+    }
+    else if([plan.date compare: planToEdit.date] == NSOrderedDescending)
+    {
+        NSInteger daysBetween = [Utility daysBetweenDate:planToEdit.date andDate:plan.date];
+        if(daysBetween >= [planToEdit.duration intValue])
+        {
+            //delete all days
+            [db executeUpdate:@"DELETE FROM location WHERE plan_id = ?", plan.planId];
+        }
+        else
+        {
+            [db executeUpdate:@"DELETE FROM location WHERE whichday <= ? AND plan_id = ?", [NSNumber numberWithInt:daysBetween],plan.planId];
+            int offset = daysBetween + [plan.duration intValue] - [planToEdit.duration intValue];
+            if(daysBetween + [plan.duration intValue] >= [planToEdit.duration intValue])
+            {
+                [db executeUpdate:@"UPDATE location SET whichday = whichday-? WHERE whichday > ? AND plan_id = ?", [NSNumber numberWithInt:daysBetween],[NSNumber numberWithInt:daysBetween],plan.planId];
+            }
+            else
+            {
+                [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", [NSNumber numberWithInt:[planToEdit.duration intValue]-offset*(-1)],plan.planId];
+            }
+        }
+    }
+    else
+    {
+        NSInteger daysBetween = [Utility daysBetweenDate:plan.date andDate:planToEdit.date];
+        if(daysBetween >= [plan.duration intValue])
+        {
+            [db executeUpdate:@"DELETE FROM location WHERE plan_id = ?", plan.planId];
+        }
+        else
+        {
+            [db executeUpdate:@"UPDATE location SET whichday = whichday+? WHERE plan_id = ?", [NSNumber numberWithInt:daysBetween],plan.planId];
+            if(daysBetween + [planToEdit.duration intValue] > [plan.duration intValue])
+            {
+                [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", plan.duration,plan.planId];
+            }
+        }
+    }
+    
+    [self populateTravelPlans];
+    [self.tableView reloadData];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 - (IBAction)showLogin:(id)sender
 {
@@ -157,7 +221,8 @@
     return cell;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     if ([[segue identifier] isEqualToString:@"ShowItinerary"]) {
         ItineraryViewController *itineraryViewController = [segue destinationViewController];
         Plan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
@@ -203,7 +268,6 @@
         itineraryViewController.itineraryListBackup = tempList;
         itineraryViewController.daySelected = [NSNumber numberWithInt:0];
         itineraryViewController.plan = selectedPlan;
-        itineraryViewController.delegate = self;
         
         [db close];
         
@@ -214,6 +278,16 @@
         AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
         addPlanViewController.navigationItem.title = @"添加旅行计划";
         addPlanViewController.delegate = self;
+    }
+    else if ([[segue identifier] isEqualToString:@"EditPlan"])
+    {
+        UINavigationController *navigationController = segue.destinationViewController;
+        AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
+        addPlanViewController.navigationItem.title = @"编辑旅行计划";
+        addPlanViewController.delegate = self;
+        Plan *tempPlan = [self.travelPlans objectAtIndex:self.indexPathOfplanToEditOrDelete.row];
+        addPlanViewController.plan = [[Plan alloc] initWithName:tempPlan.name duration:tempPlan.duration date:tempPlan.date image:tempPlan.image];
+        addPlanViewController.plan.planId = tempPlan.planId;
     }
 }
 
@@ -262,7 +336,7 @@
 
 - (void) didEditPlan
 {
-
+    [self performSegueWithIdentifier:@"EditPlan" sender:self];
 }
 
 - (void) didDeletePlan;

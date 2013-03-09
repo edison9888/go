@@ -12,7 +12,7 @@
 #import "ItineraryViewController.h"
 #import "SwipeableTableViewCell.h"
 
-@interface PlanViewController : SwipeableTableViewController <AddPlanViewControllerDelegate, ItineraryDelegate, UIActionSheetDelegate>
+@interface PlanViewController : SwipeableTableViewController <AddPlanViewControllerDelegate, UIActionSheetDelegate>
 
 @property (nonatomic,strong) NSMutableArray *travelPlans;
 
