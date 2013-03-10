@@ -130,6 +130,52 @@
     [(UIPickerView *)[self.view viewWithTag:10] selectRow:defaultDuration inComponent:0 animated:NO];
 }
 
+- (NSInteger) daysToDelete
+{
+    NSInteger days = 0;
+    NSDate *date = [(UIDatePicker *)self.dateInput.inputView date];
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSNumber *duration = [f numberFromString:self.durationInput.text];
+    
+    if([date compare: self.plan.date] == NSOrderedSame)
+    {
+        if([duration intValue] < [self.plan.duration intValue])
+            days =  [self.plan.duration intValue] - [duration intValue];
+    }
+    else if([date compare: self.plan.date] == NSOrderedDescending)
+    {
+        NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:date];
+        if(daysBetween >= [self.plan.duration intValue])
+        {
+            days = [self.plan.duration intValue];
+        }
+        else
+        {
+            days = daysBetween;
+            int offset = daysBetween + [duration intValue] - [self.plan.duration intValue];
+            if(offset < 0)
+            {
+                days = days - offset;
+            }
+        }
+    }
+    else
+    {
+        NSInteger daysBetween = [Utility daysBetweenDate:date andDate:self.plan.date];
+        if(daysBetween >= [duration intValue])
+        {
+            days = [self.plan.duration intValue];
+        }
+        else
+        {
+            days = [self.plan.duration intValue] - [duration intValue] + daysBetween;
+        }
+    }
+    
+    return days;
+}
+
 -(IBAction) done:(id) sender
 {
     if ([self.dateInput.text length] == 0 || [self.durationInput.text length] == 0)
@@ -141,16 +187,26 @@
     [f setNumberStyle:NSNumberFormatterDecimalStyle];
     if(self.plan != nil)
     {
-        self.plan.name = self.nameInput.text;
-        self.plan.duration = [f numberFromString:self.durationInput.text];
-        //add something to prevent updating date if
-        NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:[(UIDatePicker *)self.dateInput.inputView date]];
-        if(daysBetween)
+        NSInteger days = [self daysToDelete];
+        if(days > 0)
         {
-            self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
+            NSString *alertText = [[NSString alloc] initWithString:[NSString stringWithFormat:@"你将从行程中删除%d天，这会同时删除该日期下的行程",days]];
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:alertText delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除" otherButtonTitles:nil, nil];
+            actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+            [actionSheet showInView:self.view];
         }
-        self.plan.image = self.coverImageView.image;
-        [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
+        else
+        {
+            self.plan.name = self.nameInput.text;
+            self.plan.duration = [f numberFromString:self.durationInput.text];
+            NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:[(UIDatePicker *)self.dateInput.inputView date]];
+            if(daysBetween)
+            {
+                self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
+            }
+            self.plan.image = self.coverImageView.image;
+            [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
+        }
     }
     
     else
@@ -271,6 +327,23 @@
         [textField resignFirstResponder];
     }
     return YES;
+}
+
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex == 0)
+    {
+        NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+        [f setNumberStyle:NSNumberFormatterDecimalStyle];
+        self.plan.name = self.nameInput.text;
+        self.plan.duration = [f numberFromString:self.durationInput.text];
+        NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:[(UIDatePicker *)self.dateInput.inputView date]];
+        if(daysBetween)
+        {
+            self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
+        }
+        self.plan.image = self.coverImageView.image;
+        [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
+    }
 }
 
 //- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

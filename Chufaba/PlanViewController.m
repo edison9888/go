@@ -90,7 +90,7 @@
         {
             [db executeUpdate:@"DELETE FROM location WHERE whichday <= ? AND plan_id = ?", [NSNumber numberWithInt:daysBetween],plan.planId];
             int offset = daysBetween + [plan.duration intValue] - [planToEdit.duration intValue];
-            if(daysBetween + [plan.duration intValue] >= [planToEdit.duration intValue])
+            if(offset >= 0)
             {
                 [db executeUpdate:@"UPDATE location SET whichday = whichday-? WHERE whichday > ? AND plan_id = ?", [NSNumber numberWithInt:daysBetween],[NSNumber numberWithInt:daysBetween],plan.planId];
             }
@@ -143,6 +143,13 @@
     [super viewDidLoad];
     self.navigationItem.title = @"出发吧";
     [self populateTravelPlans];
+    
+//    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
+//    [tempImageView setFrame:self.tableView.frame];
+//    
+//    self.tableView.backgroundView = tempImageView;
+    
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -341,7 +348,7 @@
 
 - (void) didDeletePlan;
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"确定删除该计划吗？该操作无法撤销！" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"确定", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"确定删除该计划吗？该操作无法撤销！" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除" otherButtonTitles:nil, nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
     [actionSheet showInView:self.view];
 }

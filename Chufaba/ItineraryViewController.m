@@ -147,6 +147,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    
     oneDimensionLocationList = [self getOneDimensionLocationList];
     
     self.mapView = [[MKMapView alloc] init];

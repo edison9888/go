@@ -23,7 +23,7 @@
 
 @end
 
-@interface AddPlanViewController : UITableViewController <UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface AddPlanViewController : UITableViewController <UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *dateInput;
 @property (weak, nonatomic) IBOutlet UITextField *durationInput;
 @property (weak, nonatomic) IBOutlet UITextField *nameInput;
