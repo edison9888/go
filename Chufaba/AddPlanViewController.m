@@ -28,6 +28,13 @@
 {
     [super viewDidLoad];
     
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
+    {
+        UIImage *image = [UIImage imageNamed:@"bar.png"];
+        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    }
+    self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    
     //choose cover image part
     [self.coverImageView setImage:[UIImage imageNamed:@"photo_add.png"]];
     self.imgPickerController = [[UIImagePickerController alloc] init];

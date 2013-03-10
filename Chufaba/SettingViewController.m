@@ -29,6 +29,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
+    {
+        UIImage *image = [UIImage imageNamed:@"bar.png"];
+        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    }
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    
     self.accountManager = [[SocialAccountManager alloc] init];
     self.accountManager.delegate = self;
     

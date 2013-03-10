@@ -11,8 +11,11 @@
 #import "ItineraryViewController.h"
 #import "ItineraryDataController.h"
 
-@interface PlanViewController ()
-
+@implementation UINavigationBar (CustomImage)
+- (void)drawRect:(CGRect)rect {
+    UIImage *image = [UIImage imageNamed:@"bar.png"];
+    [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+}
 @end
 
 @implementation PlanViewController
@@ -141,8 +144,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleBlackOpaque];
+    
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
+    {
+        UIImage *image = [UIImage imageNamed:@"bar.png"];
+        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    }
+    
     self.navigationItem.title = @"出发吧";
     [self populateTravelPlans];
+    
+    self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
 //    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
 //    [tempImageView setFrame:self.tableView.frame];
