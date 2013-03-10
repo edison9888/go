@@ -16,6 +16,10 @@
 		131BF67C16D64381001D4422 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67B16D64381001D4422 /* SystemConfiguration.framework */; };
 		131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67D16D6439A001D4422 /* libiconv.dylib */; };
 		131BF68016D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */; };
+		13225AD816ECDE9000B1BB5B /* uk.png in Resources */ = {isa = PBXBuildFile; fileRef = 13225AD416ECDE9000B1BB5B /* uk.png */; };
+		13225AD916ECDE9000B1BB5B /* sydney.png in Resources */ = {isa = PBXBuildFile; fileRef = 13225AD516ECDE9000B1BB5B /* sydney.png */; };
+		13225ADA16ECDE9000B1BB5B /* sydney@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13225AD616ECDE9000B1BB5B /* sydney@2x.png */; };
+		13225ADB16ECDE9000B1BB5B /* uk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13225AD716ECDE9000B1BB5B /* uk@2x.png */; };
 		1325402C16E2059D005889E3 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 1325402B16E2059D005889E3 /* edit.png */; };
 		132D205216DF9307004921DD /* AddLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 132D205116DF9307004921DD /* AddLocationViewController.m */; };
 		132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 132D453516B5515200A1D3B0 /* NIDropDown.m */; };
@@ -142,6 +146,10 @@
 		131BF67B16D64381001D4422 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		131BF67D16D6439A001D4422 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = Chufaba/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		13225AD416ECDE9000B1BB5B /* uk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uk.png; sourceTree = "<group>"; };
+		13225AD516ECDE9000B1BB5B /* sydney.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sydney.png; sourceTree = "<group>"; };
+		13225AD616ECDE9000B1BB5B /* sydney@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sydney@2x.png"; sourceTree = "<group>"; };
+		13225AD716ECDE9000B1BB5B /* uk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uk@2x.png"; sourceTree = "<group>"; };
 		1325402B16E2059D005889E3 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		132D205016DF9307004921DD /* AddLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddLocationViewController.h; sourceTree = "<group>"; };
 		132D205116DF9307004921DD /* AddLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddLocationViewController.m; sourceTree = "<group>"; };
@@ -350,6 +358,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13225AD316ECDE6400B1BB5B /* sampleplan */ = {
+			isa = PBXGroup;
+			children = (
+				13225AD416ECDE9000B1BB5B /* uk.png */,
+				13225AD516ECDE9000B1BB5B /* sydney.png */,
+				13225AD616ECDE9000B1BB5B /* sydney@2x.png */,
+				13225AD716ECDE9000B1BB5B /* uk@2x.png */,
+			);
+			name = sampleplan;
+			sourceTree = "<group>";
+		};
 		135980F816D9E70A00CCDE0E /* Douban */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,6 +712,7 @@
 		D25F6FEE16A6332D00ED7AF5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				13225AD316ECDE6400B1BB5B /* sampleplan */,
 				1366E71316EC510300844634 /* bar.png */,
 				1366E71116EC384100844634 /* background.png */,
 				1366E70F16EC336B00844634 /* bar@2x.png */,
@@ -835,6 +855,10 @@
 				1366E71016EC336B00844634 /* bar@2x.png in Resources */,
 				1366E71216EC384100844634 /* background.png in Resources */,
 				1366E71416EC510300844634 /* bar.png in Resources */,
+				13225AD816ECDE9000B1BB5B /* uk.png in Resources */,
+				13225AD916ECDE9000B1BB5B /* sydney.png in Resources */,
+				13225ADA16ECDE9000B1BB5B /* sydney@2x.png in Resources */,
+				13225ADB16ECDE9000B1BB5B /* uk@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

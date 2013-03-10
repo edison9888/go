@@ -148,7 +148,7 @@
 {
     [super viewDidLoad];
     
-    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     oneDimensionLocationList = [self getOneDimensionLocationList];
     
@@ -840,6 +840,16 @@
     return [[self.dataController objectInListAtIndex:section] count];
 }
 
+- (float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [UIView new];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"TravelLocationCell";
@@ -923,7 +933,7 @@
     [button addTarget:self action:@selector(pushSearchLocationViewController:) forControlEvents:UIControlEventTouchDown];
     
     label.text = [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", dayValue+1]] stringByAppendingString:dateOfDay];
-    myView.backgroundColor = [UIColor orangeColor];
+    myView.backgroundColor = [UIColor grayColor];
     
 //    CALayer *bottomBorder = [CALayer layer];
 //    bottomBorder.frame = CGRectMake(0.0, 50.0, 320.0, 1.0);

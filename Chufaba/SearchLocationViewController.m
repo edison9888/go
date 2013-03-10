@@ -23,6 +23,8 @@
 {
     [super viewDidLoad];
 
+    self.searchBar.barStyle = UIBarStyleBlack;
+    self.searchBar.translucent = YES;
     UIImage *image = [UIImage imageNamed:@"bar.png"];
     [self.searchBar setBackgroundImage:image];
     

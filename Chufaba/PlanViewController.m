@@ -216,6 +216,32 @@
 //    return cell;
 //}
 
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSString *CellIdentifier = @"TravelPlanCell";
+//    
+//    static NSDateFormatter *formatter = nil;
+//    if (formatter == nil) {
+//        formatter = [[NSDateFormatter alloc] init];
+//        [formatter setDateStyle:NSDateFormatterMediumStyle];
+//    }
+//    
+//    SwipeableTableViewCell *cell = (SwipeableTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    if (!cell)
+//        cell = [[SwipeableTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//    
+//    Plan *planAtIndex = [self.travelPlans objectAtIndex:indexPath.row];
+//    
+//    NSString *dateStr = [formatter stringFromDate:planAtIndex.date];
+//    NSString *detailStr = [dateStr stringByAppendingString:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
+//    
+//    cell.textLabel.text = planAtIndex.name;
+//    cell.detailTextLabel.enabled = YES;
+//    cell.detailTextLabel.text = detailStr;
+//    cell.imageView.image = planAtIndex.image;
+//    return cell;
+//}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"TravelPlanCell";
@@ -226,19 +252,42 @@
         [formatter setDateStyle:NSDateFormatterMediumStyle];
     }
     
+//    NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];
+//    NSArray *fontNames;
+//    NSInteger indFamily, indFont;
+//    for(indFamily=0;indFamily<[familyNames count];++indFamily)
+//    {
+//        NSLog(@"Family name: %@", [familyNames objectAtIndex:indFamily]);
+//        fontNames =[[NSArray alloc]initWithArray:[UIFont fontNamesForFamilyName:[familyNames objectAtIndex:indFamily]]];
+//        for(indFont=0; indFont<[fontNames count]; ++indFont)
+//        {
+//            NSLog(@" Font name: %@",[fontNames objectAtIndex:indFont]);
+//        }
+//    }
+    
     SwipeableTableViewCell *cell = (SwipeableTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (!cell)
-        cell = [[SwipeableTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     
     Plan *planAtIndex = [self.travelPlans objectAtIndex:indexPath.row];
     
-    NSString *dateStr = [formatter stringFromDate:planAtIndex.date];
-    NSString *detailStr = [dateStr stringByAppendingString:[NSString stringWithFormat:@"%d", [planAtIndex.duration intValue]]];
+    UIImageView *planCover = (UIImageView *)[cell viewWithTag:1];
+    planCover.image = [UIImage imageNamed:@"sydney.png"];
     
-    cell.textLabel.text = planAtIndex.name;
-    cell.detailTextLabel.enabled = YES;
-    cell.detailTextLabel.text = detailStr;
-    cell.imageView.image = planAtIndex.image;
+    UILabel *label;
+    label = (UILabel *)[cell viewWithTag:2];
+    label.text = planAtIndex.name;
+    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    label.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    
+    label = (UILabel *)[cell viewWithTag:3];
+    label.text = [formatter stringFromDate:planAtIndex.date];
+    label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    label.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    
+    label = (UILabel *)[cell viewWithTag:4];
+    label.text = [planAtIndex.duration stringValue];
+    label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    label.font = [UIFont fontWithName:@"Heiti SC" size:12];
+
     return cell;
 }
 

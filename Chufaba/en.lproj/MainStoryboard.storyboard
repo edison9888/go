@@ -23,10 +23,59 @@
         <scene sceneID="VYg-d7-R3G">
             <objects>
                 <tableViewController id="UlT-wR-sjT" customClass="PlanViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="wzd-Zl-70w">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="91" sectionHeaderHeight="22" sectionFooterHeight="22" id="wzd-Zl-70w">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TravelPlanCell" rowHeight="92" id="gVe-pr-CpO">
+                                <rect key="frame" x="0.0" y="22" width="320" height="92"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="91"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dr2-8J-7m3">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="6QS-SM-P5V"/>
+                                                <constraint firstAttribute="height" constant="60" id="Mk5-Dz-eMs"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Udd-ml-FuN">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="110" id="bog-JJ-43y"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IYh-au-a9T">
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uA2-IH-9MT">
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="Udd-ml-FuN" firstAttribute="leading" secondItem="gVe-pr-CpO" secondAttribute="leading" constant="140" id="4VK-c6-4E6"/>
+                                    <constraint firstItem="uA2-IH-9MT" firstAttribute="trailing" secondItem="Udd-ml-FuN" secondAttribute="trailing" type="default" id="9U4-T0-smk"/>
+                                    <constraint firstItem="uA2-IH-9MT" firstAttribute="leading" secondItem="Udd-ml-FuN" secondAttribute="leading" type="default" id="9V1-j3-AxH"/>
+                                    <constraint firstItem="Udd-ml-FuN" firstAttribute="top" secondItem="gVe-pr-CpO" secondAttribute="top" constant="20" type="default" id="FjT-Bf-cMH"/>
+                                    <constraint firstItem="dr2-8J-7m3" firstAttribute="centerY" secondItem="gVe-pr-CpO" secondAttribute="centerY" type="default" id="GIS-t4-nvY"/>
+                                    <constraint firstAttribute="bottom" secondItem="IYh-au-a9T" secondAttribute="bottom" constant="20" type="default" id="Mw3-Am-Ocl"/>
+                                    <constraint firstItem="uA2-IH-9MT" firstAttribute="top" secondItem="gVe-pr-CpO" secondAttribute="top" constant="44" id="QDI-mC-HrR"/>
+                                    <constraint firstItem="dr2-8J-7m3" firstAttribute="leading" secondItem="gVe-pr-CpO" secondAttribute="leading" constant="20" type="default" id="W8e-4g-4VS"/>
+                                    <constraint firstItem="IYh-au-a9T" firstAttribute="leading" secondItem="uA2-IH-9MT" secondAttribute="leading" type="default" id="iZv-Qi-VjL"/>
+                                    <constraint firstItem="IYh-au-a9T" firstAttribute="trailing" secondItem="uA2-IH-9MT" secondAttribute="trailing" type="default" id="zSe-m4-fvZ"/>
+                                </constraints>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="UlT-wR-sjT" id="EbZ-KZ-B4C"/>
                             <outlet property="delegate" destination="UlT-wR-sjT" id="Ijt-9x-htH"/>
