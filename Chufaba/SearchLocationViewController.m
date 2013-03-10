@@ -121,6 +121,7 @@
                                 body:body
                                 receiver:self
                                 action:@selector(receiveResponse:)];
+        fetcher.showAlerts = NO;
         [fetcher start];
         allLocationList = nil;
         //[self.tableView reloadData];
@@ -129,15 +130,31 @@
 
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
-    NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
-    self.total = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"total"];
-    
-    if (locations) {
-        allLocationList = [locations mutableCopy];
-        [self.tableView reloadData];
+    if (aFetcher.failureCode) {
+        UIAlertView *alert =
+        [[UIAlertView alloc]
+         initWithTitle:nil
+         message:@"服务器跪了，请稍后重试"
+         delegate:self
+         cancelButtonTitle:@"确定"
+         otherButtonTitles:nil];
+        [alert show];
+    } else {
+        NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
+        self.total = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"total"];
+        
+        if (locations) {
+            allLocationList = [locations mutableCopy];
+            [self.tableView reloadData];
+        }
     }
-    
     fetcher = nil;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    allLocationList = [[NSMutableArray alloc] init];
+    [self.tableView reloadData];
 }
 
 - (void)fetchRestResult
@@ -158,17 +175,29 @@
                    body:body
                    receiver:self
                    action:@selector(receiveRestResult:)];
+        fetcher.showAlerts = NO;
         [fetcher start];
     }
 }
 
 - (void)receiveRestResult:(JSONFetcher *)aFetcher
 {
-    NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
-    
-    if (locations) {
-        [allLocationList addObjectsFromArray:locations];
-        [self.tableView reloadData];
+    if (aFetcher.failureCode) {
+        UIAlertView *alert =
+        [[UIAlertView alloc]
+         initWithTitle:nil
+         message:@"服务器跪了，请稍后重试"
+         delegate:self
+         cancelButtonTitle:@"确定"
+         otherButtonTitles:nil];
+        [alert show];
+    } else {
+        NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
+        
+        if (locations) {
+            [allLocationList addObjectsFromArray:locations];
+            [self.tableView reloadData];
+        }
     }
     
     fetcher = nil;

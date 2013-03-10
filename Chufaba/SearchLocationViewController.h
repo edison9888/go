@@ -19,7 +19,7 @@
 
 @end
 
-@interface SearchLocationViewController : UIViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationViewControllerDelegate>
+@interface SearchLocationViewController : UIViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationViewControllerDelegate, UIAlertViewDelegate>
 {
     JSONFetcher *fetcher;
     UIButton *addLocationBtn;
