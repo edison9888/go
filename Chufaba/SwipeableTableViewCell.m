@@ -58,19 +58,40 @@
 }
 
 - (void)initialSetup
-{	
-	[self setBackgroundColor:[UIColor clearColor]];
-	
-	CGRect newBounds = self.bounds;
-    contentView = [[SwipeableTableViewCellView alloc] initWithFrame:newBounds];
+{
+	//[self setBackgroundColor:[UIColor clearColor]];
+
+    contentView = [[SwipeableTableViewCellView alloc] initWithFrame:CGRectMake(0, 0, 320, 92)];
 	[contentView setClipsToBounds:YES];
 	[contentView setOpaque:NO];
+    contentView.tag = 22;
+    
+    UIImageView *planCover = [[UIImageView alloc] initWithFrame:CGRectMake(20, 16, 100, 60)];
+    planCover.image = [UIImage imageNamed:@"sydney.png"];
+    planCover.tag = 1;
+    [contentView addSubview:planCover];
+    
+    UILabel *planTitle = [[UILabel alloc] initWithFrame:CGRectMake(140, 20, 160, 20)];
+    planTitle.tag = 2;
+    planTitle.backgroundColor = [UIColor clearColor];
+    [contentView addSubview:planTitle];
+    
+    UILabel *planDate = [[UILabel alloc] initWithFrame:CGRectMake(140, 42, 120, 20)];
+    planDate.tag = 3;
+    planDate.backgroundColor = [UIColor clearColor];
+    [contentView addSubview:planDate];
+    
+    UILabel *planInfo = [[UILabel alloc] initWithFrame:CGRectMake(140, 56, 120, 20)];
+    planInfo.tag = 4;
+    planInfo.backgroundColor = [UIColor clearColor];
+    [contentView addSubview:planInfo];
 	
 	UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cellWasSwiped:)];
     [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
 	[contentView addGestureRecognizer:swipeRecognizer];
     
     [self addSubview:contentView];
+    //self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 - (IBAction)editPlan:(id)sender
@@ -105,7 +126,7 @@
     NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
     
     //UITableViewCell *swipedCell  = [tableView cellForRowAtIndexPath:swipedIndexPath];
-    NSInteger yPosition = 44*swipedIndexPath.row;
+    NSInteger yPosition = 92*swipedIndexPath.row + 24;
     
     UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,480)];
     maskView.backgroundColor = [UIColor clearColor];
