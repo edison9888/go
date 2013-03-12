@@ -36,7 +36,16 @@
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     //choose cover image part
-    [self.coverImageView setImage:[UIImage imageNamed:@"photo_add.png"]];
+    if(self.plan.image)
+    {
+        self.coverImageView.image = self.plan.image;
+    }
+    else
+    {
+        defaultCover = [UIImage imageNamed:@"plan_cover.png"];
+        self.coverImageView.image = defaultCover;
+    }
+    
     self.imgPickerController = [[UIImagePickerController alloc] init];
     UITapGestureRecognizer *imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageTap:)];
     imgTap.numberOfTapsRequired = 1;
@@ -212,6 +221,7 @@
                 self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
             }
             self.plan.image = self.coverImageView.image;
+            [self saveImage:self.plan.image withName:[[self.plan.planId stringValue] stringByAppendingString:@"planCover"]];
             [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
         }
     }
@@ -223,6 +233,12 @@
         plan.duration = [f numberFromString:self.durationInput.text];
         plan.date = [(UIDatePicker *)self.dateInput.inputView date];
         plan.image = self.coverImageView.image;
+        
+        if(self.coverImageView.image != defaultCover)
+        {
+            self.coverChanged = YES;
+        }
+
         [self.delegate addPlanViewController:self didAddTravelPlan:plan];
     }
     
@@ -349,23 +365,60 @@
             self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
         }
         self.plan.image = self.coverImageView.image;
+        
+        [self saveImage:self.plan.image withName:[[self.plan.planId stringValue] stringByAppendingString:@"planCover"]];
+        
         [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
     }
 }
 
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    if ([[segue identifier] isEqualToString:@"ReturnInput"]) {
-//        if ([self.dateInput.text length] || [self.durationInput.text length]) {
-//            TravelPlan *plan;
-//            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-//            [f setNumberStyle:NSNumberFormatterDecimalStyle];
-//            NSNumber * myNumber = [f numberFromString:self.durationInput.text];
-//            NSDate *startDate = [(UIDatePicker *)self.dateInput.inputView date];
-//            plan = [[TravelPlan alloc] initWithName:self.nameInput.text duration:myNumber date:startDate image:self.coverImageView.image];
-//            self.plan = plan;
-//        }
-//    }
-//}
+- (void)saveImage:(UIImage *)image withName:(NSString*)imageName
+{
+    
+    NSData *imageData = UIImagePNGRepresentation(image); 
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
+    
+    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
+    
+    NSLog(@"image saved");
+    
+}
+
+- (void)removeImage:(NSString*)fileName {
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", fileName]];
+    
+    [fileManager removeItemAtPath: fullPath error:NULL];
+    
+    NSLog(@"image removed");
+    
+}
+
+- (UIImage*)loadImage:(NSString *)imageName
+{
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
+    
+    return [UIImage imageWithContentsOfFile:fullPath];
+    
+}
 
 - (void)didReceiveMemoryWarning
 {

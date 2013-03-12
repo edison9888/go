@@ -54,8 +54,19 @@
     
     [self populateTravelPlans];
     
+    if(controller.coverChanged)
+    {
+        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+        [db open];
+        FMResultSet *results = [db executeQuery:@"SELECT * FROM plan order by id desc limit 1"];
+        if([results next])
+        {
+            plan.planId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
+        }
+        [self saveImage:plan.image withName:[[plan.planId stringValue] stringByAppendingString:@"planCover"]];
+    }
+    
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.travelPlans count] - 1 inSection:0];
     
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     //[self.tableView reloadData];
@@ -228,7 +239,16 @@
     SwipeableTableViewCellView *contentView = (SwipeableTableViewCellView *)[cell viewWithTag:22];
     
     UIImageView *planCover = (UIImageView *)[contentView viewWithTag:1];
-    planCover.image = [UIImage imageNamed:@"plan_cover.png"];
+    NSString *coverName = [[planAtIndex.planId stringValue] stringByAppendingString:@"planCover"];
+    
+    if([self imageExists:coverName])
+    {
+        planCover.image = [self loadImage: coverName];
+    }
+    else
+    {
+        planCover.image = [UIImage imageNamed:@"plan_cover.png"];
+    }
     
     UILabel *label;
     label = (UILabel *)[contentView viewWithTag:2];
@@ -321,6 +341,9 @@
         Plan *tempPlan = [self.travelPlans objectAtIndex:self.indexPathOfplanToEditOrDelete.row];
         addPlanViewController.plan = [[Plan alloc] initWithName:tempPlan.name duration:tempPlan.duration date:tempPlan.date image:tempPlan.image];
         addPlanViewController.plan.planId = tempPlan.planId;
+        
+        NSString *coverName = [[tempPlan.planId stringValue] stringByAppendingString:@"planCover"];
+        addPlanViewController.plan.image = [self loadImage: coverName];
     }
 }
 
@@ -393,7 +416,68 @@
         [self.travelPlans removeObjectAtIndex:self.indexPathOfplanToEditOrDelete.row];
         
         [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfplanToEditOrDelete] withRowAnimation:UITableViewRowAnimationFade];
+        
+        [self removeImage: [[planToDelete.planId stringValue] stringByAppendingString:@"planCover"]];
     }
+}
+
+- (void)saveImage:(UIImage *)image withName:(NSString*)imageName
+{
+    
+    NSData *imageData = UIImagePNGRepresentation(image);
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
+    
+    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
+    
+    NSLog(@"image saved");
+    
+}
+
+- (void)removeImage:(NSString*)fileName {
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", fileName]];
+    
+    [fileManager removeItemAtPath: fullPath error:NULL];
+    
+    NSLog(@"image removed");
+    
+}
+
+- (BOOL)imageExists:(NSString *)imageName
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
+    
+    return [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
+}
+
+- (UIImage*)loadImage:(NSString *)imageName
+{
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
+    
+    return [UIImage imageWithContentsOfFile:fullPath];
+    
 }
 
 @end

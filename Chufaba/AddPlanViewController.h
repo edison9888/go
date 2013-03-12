@@ -24,10 +24,16 @@
 @end
 
 @interface AddPlanViewController : UITableViewController <UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
+{
+    UIImage *defaultCover;
+}
+
 @property (weak, nonatomic) IBOutlet UITextField *dateInput;
 @property (weak, nonatomic) IBOutlet UITextField *durationInput;
 @property (weak, nonatomic) IBOutlet UITextField *nameInput;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
+
+@property (assign, nonatomic) BOOL coverChanged;
 
 @property (nonatomic,weak) id<AddPlanViewControllerDelegate> delegate;
 

@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1308B3C716EE1FD300944E8A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1308B3C616EE1FD300944E8A /* Default.png */; };
 		1308B3CA16EE278F00944E8A /* plan_cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 1308B3C816EE278F00944E8A /* plan_cover.png */; };
 		1308B3CB16EE278F00944E8A /* plan_cover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1308B3C916EE278F00944E8A /* plan_cover@2x.png */; };
+		1308B3CE16EE2C9800944E8A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1308B3CC16EE2C9800944E8A /* Default.png */; };
+		1308B3CF16EE2C9800944E8A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1308B3CD16EE2C9800944E8A /* Default@2x.png */; };
 		1318A93116D908C700D98B74 /* doubanlogin.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318A92E16D908C700D98B74 /* doubanlogin.png */; };
 		1318A93216D908C700D98B74 /* qqlogin.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318A92F16D908C700D98B74 /* qqlogin.png */; };
 		1318A93316D908C700D98B74 /* weibologin.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318A93016D908C700D98B74 /* weibologin.png */; };
@@ -121,7 +122,6 @@
 		D25F6FF216A6332E00ED7AF5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D25F6FF016A6332E00ED7AF5 /* InfoPlist.strings */; };
 		D25F6FF416A6332E00ED7AF5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F6FF316A6332E00ED7AF5 /* main.m */; };
 		D25F6FF816A6332E00ED7AF5 /* ChufabaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F6FF716A6332E00ED7AF5 /* ChufabaAppDelegate.m */; };
-		D25F6FFC16A6332E00ED7AF5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D25F6FFB16A6332E00ED7AF5 /* Default@2x.png */; };
 		D25F6FFE16A6332E00ED7AF5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D25F6FFD16A6332E00ED7AF5 /* Default-568h@2x.png */; };
 		D25F700116A6332E00ED7AF5 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D25F6FFF16A6332E00ED7AF5 /* MainStoryboard.storyboard */; };
 		D25F700416A6332E00ED7AF5 /* ItineraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F700316A6332E00ED7AF5 /* ItineraryViewController.m */; };
@@ -138,9 +138,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1308B3C616EE1FD300944E8A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		1308B3C816EE278F00944E8A /* plan_cover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plan_cover.png; sourceTree = "<group>"; };
 		1308B3C916EE278F00944E8A /* plan_cover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plan_cover@2x.png"; sourceTree = "<group>"; };
+		1308B3CC16EE2C9800944E8A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		1308B3CD16EE2C9800944E8A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		1318A92E16D908C700D98B74 /* doubanlogin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = doubanlogin.png; sourceTree = "<group>"; };
 		1318A92F16D908C700D98B74 /* qqlogin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qqlogin.png; sourceTree = "<group>"; };
 		1318A93016D908C700D98B74 /* weibologin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weibologin.png; sourceTree = "<group>"; };
@@ -317,7 +318,6 @@
 		D25F6FF516A6332E00ED7AF5 /* Chufaba-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Chufaba-Prefix.pch"; sourceTree = "<group>"; };
 		D25F6FF616A6332E00ED7AF5 /* ChufabaAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChufabaAppDelegate.h; sourceTree = "<group>"; };
 		D25F6FF716A6332E00ED7AF5 /* ChufabaAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChufabaAppDelegate.m; sourceTree = "<group>"; };
-		D25F6FFB16A6332E00ED7AF5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D25F6FFD16A6332E00ED7AF5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D25F700016A6332E00ED7AF5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		D25F700216A6332E00ED7AF5 /* ItineraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItineraryViewController.h; sourceTree = "<group>"; };
@@ -718,7 +718,8 @@
 		D25F6FEE16A6332D00ED7AF5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1308B3C616EE1FD300944E8A /* Default.png */,
+				1308B3CC16EE2C9800944E8A /* Default.png */,
+				1308B3CD16EE2C9800944E8A /* Default@2x.png */,
 				13225AD316ECDE6400B1BB5B /* sampleplan */,
 				1366E71316EC510300844634 /* bar.png */,
 				1366E71116EC384100844634 /* background.png */,
@@ -754,7 +755,6 @@
 				D25F703016A653C600ED7AF5 /* travel.png */,
 				D25F6FF316A6332E00ED7AF5 /* main.m */,
 				D25F6FF516A6332E00ED7AF5 /* Chufaba-Prefix.pch */,
-				D25F6FFB16A6332E00ED7AF5 /* Default@2x.png */,
 				D25F6FFD16A6332E00ED7AF5 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
@@ -815,7 +815,6 @@
 			files = (
 				131BF68016D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				D25F6FF216A6332E00ED7AF5 /* InfoPlist.strings in Resources */,
-				D25F6FFC16A6332E00ED7AF5 /* Default@2x.png in Resources */,
 				D25F6FFE16A6332E00ED7AF5 /* Default-568h@2x.png in Resources */,
 				D25F700116A6332E00ED7AF5 /* MainStoryboard.storyboard in Resources */,
 				D25F703116A653C600ED7AF5 /* travel.png in Resources */,
@@ -864,9 +863,10 @@
 				13225AD916ECDE9000B1BB5B /* sydney.png in Resources */,
 				13225ADA16ECDE9000B1BB5B /* sydney@2x.png in Resources */,
 				13225ADB16ECDE9000B1BB5B /* uk@2x.png in Resources */,
-				1308B3C716EE1FD300944E8A /* Default.png in Resources */,
 				1308B3CA16EE278F00944E8A /* plan_cover.png in Resources */,
 				1308B3CB16EE278F00944E8A /* plan_cover@2x.png in Resources */,
+				1308B3CE16EE2C9800944E8A /* Default.png in Resources */,
+				1308B3CF16EE2C9800944E8A /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
