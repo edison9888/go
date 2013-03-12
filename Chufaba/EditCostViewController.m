@@ -37,6 +37,8 @@
     [self.amountInput becomeFirstResponder];
     self.navigationItem.rightBarButtonItem.action = @selector(done);
     
+    self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    
     if(self.amount && [self.amount intValue] != 0){
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
         [formatter setNumberStyle:NSNumberFormatterDecimalStyle];

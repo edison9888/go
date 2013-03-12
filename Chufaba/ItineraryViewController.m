@@ -149,6 +149,7 @@
     [super viewDidLoad];
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     oneDimensionLocationList = [self getOneDimensionLocationList];
     
@@ -836,18 +837,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //[self setReorderingEnabled:([[self.dataController objectInListAtIndex:section] count] > 1 )];
     return [[self.dataController objectInListAtIndex:section] count];
-}
-
-- (float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    // This will create a "invisible" footer
-    return 0.01f;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    return [UIView new];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -877,7 +867,33 @@
         }
         [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];
     }
+    
+    NSInteger lastRowIndex = [[self.dataController objectInListAtIndex:indexPath.section] count] - 1;
+    if(lastRowIndex != indexPath.row)
+    {
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+        [cell.contentView addSubview:lineView];
+        
+        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        [cell.contentView addSubview:lineView];
+    }
+    
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger lastRowIndex = [[self.dataController objectInListAtIndex:indexPath.section] count] - 1;
+    if(indexPath.row == lastRowIndex)
+    {
+        return 44.0f;
+    }
+    else
+    {
+        return 46.0f;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -888,10 +904,11 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSInteger dayValue = singleDayMode ? [self.daySelected intValue]-1 : section;
-    NSString *myString = @"Day ";
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    [dateFormatter setDateFormat:@"YYYY-MM-d EEEE"];
+    
+    NSLocale *cnLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
+    [dateFormatter setLocale:cnLocale];
     
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *dayComponents = [gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:self.dataController.date];
@@ -911,18 +928,23 @@
     [offsetComponents setDay:dayValue];
     NSDate *sectionDate = [gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
     
-    NSString *dateOfDay = [dateFormatter stringFromDate:sectionDate];
-    //return [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", section+1]] stringByAppendingString:dateOfDay];
-    
     //Headerview
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 50.0)];
     //HeaderLabel
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 10.0, 250.0, 30.0)] ;
-    label.textColor = [UIColor whiteColor];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 6.0, 250.0, 20.0)] ;
+    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     label.shadowColor = [UIColor whiteColor];
     label.shadowOffset = CGSizeMake(0, 1);
-    label.font = [UIFont boldSystemFontOfSize:18];
+    label.font = [UIFont fontWithName:@"Heiti SC" size:16];
     label.backgroundColor = [UIColor clearColor];
+    
+    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 28.0, 250.0, 20.0)] ;
+    wLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    wLabel.shadowColor = [UIColor whiteColor];
+    wLabel.shadowOffset = CGSizeMake(0, 1);
+    wLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    wLabel.backgroundColor = [UIColor clearColor];
+    wLabel.text = [dateFormatter stringFromDate:sectionDate];;
     
     //AddParameterButton
     UIButton *button = [UIButton buttonWithType:UIButtonTypeContactAdd];
@@ -932,8 +954,9 @@
     [button setBackgroundColor:[UIColor clearColor]];
     [button addTarget:self action:@selector(pushSearchLocationViewController:) forControlEvents:UIControlEventTouchDown];
     
-    label.text = [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", dayValue+1]] stringByAppendingString:dateOfDay];
-    myView.backgroundColor = [UIColor grayColor];
+    //label.text = [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", dayValue+1]] stringByAppendingString:dateOfDay];
+    label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
+    myView.backgroundColor = [UIColor colorWithRed:223/255.0 green:215/255.0 blue:198/255.0 alpha:1.0];
     
 //    CALayer *bottomBorder = [CALayer layer];
 //    bottomBorder.frame = CGRectMake(0.0, 50.0, 320.0, 1.0);
@@ -941,6 +964,7 @@
 //    [myView.layer addSublayer:bottomBorder];
     
     [myView addSubview:label];
+    [myView addSubview:wLabel];
     [myView addSubview:button];
     [myView bringSubviewToFront:button];
     return myView;

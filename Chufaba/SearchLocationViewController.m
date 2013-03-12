@@ -22,6 +22,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 
     self.searchBar.barStyle = UIBarStyleBlack;
     self.searchBar.translucent = YES;
@@ -299,7 +300,22 @@
         
         return addLocationCell;
     }
+    
+    //add separator line
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 60, self.view.bounds.size.width, 1)];
+    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    [cell.contentView addSubview:lineView];
+    
+    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 61, self.view.bounds.size.width, 1)];
+    lineView.backgroundColor = [UIColor whiteColor];
+    [cell.contentView addSubview:lineView];
+    
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 62.0f;
 }
 
 #pragma mark - Table view delegate

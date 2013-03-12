@@ -156,6 +156,8 @@
 {
     [super viewDidLoad];
     
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
     [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
@@ -164,17 +166,10 @@
         [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     }
     
-    self.navigationItem.title = @"出发吧";
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_bar.png"]];
     [self populateTravelPlans];
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
-    
-//    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
-//    [tempImageView setFrame:self.tableView.frame];
-//    
-//    self.tableView.backgroundView = tempImageView;
-    
-    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -191,19 +186,18 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //[self setReorderingEnabled:([self.dataController countOfList] > 1 )];
     return [self.travelPlans count];
 }
 
-- (float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    // This will create a "invisible" footer
-    return 0.01f;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    return [UIView new];
-}
+//- (float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+//{
+//    return 0.01f;
+//}
+//
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//    return [UIView new];
+//}
 
 
 //    NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];
@@ -265,13 +259,22 @@
     label.text = [[planAtIndex.duration stringValue] stringByAppendingString:@"天"];
     label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     label.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    
+    //add separator line
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 92, self.view.bounds.size.width, 1)];
+    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    [cell.contentView addSubview:lineView];
 
+    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 93, self.view.bounds.size.width, 1)];
+    lineView.backgroundColor = [UIColor whiteColor];
+    [cell.contentView addSubview:lineView];
+    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 92.0f;
+    return 94.0f;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

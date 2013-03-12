@@ -22,6 +22,7 @@
     self.title = @"交通";
     
     UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
+    textView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     textView.tag = TAG_TEXTVIEW;
     textView.delegate = self;
     textView.font = [UIFont systemFontOfSize:17];

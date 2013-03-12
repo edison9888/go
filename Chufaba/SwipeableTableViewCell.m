@@ -61,7 +61,7 @@
 {
 	//[self setBackgroundColor:[UIColor clearColor]];
 
-    contentView = [[SwipeableTableViewCellView alloc] initWithFrame:CGRectMake(0, 0, 320, 92)];
+    contentView = [[SwipeableTableViewCellView alloc] initWithFrame:CGRectMake(0, 0, 320, 94)];
 	[contentView setClipsToBounds:YES];
 	[contentView setOpaque:NO];
     contentView.tag = 22;
@@ -126,7 +126,7 @@
     NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
     
     //UITableViewCell *swipedCell  = [tableView cellForRowAtIndexPath:swipedIndexPath];
-    NSInteger yPosition = 92*swipedIndexPath.row + 24;
+    NSInteger yPosition = 94*swipedIndexPath.row + 24;
     
     UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,480)];
     maskView.backgroundColor = [UIColor clearColor];

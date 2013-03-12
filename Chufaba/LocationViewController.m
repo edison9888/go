@@ -86,7 +86,7 @@
     nameScroll.tag = TAG_NAMESCROLL;
     nameScroll.showsHorizontalScrollIndicator = FALSE;
     nameScroll.showsVerticalScrollIndicator = FALSE;
-    nameScroll.backgroundColor = [UIColor lightGrayColor];
+    nameScroll.backgroundColor = [UIColor colorWithRed:222/255.0 green:214/255.0 blue:195/255.0 alpha:1.0];
     
     if(!showMap)
     {
@@ -100,14 +100,16 @@
     
     UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(5, 5, self.view.frame.size.width, NAME_LABEL_HEIGHT)];
     nameLabel.tag = TAG_NAMELABEL;
-    nameLabel.backgroundColor = [UIColor lightGrayColor];
-    nameLabel.font = [UIFont systemFontOfSize:15];
+    nameLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    nameLabel.backgroundColor = [UIColor clearColor];
+    nameLabel.font = [UIFont fontWithName:@"Heiti SC" size:16];
     [nameScroll addSubview:nameLabel];
     
     UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 35, self.view.frame.size.width, ADDRESS_LABEL_HEIGHT)];
     addressLabel.tag = TAG_ADDRESSLABEL;
-    addressLabel.backgroundColor = [UIColor lightGrayColor];
-    addressLabel.font = [UIFont systemFontOfSize:14];
+    addressLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    addressLabel.backgroundColor = [UIColor clearColor];
+    addressLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
     [nameScroll addSubview:addressLabel];
    
     NSLog(@"height1:%f", self.view.frame.size.height);
@@ -116,6 +118,8 @@
     tableView.tag = TAG_TABLEVIEW;
     tableView.delegate = self;
     tableView.dataSource = self;
+    tableView.backgroundView = nil;
+    tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     [self.view addSubview:tableView];
     
     UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - DAY_LABEL_HEIGHT - self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 20)];
