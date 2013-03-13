@@ -26,8 +26,24 @@
 
     self.searchBar.barStyle = UIBarStyleBlack;
     self.searchBar.translucent = YES;
+    self.searchBar.backgroundColor = [UIColor clearColor];
+    
+//    for (UIView *subview in self.searchBar.subviews)
+//    {
+//        if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
+//        {
+//            [subview removeFromSuperview];
+//            break;  
+//        }  
+//    }
+    
+//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bar.png"]];
+//    [self.searchBar insertSubview:imageView atIndex:1];
+    
     UIImage *image = [UIImage imageNamed:@"bar.png"];
     [self.searchBar setBackgroundImage:image];
+    
+    //[[UISearchBar appearance] setSearchFieldBackgroundImage:[UIImage imageNamed:@"bar.png"]forState:UIControlStateNormal];
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
@@ -35,6 +51,7 @@
     [_searchBar setShowsCancelButton:YES];
     
     addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 5.0f, 300.0f, 35.0f)];
+    
     [addLocationBtn setTitle:[NSString stringWithFormat:@"创建%@", self.category] forState:UIControlStateNormal];
     [addLocationBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     addLocationBtn.backgroundColor = [UIColor clearColor];
@@ -89,7 +106,8 @@
     else
     {
         showAddLocationBtn = YES;
-        NSString *addLocationBtnText = [NSString stringWithFormat:@"创建%@：%@", self.category, searchText];
+        //NSString *addLocationBtnText = [NSString stringWithFormat:@"创建%@：%@", self.category, searchText];
+        NSString *addLocationBtnText = [NSString stringWithFormat:@"搜不到 \"%@\" ？ 我来创建！", searchText];
         [addLocationBtn setTitle:addLocationBtnText forState:UIControlStateNormal];
         [self searchJiepangByKeyword:searchText];
     }

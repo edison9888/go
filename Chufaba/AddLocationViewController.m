@@ -34,9 +34,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
+    {
+        UIImage *image = [UIImage imageNamed:@"bar.png"];
+        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    }
+    
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
     topView.tag = TAG_TOPVIEW;
-    [topView setBackgroundColor:[UIColor whiteColor]];
+    //[topView setBackgroundColor:[UIColor whiteColor]];
+    topView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     UITextField *nameOfAddLocation = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, 300, 40)];
     [nameOfAddLocation setBorderStyle:UITextBorderStyleLine];
@@ -47,6 +55,7 @@
     nameOfAddLocation.text = self.addLocationName;
     nameOfAddLocation.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [nameOfAddLocation setReturnKeyType:UIReturnKeyDone];
+    nameOfAddLocation.backgroundColor = [UIColor whiteColor];
     nameOfAddLocation.delegate = self;
     
     [topView addSubview:nameOfAddLocation];

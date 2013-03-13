@@ -25,35 +25,33 @@
     btnSender = b;
     self.table = (UITableView *)[super init];
     if (self) {
-        // Initialization code
-        // did some hack to adjust the frame of NIDropdown, plus 22
         CGRect btn = b.frame;
         
-        self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+22, btn.size.width, 0);
+        self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height, btn.size.width, 0);
         self.list = [NSArray arrayWithArray:arr];
         self.layer.masksToBounds = NO;
         self.layer.cornerRadius = 8;
-        self.layer.shadowOffset = CGSizeMake(-5, 5);
-        self.layer.shadowRadius = 5;
-        self.layer.shadowOpacity = 0.5;
+        self.layer.shadowOffset = CGSizeMake(0, 4);
+        self.layer.shadowRadius = 8;
+        self.layer.shadowColor = [[UIColor blackColor] CGColor];
+        self.layer.shadowOpacity = 0.3;
         
         table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, btn.size.width, 0)];
         table.delegate = self;
         table.dataSource = self;
         table.layer.cornerRadius = 5;
-        table.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.8];
-        //table.backgroundColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:0.8];
+        table.backgroundColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
         table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        table.separatorColor = [UIColor grayColor];
+        table.separatorColor = [UIColor colorWithRed:157/255.0 green:204/255.0 blue:143/255.0 alpha:1.0];
         
         table.scrollEnabled = YES;
         
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.5];
-        self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+22, btn.size.width, *height);
-        //table.frame = CGRectMake(0, 0, btn.size.width, *height);
-        //decrease the table height to make it scrollable
-        table.frame = CGRectMake(0, 0, btn.size.width, 240);
+        self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height, btn.size.width, *height);
+        
+        table.frame = CGRectMake(0, 0, btn.size.width, *height>240 ? 240:*height);
+
         [UIView commitAnimations];
         
         [b.superview.superview addSubview:self];
@@ -67,14 +65,14 @@
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.5];
-    self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+22, btn.size.width, 0);
+    self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height, btn.size.width, 0);
     table.frame = CGRectMake(0, 0, btn.size.width, 0);
     [UIView commitAnimations];
 }
 
 -(void)hideDropDownWithoutAnimation:(UIButton *)b {
     CGRect btn = b.frame;
-    self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+22, btn.size.width, 0);
+    self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height, btn.size.width, 0);
     table.frame = CGRectMake(0, 0, btn.size.width, 0);
 }
 
@@ -101,10 +99,11 @@
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
     }
     cell.textLabel.text =[list objectAtIndex:indexPath.row];
-    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    cell.textLabel.font = [UIFont fontWithName:@"Heiti SC" size:16];
     
     UIView * v = [[UIView alloc] init];
-    v.backgroundColor = [UIColor grayColor];
+    v.backgroundColor = [UIColor colorWithRed:169/255.0 green:212/255.0 blue:155/255.0 alpha:1.0];
     cell.selectedBackgroundView = v;
     
     return cell;

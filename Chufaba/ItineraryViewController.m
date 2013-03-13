@@ -210,13 +210,10 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:MAP_BUTTON_TITLE style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMap)];
     
-    
-    //CGFloat width = self.view.frame.size.width;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setFrame:CGRectMake(100,22,120,44)];
+    [button setFrame:CGRectMake(100,0,120,30)];
     [button setTitle:@"全部" forState:UIControlStateNormal];
-    [button setBackgroundColor:[UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:1]];
-    //[button setBackgroundColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1]];
+    [button setBackgroundColor:[UIColor clearColor]];
     button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [button addTarget:self action:@selector(selectClicked:) forControlEvents:UIControlEventTouchDown];
     self.navigationItem.titleView = button;
@@ -517,8 +514,9 @@
     if(dropDown == nil) {
         //add the dark view part
         UIView *darkView = [[UIView alloc] initWithFrame:self.view.bounds];
-        darkView.alpha = 0.5;
-        darkView.backgroundColor = [UIColor blackColor];
+//        darkView.alpha = 0.5;
+//        darkView.backgroundColor = [UIColor blackColor];
+        darkView.backgroundColor = [UIColor clearColor];
         darkView.tag = 55;
         UITapGestureRecognizer *singleFingerTap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickDarkView:)];
         [darkView addGestureRecognizer:singleFingerTap];
@@ -930,6 +928,7 @@
     
     //Headerview
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 50.0)];
+    
     //HeaderLabel
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 6.0, 250.0, 20.0)] ;
     label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
@@ -958,10 +957,24 @@
     label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
     myView.backgroundColor = [UIColor colorWithRed:223/255.0 green:215/255.0 blue:198/255.0 alpha:1.0];
     
-//    CALayer *bottomBorder = [CALayer layer];
-//    bottomBorder.frame = CGRectMake(0.0, 50.0, 320.0, 1.0);
-//    bottomBorder.backgroundColor = [UIColor whiteColor].CGColor;
-//    [myView.layer addSublayer:bottomBorder];
+//    CAGradientLayer *bottomShadow = [CAGradientLayer layer];
+//    bottomShadow.frame = CGRectMake(0, myView.bounds.size.height-2, myView.bounds.size.width, 2);
+//    bottomShadow.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0.0 alpha:0.25f] CGColor], (id)[[UIColor clearColor] CGColor], nil];
+    
+    //[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0];
+    //[myView.layer insertSublayer:bottomShadow atIndex:0];
+    
+    CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
+    CGRect viewShadowFrame = CGRectMake(0, 0, 320, myView.frame.size.height);
+    viewShadow.frame = viewShadowFrame;
+    viewShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0].CGColor,(id)[UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor,nil];
+    [myView.layer addSublayer:viewShadow];
+    
+    myView.layer.masksToBounds = NO;
+    myView.layer.shadowOffset = CGSizeMake(0, 1);
+    myView.layer.shadowRadius = 0.8;
+    myView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
+    myView.layer.shadowOpacity = 1;
     
     [myView addSubview:label];
     [myView addSubview:wLabel];
