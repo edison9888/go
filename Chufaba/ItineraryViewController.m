@@ -251,21 +251,24 @@
 - (IBAction)nextMapLocation:(id)sender
 {
     [(UIButton *)[self.mapView viewWithTag:22] setEnabled:YES];
-    LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
-    NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
-    
-    Location *nextLocation;
-    if(singleDayMode)
+    if([self.mapView.selectedAnnotations count] == 1)
     {
-        nextLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:indexOfCurSelected+1];
+        LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
+        NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
+        
+        Location *nextLocation;
+        if(singleDayMode)
+        {
+            nextLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:indexOfCurSelected+1];
+        }
+        else
+        {
+            nextLocation = [oneDimensionLocationList objectAtIndex:indexOfCurSelected+1];
+        }
+        CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([nextLocation.latitude doubleValue], [nextLocation.longitude doubleValue]);
+        [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
+        [self.mapView selectAnnotation:[self.annotations objectAtIndex:indexOfCurSelected+1] animated:YES];
     }
-    else
-    {
-        nextLocation = [oneDimensionLocationList objectAtIndex:indexOfCurSelected+1];
-    }
-    CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([nextLocation.latitude doubleValue], [nextLocation.longitude doubleValue]);
-    [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
-    [self.mapView selectAnnotation:[self.annotations objectAtIndex:indexOfCurSelected+1] animated:YES];
 }
 
 - (IBAction)positionMe:(id)sender
