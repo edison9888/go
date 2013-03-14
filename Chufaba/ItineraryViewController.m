@@ -133,6 +133,17 @@
     return [NSIndexPath indexPathForRow:row inSection:section];
 }
 
+//- (NSInteger) oneDimensionCountOfIndexPath:(NSIndexPath *)indexPath
+//{
+//    int count = 0;
+//    for(int i=0;i<indexPath.section;i++)
+//    {
+//        count += [self.tableView numberOfRowsInSection:i];
+//    }
+//    count = count+ indexPath.row +1;
+//    return count;
+//}
+
 - (NSInteger) oneDimensionCountOfIndexPath:(NSIndexPath *)indexPath
 {
     int count = 0;
@@ -140,7 +151,7 @@
     {
         count += [self.tableView numberOfRowsInSection:i];
     }
-    count = count+ indexPath.row +1;
+    count = count+ indexPath.row;
     return count;
 }
 
@@ -230,22 +241,25 @@
 - (IBAction)previousMapLocation:(id)sender
 {
     [(UIButton *)[self.mapView viewWithTag:23] setEnabled:YES];
-    LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
-    NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
-    
-    Location *previousLocation;
-    if(singleDayMode)
+    if([self.mapView.selectedAnnotations count] == 1)
     {
-        previousLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:indexOfCurSelected-1];
+        LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
+        NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
+        
+        Location *previousLocation;
+        if(singleDayMode)
+        {
+            previousLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:indexOfCurSelected-1];
+        }
+        else
+        {
+            previousLocation = [oneDimensionLocationList objectAtIndex:indexOfCurSelected-1];
+        }
+        CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([previousLocation.latitude doubleValue], [previousLocation.longitude doubleValue]);
+        
+        [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
+        [self.mapView selectAnnotation:[self.annotations objectAtIndex:indexOfCurSelected-1] animated:YES];
     }
-    else
-    {
-        previousLocation = [oneDimensionLocationList objectAtIndex:indexOfCurSelected-1];
-    }
-    CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([previousLocation.latitude doubleValue], [previousLocation.longitude doubleValue]);
-
-    [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
-    [self.mapView selectAnnotation:[self.annotations objectAtIndex:indexOfCurSelected-1] animated:YES];
 }
 
 - (IBAction)nextMapLocation:(id)sender
@@ -457,8 +471,6 @@
 {
     tappedAnnotation = aView.annotation;
     NSIndexPath *indexPath = [self indexPathForTappedAnnotation];
-    NSLog(@"section:%d", indexPath.section);
-    NSLog(@"section:%d", indexPath.row);
     
     LocationViewController *locationViewController = [[LocationViewController alloc] init];
     locationViewController.delegate = self;
@@ -800,12 +812,20 @@
         [[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] addObject:location];
     }
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue]-2 inSection:[self.dayToAdd intValue]-1];
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
+    //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue]-2 inSection:[self.dayToAdd intValue]-1];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue]-1 inSection:[self.dayToAdd intValue]-1];
+    
+    NSLog(@"section:%d", indexPath.section);
+    NSLog(@"row:%d", indexPath.row);
+    
     NSInteger indexToInsert = [self oneDimensionCountOfIndexPath:indexPath];
     [oneDimensionLocationList insertObject:location atIndex:indexToInsert];
-    [self.tableView reloadData];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self.tableView reloadData];
+    [self.tableView beginUpdates];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView endUpdates];
     
     if(location.latitude !=nil && location.longitude != nil)
     {
@@ -1046,7 +1066,8 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:indexPath] - 1;
+        //NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:indexPath] - 1;
+        NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:indexPath];
         Location *locationToDelete = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         [[self.dataController objectInListAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
