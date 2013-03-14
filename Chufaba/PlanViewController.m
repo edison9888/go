@@ -163,7 +163,14 @@
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
     {
         UIImage *image = [UIImage imageNamed:@"bar.png"];
-        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+        UINavigationBar *navBar = self.navigationController.navigationBar;
+        [navBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+        
+        navBar.layer.masksToBounds = NO;
+        navBar.layer.shadowOffset = CGSizeMake(0, 1);
+        navBar.layer.shadowRadius = 2;
+        navBar.layer.shadowColor = [[UIColor colorWithRed:163/255.0 green:160/255.0 blue:155/255.0 alpha:1.0] CGColor];
+        navBar.layer.shadowOpacity = 1;
     }
     
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_bar.png"]];

@@ -8,6 +8,7 @@
 
 #import "AddPlanViewController.h"
 #import "Plan.h"
+#import "QuartzCore/QuartzCore.h"
 
 @interface AddPlanViewController ()
 
@@ -28,11 +29,25 @@
 {
     [super viewDidLoad];
     
+//    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
+//    {
+//        UIImage *image = [UIImage imageNamed:@"bar.png"];
+//        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+//    }
+    
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
     {
         UIImage *image = [UIImage imageNamed:@"bar.png"];
-        [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+        UINavigationBar *navBar = self.navigationController.navigationBar;
+        [navBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+        
+        navBar.layer.masksToBounds = NO;
+        navBar.layer.shadowOffset = CGSizeMake(0, 1);
+        navBar.layer.shadowRadius = 2;
+        navBar.layer.shadowColor = [[UIColor colorWithRed:163/255.0 green:160/255.0 blue:155/255.0 alpha:1.0] CGColor];
+        navBar.layer.shadowOpacity = 1;
     }
+    
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     //choose cover image part

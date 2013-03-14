@@ -752,7 +752,7 @@
 - (void) niDropDownDelegateMethod: (NIDropDown *) sender selectRow:(NSInteger)rowIndex
 {
     dropDown = nil;
-    self.tableView.contentInset = UIEdgeInsetsZero;
+    //self.tableView.contentInset = UIEdgeInsetsZero;
     [[self.view viewWithTag:55] removeFromSuperview];
     self.daySelected = [NSNumber numberWithInt:rowIndex];
     if(rowIndex == 0){
@@ -822,7 +822,10 @@
     
     NSInteger indexToInsert = [self oneDimensionCountOfIndexPath:indexPath];
     [oneDimensionLocationList insertObject:location atIndex:indexToInsert];
-    //[self.tableView reloadData];
+    
+    NSIndexPath *scrollIndexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue]-2 > 0? [self.seqToAdd intValue]-2:0 inSection:[self.dayToAdd intValue]-1];
+    [self.tableView scrollToRowAtIndexPath:scrollIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+
     [self.tableView beginUpdates];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView endUpdates];
@@ -890,7 +893,7 @@
     }
     
     NSInteger lastRowIndex = [[self.dataController objectInListAtIndex:indexPath.section] count] - 1;
-    if(lastRowIndex != indexPath.row)
+    if(singleDayMode || (lastRowIndex != indexPath.row && !singleDayMode))
     {
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
         lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
