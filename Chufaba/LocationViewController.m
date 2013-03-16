@@ -32,15 +32,20 @@
 #define TAG_MAPVIEW 1
 #define TAG_NAMESCROLL 2
 #define TAG_NAMELABEL 3
-#define TAG_ADDRESSLABEL 4
-#define TAG_TABLEVIEW 5
-#define TAG_DAYLABEL 6
+#define TAG_ENAMELABEL 4
+#define TAG_ADDRESSLABEL 5
+#define TAG_TABLEVIEW 6
+#define TAG_INFOVIEW 7
+#define TAG_DAYLABEL 8
+#define TAG_SEQLABEL 9
 
 #define MAP_VIEW_HEIGHT 75
+#define INFO_VIEW_HEIGHT 20
 #define DAY_LABEL_HEIGHT 20
-#define NAME_SCROLL_HEIGHT 60
-#define NAME_LABEL_HEIGHT 25
-#define ADDRESS_LABEL_HEIGHT 25
+#define NAME_SCROLL_HEIGHT 55
+#define NAME_LABEL_HEIGHT 24
+#define ENAME_LABEL_HEIGHT 12
+#define ADDRESS_LABEL_HEIGHT 12
 #define TABLEVIEW_SCROLL_OFFSET 64
 
 #pragma mark - Managing the detail item
@@ -66,12 +71,12 @@
     UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
     
     self.navigationItem.rightBarButtonItem = segmentBarItem;
-    self.navigationItem.title = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
+    self.navigationController.title = @"地点详情";
     
     if ([self.location.latitude intValue] != 10000 && self.location.latitude != nil && [self.location.latitude intValue] != 0)  
     {
         showMap = YES;
-        MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, MAP_VIEW_HEIGHT)];
+        MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, MAP_VIEW_HEIGHT)];
         mapView.tag = TAG_MAPVIEW;
         mapView.delegate = self;
         [self.view addSubview:mapView];
@@ -82,11 +87,12 @@
         [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
     }
     
-    UIScrollView *nameScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, showMap? MAP_VIEW_HEIGHT : 0, self.view.frame.size.width, NAME_SCROLL_HEIGHT)];
+    UIScrollView *nameScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, showMap? MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT : INFO_VIEW_HEIGHT, self.view.frame.size.width, NAME_SCROLL_HEIGHT)];
     nameScroll.tag = TAG_NAMESCROLL;
     nameScroll.showsHorizontalScrollIndicator = FALSE;
     nameScroll.showsVerticalScrollIndicator = FALSE;
-    nameScroll.backgroundColor = [UIColor colorWithRed:222/255.0 green:214/255.0 blue:195/255.0 alpha:1.0];
+    //nameScroll.backgroundColor = [UIColor colorWithRed:222/255.0 green:214/255.0 blue:195/255.0 alpha:1.0];
+    nameScroll.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     if(!showMap)
     {
@@ -98,14 +104,21 @@
     }
     [self.view addSubview:nameScroll];
     
-    UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(5, 5, self.view.frame.size.width, NAME_LABEL_HEIGHT)];
+    UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, self.view.frame.size.width, NAME_LABEL_HEIGHT)];
     nameLabel.tag = TAG_NAMELABEL;
     nameLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.font = [UIFont fontWithName:@"Heiti SC" size:16];
     [nameScroll addSubview:nameLabel];
     
-    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 35, self.view.frame.size.width, ADDRESS_LABEL_HEIGHT)];
+    UILabel *eNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 25, self.view.frame.size.width, ENAME_LABEL_HEIGHT)];
+    eNameLabel.tag = TAG_ENAMELABEL;
+    eNameLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    eNameLabel.backgroundColor = [UIColor clearColor];
+    eNameLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    [nameScroll addSubview:eNameLabel];
+    
+    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, self.view.frame.size.width, ADDRESS_LABEL_HEIGHT)];
     addressLabel.tag = TAG_ADDRESSLABEL;
     addressLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     addressLabel.backgroundColor = [UIColor clearColor];
@@ -113,8 +126,8 @@
     [nameScroll addSubview:addressLabel];
    
     NSLog(@"height1:%f", self.view.frame.size.height);
-    NSInteger tableviewHeight = showMap ? self.view.frame.size.height-TABLEVIEW_SCROLL_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT:self.view.frame.size.height-TABLEVIEW_SCROLL_OFFSET-NAME_SCROLL_HEIGHT;
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, showMap? MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT : NAME_SCROLL_HEIGHT, self.view.frame.size.width, tableviewHeight) style:UITableViewStyleGrouped];
+    NSInteger tableviewHeight = showMap ? self.view.frame.size.height-TABLEVIEW_SCROLL_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT:self.view.frame.size.height-TABLEVIEW_SCROLL_OFFSET-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT;
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, showMap? MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT+INFO_VIEW_HEIGHT : NAME_SCROLL_HEIGHT+INFO_VIEW_HEIGHT, self.view.frame.size.width, tableviewHeight) style:UITableViewStyleGrouped];
     tableView.tag = TAG_TABLEVIEW;
     tableView.delegate = self;
     tableView.dataSource = self;
@@ -122,13 +135,28 @@
     tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     [self.view addSubview:tableView];
     
-    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - DAY_LABEL_HEIGHT - self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, 20)];
+    UIView *infoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, INFO_VIEW_HEIGHT)];
+    infoView.tag = TAG_INFOVIEW;
+    infoView.backgroundColor = [UIColor colorWithRed:222/255.0 green:214/255.0 blue:195/255.0 alpha:1.0];
+    
+    UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, 60, 16)];
     dayLabel.tag = TAG_DAYLABEL;
-    dayLabel.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.9];
-    dayLabel.textColor = [UIColor whiteColor];
-    dayLabel.font = [UIFont systemFontOfSize:14];
-    dayLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:dayLabel];
+    dayLabel.backgroundColor = [UIColor clearColor];
+    dayLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    dayLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    [infoView addSubview:dayLabel];
+    
+    UILabel *seqLabel = [[UILabel alloc] initWithFrame:CGRectMake(260, 2, 50, 16)];
+    seqLabel.tag = TAG_SEQLABEL;
+    seqLabel.backgroundColor = [UIColor clearColor];
+    seqLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    seqLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    seqLabel.textAlignment = NSTextAlignmentRight;
+    [infoView addSubview:seqLabel];
+    
+    seqLabel.text = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
+    
+    [self.view addSubview:infoView];
     
     [self configureView];
 }
@@ -162,7 +190,7 @@
             [(UISegmentedControl *)(self.navigationItem.rightBarButtonItem.customView) setEnabled:NO forSegmentAtIndex:0];
         }
         self.locationIndex = [NSNumber numberWithInt:[self.locationIndex intValue]-1];
-        self.navigationItem.title = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
+        ((UILabel *)[self.view viewWithTag:TAG_SEQLABEL]).text = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
     }
     else
     {
@@ -174,7 +202,7 @@
             [(UISegmentedControl *)(self.navigationItem.rightBarButtonItem.customView) setEnabled:NO forSegmentAtIndex:1];
         }
         self.locationIndex = [NSNumber numberWithInt:[self.locationIndex intValue]+1];
-        self.navigationItem.title = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
+        ((UILabel *)[self.view viewWithTag:TAG_SEQLABEL]).text = [NSString stringWithFormat:@"%@/%@", [[NSNumber numberWithInt:[self.locationIndex intValue]+1] stringValue], [self.totalLocationCount stringValue]];
     }
 }
 
@@ -186,6 +214,11 @@
         UILabel *nameLabel = (UILabel *)[self.view viewWithTag:TAG_NAMELABEL];
         nameLabel.text = self.location.name;
         [nameLabel sizeToFit];
+        
+        UILabel *eNameLabel = (UILabel *)[self.view viewWithTag:TAG_ENAMELABEL];
+        //need to replace with actual Engilish Name
+        eNameLabel.text = @"Add English name please";
+        [eNameLabel sizeToFit];
                 
         UILabel *addressLabel = (UILabel *)[self.view viewWithTag:TAG_ADDRESSLABEL];
         addressLabel.text = self.location.address;
@@ -410,11 +443,11 @@
     if(coordinateChanged)
     {
         [self didEditCoordinate:location.latitude withLongitude:location.longitude];
-        [((UIScrollView *)[self.view viewWithTag:TAG_NAMESCROLL]) setFrame:CGRectMake(0, MAP_VIEW_HEIGHT, self.view.frame.size.width, NAME_SCROLL_HEIGHT)];
+        [((UIScrollView *)[self.view viewWithTag:TAG_NAMESCROLL]) setFrame:CGRectMake(0, MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT, self.view.frame.size.width, NAME_SCROLL_HEIGHT)];
         
         NSLog(@"height2:%f", self.view.frame.size.height);
-        NSInteger tableviewHeight = self.view.frame.size.height+self.navigationController.navigationBar.frame.size.height-TABLEVIEW_SCROLL_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT;
-        [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) setFrame:CGRectMake(0, MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT, self.view.frame.size.width, tableviewHeight)];
+        NSInteger tableviewHeight = self.view.frame.size.height+self.navigationController.navigationBar.frame.size.height-TABLEVIEW_SCROLL_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT;
+        [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) setFrame:CGRectMake(0, MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT+INFO_VIEW_HEIGHT, self.view.frame.size.width, tableviewHeight)];
     }
     [self.delegate didChangeLocation:self.location];
     [self dismissViewControllerAnimated:YES completion:NULL];
@@ -438,7 +471,8 @@
     }
     else
     {
-        MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, MAP_VIEW_HEIGHT)];
+        //MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, MAP_VIEW_HEIGHT)];
+        MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, MAP_VIEW_HEIGHT)];
         mapView.tag = TAG_MAPVIEW;
         mapView.delegate = self;
         [self.view addSubview:mapView];
