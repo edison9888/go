@@ -145,6 +145,16 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.dateInput.layer.cornerRadius = 3.0;
+    self.dateInput.layer.borderWidth = 1.0;
+    self.dateInput.layer.borderColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
+    self.durationInput.layer.cornerRadius = 3.0;
+    self.durationInput.layer.borderWidth = 1.0;
+    self.durationInput.layer.borderColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
+    self.nameInput.layer.cornerRadius = 3.0;
+    self.nameInput.layer.borderWidth = 1.0;
+    self.nameInput.layer.borderColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
+
 }
 
 - (void) viewDidAppear:(BOOL)animated {

@@ -49,16 +49,20 @@
     topView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     UITextField *nameOfAddLocation = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, 300, 40)];
-    [nameOfAddLocation setBorderStyle:UITextBorderStyleLine];
-    nameOfAddLocation.layer.cornerRadius=5.0f;
+    [nameOfAddLocation setBorderStyle:UITextBorderStyleBezel];
+    nameOfAddLocation.layer.cornerRadius=3.0f;
     nameOfAddLocation.layer.masksToBounds=YES;
-    nameOfAddLocation.layer.borderColor=[[UIColor grayColor]CGColor];
+    nameOfAddLocation.layer.borderColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
     nameOfAddLocation.layer.borderWidth= 1.0f;
     nameOfAddLocation.text = self.addLocationName;
     nameOfAddLocation.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [nameOfAddLocation setReturnKeyType:UIReturnKeyDone];
     nameOfAddLocation.backgroundColor = [UIColor whiteColor];
     nameOfAddLocation.delegate = self;
+    //add padding to the UITextfield
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 40)];
+    nameOfAddLocation.leftView = paddingView;
+    nameOfAddLocation.leftViewMode = UITextFieldViewModeAlways;
     
     [topView addSubview:nameOfAddLocation];
     [topView bringSubviewToFront:nameOfAddLocation];
@@ -71,9 +75,9 @@
     
     UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
     implyLabel.text = @"点击地图，为这个地点标注正确的位置";
-    implyLabel.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.8];
-    implyLabel.font = [UIFont systemFontOfSize:14];
-    implyLabel.textColor = [UIColor whiteColor];
+    implyLabel.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:0.9];
+    implyLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    implyLabel.textColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0];
     implyLabel.textAlignment = NSTextAlignmentCenter;
     [self.mapView addSubview:implyLabel];
     

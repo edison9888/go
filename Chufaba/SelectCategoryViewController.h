@@ -19,13 +19,4 @@
 
 @property (nonatomic,weak) id<AddLocationDelegate> delegate;
 
-- (IBAction)selectSight:(id)sender;
-- (IBAction)selectFood:(id)sender;
-- (IBAction)selectHotel:(id)sender;
-- (IBAction)selectEntertainment:(id)sender;
-- (IBAction)selectTransport:(id)sender;
-- (IBAction)selectMore:(id)sender;
-
-//- (void) notifyItinerayView:(Location *) location;
-
 @end

@@ -28,6 +28,73 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
 	// Do any additional setup after loading the view.
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(45.0, 20.0, 100.0, 100.0)];
+    [button setBackgroundColor:[UIColor clearColor]];
+    [button setBackgroundImage:[UIImage imageNamed:@"sight.png"]  forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"sight.png"]  forState:UIControlStateSelected | UIControlStateHighlighted];
+    [button addTarget:self action:@selector(selectSight:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:button];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(45.0, 120.0, 100.0, 20.0)];
+    label.backgroundColor = [UIColor clearColor];
+    label.text = @"景点";
+    label.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:label];
+    
+    button = [[UIButton alloc] initWithFrame:CGRectMake(175.0, 20.0, 100.0, 100.0)];
+    [button setBackgroundColor:[UIColor clearColor]];
+    [button setBackgroundImage:[UIImage imageNamed:@"food.png"]  forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(selectFood:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:button];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(175.0, 120.0, 100.0, 20.0)];
+    label.backgroundColor = [UIColor clearColor];
+    label.text = @"美食";
+    label.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:label];
+    
+    button = [[UIButton alloc] initWithFrame:CGRectMake(45.0, 150.0, 100.0, 100.0)];
+    [button setBackgroundColor:[UIColor clearColor]];
+    [button setBackgroundImage:[UIImage imageNamed:@"hotel.png"]  forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(selectHotel:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:button];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(45.0, 250.0, 100.0, 20.0)];
+    label.backgroundColor = [UIColor clearColor];
+    label.text = @"住宿";
+    label.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:label];
+    
+    button = [[UIButton alloc] initWithFrame:CGRectMake(175.0, 150.0, 100.0, 100.0)];
+    [button setBackgroundColor:[UIColor clearColor]];
+    [button setBackgroundImage:[UIImage imageNamed:@"entertainment.png"]  forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(selectEntertainment:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:button];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(175.0, 250.0, 100.0, 20.0)];
+    label.backgroundColor = [UIColor clearColor];
+    label.text = @"娱乐";
+    label.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:label];
+    
+    button = [[UIButton alloc] initWithFrame:CGRectMake(45.0, 280.0, 100.0, 100.0)];
+    [button setBackgroundColor:[UIColor clearColor]];
+    [button setBackgroundImage:[UIImage imageNamed:@"transport.png"]  forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(selectTransport:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:button];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(45.0, 380.0, 100.0, 20.0)];
+    label.backgroundColor = [UIColor clearColor];
+    label.text = @"交通";
+    label.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:label];
+    
+    button = [[UIButton alloc] initWithFrame:CGRectMake(175.0, 280.0, 100.0, 100.0)];
+    [button setBackgroundColor:[UIColor clearColor]];
+    [button setBackgroundImage:[UIImage imageNamed:@"more.png"]  forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(selectMore:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:button];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(175.0, 380.0, 100.0, 20.0)];
+    label.backgroundColor = [UIColor clearColor];
+    label.text = @"其他";
+    label.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:label];
 }
 
 - (void)didReceiveMemoryWarning

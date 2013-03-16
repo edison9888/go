@@ -893,17 +893,24 @@
         [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];
     }
     
-    NSInteger lastRowIndex = [[self.dataController objectInListAtIndex:indexPath.section] count] - 1;
-    if(singleDayMode || (lastRowIndex != indexPath.row && !singleDayMode))
-    {
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
-        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-        [cell.contentView addSubview:lineView];
-        
-        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, self.view.bounds.size.width, 1)];
-        lineView.backgroundColor = [UIColor whiteColor];
-        [cell.contentView addSubview:lineView];
-    }
+//    NSInteger lastRowIndex = [[self.dataController objectInListAtIndex:indexPath.section] count] - 1;
+//    if(singleDayMode || (lastRowIndex != indexPath.row && !singleDayMode))
+//    {
+//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
+//        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+//        [cell.contentView addSubview:lineView];
+//        
+//        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, self.view.bounds.size.width, 1)];
+//        lineView.backgroundColor = [UIColor whiteColor];
+//        [cell.contentView addSubview:lineView];
+//    }
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
+    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    [cell.contentView addSubview:lineView];
+    
+    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, self.view.bounds.size.width, 1)];
+    lineView.backgroundColor = [UIColor whiteColor];
+    [cell.contentView addSubview:lineView];
     
     return cell;
 }
