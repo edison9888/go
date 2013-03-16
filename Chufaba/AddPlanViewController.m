@@ -147,13 +147,13 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.dateInput.borderStyle = UITextBorderStyleNone;
     self.dateInput.background = [UIImage imageNamed:@"kuang.png"];
-    self.dateInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    self.dateInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     self.durationInput.borderStyle = UITextBorderStyleNone;
     self.durationInput.background = [UIImage imageNamed:@"kuang.png"];
-    self.durationInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    self.durationInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     self.nameInput.borderStyle = UITextBorderStyleNone;
     self.nameInput.background = [UIImage imageNamed:@"kuang.png"];
-    self.nameInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    self.nameInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
     self.dateInput.leftView = paddingView;

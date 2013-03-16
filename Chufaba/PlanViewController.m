@@ -243,19 +243,19 @@
     label = (UILabel *)[contentView viewWithTag:2];
     label.text = planAtIndex.name;
     label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-    label.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     
     label = (UILabel *)[contentView viewWithTag:3];
     label.text = [formatter stringFromDate:planAtIndex.date];
     label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-    label.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     
     label = (UILabel *)[contentView viewWithTag:4];
     //label.text = [[planAtIndex.duration stringValue] stringByAppendingString:@"天"];
     
     label.text = [NSString stringWithFormat:@"%@天，%d个地点", [planAtIndex.duration stringValue], planAtIndex.locationCount];
     label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-    label.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     
     //add separator line
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 92, self.view.bounds.size.width, 1)];

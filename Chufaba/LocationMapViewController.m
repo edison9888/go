@@ -29,6 +29,7 @@
     MKMapView *mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
     mapView.delegate = self;
     [self.view addSubview:mapView];
+    self.navigationItem.title = @"地图详情";
 	if ([self.location.latitude intValue] != 10000) {
         CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
         [mapView setCenterCoordinate:customLoc2D_5 animated:YES];

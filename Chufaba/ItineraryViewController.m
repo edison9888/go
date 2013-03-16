@@ -410,7 +410,7 @@
         userLocationView.pinColor = MKPinAnnotationColorGreen;
         userLocationView.canShowCallout = YES;
         return userLocationView;
-        //return nil;  //return nil to use default blue dot view
+        //return nil to use default blue dot view
     }
     
     MKAnnotationView *aView = [sender dequeueReusableAnnotationViewWithIdentifier:LOCATION_ANNOTATION_VIEWS];
@@ -419,9 +419,11 @@
 		aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
 		aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
-        ((UILabel *)aView.leftCalloutAccessoryView).textAlignment = NSTextAlignmentCenter;
-        ((UILabel *)aView.leftCalloutAccessoryView).textColor = [UIColor whiteColor];
-        ((UILabel *)aView.leftCalloutAccessoryView).backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.1];
+        UILabel *label = ((UILabel *)aView.leftCalloutAccessoryView);
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.1];
+        label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
 		aView.canShowCallout = YES;
 	}
 
@@ -881,7 +883,9 @@
     else
     {
         Location *locationAtIndex = (Location *)object;
-        [[cell textLabel] setText:locationAtIndex.name];
+        //[[cell textLabel] setText:locationAtIndex.name];
+        cell.textLabel.text = locationAtIndex.name;
+        cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
         if (locationAtIndex.visitBegin || locationAtIndex.visitEnd) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateStyle:NSDateFormatterNoStyle];
@@ -968,14 +972,14 @@
     label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     label.shadowColor = [UIColor whiteColor];
     label.shadowOffset = CGSizeMake(0, 1);
-    label.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
     
     UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 28.0, 250.0, 20.0)] ;
     wLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     wLabel.shadowColor = [UIColor whiteColor];
     wLabel.shadowOffset = CGSizeMake(0, 1);
-    wLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    wLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     wLabel.backgroundColor = [UIColor clearColor];
     wLabel.text = [dateFormatter stringFromDate:sectionDate];;
     

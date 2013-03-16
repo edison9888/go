@@ -698,6 +698,12 @@
         <class className="ItineraryViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ItineraryViewController.h"/>
             <relationships>
+                <relationship kind="action" name="clickDarkView:"/>
+                <relationship kind="action" name="nextMapLocation:"/>
+                <relationship kind="action" name="positionMe:"/>
+                <relationship kind="action" name="previousMapLocation:"/>
+                <relationship kind="action" name="pushSearchLocationViewController:"/>
+                <relationship kind="action" name="selectClicked:"/>
                 <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
@@ -721,6 +727,14 @@
         </class>
         <class className="SelectCategoryViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SelectCategoryViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="selectEntertainment:"/>
+                <relationship kind="action" name="selectFood:"/>
+                <relationship kind="action" name="selectHotel:"/>
+                <relationship kind="action" name="selectMore:"/>
+                <relationship kind="action" name="selectSight:"/>
+                <relationship kind="action" name="selectTransport:"/>
+            </relationships>
         </class>
         <class className="SettingViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingViewController.h"/>

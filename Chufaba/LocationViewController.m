@@ -72,8 +72,7 @@
     UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
     
     self.navigationItem.rightBarButtonItem = segmentBarItem;
-    //self.navigationController.navigationBar.title = @"地点详情";
-    self.navigationItem.title = @"地点详情";
+    self.navigationItem.title = self.location.name;
     
     if ([self.location.latitude intValue] != 10000 && self.location.latitude != nil && [self.location.latitude intValue] != 0)  
     {
@@ -119,21 +118,21 @@
     nameLabel.tag = TAG_NAMELABEL;
     nameLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     nameLabel.backgroundColor = [UIColor clearColor];
-    nameLabel.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    nameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     [nameScroll addSubview:nameLabel];
     
     UILabel *eNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 25, self.view.frame.size.width, ENAME_LABEL_HEIGHT)];
     eNameLabel.tag = TAG_ENAMELABEL;
     eNameLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     eNameLabel.backgroundColor = [UIColor clearColor];
-    eNameLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    eNameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     [nameScroll addSubview:eNameLabel];
     
     UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, self.view.frame.size.width, ADDRESS_LABEL_HEIGHT)];
     addressLabel.tag = TAG_ADDRESSLABEL;
     addressLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     addressLabel.backgroundColor = [UIColor clearColor];
-    addressLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
+    addressLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     [nameScroll addSubview:addressLabel];
    
     NSLog(@"height1:%f", self.view.frame.size.height);
@@ -256,6 +255,7 @@
         ((UILabel *)[self.view viewWithTag:TAG_DAYLABEL]).text = [NSString stringWithFormat:@"第 %d 天", [self.location.whichday intValue]];
         
         [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) reloadData];
+        self.navigationItem.title = self.location.name;
     }
 }
 
