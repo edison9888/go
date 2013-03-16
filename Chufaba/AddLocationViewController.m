@@ -8,6 +8,8 @@
 
 #import "AddLocationViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "JsonFetcher.h"
+
 
 @interface AddLocationViewController ()
 {
@@ -115,6 +117,7 @@
 - (IBAction)confirmAddLocation:(id)sender
 {
     Location *addLocation = [[Location alloc] init];
+    addLocation.category = self.addLocationCategory;
     
     NSString *textFieldValue = ((UITextField *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_NAME_TEXTFIELD]).text;
     
@@ -163,7 +166,26 @@
 
 - (void)saveLocationToServer:(Location *)location
 {
-
+    if (location.name) {
+        NSString *name = (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                                NULL,
+                                                                                                (CFStringRef)location.name,
+                                                                                                NULL,
+                                                                                                CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                                                kCFStringEncodingUTF8));
+        NSString *category = (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                                NULL,
+                                                                                                (CFStringRef)location.category,
+                                                                                                NULL,
+                                                                                                CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                                                kCFStringEncodingUTF8));
+        JSONFetcher *fetcher = [[JSONFetcher alloc]
+                                initWithURLString:[NSString stringWithFormat: @"http://localhost:3000/pois/useradd?useradd[name]=%@&useradd[category]=%@&useradd[user]=%@&useradd[latitude]=%f&useradd[longitude]=%f", name, category, @"", [location.latitude doubleValue], [location.longitude doubleValue]]
+                                receiver:nil
+                                action:nil];
+        fetcher.showAlerts = NO;
+        [fetcher start];
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {

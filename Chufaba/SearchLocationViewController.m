@@ -80,6 +80,7 @@
 {
     AddLocationViewController *addLocationViewController = [[AddLocationViewController alloc] init];
     addLocationViewController.addLocationName = self.searchBar.text;
+    addLocationViewController.addLocationCategory = self.category;
     addLocationViewController.lastLatitude = self.lastLatitude;
     addLocationViewController.lastLongitude = self.lastLongitude;
     addLocationViewController.editLocationDelegate = self;

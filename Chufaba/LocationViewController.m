@@ -166,6 +166,7 @@
 {
     AddLocationViewController *addLocationViewController = [[AddLocationViewController alloc] init];
     addLocationViewController.addLocationName = self.location.name;
+    addLocationViewController.addLocationCategory = self.location.category;
     addLocationViewController.locationID = self.location.locationId;
     if(self.location.latitude != 0 && self.location.latitude != nil)
     {
