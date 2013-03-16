@@ -13,7 +13,7 @@
 #import "SelectCategoryViewController.h"
 #import "NIDropDown.h"
 #import "PullDownMenuView.h"
-#import "AddPlanViewController.h"
+//#import "AddPlanViewController.h"
 #import "FMDBDataAccess.h" 
 #import "LocationViewController.h"
 
@@ -27,8 +27,13 @@
 
 @class ItineraryDataController;
 
+@protocol ItineraryViewControllerDelegate<NSObject>
+-(void) didAddLocationToPlan;
+-(void) didDeleteLocationFromPlan;
+@end
+
 //@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, SocialAccountManagerDelegate>
-@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, SocialAccountManagerDelegate>
+@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, SocialAccountManagerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
@@ -62,6 +67,8 @@
 @property (nonatomic,weak) NSNumber *daySelected;
 @property (nonatomic,weak) NSNumber *dayToAdd;
 @property (nonatomic,weak) NSNumber *seqToAdd;
+
+@property (nonatomic,weak) id<ItineraryViewControllerDelegate> itineraryDelegate;
 
 //@property (strong, nonatomic) SocialAccountManager *accountManager;
 

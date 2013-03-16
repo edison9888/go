@@ -15,10 +15,10 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSNumber *duration;
 @property (nonatomic) UIImage *image;
+@property (nonatomic, assign) NSInteger locationCount;
 
 @property (nonatomic, copy) NSMutableArray *itineraryList;
 
 -(id)initWithName:(NSString *)name duration:(NSNumber *)duration date:(NSDate *)date image:(UIImage *)image;
-//-(id)initWithName:(NSString *)name duration:(NSString *)duration date:(NSDate *)date;
 
 @end

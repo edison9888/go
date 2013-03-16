@@ -29,18 +29,6 @@
     return self;
 }
 
-/*- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    self.dataController = [[TravelPlanDataController alloc] init];
-}*/
-
-//-(void) travelPlanDidChange:(ItineraryViewController *) controller
-//{
-//    [self populateTravelPlans];
-//    [self.tableView reloadData];
-//}
-
 - (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller
 {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -263,7 +251,9 @@
     label.font = [UIFont fontWithName:@"Heiti SC" size:12];
     
     label = (UILabel *)[contentView viewWithTag:4];
-    label.text = [[planAtIndex.duration stringValue] stringByAppendingString:@"天"];
+    //label.text = [[planAtIndex.duration stringValue] stringByAppendingString:@"天"];
+    
+    label.text = [NSString stringWithFormat:@"%@天，%d个地点", [planAtIndex.duration stringValue], planAtIndex.locationCount];
     label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     label.font = [UIFont fontWithName:@"Heiti SC" size:12];
     
@@ -288,6 +278,7 @@
 {
     if ([[segue identifier] isEqualToString:@"ShowItinerary"]) {
         ItineraryViewController *itineraryViewController = [segue destinationViewController];
+        itineraryViewController.itineraryDelegate = self;
         Plan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
         itineraryViewController.dataController.date = selectedPlan.date;
         NSMutableArray *tempList = [[NSMutableArray alloc] init];
@@ -488,6 +479,18 @@
     
     return [UIImage imageWithContentsOfFile:fullPath];
     
+}
+
+-(void) didAddLocationToPlan
+{
+    [self populateTravelPlans];
+    [self.tableView reloadData];
+}
+
+-(void) didDeleteLocationFromPlan
+{
+    [self populateTravelPlans];
+    [self.tableView reloadData];
 }
 
 @end

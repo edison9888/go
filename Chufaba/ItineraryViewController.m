@@ -838,6 +838,7 @@
     
     //add this to resolve the issue that map annotations doesn't update
     self.annotations = [self mapAnnotations];
+    [self.itineraryDelegate didAddLocationToPlan];
 }
 
 -(void) didChangeLocation:(Location *)location
@@ -1076,6 +1077,7 @@
         [db open];
         [db executeUpdate:@"DELETE FROM location WHERE id = ?", locationToDelete.locationId];
         [db close];
+        [self.itineraryDelegate didDeleteLocationFromPlan];
     }
 }
 

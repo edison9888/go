@@ -56,7 +56,12 @@
         plan.date = [results dateForColumn:@"startdate"];
         plan.duration = [NSNumber numberWithInt:[results intForColumn:@"duration"]];
         plan.image = [UIImage imageNamed:@"photo_add.png"];
-        plan.name = [results stringForColumn:@"title"];        
+        plan.name = [results stringForColumn:@"title"];
+        
+        FMResultSet *locationResults = [db executeQuery:@"SELECT count(*) as 'count' FROM location WHERE plan_id = ?",plan.planId];
+        if([locationResults next])
+            plan.locationCount = [locationResults intForColumn:@"count"];
+        
         [travelPlans addObject:plan];
     }    
     travelPlans = [[[travelPlans reverseObjectEnumerator] allObjects] mutableCopy];
