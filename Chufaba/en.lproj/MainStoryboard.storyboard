@@ -65,16 +65,16 @@
                         <sections>
                             <tableViewSection id="mwL-pM-dw3">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="VlC-hA-Lut">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="VlC-hA-Lut">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="出发日期" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q1G-Vl-CGz">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="FfS-vS-sfE"/>
+                                                        <constraint firstAttribute="height" constant="40" id="CNM-UY-X5q"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -87,20 +87,20 @@
                                         </view>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="q1G-Vl-CGz" secondAttribute="trailing" constant="20" type="default" id="EeG-JV-ZW2"/>
-                                            <constraint firstItem="q1G-Vl-CGz" firstAttribute="centerY" secondItem="VlC-hA-Lut" secondAttribute="centerY" type="default" id="p0H-p3-8TY"/>
+                                            <constraint firstItem="q1G-Vl-CGz" firstAttribute="top" secondItem="VlC-hA-Lut" secondAttribute="top" constant="15" id="rjS-Ye-78h"/>
                                             <constraint firstItem="q1G-Vl-CGz" firstAttribute="leading" secondItem="VlC-hA-Lut" secondAttribute="leading" constant="20" type="default" id="yRy-Oz-nGk"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Rg2-uW-nG9">
-                                        <rect key="frame" x="0.0" y="44" width="320" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="Rg2-uW-nG9">
+                                        <rect key="frame" x="0.0" y="60" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="旅行天数" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uYU-KJ-BcQ">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="FMG-5o-eN9"/>
+                                                        <constraint firstAttribute="height" constant="40" id="GHi-j6-pVG"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -112,21 +112,21 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="uYU-KJ-BcQ" firstAttribute="centerY" secondItem="Rg2-uW-nG9" secondAttribute="centerY" type="default" id="Rsz-Ah-rgK"/>
-                                            <constraint firstItem="uYU-KJ-BcQ" firstAttribute="leading" secondItem="Rg2-uW-nG9" secondAttribute="leading" constant="20" type="default" id="bvH-3R-eDe"/>
-                                            <constraint firstAttribute="trailing" secondItem="uYU-KJ-BcQ" secondAttribute="trailing" constant="20" type="default" id="sdv-5h-huC"/>
+                                            <constraint firstItem="uYU-KJ-BcQ" firstAttribute="centerY" secondItem="Rg2-uW-nG9" secondAttribute="centerY" type="default" id="HSZ-Kg-xBV"/>
+                                            <constraint firstItem="uYU-KJ-BcQ" firstAttribute="leading" secondItem="Rg2-uW-nG9" secondAttribute="leading" constant="20" type="default" id="Idw-LE-Fbr"/>
+                                            <constraint firstAttribute="trailing" secondItem="uYU-KJ-BcQ" secondAttribute="trailing" constant="20" type="default" id="cCC-YH-zbA"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="pBd-u2-ZQb">
-                                        <rect key="frame" x="0.0" y="88" width="320" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="pBd-u2-ZQb">
+                                        <rect key="frame" x="0.0" y="120" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="游记名称" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OMm-7t-bjn">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="游记名称" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="OMm-7t-bjn">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="gyc-ct-TPf"/>
+                                                        <constraint firstAttribute="height" constant="40" id="Q9B-D0-PWZ"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -139,29 +139,29 @@
                                         </view>
                                         <constraints>
                                             <constraint firstItem="OMm-7t-bjn" firstAttribute="leading" secondItem="pBd-u2-ZQb" secondAttribute="leading" constant="20" type="default" id="DfZ-Hn-NY6"/>
+                                            <constraint firstItem="OMm-7t-bjn" firstAttribute="centerY" secondItem="pBd-u2-ZQb" secondAttribute="centerY" type="default" id="OUh-bM-zwh"/>
                                             <constraint firstAttribute="trailing" secondItem="OMm-7t-bjn" secondAttribute="trailing" constant="20" type="default" id="eFU-D0-Qg4"/>
-                                            <constraint firstItem="OMm-7t-bjn" firstAttribute="centerY" secondItem="pBd-u2-ZQb" secondAttribute="centerY" type="default" id="oKu-zp-fgX"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="1aI-aw-hTQ">
-                                        <rect key="frame" x="0.0" y="132" width="320" height="100"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="93" id="1aI-aw-hTQ">
+                                        <rect key="frame" x="0.0" y="180" width="320" height="93"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="92"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yRS-1s-BpR">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="scO-lz-XFh"/>
+                                                        <constraint firstAttribute="height" constant="60" id="zZB-kS-kGW"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="yRS-1s-BpR" firstAttribute="top" secondItem="1aI-aw-hTQ" secondAttribute="top" constant="20" type="default" id="YZk-8U-1Bq"/>
                                             <constraint firstItem="yRS-1s-BpR" firstAttribute="centerX" secondItem="1aI-aw-hTQ" secondAttribute="centerX" type="default" id="p9F-mm-Eki"/>
-                                            <constraint firstAttribute="bottom" secondItem="yRS-1s-BpR" secondAttribute="bottom" constant="20" type="default" id="u1I-7j-1ew"/>
+                                            <constraint firstItem="yRS-1s-BpR" firstAttribute="top" secondItem="1aI-aw-hTQ" secondAttribute="top" constant="17" id="xsF-n3-XzW"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -802,6 +802,81 @@
         <image name="sight.png" width="76" height="76"/>
         <image name="transport.png" width="128" height="128"/>
     </resources>
+    <classes>
+        <class className="AddPlanViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancel:"/>
+                <relationship kind="action" name="done:"/>
+                <relationship kind="outlet" name="coverImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="dateInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="durationInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="nameInput" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="EditCostViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditCostViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="amountInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="currencyInput" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="EditScheduleViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditScheduleViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="endInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="startInput" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="ItineraryViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ItineraryViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PlanViewController" superclassName="SwipeableTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlanViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="showLogin:"/>
+            </relationships>
+        </class>
+        <class className="SearchLocationViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchLocationViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addCustomLocation:"/>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="SelectCategoryViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SelectCategoryViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="selectEntertainment:"/>
+                <relationship kind="action" name="selectFood:"/>
+                <relationship kind="action" name="selectHotel:"/>
+                <relationship kind="action" name="selectMore:"/>
+                <relationship kind="action" name="selectSight:"/>
+                <relationship kind="action" name="selectTransport:"/>
+            </relationships>
+        </class>
+        <class className="SettingViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="saveSetting:"/>
+                <relationship kind="outlet" name="loginCell" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="logoutCell" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="userEmail" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="userName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="SwipeableTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SwipeableTableViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

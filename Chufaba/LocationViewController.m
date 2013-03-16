@@ -71,7 +71,8 @@
     UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
     
     self.navigationItem.rightBarButtonItem = segmentBarItem;
-    self.navigationController.title = @"地点详情";
+    //self.navigationController.navigationBar.title = @"地点详情";
+    self.navigationItem.title = @"地点详情";
     
     if ([self.location.latitude intValue] != 10000 && self.location.latitude != nil && [self.location.latitude intValue] != 0)  
     {

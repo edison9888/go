@@ -979,16 +979,8 @@
     [button setBackgroundColor:[UIColor clearColor]];
     [button addTarget:self action:@selector(pushSearchLocationViewController:) forControlEvents:UIControlEventTouchDown];
     
-    //label.text = [[myString stringByAppendingString:[NSString stringWithFormat:@"%d", dayValue+1]] stringByAppendingString:dateOfDay];
     label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
     myView.backgroundColor = [UIColor colorWithRed:223/255.0 green:215/255.0 blue:198/255.0 alpha:1.0];
-    
-//    CAGradientLayer *bottomShadow = [CAGradientLayer layer];
-//    bottomShadow.frame = CGRectMake(0, myView.bounds.size.height-2, myView.bounds.size.width, 2);
-//    bottomShadow.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0.0 alpha:0.25f] CGColor], (id)[[UIColor clearColor] CGColor], nil];
-    
-    //[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0];
-    //[myView.layer insertSublayer:bottomShadow atIndex:0];
     
     CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
     CGRect viewShadowFrame = CGRectMake(0, 0, 320, myView.frame.size.height);

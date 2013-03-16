@@ -77,6 +77,11 @@
     return YES;
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    return NO;
+}
+
 - (void)timeChanged:(id)sender
 {
     UIDatePicker *picker = sender;

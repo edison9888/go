@@ -367,6 +367,18 @@
     return YES;
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == self.nameInput)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 0)
     {

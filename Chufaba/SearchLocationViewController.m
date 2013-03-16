@@ -51,12 +51,26 @@
     [_searchBar setShowsCancelButton:YES];
     
     addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 5.0f, 300.0f, 35.0f)];
+    CALayer *addBtnLayer = addLocationBtn.layer;
+    
+//    CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
+//    viewShadow.frame = addLocationBtn.bounds;
+//    viewShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0].CGColor,(id)[UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor,nil];
+//    [addBtnLayer addSublayer:viewShadow];
     
     [addLocationBtn setTitle:[NSString stringWithFormat:@"创建%@", self.category] forState:UIControlStateNormal];
     [addLocationBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    addLocationBtn.backgroundColor = [UIColor clearColor];
-    [[addLocationBtn layer] setBorderWidth:1.0f];
-    [[addLocationBtn layer] setBorderColor:[UIColor grayColor].CGColor];
+    addLocationBtn.backgroundColor = [UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0];
+    addBtnLayer.borderWidth = 1.0;
+    addBtnLayer.borderColor = [UIColor grayColor].CGColor;
+    addBtnLayer.cornerRadius = 5.0;
+    
+    addBtnLayer.masksToBounds = NO;
+    addBtnLayer.shadowOffset = CGSizeMake(0, 1);
+    addBtnLayer.shadowRadius = 1;
+    addBtnLayer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
+    addBtnLayer.shadowOpacity = 1;
+    
     [addLocationBtn addTarget:self action:@selector(addCustomLocation:) forControlEvents:UIControlEventTouchDown];
     
     showAddLocationBtn = NO;
