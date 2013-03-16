@@ -14,6 +14,9 @@
 @property (nonatomic, copy) NSNumber *whichday;
 @property (nonatomic, copy) NSNumber *seqofday;
 @property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *nameEn;
+@property (nonatomic, copy) NSString *country;
+@property (nonatomic, copy) NSString *city;
 @property (nonatomic, copy) NSString *address;
 @property (nonatomic, copy) NSString *transportation;
 @property (nonatomic, copy) NSNumber *cost;
@@ -27,5 +30,9 @@
 
 + (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category;
 + (UIImage *)getCategoryIcon:(NSString *)category;
+
+- (NSString *)getNameAndCity;
+- (NSString *)getRealName;
+- (NSString *)getRealNameEn;
 
 @end

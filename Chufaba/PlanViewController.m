@@ -304,9 +304,11 @@
             location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
             location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
             location.name = [results stringForColumn:@"name"];
+            location.nameEn = [results stringForColumn:@"name_en"];
+            location.country = [results stringForColumn:@"country"];
+            location.city = [results stringForColumn:@"city"];
             location.address = [results stringForColumn:@"address"];
             location.transportation = [results stringForColumn:@"transportation"];
-            location.name = [results stringForColumn:@"name"];
             location.cost = [NSNumber numberWithInt:[results intForColumn:@"cost"]];
             location.currency = [results stringForColumn:@"currency"];
             location.visitBegin = [results dateForColumn:@"visit_begin"];

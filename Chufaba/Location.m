@@ -50,4 +50,29 @@
     }
 }
 
+- (NSString *)getNameAndCity
+{
+    return [self.city length] > 0 ? [NSString stringWithFormat:@"%@, %@", self.name, self.city] : self.name;
+}
+
+- (NSString *)name
+{
+    return [_name length] > 0 ? _name : _nameEn;
+}
+
+- (NSString *)nameEn
+{
+    return [_name length] > 0 ? _nameEn : @"";
+}
+
+- (NSString *)getRealName
+{
+    return _name;
+}
+
+- (NSString *)getRealNameEn
+{
+    return _nameEn;
+}
+
 @end

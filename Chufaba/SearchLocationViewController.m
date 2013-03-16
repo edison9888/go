@@ -396,9 +396,10 @@
 {
     NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
     Location *location = [[Location alloc] init];
-    NSString *name = [locationAtIndex objectForKey: @"name"];
-    NSString *nameEn = [locationAtIndex objectForKey: @"name_en"];
-    location.name = name.length > 0 ? name : nameEn;
+    location.name = [locationAtIndex objectForKey: @"name"];
+    location.nameEn = [locationAtIndex objectForKey: @"name_en"];
+    location.country = [locationAtIndex objectForKey: @"country"];
+    location.city = [locationAtIndex objectForKey: @"city"];
     location.address = [locationAtIndex objectForKey:@"address"];
     location.transportation = [locationAtIndex objectForKey:@"transport"];
     location.category = [locationAtIndex objectForKey:@"category"];
