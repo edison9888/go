@@ -13,7 +13,6 @@
 #import "EditCostViewController.h"
 #import "EditDetailViewController.h"
 #import "EditScheduleViewController.h"
-#import "EditCategoryViewController.h"
 #import "LocationMapViewController.h"
 #import "LocationTableViewCell.h"
 
@@ -244,7 +243,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -295,16 +294,6 @@
         [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
         cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", self.location.currency, [formatter stringFromNumber:self.location.cost]];
     } else if (indexPath.row == 3) {
-        static NSString *CellIdentifier = @"CagetoryCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.font = [UIFont systemFontOfSize:13];
-        }
-        cell.imageView.image = [Location getCategoryIcon:self.location.category];
-        cell.textLabel.text = self.location.category;
-    } else if (indexPath.row == 4) {
         static NSString *CellIdentifier = @"NoteCell";
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (!cell) {
@@ -352,11 +341,6 @@
         costViewController.delegate = self;
         [self.navigationController pushViewController:costViewController animated:YES];
     } else if (indexPath.row == 3) {
-        EditCategoryViewController *categoryViewController = [[EditCategoryViewController alloc] init];
-        categoryViewController.category = self.location.category;
-        categoryViewController.delegate = self;
-        [self.navigationController pushViewController:categoryViewController animated:YES];
-    } else if (indexPath.row == 4) {
         EditDetailViewController *detailViewController = [[EditDetailViewController alloc] init];
         detailViewController.detail = self.location.detail;
         detailViewController.delegate = self;
