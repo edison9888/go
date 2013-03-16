@@ -31,6 +31,20 @@
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     [self configureView];
     
+    self.startInput.borderStyle = UITextBorderStyleNone;
+    self.startInput.background = [UIImage imageNamed:@"kuang.png"];
+    self.startInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    self.endInput.borderStyle = UITextBorderStyleNone;
+    self.endInput.background = [UIImage imageNamed:@"kuang.png"];
+    self.endInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    
+    UIView *sPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    self.startInput.leftView = sPaddingView;
+    self.startInput.leftViewMode = UITextFieldViewModeAlways;
+    UIView *ePaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    self.endInput.leftView = ePaddingView;
+    self.endInput.leftViewMode = UITextFieldViewModeAlways;
+    
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
     datePicker.tag = 13;
     datePicker.datePickerMode = UIDatePickerModeTime;

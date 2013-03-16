@@ -39,6 +39,20 @@
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
+    self.amountInput.borderStyle = UITextBorderStyleNone;
+    self.amountInput.background = [UIImage imageNamed:@"kuang.png"];
+    self.amountInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    self.currencyInput.borderStyle = UITextBorderStyleNone;
+    self.currencyInput.background = [UIImage imageNamed:@"kuang.png"];
+    self.currencyInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    
+    UIView *aPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    self.amountInput.leftView = aPaddingView;
+    self.amountInput.leftViewMode = UITextFieldViewModeAlways;
+    UIView *cPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    self.currencyInput.leftView = cPaddingView;
+    self.currencyInput.leftViewMode = UITextFieldViewModeAlways;
+    
     if(self.amount && [self.amount intValue] != 0){
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
         [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
