@@ -105,7 +105,7 @@
     
     if(!showMap)
     {
-        UIButton *editLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(nameScroll.frame.size.width-60,0,60,60)];
+        UIButton *editLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(nameScroll.frame.size.width*0.9-60,0,60,60)];
         editLocationBtn.tag = 22;
         [editLocationBtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
         [editLocationBtn addTarget:self action:@selector(editLocationCoordinate:) forControlEvents:UIControlEventTouchDown];

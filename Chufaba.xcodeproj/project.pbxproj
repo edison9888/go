@@ -114,6 +114,7 @@
 		C26B248B16DD0BED0038111D /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = C26B248A16DD0BED0038111D /* loading.gif */; };
 		C26B248E16DD0C850038111D /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C26B248D16DD0C850038111D /* SearchTableViewCell.m */; };
 		C27BF31516D91A7E00309DE3 /* direction.png in Resources */ = {isa = PBXBuildFile; fileRef = C27BF31416D91A7E00309DE3 /* direction.png */; };
+		C29C391916F4865F00106DC4 /* FadeScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C29C391816F4865F00106DC4 /* FadeScrollView.m */; };
 		C2C769AF16D8C7E5007E20AB /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */; };
 		C2E1BF5916B3D03400E9750A /* HTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2E1BF5A16B3D03400E9750A /* JSONFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5816B3D03400E9750A /* JSONFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -303,6 +304,8 @@
 		C26B248C16DD0C850038111D /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		C26B248D16DD0C850038111D /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
 		C27BF31416D91A7E00309DE3 /* direction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = direction.png; sourceTree = "<group>"; };
+		C29C391716F4865F00106DC4 /* FadeScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeScrollView.h; sourceTree = "<group>"; };
+		C29C391816F4865F00106DC4 /* FadeScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadeScrollView.m; sourceTree = "<group>"; };
 		C2C769AD16D8C7E5007E20AB /* LocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTableViewCell.h; sourceTree = "<group>"; };
 		C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewCell.m; sourceTree = "<group>"; };
 		C2E1BF5516B3D03400E9750A /* HTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPFetcher.h; sourceTree = "<group>"; };
@@ -669,6 +672,8 @@
 				C26B248D16DD0C850038111D /* SearchTableViewCell.m */,
 				132D205016DF9307004921DD /* AddLocationViewController.h */,
 				132D205116DF9307004921DD /* AddLocationViewController.m */,
+				C29C391716F4865F00106DC4 /* FadeScrollView.h */,
+				C29C391816F4865F00106DC4 /* FadeScrollView.m */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -970,6 +975,7 @@
 				C26B248E16DD0C850038111D /* SearchTableViewCell.m in Sources */,
 				132D205216DF9307004921DD /* AddLocationViewController.m in Sources */,
 				1318DCFF16E8C0FE00A1E34C /* SwipeableTableViewCell.m in Sources */,
+				C29C391916F4865F00106DC4 /* FadeScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
