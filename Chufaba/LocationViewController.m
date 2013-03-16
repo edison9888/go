@@ -15,6 +15,7 @@
 #import "EditScheduleViewController.h"
 #import "LocationMapViewController.h"
 #import "LocationTableViewCell.h"
+#import "FadeScrollView.h"
 
 @interface LocationViewController ()
 {
@@ -88,6 +89,7 @@
         [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
     }
     
+    self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     UIImageView *categoryImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, showMap? MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT : INFO_VIEW_HEIGHT, NAME_SCROLL_HEIGHT, NAME_SCROLL_HEIGHT)];
     categoryImage.tag = TAG_CATEGORY_IMAGE;
@@ -95,12 +97,11 @@
     categoryImage.image = [Location getCategoryIcon:self.location.category];
     [self.view addSubview:categoryImage];
     
-    UIScrollView *nameScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(10+NAME_SCROLL_HEIGHT+5, showMap? MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT : INFO_VIEW_HEIGHT, self.view.frame.size.width - NAME_SCROLL_HEIGHT - 15, NAME_SCROLL_HEIGHT)];
+    FadeScrollView *nameScroll = [[FadeScrollView alloc] initWithFrame:CGRectMake(10+NAME_SCROLL_HEIGHT+5, showMap? MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT : INFO_VIEW_HEIGHT, self.view.frame.size.width - NAME_SCROLL_HEIGHT - 15, NAME_SCROLL_HEIGHT)];
     nameScroll.tag = TAG_NAMESCROLL;
     nameScroll.showsHorizontalScrollIndicator = FALSE;
     nameScroll.showsVerticalScrollIndicator = FALSE;
     //nameScroll.backgroundColor = [UIColor colorWithRed:222/255.0 green:214/255.0 blue:195/255.0 alpha:1.0];
-    nameScroll.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     if(!showMap)
     {
@@ -235,11 +236,22 @@
         [addressLabel sizeToFit];
         
         CGFloat nameWidth = nameLabel.frame.size.width;
+        CGFloat eNameWidth = eNameLabel.frame.size.width;
         CGFloat addressWidth = addressLabel.frame.size.width;
         
-        UIScrollView *nameScroll = ((UIScrollView *)[self.view viewWithTag:TAG_NAMESCROLL]);
+        FadeScrollView *nameScroll = ((FadeScrollView *)[self.view viewWithTag:TAG_NAMESCROLL]);
         
-        nameScroll.contentSize = CGSizeMake((nameWidth > addressWidth) ? nameWidth : addressWidth, nameScroll.frame.size.height);
+        CGFloat contentWidht = nameWidth;
+        if (eNameWidth > nameWidth) {
+            contentWidht = eNameWidth;
+        }
+        if (addressWidth > contentWidht) {
+            contentWidht = addressWidth;
+        }
+        if (contentWidht > nameScroll.bounds.size.width) {
+            contentWidht += nameScroll.bounds.size.width * 0.15; //15%的区域会渐隐，加上这段好让最右边的字也能全部显示出来
+        }
+        nameScroll.contentSize = CGSizeMake(contentWidht, nameScroll.frame.size.height);
         
         ((UILabel *)[self.view viewWithTag:TAG_DAYLABEL]).text = [NSString stringWithFormat:@"第 %d 天", [self.location.whichday intValue]];
         
@@ -441,7 +453,7 @@
     {
         [self didEditCoordinate:location.latitude withLongitude:location.longitude];
         [((UIImageView *)[self.view viewWithTag:TAG_CATEGORY_IMAGE]) setFrame:CGRectMake(10, MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT, NAME_SCROLL_HEIGHT, NAME_SCROLL_HEIGHT)];
-        [((UIScrollView *)[self.view viewWithTag:TAG_NAMESCROLL]) setFrame:CGRectMake(10+NAME_SCROLL_HEIGHT+5, MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT, self.view.frame.size.width - NAME_SCROLL_HEIGHT - 15, NAME_SCROLL_HEIGHT)];
+        [((FadeScrollView *)[self.view viewWithTag:TAG_NAMESCROLL]) setFrame:CGRectMake(10+NAME_SCROLL_HEIGHT+5, MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT, self.view.frame.size.width - NAME_SCROLL_HEIGHT - 15, NAME_SCROLL_HEIGHT)];
         
         NSLog(@"height2:%f", self.view.frame.size.height);
         NSInteger tableviewHeight = self.view.frame.size.height+self.navigationController.navigationBar.frame.size.height-NAVIGATOR_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT;
