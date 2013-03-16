@@ -27,6 +27,7 @@
     self.searchBar.barStyle = UIBarStyleBlack;
     self.searchBar.translucent = YES;
     self.searchBar.backgroundColor = [UIColor clearColor];
+    self.searchBar.placeholder = [NSString stringWithFormat:@"搜索%@", self.category];
     
 //    for (UIView *subview in self.searchBar.subviews)
 //    {
@@ -136,9 +137,38 @@
 
 - (NSString *)getPostBody:(NSString *)keyword {
     if (self.lastLatitude && [self.lastLatitude intValue] != 10000) {
-        return [NSString stringWithFormat:@"{\"min_score\":4.5, \"sort\" : [ { \"_geo_distance\" : { \"location\" : { \"lat\" : %f, \"lon\" : %f }, \"order\" : \"asc\", \"unit\" : \"km\" } } ], \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\" } } } } }", [self.lastLatitude floatValue], [self.lastLongitude floatValue], self.category, keyword];
+        return [NSString stringWithFormat:@"{"
+                "\"min_score\":3.5, "
+                "\"sort\" : [ "
+                    "{ \"_geo_distance\" : {"
+                        "\"location\" : { \"lat\" : %f, \"lon\" : %f }, "
+                        "\"order\" : \"asc\", "
+                        "\"unit\" : \"km\" "
+                    "} } ],"
+                "\"query\":{ "
+                    "\"bool\" : { "
+                        "\"must\" : { \"term\" : { \"category\": \"%@\" } }, "
+                        "\"must\" : { "
+                            "\"multi_match\" :{"
+                                "\"query\" : \"%@\","
+                                "\"fields\" : [\"name\", \"name_en\" ,  \"query\"]"
+                            "}"
+                        "}}"
+                "} }", [self.lastLatitude floatValue], [self.lastLongitude floatValue], self.category, keyword];
     } else {
-        return [NSString stringWithFormat:@"{\"min_score\":4.5, \"query\":{ \"bool\" : { \"must\" : { \"term\" : { \"category\": \"%@\" } }, \"must\" : { \"match\" : { \"query\" :  \"%@\"}}} } }", self.category, keyword];
+        return [NSString stringWithFormat:@"{"
+                "\"min_score\":3.5, "
+                "\"query\":{ "
+                    "\"bool\" : { "
+                        "\"must\" : { \"term\" : { \"category\": \"%@\" } }, "
+                        "\"must\" : { "
+                            "\"multi_match\" :{"
+                                "\"query\" : \"%@\","
+                                "\"fields\" : [\"name\" ,  \"name_en\", \"query\"]"
+                            "}"
+                    "}}"
+                "} }", self.category, keyword];
+        
     }
 }
 
@@ -303,13 +333,22 @@
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         if (cell == nil){
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
         NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
         NSString *name = [locationAtIndex objectForKey: @"name"];
-        NSString *nameEn = [locationAtIndex objectForKey: @"name_en"];
-        [[cell textLabel] setText: name.length > 0 ? name : nameEn];
-        [[cell detailTextLabel] setText:[locationAtIndex objectForKey: @"address"]];
+        NSString *name_en = [locationAtIndex objectForKey: @"name_en"];
+        NSString *city = [locationAtIndex objectForKey: @"city"];
+        if ([name length] == 0) {
+            name = name_en;
+            name_en = nil;
+        }
+        if (city) {
+            [[cell textLabel] setText: [NSString stringWithFormat: @"%@, %@", name, city]];
+        } else {
+            [[cell textLabel] setText: name];
+        }
+        [[cell detailTextLabel] setText: name_en];
         cell.imageView.image = [Location getCategoryIcon:[locationAtIndex objectForKey:@"category"]];
     }
     else if ([allLocationList count] != [self.total intValue])
