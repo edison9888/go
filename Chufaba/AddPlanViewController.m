@@ -145,15 +145,25 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.dateInput.layer.cornerRadius = 3.0;
-    self.dateInput.layer.borderWidth = 1.0;
-    self.dateInput.layer.borderColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
-    self.durationInput.layer.cornerRadius = 3.0;
-    self.durationInput.layer.borderWidth = 1.0;
-    self.durationInput.layer.borderColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
-    self.nameInput.layer.cornerRadius = 3.0;
-    self.nameInput.layer.borderWidth = 1.0;
-    self.nameInput.layer.borderColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
+    self.dateInput.borderStyle = UITextBorderStyleNone;
+    self.dateInput.background = [UIImage imageNamed:@"kuang.png"];
+    self.dateInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    self.durationInput.borderStyle = UITextBorderStyleNone;
+    self.durationInput.background = [UIImage imageNamed:@"kuang.png"];
+    self.durationInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    self.nameInput.borderStyle = UITextBorderStyleNone;
+    self.nameInput.background = [UIImage imageNamed:@"kuang.png"];
+    self.nameInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    self.dateInput.leftView = paddingView;
+    self.dateInput.leftViewMode = UITextFieldViewModeAlways;
+    UIView *dPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    self.durationInput.leftView = dPaddingView;
+    self.durationInput.leftViewMode = UITextFieldViewModeAlways;
+    UIView *nPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    self.nameInput.leftView = nPaddingView;
+    self.nameInput.leftViewMode = UITextFieldViewModeAlways;
 
 }
 
