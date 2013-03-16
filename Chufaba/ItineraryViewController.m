@@ -796,7 +796,7 @@
     //add search location to database
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,address,transportation,category,latitude,longitude) VALUES (?,?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,location.name,location.address,location.transportation,location.category,location.latitude,location.longitude];
+    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude];
     FMResultSet *results = [db executeQuery:@"SELECT * FROM location order by id desc limit 1"];
     if([results next])
     {
@@ -849,7 +849,7 @@
     
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
-    [db executeUpdate:@"UPDATE location set name = ?, transportation = ?, cost = ?, currency = ?, visit_begin = ?, visit_end = ?, detail = ?, category = ?, latitude = ?, longitude = ? WHERE id = ?", location.name, location.transportation, location.cost, location.currency, location.visitBegin, location.visitEnd, location.detail, location.category, location.latitude, location.longitude, location.locationId];
+    [db executeUpdate:@"UPDATE location set name = ?, transportation = ?, cost = ?, currency = ?, visit_begin = ?, visit_end = ?, detail = ?, latitude = ?, longitude = ? WHERE id = ?", location.name, location.transportation, location.cost, location.currency, location.visitBegin, location.visitEnd, location.detail, location.latitude, location.longitude, location.locationId];
     [db close];
 }
 
