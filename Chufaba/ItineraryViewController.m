@@ -826,7 +826,10 @@
     [oneDimensionLocationList insertObject:location atIndex:indexToInsert];
     
     NSIndexPath *scrollIndexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue]-2 > 0? [self.seqToAdd intValue]-2:0 inSection:[self.dayToAdd intValue]-1];
-    [self.tableView scrollToRowAtIndexPath:scrollIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    if([self.tableView numberOfRowsInSection:scrollIndexPath.section] > 0)
+    {
+        [self.tableView scrollToRowAtIndexPath:scrollIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    }
 
     [self.tableView beginUpdates];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
