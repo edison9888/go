@@ -49,13 +49,43 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     success = [fileManager fileExistsAtPath:self.databasePath];
     
-    if(success) return;
+    if(success){
+        return;
+    }
     
     NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:self.databaseName];
-    
     [fileManager copyItemAtPath:databasePathFromApp toPath:self.databasePath error:nil];
 }
-							
+
+-(void) alterDB{
+    sqlite3 *database;
+    sqlite3_stmt *statement;
+    if(sqlite3_open([self.databasePath UTF8String], &database) == SQLITE_OK)
+    {
+        
+        NSString *updateSQL = [NSString stringWithFormat: @"ALTER TABLE location ADD COLUMN useradd INTEGER"];
+        const char *update_stmt = [updateSQL UTF8String];
+        sqlite3_prepare_v2(database, update_stmt, -1, &statement, NULL);
+        
+        if(sqlite3_step(statement)==SQLITE_DONE)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"DB altered" message:@"Success" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            alert=nil;
+            
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"DB Updation" message:@"DB not Altered" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            alert=nil;
+        }
+        // Release the compiled statement from memory
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    }
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
