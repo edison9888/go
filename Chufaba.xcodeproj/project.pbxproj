@@ -115,6 +115,8 @@
 		C26B248E16DD0C850038111D /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C26B248D16DD0C850038111D /* SearchTableViewCell.m */; };
 		C27BF31516D91A7E00309DE3 /* direction.png in Resources */ = {isa = PBXBuildFile; fileRef = C27BF31416D91A7E00309DE3 /* direction.png */; };
 		C29C391916F4865F00106DC4 /* FadeScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C29C391816F4865F00106DC4 /* FadeScrollView.m */; };
+		C2C3A83016F5EC26000DB182 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C3A82E16F5EC26000DB182 /* libMobClickLibrary.a */; };
+		C2C3A83216F5EC62000DB182 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C3A83116F5EC62000DB182 /* libz.dylib */; };
 		C2C769AF16D8C7E5007E20AB /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */; };
 		C2E1BF5916B3D03400E9750A /* HTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2E1BF5A16B3D03400E9750A /* JSONFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5816B3D03400E9750A /* JSONFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -306,6 +308,9 @@
 		C27BF31416D91A7E00309DE3 /* direction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = direction.png; sourceTree = "<group>"; };
 		C29C391716F4865F00106DC4 /* FadeScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeScrollView.h; sourceTree = "<group>"; };
 		C29C391816F4865F00106DC4 /* FadeScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadeScrollView.m; sourceTree = "<group>"; };
+		C2C3A82E16F5EC26000DB182 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
+		C2C3A82F16F5EC26000DB182 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		C2C3A83116F5EC62000DB182 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		C2C769AD16D8C7E5007E20AB /* LocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTableViewCell.h; sourceTree = "<group>"; };
 		C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewCell.m; sourceTree = "<group>"; };
 		C2E1BF5516B3D03400E9750A /* HTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPFetcher.h; sourceTree = "<group>"; };
@@ -355,6 +360,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2C3A83216F5EC62000DB182 /* libz.dylib in Frameworks */,
 				131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */,
 				131BF67C16D64381001D4422 /* SystemConfiguration.framework in Frameworks */,
 				1337E51A16BBEC070039F257 /* CoreLocation.framework in Frameworks */,
@@ -366,6 +372,7 @@
 				1C70A1BB16B02BC90031A1D0 /* QuartzCore.framework in Frameworks */,
 				1C38053516C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a in Frameworks */,
 				131BF67916D64337001D4422 /* TencentOpenAPI.framework in Frameworks */,
+				C2C3A83016F5EC26000DB182 /* libMobClickLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,6 +685,15 @@
 			name = Location;
 			sourceTree = "<group>";
 		};
+		C2C3A82D16F5EC08000DB182 /* UMAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				C2C3A82E16F5EC26000DB182 /* libMobClickLibrary.a */,
+				C2C3A82F16F5EC26000DB182 /* MobClick.h */,
+			);
+			name = UMAnalytics;
+			sourceTree = "<group>";
+		};
 		C2E1BF5416B3D00400E9750A /* HTTPFetcher */ = {
 			isa = PBXGroup;
 			children = (
@@ -710,6 +726,7 @@
 		D25F6FE616A6332D00ED7AF5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2C3A83116F5EC62000DB182 /* libz.dylib */,
 				131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */,
 				131BF67D16D6439A001D4422 /* libiconv.dylib */,
 				131BF67B16D64381001D4422 /* SystemConfiguration.framework */,
@@ -728,6 +745,7 @@
 		D25F6FED16A6332D00ED7AF5 /* Chufaba */ = {
 			isa = PBXGroup;
 			children = (
+				C2C3A82D16F5EC08000DB182 /* UMAnalytics */,
 				135980F816D9E70A00CCDE0E /* Douban */,
 				1C1FBE5F16CB5AA800FF3FBC /* Settings */,
 				1C38053016C903C900D3CDDD /* weixin */,
