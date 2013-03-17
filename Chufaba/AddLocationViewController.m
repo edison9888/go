@@ -123,6 +123,7 @@
 - (IBAction)confirmAddLocation:(id)sender
 {
     Location *addLocation = [[Location alloc] init];
+    addLocation.useradd = YES;
     addLocation.category = self.addLocationCategory;
     
     NSString *textFieldValue = ((UITextField *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_NAME_TEXTFIELD]).text;

@@ -102,7 +102,7 @@
     nameScroll.showsVerticalScrollIndicator = FALSE;
     //nameScroll.backgroundColor = [UIColor colorWithRed:222/255.0 green:214/255.0 blue:195/255.0 alpha:1.0];
     
-    if(!showMap)
+    if(self.location.useradd)
     {
         UIButton *editLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(nameScroll.frame.size.width*0.9-60,0,60,60)];
         editLocationBtn.tag = 22;

@@ -317,6 +317,7 @@
             location.category = [results stringForColumn:@"category"];
             location.latitude = [NSNumber numberWithDouble:[results doubleForColumn:@"latitude"]];
             location.longitude = [NSNumber numberWithDouble:[results doubleForColumn:@"longitude"]];
+            location.useradd = [results boolForColumn:@"useradd"];
             [[tempList objectAtIndex:dayID] addObject:location];
         }
         itineraryViewController.dataController.masterTravelDayList = tempList;

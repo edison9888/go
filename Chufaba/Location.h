@@ -27,6 +27,7 @@
 @property (nonatomic, copy) NSString *detail;
 @property (nonatomic, copy) NSNumber *latitude;
 @property (nonatomic, copy) NSNumber *longitude;
+@property (nonatomic) BOOL useradd;
 
 + (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category;
 + (UIImage *)getCategoryIcon:(NSString *)category;
