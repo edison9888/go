@@ -114,21 +114,34 @@
     
     [self.view addSubview:nameScroll];
     
-    UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, self.view.frame.size.width, NAME_LABEL_HEIGHT)];
+    CGPoint nameLabelOrigin = CGPointMake(0, 5);
+    CGPoint nameEnLabelOrigin = CGPointMake(0, 25);
+    CGPoint addressLabelOrigin = CGPointMake(0, 40);
+    if (self.location.nameEn.length == 0 && self.location.address.length == 0) {
+        nameLabelOrigin = CGPointMake(0, 20);
+    } else if (self.location.nameEn.length == 0) {
+        nameLabelOrigin = CGPointMake(0, 10);
+        addressLabelOrigin = CGPointMake(0, 35);
+    } else if (self.location.address.length == 0) {
+        nameLabelOrigin = CGPointMake(0, 10);
+        nameEnLabelOrigin = CGPointMake(0, 35);
+    }
+    
+    UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(nameLabelOrigin.x, nameLabelOrigin.y, self.view.frame.size.width, NAME_LABEL_HEIGHT)];
     nameLabel.tag = TAG_NAMELABEL;
     nameLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     nameLabel.backgroundColor = [UIColor clearColor];
     nameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     [nameScroll addSubview:nameLabel];
     
-    UILabel *eNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 25, self.view.frame.size.width, ENAME_LABEL_HEIGHT)];
+    UILabel *eNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(nameEnLabelOrigin.x, nameEnLabelOrigin.y, self.view.frame.size.width, ENAME_LABEL_HEIGHT)];
     eNameLabel.tag = TAG_ENAMELABEL;
     eNameLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     eNameLabel.backgroundColor = [UIColor clearColor];
     eNameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     [nameScroll addSubview:eNameLabel];
     
-    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, self.view.frame.size.width, ADDRESS_LABEL_HEIGHT)];
+    UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(addressLabelOrigin.x, addressLabelOrigin.y, self.view.frame.size.width, ADDRESS_LABEL_HEIGHT)];
     addressLabel.tag = TAG_ADDRESSLABEL;
     addressLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     addressLabel.backgroundColor = [UIColor clearColor];
