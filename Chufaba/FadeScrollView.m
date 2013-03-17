@@ -36,11 +36,11 @@
 
 - (void) layoutSubviews {
     [super layoutSubviews];
-    CAGradientLayer *maskLayer = [CAGradientLayer layer];
-    CGColorRef outerColor = [UIColor colorWithWhite:1.0 alpha:0.0].CGColor;
-    CGColorRef innerColor = [UIColor colorWithWhite:1.0 alpha:1.0].CGColor;
-    maskLayer.colors = [NSArray arrayWithObjects: (__bridge id)innerColor, (__bridge id)innerColor, (__bridge id)outerColor, nil];
-    maskLayer.locations = [NSArray arrayWithObjects:[NSNumber numberWithFloat:0],
+    CAGradientLayer *maskLayer = [[CAGradientLayer alloc] init];
+    maskLayer.colors = [NSArray arrayWithObjects: [[UIColor colorWithWhite:1.0 alpha:1.0] CGColor],
+                        [[UIColor colorWithWhite:1.0 alpha:1.0] CGColor],
+                        [[UIColor colorWithWhite:1.0 alpha:0.0] CGColor], nil];
+    maskLayer.locations = [NSArray arrayWithObjects:[NSNumber numberWithFloat:0.0],
                            [NSNumber numberWithFloat:0.8],
                            [NSNumber numberWithFloat:0.92], nil];
     [maskLayer setStartPoint:CGPointMake(0.0, 0.5)];
