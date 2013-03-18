@@ -229,6 +229,24 @@
     [button addTarget:self action:@selector(selectClicked:) forControlEvents:UIControlEventTouchDown];
     self.navigationItem.titleView = button;
     
+    NSInteger scrollSection = [self daySequence:[NSDate date]];
+    if(scrollSection >= 0)
+    {
+        [self.tableView reloadData];
+        if([self.tableView numberOfRowsInSection:scrollSection] > 0)
+        {
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:scrollSection] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        }
+        else
+        {
+            //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NSNotFound inSection:scrollSection] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            CGRect sectionRect = [self.tableView rectForSection:scrollSection];
+            sectionRect.origin.y = sectionRect.origin.y;
+            sectionRect.size.height = self.tableView.frame.size.height;
+            [self.tableView scrollRectToVisible:sectionRect animated:YES];
+        }
+    }
+    
     //sync,edit,share menu part
 //    if (pullDownMenuView == nil) {
 //		PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
@@ -830,6 +848,10 @@
     {
         [self.tableView scrollToRowAtIndexPath:scrollIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     }
+    else
+    {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NSNotFound inSection:scrollIndexPath.section] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    }
 
     [self.tableView beginUpdates];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -1144,5 +1166,27 @@
 //	[pullDownMenuView pdmScrollViewDidEndDragging:scrollView];
 //	
 //}
+
+
+-(NSInteger) daySequence:(NSDate *) date
+{
+    if([date compare: self.plan.date] != NSOrderedAscending)
+    {
+        NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:date];
+        if(daysBetween < [self.plan.duration intValue])
+        {
+            return daysBetween;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        return -1;
+    }
+    
+}
 
 @end
