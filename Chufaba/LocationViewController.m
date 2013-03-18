@@ -191,6 +191,7 @@
     addLocationViewController.location.name = self.location.name;
     addLocationViewController.location.category = self.location.category;
     addLocationViewController.location.locationId = self.location.locationId;
+    addLocationViewController.addLocation = NO;
     
     if(showMap)
     {

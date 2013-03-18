@@ -84,6 +84,7 @@
     addLocationViewController.location.name = self.searchBar.text;
     addLocationViewController.location.category = self.category;
     addLocationViewController.hasCoordinate = NO;
+    addLocationViewController.addLocation = YES;
     addLocationViewController.lastLatitude = self.lastLatitude;
     addLocationViewController.lastLongitude = self.lastLongitude;
     addLocationViewController.editLocationDelegate = self;

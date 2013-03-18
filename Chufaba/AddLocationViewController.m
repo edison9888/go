@@ -134,6 +134,7 @@
 
 - (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer
 {
+    coordinateChanged = YES;
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
         return;
     
@@ -149,10 +150,6 @@
 
 - (IBAction)confirmAddLocation:(id)sender
 {
-    Location *addLocation = [[Location alloc] init];
-    addLocation.useradd = YES;
-    addLocation.category = self.location.category;
-    
     NSString *textFieldValue = ((UITextField *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_NAME_TEXTFIELD]).text;
     
     if(![textFieldValue isEqual: self.location.name])
@@ -161,34 +158,53 @@
         nameChanged = YES;
     }
     
-    addLocation.name = self.location.name;
-    
-    if ([self.mapView.annotations count] == 1)
+    if(nameChanged || coordinateChanged || self.addLocation)
     {
-        id<MKAnnotation> tappedAnnotation = [self.mapView.annotations objectAtIndex:0];
-        CLLocationCoordinate2D tappedPoint = tappedAnnotation.coordinate;
-        addLocation.latitude = [NSNumber numberWithDouble:tappedPoint.latitude];
-        addLocation.longitude = [NSNumber numberWithDouble:tappedPoint.longitude];
-        //should check if the coordinate has changed
-        coordinateChanged = YES;
-    }
-    
-    [self saveLocationToServer:addLocation];
-    if ([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishEdit:name:coordinate:)])
-    {
-        [self.editLocationDelegate AddLocationViewController:self didFinishEdit:addLocation name:nameChanged coordinate:coordinateChanged];
-    }
-    if([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishAdd:)])
-    {
-        [self.editLocationDelegate AddLocationViewController:self didFinishAdd:addLocation];
+        Location *addLocation = [[Location alloc] init];
+        addLocation.useradd = YES;
+        addLocation.category = self.location.category;
+        addLocation.name = self.location.name;
+        
+        if ([self.mapView.annotations count] == 1)
+        {
+            id<MKAnnotation> tappedAnnotation = [self.mapView.annotations objectAtIndex:0];
+            CLLocationCoordinate2D tappedPoint = tappedAnnotation.coordinate;
+            addLocation.latitude = [NSNumber numberWithDouble:tappedPoint.latitude];
+            addLocation.longitude = [NSNumber numberWithDouble:tappedPoint.longitude];
+        }
+        
+        [self saveLocationToServer:addLocation];
+        if ([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishEdit:name:coordinate:)])
+        {
+            [self.editLocationDelegate AddLocationViewController:self didFinishEdit:addLocation name:nameChanged coordinate:coordinateChanged];
+        }
+        if([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishAdd:)])
+        {
+            [self.editLocationDelegate AddLocationViewController:self didFinishAdd:addLocation];
+        }
     }
 }
 
 - (IBAction)cancelAddLocation:(id)sender
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"坐标尚未保存，你确定放弃并返回吗？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"确定", nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showInView:self.view];
+    NSString *textFieldValue = ((UITextField *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_NAME_TEXTFIELD]).text;
+    
+    if(![textFieldValue isEqual: self.location.name])
+    {
+        self.location.name = textFieldValue;
+        nameChanged = YES;
+    }
+    
+    if(nameChanged || coordinateChanged)
+    {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"修改尚未保存，你确定放弃并返回吗？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"确定", nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+        [actionSheet showInView:self.view];
+    }
+    else
+    {
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    }
 }
 
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {

@@ -26,6 +26,7 @@
 @property (nonatomic, copy) NSNumber *lastLongitude;
 
 @property (nonatomic, assign) BOOL hasCoordinate;
+@property (nonatomic, assign) BOOL addLocation;
 
 @property (nonatomic, strong) Location *location;
 
