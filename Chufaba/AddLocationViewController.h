@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "Location.h"
+#import "LocationAnnotation.h"
 
 @class AddLocationViewController;
 
@@ -21,11 +22,12 @@
 
 @interface AddLocationViewController : UIViewController <MKMapViewDelegate, UIActionSheetDelegate, UITextFieldDelegate>
 
-@property (copy, nonatomic) NSString *addLocationName;
-@property (copy, nonatomic) NSString *addLocationCategory;
 @property (nonatomic, copy) NSNumber *lastLatitude;
 @property (nonatomic, copy) NSNumber *lastLongitude;
-@property (nonatomic, copy) NSNumber *locationID;
+
+@property (nonatomic, assign) BOOL hasCoordinate;
+
+@property (nonatomic, strong) Location *location;
 
 @property (nonatomic,strong) MKMapView *mapView;
 

@@ -80,8 +80,10 @@
 - (IBAction)addCustomLocation:(id)sender
 {
     AddLocationViewController *addLocationViewController = [[AddLocationViewController alloc] init];
-    addLocationViewController.addLocationName = self.searchBar.text;
-    addLocationViewController.addLocationCategory = self.category;
+    addLocationViewController.location = [[Location alloc] init];
+    addLocationViewController.location.name = self.searchBar.text;
+    addLocationViewController.location.category = self.category;
+    addLocationViewController.hasCoordinate = NO;
     addLocationViewController.lastLatitude = self.lastLatitude;
     addLocationViewController.lastLongitude = self.lastLongitude;
     addLocationViewController.editLocationDelegate = self;

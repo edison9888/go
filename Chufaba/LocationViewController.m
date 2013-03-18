@@ -187,13 +187,25 @@
 - (IBAction) editLocationCoordinate:(id)sender
 {
     AddLocationViewController *addLocationViewController = [[AddLocationViewController alloc] init];
-    addLocationViewController.addLocationName = self.location.name;
-    addLocationViewController.addLocationCategory = self.location.category;
-    addLocationViewController.locationID = self.location.locationId;
-    if(self.location.latitude != 0 && self.location.latitude != nil)
+    addLocationViewController.location = [[Location alloc] init];
+    addLocationViewController.location.name = self.location.name;
+    addLocationViewController.location.category = self.location.category;
+    addLocationViewController.location.locationId = self.location.locationId;
+    
+    if(showMap)
     {
-        addLocationViewController.lastLatitude = self.location.latitude;
-        addLocationViewController.lastLongitude = self.location.longitude;
+        addLocationViewController.location.latitude = self.location.latitude;
+        addLocationViewController.location.longitude = self.location.longitude;
+        addLocationViewController.hasCoordinate = YES;
+    }
+    else
+    {
+        addLocationViewController.hasCoordinate = NO;
+        if(self.location.latitude != 0 && self.location.latitude != nil)
+        {
+            addLocationViewController.lastLatitude = self.location.latitude;
+            addLocationViewController.lastLongitude = self.location.longitude;
+        }
     }
     addLocationViewController.editLocationDelegate = self;
     

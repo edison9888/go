@@ -43,15 +43,23 @@
         [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     }
     
+    if(self.hasCoordinate)
+    {
+        self.navigationItem.title = @"编辑旅行地点";
+    }
+    else
+    {
+        self.navigationItem.title = @"创建旅行地点";
+    }
+    
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
     topView.tag = TAG_TOPVIEW;
-    //[topView setBackgroundColor:[UIColor whiteColor]];
     topView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     UITextField *nameOfAddLocation = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, 300, 40)];
     [nameOfAddLocation setBorderStyle:UITextBorderStyleNone];
     nameOfAddLocation.layer.masksToBounds=YES;
-    nameOfAddLocation.text = self.addLocationName;
+    nameOfAddLocation.text = self.location.name;
     nameOfAddLocation.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [nameOfAddLocation setReturnKeyType:UIReturnKeyDone];
     nameOfAddLocation.backgroundColor = [UIColor clearColor];
@@ -91,9 +99,10 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(confirmAddLocation:)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAddLocation:)];
     
-    if ([self.lastLatitude intValue] != 10000 && [self.lastLatitude intValue] != 0)
+    CLLocationCoordinate2D customLoc2D_5;
+    if(self.hasCoordinate)
     {
-        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.lastLatitude doubleValue], [self.lastLongitude doubleValue]);
+        customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
         [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
         MKCoordinateRegion region;
         region.center = customLoc2D_5;
@@ -102,6 +111,24 @@
         span.longitudeDelta = 0.4;
         region.span=span;
         [self.mapView setRegion:region animated:false];
+        MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
+        pa.coordinate = customLoc2D_5;
+        [self.mapView addAnnotation:pa];
+    }
+    else
+    {
+        if ([self.lastLatitude intValue] != 10000 && [self.lastLatitude intValue] != 0)
+        {
+            customLoc2D_5 = CLLocationCoordinate2DMake([self.lastLatitude doubleValue], [self.lastLongitude doubleValue]);
+            [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
+            MKCoordinateRegion region;
+            region.center = customLoc2D_5;
+            MKCoordinateSpan span;
+            span.latitudeDelta = 0.4;
+            span.longitudeDelta = 0.4;
+            region.span=span;
+            [self.mapView setRegion:region animated:false];
+        }
     }
 }
 
@@ -124,17 +151,17 @@
 {
     Location *addLocation = [[Location alloc] init];
     addLocation.useradd = YES;
-    addLocation.category = self.addLocationCategory;
+    addLocation.category = self.location.category;
     
     NSString *textFieldValue = ((UITextField *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_NAME_TEXTFIELD]).text;
     
-    if(![textFieldValue isEqual: self.addLocationName])
+    if(![textFieldValue isEqual: self.location.name])
     {
-        self.addLocationName = textFieldValue;
+        self.location.name = textFieldValue;
         nameChanged = YES;
     }
     
-    addLocation.name = self.addLocationName;
+    addLocation.name = self.location.name;
     
     if ([self.mapView.annotations count] == 1)
     {
