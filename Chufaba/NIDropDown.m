@@ -27,7 +27,7 @@
     if (self) {
         CGRect btn = b.frame;
         
-        self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height, btn.size.width, 0);
+        self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+18, btn.size.width, 0);
         self.list = [NSArray arrayWithArray:arr];
         self.layer.masksToBounds = NO;
         self.layer.cornerRadius = 8;
@@ -48,7 +48,7 @@
         
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.5];
-        self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height, btn.size.width, *height);
+        self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+18, btn.size.width, *height);
         
         table.frame = CGRectMake(0, 0, btn.size.width, *height>240 ? 240:*height);
 
@@ -65,7 +65,7 @@
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.5];
-    self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height, btn.size.width, 0);
+    self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+18, btn.size.width, 0);
     table.frame = CGRectMake(0, 0, btn.size.width, 0);
     [UIView commitAnimations];
 }
