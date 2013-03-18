@@ -10,11 +10,15 @@
 #import "ItineraryViewController.h"
 #import "SocialAccountManager.h"
 #import "MobClick.h"
+#import <BugSense-iOS/BugSenseController.h>
 
 @implementation ChufabaAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [BugSenseController sharedControllerWithBugSenseAPIKey:@"8eeffcb1d31b13dd1e69b17"];
+    [MobClick startWithAppkey:@"5145b36356240b4c150023e6"];
+    
     self.databaseName = @"travelplan.sqlite";
     
     NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -36,8 +40,6 @@
     
     //weixin part
     [WXApi registerApp:@"wx9a0654e1d41f2482"];
-    
-    [MobClick startWithAppkey:@"5145b36356240b4c150023e6"];
     
     return YES;
 }
