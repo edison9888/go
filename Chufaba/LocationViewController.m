@@ -9,7 +9,7 @@
 #import "LocationViewController.h"
 #import "Location.h"
 #import "LocationAnnotation.h"
-#import "EditTransportViewController.h"
+#import "ShowLocationInfoController.h"
 #import "EditCostViewController.h"
 #import "EditDetailViewController.h"
 #import "EditScheduleViewController.h"
@@ -39,6 +39,10 @@
 #define TAG_DAYLABEL 8
 #define TAG_SEQLABEL 9
 #define TAG_CATEGORY_IMAGE 10
+#define TAG_OPENINGLABEL 11
+#define TAG_FEELABEL 12
+#define TAG_DURATIONLABEL 13
+#define TAG_WEBSITELABEL 14
 
 #define MAP_VIEW_HEIGHT 75
 #define INFO_VIEW_HEIGHT 20
@@ -287,113 +291,93 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return section == 0 ? [self.location numberOfRowsInInfoSection] : 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    if (indexPath.row == 0) {
-        static NSString *CellIdentifier = @"TransportationCell";
+    if (indexPath.section == 0) {
+        NSString *CellIdentifier = @"LocationInfoCell";
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (!cell) {
             cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.imageView.image = [UIImage imageNamed:@"location_transport.png"];
-            cell.textLabel.numberOfLines = [self.location.transportation length] > 0 ? 2 : 1;
             cell.textLabel.font = [UIFont systemFontOfSize:13];
+            cell.textLabel.numberOfLines = 2;
         }
-        cell.textLabel.text = self.location.transportation;
-    } else if (indexPath.row == 1) {
-        static NSString *CellIdentifier = @"ScheduleCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.imageView.image = [UIImage imageNamed:@"location_time.png"];
-            cell.textLabel.font = [UIFont systemFontOfSize:13];
+        cell.textLabel.text = [self.location contentForRow:indexPath.row];
+        cell.imageView.image = [UIImage imageNamed:[self.location imageNameForRow:indexPath.row]];
+    } else {
+        if (indexPath.row == 0) {
+            NSString *CellIdentifier = @"ArriveTimeCell";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.textLabel.font = [UIFont systemFontOfSize:13];
+                cell.textLabel.text = @"到达时间";
+                cell.imageView.image = [UIImage imageNamed:@"location_time.png"];
+            }
+            if(self.location.visitBegin){
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateStyle:NSDateFormatterNoStyle];
+                [formatter setTimeStyle:NSDateFormatterShortStyle];
+                cell.detailTextLabel.text = [formatter stringFromDate:self.location.visitBegin];
+            }
+        } else if (indexPath.row == 1) {
+            NSString *CellIdentifier = @"NoteCell";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (!cell) {
+                cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.textLabel.numberOfLines = 4;
+                cell.textLabel.font = [UIFont systemFontOfSize:13];
+                cell.textLabel.text = @"备注";
+                cell.imageView.image = [UIImage imageNamed:@"location_note.png"];
+            }
+            cell.textLabel.text = self.location.detail;
         }
-        if(self.location.visitBegin || self.location.visitEnd){
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateStyle:NSDateFormatterNoStyle];
-            [formatter setTimeStyle:NSDateFormatterShortStyle];
-            cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", [formatter stringFromDate:self.location.visitBegin] ?: @"", [formatter stringFromDate:self.location.visitEnd] ?: @""];
-        }
-    } else if (indexPath.row == 2) {
-        static NSString *CellIdentifier = @"CostCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.imageView.image = [UIImage imageNamed:@"location_money.png"];
-            cell.textLabel.font = [UIFont systemFontOfSize:13];
-        }
-        if(!self.location.cost){
-            self.location.cost = [NSNumber numberWithInt:0];
-        }
-        if(!self.location.currency){
-            self.location.currency = @"RMB";
-        }
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", self.location.currency, [formatter stringFromNumber:self.location.cost]];
-    } else if (indexPath.row == 3) {
-        static NSString *CellIdentifier = @"NoteCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (!cell) {
-            cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.imageView.image = [UIImage imageNamed:@"location_note.png"];
-            cell.textLabel.numberOfLines = [self.location.detail length] > 0 ? 4 : 1;
-            cell.textLabel.font = [UIFont systemFontOfSize:13];
-        }
-        cell.textLabel.text = self.location.detail;
     }
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        return [self.location.transportation length] > 0 ? 64 : 44;
-    } else if (indexPath.row == 3) {
-        return [self.location.detail length] > 0 ? 88 : 44;
-    } else {
+    if (indexPath.section == 0) {
         return 44;
+    } else {
+        if (indexPath.row == 0) {
+            return 44;
+        } else {
+            return 88;
+        }
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        EditTransportViewController *transportViewController = [[EditTransportViewController alloc] init];
-        transportViewController.transportation = self.location.transportation;
-        transportViewController.delegate = self;
-        [self.navigationController pushViewController:transportViewController animated:YES];
-    } else if (indexPath.row == 1) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
-        EditScheduleViewController *scheduleViewController = [storyboard instantiateViewControllerWithIdentifier:@"EditScheduleStoryBoard"];
-        scheduleViewController.start = self.location.visitBegin;
-        scheduleViewController.end = self.location.visitEnd;
-        scheduleViewController.delegate = self;
-        [self.navigationController pushViewController:scheduleViewController animated:YES];
-    } else if (indexPath.row == 2) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
-        EditCostViewController *costViewController = [storyboard instantiateViewControllerWithIdentifier:@"EditCostStoryBoard"];
-        costViewController.amount = self.location.cost;
-        costViewController.currency = self.location.currency;
-        costViewController.delegate = self;
-        [self.navigationController pushViewController:costViewController animated:YES];
-    } else if (indexPath.row == 3) {
-        EditDetailViewController *detailViewController = [[EditDetailViewController alloc] init];
-        detailViewController.detail = self.location.detail;
-        detailViewController.delegate = self;
-        [self.navigationController pushViewController:detailViewController animated:YES];
+    if (indexPath.section == 0) {
+        ShowLocationInfoController *infoController = [[ShowLocationInfoController alloc] init];
+        infoController.content = [self.location contentForRow:indexPath.row];
+        [self.navigationController pushViewController:infoController animated:YES];
+    } else {
+        if (indexPath.row == 0) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+            EditScheduleViewController *scheduleViewController = [storyboard instantiateViewControllerWithIdentifier:@"EditScheduleStoryBoard"];
+            scheduleViewController.start = self.location.visitBegin;
+            scheduleViewController.delegate = self;
+            [self.navigationController pushViewController:scheduleViewController animated:YES];
+        } else if (indexPath.row == 1) {
+            EditDetailViewController *detailViewController = [[EditDetailViewController alloc] init];
+            detailViewController.detail = self.location.detail;
+            detailViewController.delegate = self;
+            [self.navigationController pushViewController:detailViewController animated:YES];
+        }
     }
 }
 
@@ -448,7 +432,6 @@
 -(void) didEditScheduleWithStart:(NSDate *)start AndEnd:(NSDate *)end
 {
     self.location.visitBegin = start;
-    self.location.visitEnd = end;
     [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) reloadData];
     [self.delegate didChangeLocation:self.location];
 }

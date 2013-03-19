@@ -312,12 +312,16 @@
             location.cost = [NSNumber numberWithInt:[results intForColumn:@"cost"]];
             location.currency = [results stringForColumn:@"currency"];
             location.visitBegin = [results dateForColumn:@"visit_begin"];
-            location.visitEnd = [results dateForColumn:@"visit_end"];
             location.detail = [results stringForColumn:@"detail"];
             location.category = [results stringForColumn:@"category"];
             location.latitude = [NSNumber numberWithDouble:[results doubleForColumn:@"latitude"]];
             location.longitude = [NSNumber numberWithDouble:[results doubleForColumn:@"longitude"]];
             location.useradd = [results boolForColumn:@"useradd"];
+            location.poiId = [NSNumber numberWithInt:[results intForColumn:@"poi_id"]];
+            location.opening = [results stringForColumn:@"opening"];
+            location.fee = [results stringForColumn:@"fee"];
+            location.duration = [results stringForColumn:@"duration"];
+            location.website = [results stringForColumn:@"website"];
             [[tempList objectAtIndex:dayID] addObject:location];
         }
         itineraryViewController.dataController.masterTravelDayList = tempList;

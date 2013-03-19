@@ -399,13 +399,13 @@
 {
     NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
     Location *location = [[Location alloc] init];
+    location.poiId = [locationAtIndex objectForKey: @"id"]; 
     location.name = [locationAtIndex objectForKey: @"name"];
     location.nameEn = [locationAtIndex objectForKey: @"name_en"];
     location.country = [locationAtIndex objectForKey: @"country"];
     location.city = [locationAtIndex objectForKey: @"city"];
-    location.address = [locationAtIndex objectForKey:@"address"];
-    location.transportation = [locationAtIndex objectForKey:@"transport"];
     location.category = [locationAtIndex objectForKey:@"category"];
+    location.address = [locationAtIndex objectForKey:@"address"];
     NSDictionary *point = [locationAtIndex objectForKey:@"location"];
     location.latitude = [point objectForKey:@"lat"];
     if ([location.latitude intValue] == 10000) {
@@ -415,6 +415,11 @@
     if ([location.longitude intValue] == 10000) {
         location.longitude = nil;
     }
+    location.transportation = [locationAtIndex objectForKey:@"transport"];
+    location.opening = [locationAtIndex objectForKey:@"opening"];
+    location.fee = [locationAtIndex objectForKey:@"fee"];
+    location.duration = [locationAtIndex objectForKey:@"duration"];
+    location.website = [locationAtIndex objectForKey:@"website"];
 
     [self.searchDelegate notifyItinerayView:location];
 }

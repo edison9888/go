@@ -816,7 +816,7 @@
     //add search location to database
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude,[NSNumber numberWithBool:location.useradd]];
+    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd,poi_id,opening,fee,duration,website) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude,[NSNumber numberWithBool:location.useradd],location.poiId,location.opening,location.fee,location.duration,location.website];
     FMResultSet *results = [db executeQuery:@"SELECT * FROM location order by id desc limit 1"];
     if([results next])
     {
@@ -876,7 +876,7 @@
     
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
-    [db executeUpdate:@"UPDATE location set name = ?, transportation = ?, cost = ?, currency = ?, visit_begin = ?, visit_end = ?, detail = ?, latitude = ?, longitude = ? WHERE id = ?", location.name, location.transportation, location.cost, location.currency, location.visitBegin, location.visitEnd, location.detail, location.latitude, location.longitude, location.locationId];
+    [db executeUpdate:@"UPDATE location set name = ?, visit_begin = ?, detail = ?, latitude = ?, longitude = ? WHERE id = ?", location.name, location.visitBegin, location.detail, location.latitude, location.longitude, location.locationId];
     [db close];
 }
 
@@ -911,12 +911,13 @@
         //[[cell textLabel] setText:locationAtIndex.name];
         cell.textLabel.text = locationAtIndex.name;
         cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-        if (locationAtIndex.visitBegin || locationAtIndex.visitEnd) {
+        if (locationAtIndex.visitBegin) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateStyle:NSDateFormatterNoStyle];
             [formatter setTimeStyle:NSDateFormatterShortStyle];
-            [[cell detailTextLabel] setText:[NSString stringWithFormat:@"%@ - %@", [formatter stringFromDate:locationAtIndex.visitBegin] ?: @"", [formatter stringFromDate:locationAtIndex.visitEnd] ?: @""]];
+            [[cell detailTextLabel] setText:[formatter stringFromDate:locationAtIndex.visitBegin]];
         } else {
+            //被重用的cell要清空时间
             [[cell detailTextLabel] setText:@""];
         }
         [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];

@@ -8,6 +8,13 @@
 
 #import "Location.h"
 
+@interface Location()
+{
+    NSMutableArray *infoArray;
+    NSMutableArray *imageArray;
+}
+@end
+
 @implementation Location
 
 + (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category
@@ -73,6 +80,53 @@
 - (NSString *)getRealNameEn
 {
     return _nameEn;
+}
+
+- (NSUInteger)numberOfRowsInInfoSection
+{
+    if (infoArray == nil) {
+        infoArray = [[NSMutableArray alloc] init];
+        imageArray = [[NSMutableArray alloc] init];
+        if (self.transportation.length > 0) {
+            [infoArray addObject:self.transportation];
+            [imageArray addObject:@"location_transport.png"];
+        }
+        if (self.opening.length > 0) {
+            [infoArray addObject:self.opening];
+            [imageArray addObject:@"location_time.png"];
+        }
+        if (self.fee.length > 0) {
+            [infoArray addObject:self.fee];
+            [imageArray addObject:@"location_money.png"];
+        }
+        if (self.duration.length > 0) {
+            [infoArray addObject:self.duration];
+            [imageArray addObject:@"location_time.png"];
+        }
+        if (self.website.length > 0) {
+            [infoArray addObject:self.website];
+            [imageArray addObject:@"location_note.png"];
+        }
+    }
+    return [infoArray count];
+}
+
+- (NSString *)contentForRow:(NSInteger)row
+{
+    if (infoArray == nil || [infoArray count] == 0) {
+        return nil;
+    }else{
+        return (NSString *)[infoArray objectAtIndex:row];
+    }
+}
+
+- (NSString *)imageNameForRow:(NSInteger)row
+{
+    if (imageArray == nil || [imageArray count] == 0) {
+        return nil;
+    }else{
+        return (NSString *)[imageArray objectAtIndex:row];
+    }
 }
 
 @end

@@ -16,6 +16,5 @@
 
 @property (nonatomic,weak) id<EditLocationDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITextField *startInput;
-@property (weak, nonatomic) IBOutlet UITextField *endInput;
 
 @end

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3103" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -206,7 +206,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dw4-dV-6Zh">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SearchLocationCell" textLabel="7CF-tz-LLg" detailTextLabel="uyc-WL-NwB" imageView="UzA-pJ-5Iq" style="IBUITableViewCellStyleSubtitle" id="WDH-96-pCt">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SearchLocationCell" textLabel="7CF-tz-LLg" detailTextLabel="uyc-WL-NwB" style="IBUITableViewCellStyleSubtitle" id="WDH-96-pCt">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -214,16 +214,12 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7CF-tz-LLg">
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="other.gif" id="UzA-pJ-5Iq">
-                                                    <rect key="frame" x="5" y="5" width="32" height="32"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uyc-WL-NwB">
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
@@ -445,7 +441,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="开始" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lqv-8m-ocf">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="到达时间" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lqv-8m-ocf">
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="hBD-oh-NoO"/>
                                                     </constraints>
@@ -464,32 +460,6 @@
                                             <constraint firstItem="lqv-8m-ocf" firstAttribute="centerY" secondItem="9EG-ia-lJj" secondAttribute="centerY" type="default" id="u3k-RI-n90"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="us0-RG-KM7">
-                                        <rect key="frame" x="0.0" y="60" width="320" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="结束" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PP0-No-Vao">
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="40" id="Ind-zz-cEk"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="caM-Zc-NV6" id="QIc-PC-cwY"/>
-                                                    </connections>
-                                                </textField>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="PP0-No-Vao" firstAttribute="leading" secondItem="us0-RG-KM7" secondAttribute="leading" constant="20" type="default" id="MVd-KD-JZH"/>
-                                            <constraint firstItem="PP0-No-Vao" firstAttribute="centerY" secondItem="us0-RG-KM7" secondAttribute="centerY" type="default" id="gXV-Fd-TkT"/>
-                                            <constraint firstAttribute="trailing" secondItem="PP0-No-Vao" secondAttribute="trailing" constant="20" type="default" id="nMC-6W-S4M"/>
-                                        </constraints>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -502,7 +472,6 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="YRw-ux-U4G"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="endInput" destination="PP0-No-Vao" id="Y9S-j4-Vh6"/>
                         <outlet property="startInput" destination="lqv-8m-ocf" id="ofA-AI-4iX"/>
                     </connections>
                 </tableViewController>
@@ -669,87 +638,6 @@
         <image name="other.gif" width="32" height="32"/>
         <image name="setting.png" width="24" height="24"/>
     </resources>
-    <classes>
-        <class className="AddPlanViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel:"/>
-                <relationship kind="action" name="done:"/>
-                <relationship kind="outlet" name="coverImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dateInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="durationInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="nameInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="EditCostViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditCostViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="amountInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="currencyInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="EditScheduleViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditScheduleViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="endInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="startInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="ItineraryViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ItineraryViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="clickDarkView:"/>
-                <relationship kind="action" name="nextMapLocation:"/>
-                <relationship kind="action" name="positionMe:"/>
-                <relationship kind="action" name="previousMapLocation:"/>
-                <relationship kind="action" name="pushSearchLocationViewController:"/>
-                <relationship kind="action" name="selectClicked:"/>
-                <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PlanViewController" superclassName="SwipeableTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlanViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="showLogin:"/>
-            </relationships>
-        </class>
-        <class className="SearchLocationViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchLocationViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addCustomLocation:"/>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SelectCategoryViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SelectCategoryViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="selectEntertainment:"/>
-                <relationship kind="action" name="selectFood:"/>
-                <relationship kind="action" name="selectHotel:"/>
-                <relationship kind="action" name="selectMore:"/>
-                <relationship kind="action" name="selectSight:"/>
-                <relationship kind="action" name="selectTransport:"/>
-            </relationships>
-        </class>
-        <class className="SettingViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="saveSetting:"/>
-                <relationship kind="outlet" name="loginCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="logoutCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="userEmail" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="userName" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SwipeableTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SwipeableTableViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

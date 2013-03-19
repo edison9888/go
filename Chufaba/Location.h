@@ -13,21 +13,32 @@
 @property (nonatomic, copy) NSNumber *locationId;
 @property (nonatomic, copy) NSNumber *whichday;
 @property (nonatomic, copy) NSNumber *seqofday;
+
+//server
+@property (nonatomic, copy) NSNumber *poiId;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *nameEn;
 @property (nonatomic, copy) NSString *country;
 @property (nonatomic, copy) NSString *city;
-@property (nonatomic, copy) NSString *address;
-@property (nonatomic, copy) NSString *transportation;
-@property (nonatomic, copy) NSNumber *cost;
-@property (nonatomic, copy) NSString *currency;
-@property (nonatomic, strong) NSDate *visitBegin;
-@property (nonatomic, strong) NSDate *visitEnd;
 @property (nonatomic, copy) NSString *category;
-@property (nonatomic, copy) NSString *detail;
+@property (nonatomic, copy) NSString *address;
 @property (nonatomic, copy) NSNumber *latitude;
 @property (nonatomic, copy) NSNumber *longitude;
-@property (nonatomic) BOOL useradd;
+@property (nonatomic, copy) NSString *transportation;
+@property (nonatomic, copy) NSString *opening;
+@property (nonatomic, copy) NSString *fee;
+@property (nonatomic, copy) NSString *duration;
+@property (nonatomic, copy) NSString *website;
+
+//user
+@property (nonatomic, strong) NSDate *visitBegin;
+@property (nonatomic, copy) NSString *detail;
+
+//hide
+@property (nonatomic, copy) NSNumber *cost;
+@property (nonatomic, copy) NSString *currency;
+
+@property (nonatomic) BOOL useradd; 
 
 + (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category;
 + (UIImage *)getCategoryIcon:(NSString *)category;
@@ -35,5 +46,9 @@
 - (NSString *)getNameAndCity;
 - (NSString *)getRealName;
 - (NSString *)getRealNameEn;
+
+- (NSUInteger)numberOfRowsInInfoSection;
+- (NSString *)contentForRow:(NSInteger)row;
+- (NSString *)imageNameForRow:(NSInteger)row;
 
 @end

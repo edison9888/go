@@ -34,17 +34,11 @@
     self.startInput.borderStyle = UITextBorderStyleNone;
     self.startInput.background = [UIImage imageNamed:@"kuang.png"];
     self.startInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
-    self.endInput.borderStyle = UITextBorderStyleNone;
-    self.endInput.background = [UIImage imageNamed:@"kuang.png"];
-    self.endInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
     
     UIView *sPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
     self.startInput.leftView = sPaddingView;
     self.startInput.leftViewMode = UITextFieldViewModeAlways;
-    UIView *ePaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
-    self.endInput.leftView = ePaddingView;
-    self.endInput.leftViewMode = UITextFieldViewModeAlways;
-    
+   
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
     datePicker.tag = 13;
     datePicker.datePickerMode = UIDatePickerModeTime;
@@ -53,7 +47,6 @@
     [datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
     
     self.startInput.inputView = datePicker;
-    self.endInput.inputView = datePicker;
     
     [self.startInput becomeFirstResponder];
 }
@@ -66,12 +59,6 @@
     if (self.start) {
         self.startInput.text = [formatter stringFromDate:self.start];
     }
-    if (self.end){
-        self.endInput.text = [formatter stringFromDate:self.end];
-    }else if(self.start){
-        self.end = [self.start dateByAddingTimeInterval:3600];
-        self.endInput.text = [formatter stringFromDate:self.end];
-    }
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
@@ -81,11 +68,6 @@
         self.selectedRow = 0;
         if (self.start) {
             [datePicker setDate:self.start];
-        }
-    }else if (textField == self.endInput){
-        self.selectedRow = 1;
-        if (self.end) {
-            [datePicker setDate:self.end];
         }
     }
     return YES;
@@ -114,7 +96,7 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if ((textField == self.startInput) || (textField == self.endInput)) {
+    if (textField == self.startInput) {
         [textField resignFirstResponder];
     }
     return YES;
@@ -134,7 +116,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 1;
 }
 
 @end
