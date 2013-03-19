@@ -33,13 +33,12 @@
 	if ([self.location.latitude intValue] != 10000) {
         CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
         [mapView setCenterCoordinate:customLoc2D_5 animated:YES];
-        MKCoordinateRegion region;
-        region.center = customLoc2D_5;
-        MKCoordinateSpan span;
-        span.latitudeDelta = 0.4;
-        span.longitudeDelta = 0.4;
-        region.span=span;
-        [mapView setRegion:region animated:false];
+        
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
+        MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
+        
+        //[mapView setRegion:region animated:false];
+        [mapView setRegion:adjustedRegion animated:false];
         [mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true] animated:false];
     }
 }
