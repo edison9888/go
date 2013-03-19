@@ -51,6 +51,7 @@
 		1359812916DA645100CCDE0E /* GTDoubanLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1359812816DA645100CCDE0E /* GTDoubanLoginViewController.m */; };
 		13628A1D16D3B0120032743B /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 13628A1C16D3B0120032743B /* FMDatabaseAdditions.m */; };
 		1366E71216EC384100844634 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 1366E71116EC384100844634 /* background.png */; };
+		139C39BA16F8AF2E009EEE41 /* BugSense-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 139C39B916F8AF2E009EEE41 /* BugSense-iOS.framework */; };
 		139DACA516BD554900B73AFA /* LocationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 139DACA416BD554900B73AFA /* LocationAnnotation.m */; };
 		13F1C75916DCFAD4007224B3 /* hotel.png in Resources */ = {isa = PBXBuildFile; fileRef = 13F1C75316DCFAD4007224B3 /* hotel.png */; };
 		13F1C75A16DCFAD4007224B3 /* entertainment.png in Resources */ = {isa = PBXBuildFile; fileRef = 13F1C75416DCFAD4007224B3 /* entertainment.png */; };
@@ -117,7 +118,6 @@
 		C29C391916F4865F00106DC4 /* FadeScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C29C391816F4865F00106DC4 /* FadeScrollView.m */; };
 		C2C3A83016F5EC26000DB182 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C3A82E16F5EC26000DB182 /* libMobClickLibrary.a */; };
 		C2C3A83216F5EC62000DB182 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C3A83116F5EC62000DB182 /* libz.dylib */; };
-		C2C3A83916F7629E000DB182 /* BugSense-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C3A83816F7629E000DB182 /* BugSense-iOS.framework */; };
 		C2C769AF16D8C7E5007E20AB /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */; };
 		C2E1BF5916B3D03400E9750A /* HTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2E1BF5A16B3D03400E9750A /* JSONFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5816B3D03400E9750A /* JSONFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -205,6 +205,7 @@
 		13628A1B16D3B0120032743B /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
 		13628A1C16D3B0120032743B /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
 		1366E71116EC384100844634 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		139C39B916F8AF2E009EEE41 /* BugSense-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "BugSense-iOS.framework"; path = "Chufaba/BugSense-iOS.framework"; sourceTree = "<group>"; };
 		139DACA316BD554900B73AFA /* LocationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationAnnotation.h; sourceTree = "<group>"; };
 		139DACA416BD554900B73AFA /* LocationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationAnnotation.m; sourceTree = "<group>"; };
 		13F1C75316DCFAD4007224B3 /* hotel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hotel.png; sourceTree = "<group>"; };
@@ -312,7 +313,6 @@
 		C2C3A82E16F5EC26000DB182 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		C2C3A82F16F5EC26000DB182 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		C2C3A83116F5EC62000DB182 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		C2C3A83816F7629E000DB182 /* BugSense-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "BugSense-iOS.framework"; path = "../../../../Downloads/BugSense-iOS.framework"; sourceTree = "<group>"; };
 		C2C769AD16D8C7E5007E20AB /* LocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTableViewCell.h; sourceTree = "<group>"; };
 		C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewCell.m; sourceTree = "<group>"; };
 		C2E1BF5516B3D03400E9750A /* HTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPFetcher.h; sourceTree = "<group>"; };
@@ -362,7 +362,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2C3A83916F7629E000DB182 /* BugSense-iOS.framework in Frameworks */,
+				139C39BA16F8AF2E009EEE41 /* BugSense-iOS.framework in Frameworks */,
 				131BF67C16D64381001D4422 /* SystemConfiguration.framework in Frameworks */,
 				C2C3A83216F5EC62000DB182 /* libz.dylib in Frameworks */,
 				131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */,
@@ -729,7 +729,7 @@
 		D25F6FE616A6332D00ED7AF5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C2C3A83816F7629E000DB182 /* BugSense-iOS.framework */,
+				139C39B916F8AF2E009EEE41 /* BugSense-iOS.framework */,
 				C2C3A83116F5EC62000DB182 /* libz.dylib */,
 				131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */,
 				131BF67D16D6439A001D4422 /* libiconv.dylib */,
@@ -1083,6 +1083,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Chufaba\"",
 					"\"$(SRCROOT)/../../../../Downloads\"",
+					"\"$(SRCROOT)/../../Downloads\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chufaba/Chufaba-Prefix.pch";
@@ -1107,6 +1108,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Chufaba\"",
 					"\"$(SRCROOT)/../../../../Downloads\"",
+					"\"$(SRCROOT)/../../Downloads\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chufaba/Chufaba-Prefix.pch";
