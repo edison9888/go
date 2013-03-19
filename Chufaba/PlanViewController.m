@@ -320,7 +320,7 @@
             location.poiId = [NSNumber numberWithInt:[results intForColumn:@"poi_id"]];
             location.opening = [results stringForColumn:@"opening"];
             location.fee = [results stringForColumn:@"fee"];
-            location.duration = [results stringForColumn:@"duration"];
+            location.duration = [results stringForColumn:@"location.duration"];
             location.website = [results stringForColumn:@"website"];
             [[tempList objectAtIndex:dayID] addObject:location];
         }
