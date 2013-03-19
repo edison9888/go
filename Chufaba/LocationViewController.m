@@ -317,17 +317,18 @@
             NSString *CellIdentifier = @"ArriveTimeCell";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             if (!cell) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.textLabel.font = [UIFont systemFontOfSize:13];
-                cell.textLabel.text = @"到达时间";
                 cell.imageView.image = [UIImage imageNamed:@"location_time.png"];
             }
             if(self.location.visitBegin){
                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                 [formatter setDateStyle:NSDateFormatterNoStyle];
                 [formatter setTimeStyle:NSDateFormatterShortStyle];
-                cell.detailTextLabel.text = [formatter stringFromDate:self.location.visitBegin];
+                cell.textLabel.text = [NSString stringWithFormat:@"到达时间：%@", [formatter stringFromDate:self.location.visitBegin]];
+            }else{
+                cell.textLabel.text = @"设定到达时间";
             }
         } else if (indexPath.row == 1) {
             NSString *CellIdentifier = @"NoteCell";
@@ -335,12 +336,15 @@
             if (!cell) {
                 cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.textLabel.numberOfLines = 4;
                 cell.textLabel.font = [UIFont systemFontOfSize:13];
-                cell.textLabel.text = @"备注";
+                cell.textLabel.numberOfLines = 4;
                 cell.imageView.image = [UIImage imageNamed:@"location_note.png"];
             }
-            cell.textLabel.text = self.location.detail;
+            if (self.location.detail.length > 0) {
+                cell.textLabel.text = self.location.detail;
+            }else{
+                cell.textLabel.text = @"添加备注";
+            }
         }
     }
     return cell;
