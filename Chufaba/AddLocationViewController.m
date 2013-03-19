@@ -104,13 +104,11 @@
     {
         customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
         [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
-        MKCoordinateRegion region;
-        region.center = customLoc2D_5;
-        MKCoordinateSpan span;
-        span.latitudeDelta = 0.4;
-        span.longitudeDelta = 0.4;
-        region.span=span;
-        [self.mapView setRegion:region animated:false];
+        
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
+        MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
+        
+        [self.mapView setRegion:adjustedRegion animated:false];
         MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
         pa.coordinate = customLoc2D_5;
         [self.mapView addAnnotation:pa];
@@ -121,13 +119,11 @@
         {
             customLoc2D_5 = CLLocationCoordinate2DMake([self.lastLatitude doubleValue], [self.lastLongitude doubleValue]);
             [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
-            MKCoordinateRegion region;
-            region.center = customLoc2D_5;
-            MKCoordinateSpan span;
-            span.latitudeDelta = 0.4;
-            span.longitudeDelta = 0.4;
-            region.span=span;
-            [self.mapView setRegion:region animated:false];
+            
+            MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
+            MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
+            
+            [self.mapView setRegion:adjustedRegion animated:false];
         }
     }
 }
