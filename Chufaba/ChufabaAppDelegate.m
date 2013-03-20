@@ -28,18 +28,18 @@
     [self createAndCheckDatabase];
     
     //self.sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:_viewController];
-    self.sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:nil];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *sinaweiboInfo = [defaults objectForKey:@"SinaWeiboAuthData"];
-    if ([sinaweiboInfo objectForKey:@"AccessTokenKey"] && [sinaweiboInfo objectForKey:@"ExpirationDateKey"] && [sinaweiboInfo objectForKey:@"UserIDKey"])
-    {
-        self.sinaweibo.accessToken = [sinaweiboInfo objectForKey:@"AccessTokenKey"];
-        self.sinaweibo.expirationDate = [sinaweiboInfo objectForKey:@"ExpirationDateKey"];
-        self.sinaweibo.userID = [sinaweiboInfo objectForKey:@"UserIDKey"];
-    }
-    
-    //weixin part
-    [WXApi registerApp:@"wx9a0654e1d41f2482"];
+//    self.sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:nil];
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    NSDictionary *sinaweiboInfo = [defaults objectForKey:@"SinaWeiboAuthData"];
+//    if ([sinaweiboInfo objectForKey:@"AccessTokenKey"] && [sinaweiboInfo objectForKey:@"ExpirationDateKey"] && [sinaweiboInfo objectForKey:@"UserIDKey"])
+//    {
+//        self.sinaweibo.accessToken = [sinaweiboInfo objectForKey:@"AccessTokenKey"];
+//        self.sinaweibo.expirationDate = [sinaweiboInfo objectForKey:@"ExpirationDateKey"];
+//        self.sinaweibo.userID = [sinaweiboInfo objectForKey:@"UserIDKey"];
+//    }
+//    
+//    //weixin part
+//    [WXApi registerApp:@"wx9a0654e1d41f2482"];
     
     return YES;
 }

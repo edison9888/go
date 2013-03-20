@@ -99,10 +99,6 @@
             [infoArray addObject:self.fee];
             [imageArray addObject:@"location_money.png"];
         }
-        if (self.duration.length > 0) {
-            [infoArray addObject:self.duration];
-            [imageArray addObject:@"location_time.png"];
-        }
         if (self.website.length > 0) {
             [infoArray addObject:self.website];
             [imageArray addObject:@"location_note.png"];

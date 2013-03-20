@@ -27,7 +27,6 @@
 @property (nonatomic, copy) NSString *transportation;
 @property (nonatomic, copy) NSString *opening;
 @property (nonatomic, copy) NSString *fee;
-@property (nonatomic, copy) NSString *duration;
 @property (nonatomic, copy) NSString *website;
 
 //user

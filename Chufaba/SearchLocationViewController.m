@@ -418,7 +418,6 @@
     location.transportation = [locationAtIndex objectForKey:@"transport"];
     location.opening = [locationAtIndex objectForKey:@"opening"];
     location.fee = [locationAtIndex objectForKey:@"fee"];
-    location.duration = [locationAtIndex objectForKey:@"duration"];
     location.website = [locationAtIndex objectForKey:@"website"];
 
     [self.searchDelegate notifyItinerayView:location];
