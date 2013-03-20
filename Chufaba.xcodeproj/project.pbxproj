@@ -111,6 +111,7 @@
 		C22038A016BE410900173D29 /* other.gif in Resources */ = {isa = PBXBuildFile; fileRef = C220389A16BE410900173D29 /* other.gif */; };
 		C22038A116BE410900173D29 /* scene.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C220389B16BE410900173D29 /* scene.jpg */; };
 		C22038A216BE410900173D29 /* transport.gif in Resources */ = {isa = PBXBuildFile; fileRef = C220389C16BE410900173D29 /* transport.gif */; };
+		C252AA8C16F9FA5B0048FEFA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C252AA8A16F9FA110048FEFA /* SystemConfiguration.framework */; };
 		C26B248B16DD0BED0038111D /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = C26B248A16DD0BED0038111D /* loading.gif */; };
 		C26B248E16DD0C850038111D /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C26B248D16DD0C850038111D /* SearchTableViewCell.m */; };
 		C27BF31516D91A7E00309DE3 /* direction.png in Resources */ = {isa = PBXBuildFile; fileRef = C27BF31416D91A7E00309DE3 /* direction.png */; };
@@ -302,6 +303,7 @@
 		C220389A16BE410900173D29 /* other.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = other.gif; sourceTree = "<group>"; };
 		C220389B16BE410900173D29 /* scene.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = scene.jpg; sourceTree = "<group>"; };
 		C220389C16BE410900173D29 /* transport.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = transport.gif; sourceTree = "<group>"; };
+		C252AA8A16F9FA110048FEFA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C26B248A16DD0BED0038111D /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		C26B248C16DD0C850038111D /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		C26B248D16DD0C850038111D /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C252AA8C16F9FA5B0048FEFA /* SystemConfiguration.framework in Frameworks */,
 				C2C3A83216F5EC62000DB182 /* libz.dylib in Frameworks */,
 				131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */,
 				1337E51A16BBEC070039F257 /* CoreLocation.framework in Frameworks */,
@@ -726,6 +729,7 @@
 		D25F6FE616A6332D00ED7AF5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C252AA8A16F9FA110048FEFA /* SystemConfiguration.framework */,
 				C210FFBD16F9F858003F2060 /* Crashlytics.framework */,
 				C2C3A83116F5EC62000DB182 /* libz.dylib */,
 				131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */,
