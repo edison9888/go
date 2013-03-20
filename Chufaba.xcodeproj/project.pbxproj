@@ -21,7 +21,6 @@
 		1318DCFF16E8C0FE00A1E34C /* SwipeableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1318DCFE16E8C0FE00A1E34C /* SwipeableTableViewCell.m */; };
 		1318DD0316E8C57D00A1E34C /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318DD0216E8C57D00A1E34C /* delete.png */; };
 		131BF67916D64337001D4422 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67816D64337001D4422 /* TencentOpenAPI.framework */; };
-		131BF67C16D64381001D4422 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67B16D64381001D4422 /* SystemConfiguration.framework */; };
 		131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67D16D6439A001D4422 /* libiconv.dylib */; };
 		131BF68016D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		13225AD816ECDE9000B1BB5B /* uk.png in Resources */ = {isa = PBXBuildFile; fileRef = 13225AD416ECDE9000B1BB5B /* uk.png */; };
@@ -51,7 +50,6 @@
 		1359812916DA645100CCDE0E /* GTDoubanLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1359812816DA645100CCDE0E /* GTDoubanLoginViewController.m */; };
 		13628A1D16D3B0120032743B /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 13628A1C16D3B0120032743B /* FMDatabaseAdditions.m */; };
 		1366E71216EC384100844634 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 1366E71116EC384100844634 /* background.png */; };
-		139C39BA16F8AF2E009EEE41 /* BugSense-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 139C39B916F8AF2E009EEE41 /* BugSense-iOS.framework */; };
 		139DACA516BD554900B73AFA /* LocationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 139DACA416BD554900B73AFA /* LocationAnnotation.m */; };
 		13F1C75916DCFAD4007224B3 /* hotel.png in Resources */ = {isa = PBXBuildFile; fileRef = 13F1C75316DCFAD4007224B3 /* hotel.png */; };
 		13F1C75A16DCFAD4007224B3 /* entertainment.png in Resources */ = {isa = PBXBuildFile; fileRef = 13F1C75416DCFAD4007224B3 /* entertainment.png */; };
@@ -99,6 +97,7 @@
 		C207026B16B4269C0087B6D7 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025F16B4269C0087B6D7 /* SBJsonWriter.m */; };
 		C207212B16B6C207000E75A5 /* ShowLocationInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207212A16B6C207000E75A5 /* ShowLocationInfoController.m */; };
 		C207213716B80B37000E75A5 /* EditCostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207213616B80B37000E75A5 /* EditCostViewController.m */; };
+		C210FFBE16F9F858003F2060 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C210FFBD16F9F858003F2060 /* Crashlytics.framework */; };
 		C2126AE716D3B395005B0353 /* location_money.png in Resources */ = {isa = PBXBuildFile; fileRef = C2126AE316D3B395005B0353 /* location_money.png */; };
 		C2126AE816D3B395005B0353 /* location_note.png in Resources */ = {isa = PBXBuildFile; fileRef = C2126AE416D3B395005B0353 /* location_note.png */; };
 		C2126AE916D3B395005B0353 /* location_time.png in Resources */ = {isa = PBXBuildFile; fileRef = C2126AE516D3B395005B0353 /* location_time.png */; };
@@ -161,7 +160,6 @@
 		1318DCFE16E8C0FE00A1E34C /* SwipeableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeableTableViewCell.m; sourceTree = "<group>"; };
 		1318DD0216E8C57D00A1E34C /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		131BF67816D64337001D4422 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = Chufaba/TencentOpenAPI.framework; sourceTree = "<group>"; };
-		131BF67B16D64381001D4422 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		131BF67D16D6439A001D4422 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = Chufaba/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		13225AD416ECDE9000B1BB5B /* uk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uk.png; sourceTree = "<group>"; };
@@ -205,7 +203,6 @@
 		13628A1B16D3B0120032743B /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
 		13628A1C16D3B0120032743B /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
 		1366E71116EC384100844634 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
-		139C39B916F8AF2E009EEE41 /* BugSense-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "BugSense-iOS.framework"; path = "Chufaba/BugSense-iOS.framework"; sourceTree = "<group>"; };
 		139DACA316BD554900B73AFA /* LocationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationAnnotation.h; sourceTree = "<group>"; };
 		139DACA416BD554900B73AFA /* LocationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationAnnotation.m; sourceTree = "<group>"; };
 		13F1C75316DCFAD4007224B3 /* hotel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hotel.png; sourceTree = "<group>"; };
@@ -288,6 +285,7 @@
 		C207212A16B6C207000E75A5 /* ShowLocationInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowLocationInfoController.m; sourceTree = "<group>"; };
 		C207213516B80B37000E75A5 /* EditCostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCostViewController.h; sourceTree = "<group>"; };
 		C207213616B80B37000E75A5 /* EditCostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCostViewController.m; sourceTree = "<group>"; };
+		C210FFBD16F9F858003F2060 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		C2126AE316D3B395005B0353 /* location_money.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_money.png; sourceTree = "<group>"; };
 		C2126AE416D3B395005B0353 /* location_note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_note.png; sourceTree = "<group>"; };
 		C2126AE516D3B395005B0353 /* location_time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_time.png; sourceTree = "<group>"; };
@@ -362,8 +360,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				139C39BA16F8AF2E009EEE41 /* BugSense-iOS.framework in Frameworks */,
-				131BF67C16D64381001D4422 /* SystemConfiguration.framework in Frameworks */,
 				C2C3A83216F5EC62000DB182 /* libz.dylib in Frameworks */,
 				131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */,
 				1337E51A16BBEC070039F257 /* CoreLocation.framework in Frameworks */,
@@ -376,6 +372,7 @@
 				1C38053516C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a in Frameworks */,
 				131BF67916D64337001D4422 /* TencentOpenAPI.framework in Frameworks */,
 				C2C3A83016F5EC26000DB182 /* libMobClickLibrary.a in Frameworks */,
+				C210FFBE16F9F858003F2060 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -729,11 +726,10 @@
 		D25F6FE616A6332D00ED7AF5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				139C39B916F8AF2E009EEE41 /* BugSense-iOS.framework */,
+				C210FFBD16F9F858003F2060 /* Crashlytics.framework */,
 				C2C3A83116F5EC62000DB182 /* libz.dylib */,
 				131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */,
 				131BF67D16D6439A001D4422 /* libiconv.dylib */,
-				131BF67B16D64381001D4422 /* SystemConfiguration.framework */,
 				131BF67816D64337001D4422 /* TencentOpenAPI.framework */,
 				1337E51916BBEC070039F257 /* CoreLocation.framework */,
 				1337E51616BBEBFE0039F257 /* MapKit.framework */,
@@ -824,6 +820,7 @@
 				D25F6FDF16A6332D00ED7AF5 /* Sources */,
 				D25F6FE016A6332D00ED7AF5 /* Frameworks */,
 				D25F6FE116A6332D00ED7AF5 /* Resources */,
+				C210FFBC16F9F7CF003F2060 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -929,6 +926,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C210FFBC16F9F7CF003F2060 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run d4b5462f05904e8fff0d76b490b16edb5d201b70";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D25F6FDF16A6332D00ED7AF5 /* Sources */ = {
@@ -1084,6 +1097,7 @@
 					"\"$(SRCROOT)/Chufaba\"",
 					"\"$(SRCROOT)/../../../../Downloads\"",
 					"\"$(SRCROOT)/../../Downloads\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chufaba/Chufaba-Prefix.pch";
@@ -1109,6 +1123,7 @@
 					"\"$(SRCROOT)/Chufaba\"",
 					"\"$(SRCROOT)/../../../../Downloads\"",
 					"\"$(SRCROOT)/../../Downloads\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chufaba/Chufaba-Prefix.pch";

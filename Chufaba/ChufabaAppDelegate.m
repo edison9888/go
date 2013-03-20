@@ -10,14 +10,14 @@
 #import "ItineraryViewController.h"
 #import "SocialAccountManager.h"
 #import "MobClick.h"
-#import <BugSense-iOS/BugSenseController.h>
+#import <Crashlytics/Crashlytics.h>
 
 @implementation ChufabaAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [BugSenseController sharedControllerWithBugSenseAPIKey:@"8eeffcb1d31b13dd1e69b17"];
     [MobClick startWithAppkey:@"5145b36356240b4c150023e6"];
+    [Crashlytics startWithAPIKey:@"d4b5462f05904e8fff0d76b490b16edb5d201b70"];
     
     self.databaseName = @"travelplan.sqlite";
     
