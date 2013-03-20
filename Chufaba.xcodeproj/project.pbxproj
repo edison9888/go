@@ -95,7 +95,6 @@
 		C207026916B4269C0087B6D7 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025B16B4269C0087B6D7 /* SBJsonTokeniser.m */; };
 		C207026A16B4269C0087B6D7 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025D16B4269C0087B6D7 /* SBJsonUTF8Stream.m */; };
 		C207026B16B4269C0087B6D7 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025F16B4269C0087B6D7 /* SBJsonWriter.m */; };
-		C207212B16B6C207000E75A5 /* ShowLocationInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207212A16B6C207000E75A5 /* ShowLocationInfoController.m */; };
 		C207213716B80B37000E75A5 /* EditCostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C207213616B80B37000E75A5 /* EditCostViewController.m */; };
 		C210FFBE16F9F858003F2060 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C210FFBD16F9F858003F2060 /* Crashlytics.framework */; };
 		C2126AE716D3B395005B0353 /* location_money.png in Resources */ = {isa = PBXBuildFile; fileRef = C2126AE316D3B395005B0353 /* location_money.png */; };
@@ -282,8 +281,6 @@
 		C207025D16B4269C0087B6D7 /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
 		C207025E16B4269C0087B6D7 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		C207025F16B4269C0087B6D7 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		C207212916B6C207000E75A5 /* ShowLocationInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowLocationInfoController.h; sourceTree = "<group>"; };
-		C207212A16B6C207000E75A5 /* ShowLocationInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowLocationInfoController.m; sourceTree = "<group>"; };
 		C207213516B80B37000E75A5 /* EditCostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCostViewController.h; sourceTree = "<group>"; };
 		C207213616B80B37000E75A5 /* EditCostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCostViewController.m; sourceTree = "<group>"; };
 		C210FFBD16F9F858003F2060 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -664,8 +661,6 @@
 				D25F700616A6332E00ED7AF5 /* LocationViewController.m */,
 				1C428A4616ABE4AB00416C47 /* SearchLocationViewController.h */,
 				1C428A4716ABE4AB00416C47 /* SearchLocationViewController.m */,
-				C207212916B6C207000E75A5 /* ShowLocationInfoController.h */,
-				C207212A16B6C207000E75A5 /* ShowLocationInfoController.m */,
 				C207213516B80B37000E75A5 /* EditCostViewController.h */,
 				C207213616B80B37000E75A5 /* EditCostViewController.m */,
 				C220388D16BD371A00173D29 /* EditDetailViewController.h */,
@@ -982,7 +977,6 @@
 				C207026A16B4269C0087B6D7 /* SBJsonUTF8Stream.m in Sources */,
 				C207026B16B4269C0087B6D7 /* SBJsonWriter.m in Sources */,
 				132D453616B5515200A1D3B0 /* NIDropDown.m in Sources */,
-				C207212B16B6C207000E75A5 /* ShowLocationInfoController.m in Sources */,
 				D2579A0F16B7CD9400462094 /* PullDownMenuView.m in Sources */,
 				C207213716B80B37000E75A5 /* EditCostViewController.m in Sources */,
 				139DACA516BD554900B73AFA /* LocationAnnotation.m in Sources */,

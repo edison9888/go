@@ -53,6 +53,8 @@
 #define ADDRESS_LABEL_HEIGHT 12
 #define NAVIGATOR_OFFSET 44
 
+#define FONT_SIZE 13
+
 #pragma mark - Managing the detail item
 
 - (void)viewDidLoad
@@ -307,8 +309,10 @@
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (!cell) {
             cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            cell.textLabel.font = [UIFont systemFontOfSize:13];
-            cell.textLabel.numberOfLines = 2;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.numberOfLines = 0;
         }
         cell.textLabel.text = [self.location contentForRow:indexPath.row];
         cell.imageView.image = [UIImage imageNamed:[self.location imageNameForRow:indexPath.row]];
@@ -319,7 +323,7 @@
             if (!cell) {
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.textLabel.font = [UIFont systemFontOfSize:13];
+                cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
                 cell.imageView.image = [UIImage imageNamed:@"location_time.png"];
             }
             if(self.location.visitBegin){
@@ -336,7 +340,7 @@
             if (!cell) {
                 cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.textLabel.font = [UIFont systemFontOfSize:13];
+                cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
                 cell.textLabel.numberOfLines = 4;
                 cell.imageView.image = [UIImage imageNamed:@"location_note.png"];
             }
@@ -353,7 +357,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return 44;
+        NSString *content = [self.location contentForRow:indexPath.row];
+        CGSize constraint = CGSizeMake(tableView.bounds.size.width - 80, 20000.0f);
+        CGSize size = [content sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
+        CGFloat height = MAX(size.height + 10, 44.0f);
+        return height;
     } else {
         if (indexPath.row == 0) {
             return 44;
@@ -365,11 +373,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        ShowLocationInfoController *infoController = [[ShowLocationInfoController alloc] init];
-        infoController.content = [self.location contentForRow:indexPath.row];
-        [self.navigationController pushViewController:infoController animated:YES];
-    } else {
+    if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
             EditScheduleViewController *scheduleViewController = [storyboard instantiateViewControllerWithIdentifier:@"EditScheduleStoryBoard"];
