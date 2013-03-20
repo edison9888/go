@@ -9,7 +9,6 @@
 #import "LocationViewController.h"
 #import "Location.h"
 #import "LocationAnnotation.h"
-#import "ShowLocationInfoController.h"
 #import "EditCostViewController.h"
 #import "EditDetailViewController.h"
 #import "EditScheduleViewController.h"
