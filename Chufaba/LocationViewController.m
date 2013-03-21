@@ -206,11 +206,6 @@
     else
     {
         addLocationViewController.hasCoordinate = NO;
-        if(self.location.latitude != 0 && self.location.latitude != nil)
-        {
-            addLocationViewController.lastLatitude = self.location.latitude;
-            addLocationViewController.lastLongitude = self.location.longitude;
-        }
     }
     addLocationViewController.editLocationDelegate = self;
     
@@ -397,7 +392,8 @@
 
 - (void)configureMap
 {
-    if (showMap) {
+    if (showMap)
+    {
         CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
         MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];
         [mapView setCenterCoordinate:customLoc2D_5 animated:false];
@@ -481,6 +477,7 @@
     showMap = YES;
     self.location.name = name;
     ((UILabel *)[self.view viewWithTag:TAG_NAMELABEL]).text = name;
+    self.navigationItem.title = name;
 }
 
 -(void) didEditCoordinate:(NSNumber *)latitude withLongitude:(NSNumber *)longitude

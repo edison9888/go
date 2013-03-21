@@ -115,7 +115,7 @@
     }
     else
     {
-        if ([self.lastLatitude intValue] != 10000 && [self.lastLatitude intValue] != 0)
+        if (self.lastLatitude && self.lastLongitude)
         {
             customLoc2D_5 = CLLocationCoordinate2DMake([self.lastLatitude doubleValue], [self.lastLongitude doubleValue]);
             [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
