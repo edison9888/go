@@ -178,6 +178,8 @@
         {
             [self.editLocationDelegate AddLocationViewController:self didFinishAdd:addLocation];
         }
+    }else{
+        [self dismissViewControllerAnimated:YES completion:NULL];
     }
 }
 
