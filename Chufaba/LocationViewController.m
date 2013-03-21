@@ -153,7 +153,6 @@
     addressLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     [nameScroll addSubview:addressLabel];
    
-    NSLog(@"height1:%f", self.view.frame.size.height);
     NSInteger tableviewHeight = showMap ? self.view.frame.size.height-NAVIGATOR_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT:self.view.frame.size.height-NAVIGATOR_OFFSET-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT;
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, showMap? MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT+INFO_VIEW_HEIGHT : NAME_SCROLL_HEIGHT+INFO_VIEW_HEIGHT, self.view.frame.size.width, tableviewHeight) style:UITableViewStyleGrouped];
     tableView.tag = TAG_TABLEVIEW;
@@ -470,7 +469,6 @@
         [((UIImageView *)[self.view viewWithTag:TAG_CATEGORY_IMAGE]) setFrame:CGRectMake(10, MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT, NAME_SCROLL_HEIGHT, NAME_SCROLL_HEIGHT)];
         [((FadeScrollView *)[self.view viewWithTag:TAG_NAMESCROLL]) setFrame:CGRectMake(10+NAME_SCROLL_HEIGHT+5, MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT, self.view.frame.size.width - NAME_SCROLL_HEIGHT - 15, NAME_SCROLL_HEIGHT)];
         
-        NSLog(@"height2:%f", self.view.frame.size.height);
         NSInteger tableviewHeight = self.view.frame.size.height+self.navigationController.navigationBar.frame.size.height-NAVIGATOR_OFFSET-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT;
         [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) setFrame:CGRectMake(0, MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT+INFO_VIEW_HEIGHT, self.view.frame.size.width, tableviewHeight)];
     }

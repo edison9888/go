@@ -353,7 +353,7 @@
             name = name_en;
             name_en = nil;
         }
-        if (city) {
+        if ([city length] > 0) {
             [[cell textLabel] setText: [NSString stringWithFormat: @"%@, %@", name, city]];
         } else {
             [[cell textLabel] setText: name];
