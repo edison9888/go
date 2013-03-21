@@ -78,9 +78,13 @@
     for(int i=0;i<[self.dataController.masterTravelDayList count];i++)
     {
         for (Location *location in [self.dataController.masterTravelDayList objectAtIndex:i]) {
-            [annotations addObject:[LocationAnnotation annotationForLocation:location ShowTitle:YES]];
+            if(!([location.latitude doubleValue] == 0 && [location.longitude doubleValue] == 0))
+            {
+                [annotations addObject:[LocationAnnotation annotationForLocation:location ShowTitle:YES]];
+            }
         }
     }
+    NSLog(@"annotations count:%d", annotations.count);
     return annotations;
 }
 
@@ -265,13 +269,30 @@
         NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
         
         Location *previousLocation;
+        NSInteger curSelectedInAll;
         if(singleDayMode)
         {
-            previousLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:indexOfCurSelected-1];
+            curSelectedInAll = [[self.dataController.masterTravelDayList objectAtIndex:0] indexOfObject:selectedAnnotation.location];
+            for(int i=1; i<[[self.dataController.masterTravelDayList objectAtIndex:0] count]; i++)
+            {
+                previousLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:curSelectedInAll-i];
+                if(!([previousLocation.latitude doubleValue] == 0 && [previousLocation.longitude doubleValue] == 0))
+                {
+                    break;
+                }
+            }
         }
         else
         {
-            previousLocation = [oneDimensionLocationList objectAtIndex:indexOfCurSelected-1];
+            curSelectedInAll = [oneDimensionLocationList indexOfObject:selectedAnnotation.location];
+            for(int i=1; i<[oneDimensionLocationList count]; i++)
+            {
+                previousLocation = [oneDimensionLocationList objectAtIndex:curSelectedInAll-i];
+                if(!([previousLocation.latitude doubleValue] == 0 && [previousLocation.longitude doubleValue] == 0))
+                {
+                    break;
+                }
+            }
         }
         CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([previousLocation.latitude doubleValue], [previousLocation.longitude doubleValue]);
         
@@ -289,19 +310,37 @@
         NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
         
         Location *nextLocation;
+        NSInteger curSelectedInAll;
         if(singleDayMode)
         {
-            nextLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:indexOfCurSelected+1];
+            curSelectedInAll = [[self.dataController.masterTravelDayList objectAtIndex:0] indexOfObject:selectedAnnotation.location];
+            for(int i=1; i<[[self.dataController.masterTravelDayList objectAtIndex:0] count]; i++)
+            {
+                nextLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:curSelectedInAll+i];
+                if(!([nextLocation.latitude doubleValue] == 0 && [nextLocation.longitude doubleValue] == 0))
+                {
+                    break;
+                } 
+            }
         }
         else
         {
-            nextLocation = [oneDimensionLocationList objectAtIndex:indexOfCurSelected+1];
+            curSelectedInAll = [oneDimensionLocationList indexOfObject:selectedAnnotation.location];
+            for(int i=1; i<[oneDimensionLocationList count]; i++)
+            {
+                nextLocation = [oneDimensionLocationList objectAtIndex:curSelectedInAll+i];
+                if(!([nextLocation.latitude doubleValue] == 0 && [nextLocation.longitude doubleValue] == 0))
+                {
+                    break;
+                }
+            }
         }
         CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([nextLocation.latitude doubleValue], [nextLocation.longitude doubleValue]);
         [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
         [self.mapView selectAnnotation:[self.annotations objectAtIndex:indexOfCurSelected+1] animated:YES];
     }
 }
+
 
 - (IBAction)positionMe:(id)sender
 {
@@ -403,7 +442,7 @@
 //Implement NavigationLocation delegate
 -(Location *) getPreviousLocation:(Location *)curLocation;
 {
-    [self previousMapLocation:NULL];
+    //[self previousMapLocation:NULL];
     int index = [oneDimensionLocationList indexOfObject:curLocation];
     return [oneDimensionLocationList objectAtIndex:index-1];
 }
@@ -411,7 +450,7 @@
 
 -(Location *) getNextLocation:(Location *)curLocation
 {
-    [self nextMapLocation:NULL];
+    //[self nextMapLocation:NULL];
     int index = [oneDimensionLocationList indexOfObject:curLocation];
     return [oneDimensionLocationList objectAtIndex:index+1];
 }
@@ -490,16 +529,29 @@
 - (void)mapView:(MKMapView *)sender annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
 {
     tappedAnnotation = aView.annotation;
-    NSIndexPath *indexPath = [self indexPathForTappedAnnotation];
     
     LocationViewController *locationViewController = [[LocationViewController alloc] init];
     locationViewController.delegate = self;
-    locationViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    locationViewController.location = ((LocationAnnotation *)tappedAnnotation).location;
     locationViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:locationViewController.location]];
     locationViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
     locationViewController.navDelegate = self;
     [self.navigationController pushViewController:locationViewController animated:YES];
 }
+
+//- (void)mapView:(MKMapView *)sender annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
+//{
+//    tappedAnnotation = aView.annotation;
+//    NSIndexPath *indexPath = [self indexPathForTappedAnnotation];
+//    
+//    LocationViewController *locationViewController = [[LocationViewController alloc] init];
+//    locationViewController.delegate = self;
+//    locationViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+//    locationViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:locationViewController.location]];
+//    locationViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
+//    locationViewController.navDelegate = self;
+//    [self.navigationController pushViewController:locationViewController animated:YES];
+//}
 
 //- (void) mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
 //{
@@ -816,7 +868,7 @@
     //add search location to database
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd,poi_id,opening,fee,duration,website) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude,[NSNumber numberWithBool:location.useradd],location.poiId,location.opening,location.fee,location.website];
+    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd,poi_id,opening,fee,website) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude,[NSNumber numberWithBool:location.useradd],location.poiId,location.opening,location.fee,location.website];
     FMResultSet *results = [db executeQuery:@"SELECT * FROM location order by id desc limit 1"];
     if([results next])
     {
