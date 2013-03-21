@@ -139,39 +139,46 @@
 }
 
 - (NSString *)getPostBody:(NSString *)keyword {
+    NSString *query = [NSString stringWithFormat:@
+                       "    \"min_score\" : 1.0,"
+                       "    \"query\":{ "
+                       "        \"bool\" : { "
+                       "            \"must\" : {"
+                       "                \"term\" : {"
+                       "                    \"category\": \"%@\" "
+                       "                } "
+                       "            }, "
+                       "            \"should\" : ["
+                       "                {"
+                       "                    \"match_phrase_prefix\" :{"
+                       "                        \"query\" : {"
+                       "                            \"query\" : \"%@\","
+                       "                            \"max_expansions\" : 10"
+                       "                        }"
+                       "                    }"
+                       "                },"
+                       "                {"
+                       "                    \"multi_match\" :{"
+                       "                        \"query\" : \"%@\","
+                       "                        \"fields\" : [ \"name\", \"name_en\", \"query\" ]"
+                       "                    }"
+                       "                }"
+                       "            ],"
+                       "            \"minimum_number_should_match\" : 1"
+                       "        }"
+                       "    }"
+                       , self.category, keyword, keyword];
     if (self.lastLatitude && [self.lastLatitude intValue] != 10000) {
         return [NSString stringWithFormat:@"{"
-                "\"min_score\":3.5, "
                 "\"sort\" : [ "
                     "{ \"_geo_distance\" : {"
                         "\"location\" : { \"lat\" : %f, \"lon\" : %f }, "
                         "\"order\" : \"asc\", "
                         "\"unit\" : \"km\" "
                     "} } ],"
-                "\"query\":{ "
-                    "\"bool\" : { "
-                        "\"must\" : { \"term\" : { \"category\": \"%@\" } }, "
-                        "\"must\" : { "
-                            "\"multi_match\" :{"
-                                "\"query\" : \"%@\","
-                                "\"fields\" : [\"name\", \"name_en\" ,  \"query\"]"
-                            "}"
-                        "}}"
-                "} }", [self.lastLatitude floatValue], [self.lastLongitude floatValue], self.category, keyword];
+                "%@}", [self.lastLatitude floatValue], [self.lastLongitude floatValue], query];
     } else {
-        return [NSString stringWithFormat:@"{"
-                "\"min_score\":3.5, "
-                "\"query\":{ "
-                    "\"bool\" : { "
-                        "\"must\" : { \"term\" : { \"category\": \"%@\" } }, "
-                        "\"must\" : { "
-                            "\"multi_match\" :{"
-                                "\"query\" : \"%@\","
-                                "\"fields\" : [\"name\" ,  \"name_en\", \"query\"]"
-                            "}"
-                    "}}"
-                "} }", self.category, keyword];
-        
+        return [NSString stringWithFormat:@"{%@}", query];
     }
 }
 
