@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "Location.h"
 #import "LocationAnnotation.h"
+#import "JsonFetcher.h"
 
 @class AddLocationViewController;
 

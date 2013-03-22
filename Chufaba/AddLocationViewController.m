@@ -124,6 +124,10 @@
             MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
             
             [self.mapView setRegion:adjustedRegion animated:false];
+            
+            [self searchJiepangForKeyword:self.location.name AroundLocation:CGPointMake([self.lastLatitude floatValue], [self.lastLongitude floatValue])];
+        } else {
+            [self searchJiepangForKeyword:self.location.name];
         }
     }
 }
@@ -245,6 +249,57 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)searchJiepangForKeyword:(NSString *)keyword AroundLocation:(CGPoint)location
+{
+    NSString *encodedString = (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                                     NULL,
+                                                                                                     (CFStringRef)keyword,
+                                                                                                     NULL,
+                                                                                                     CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                                                     kCFStringEncodingUTF8));
+    JSONFetcher *fetcher = [[JSONFetcher alloc]
+               initWithURLString:[NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=5&lat=%f&lon=%f", encodedString, location.x, location.y]
+               receiver:self
+               action:@selector(receiveResponse:)];
+    fetcher.showAlerts = NO;
+    [fetcher start];
+}
+
+- (void)searchJiepangForKeyword:(NSString *)keyword
+{
+    NSString *encodedString = (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                                     NULL,
+                                                                                                     (CFStringRef)keyword,
+                                                                                                     NULL,
+                                                                                                     CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                                                     kCFStringEncodingUTF8));
+    JSONFetcher *fetcher = [[JSONFetcher alloc]
+                            initWithURLString:[NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=5", encodedString]
+                            receiver:self
+                            action:@selector(receiveResponse:)];
+    fetcher.showAlerts = NO;
+    [fetcher start];
+}
+
+- (void)receiveResponse:(JSONFetcher *)aFetcher
+{
+    NSArray *items = [(NSDictionary *)aFetcher.result objectForKey:@"items"];
+    if (items.count > 0) {
+        [self showAnnotations:items];
+    }
+}
+
+- (void)showAnnotations:(NSArray *)locations
+{
+    int count = MAX(locations.count, 3);
+    for (int i=0; i < count; i++) {
+        NSString *name = [(NSDictionary *)[locations objectAtIndex:i] objectForKey:@"name"];
+        NSNumber *lat = (NSNumber *)[(NSDictionary *)[locations objectAtIndex:i] objectForKey:@"lat"];
+        NSNumber *lon = (NSNumber *)[(NSDictionary *)[locations objectAtIndex:i] objectForKey:@"lon"];
+        //TODO show annotion
+    }
 }
 
 @end
