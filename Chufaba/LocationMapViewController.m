@@ -28,19 +28,46 @@
     [super viewDidLoad];
     MKMapView *mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
     mapView.delegate = self;
-    [self.view addSubview:mapView];
+    mapView.tag = 20;
+    
     self.navigationItem.title = @"地图详情";
-	if ([self.location.latitude intValue] != 10000) {
-        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
-        [mapView setCenterCoordinate:customLoc2D_5 animated:YES];
-        
-        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
-        MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
-        
-        //[mapView setRegion:region animated:false];
-        [mapView setRegion:adjustedRegion animated:false];
-        [mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true] animated:false];
-    }
+	CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
+    [mapView setCenterCoordinate:customLoc2D_5 animated:YES];
+    
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
+    MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
+    
+    [mapView setRegion:adjustedRegion animated:false];
+    [mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true] animated:false];
+    
+    UIView* mapCategoryView = [[UIView alloc] initWithFrame:CGRectMake(230, 10, 80, 40)];
+    
+    UIButton *mapNormalButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,40)];
+    [mapNormalButton setImage:[UIImage imageNamed:@"normalmap.png"] forState:UIControlStateNormal];
+    [mapNormalButton addTarget:self action:@selector(selectNormalMap:) forControlEvents:UIControlEventTouchDown];
+    
+    UIButton *mapSateliteButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,40)];
+    [mapSateliteButton setImage:[UIImage imageNamed:@"satelitemap.png"] forState:UIControlStateNormal];
+    [mapSateliteButton addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchDown];
+    
+    [mapCategoryView addSubview:mapNormalButton];
+    [mapCategoryView addSubview:mapSateliteButton];
+    
+    [mapView addSubview:mapCategoryView];
+    [self.view addSubview:mapView];
+}
+
+- (IBAction)selectNormalMap:(id)sender
+{
+    MKMapView *mapView = (MKMapView *)[self.view viewWithTag:20];
+    mapView.mapType = MKMapTypeStandard;
+}
+
+
+- (IBAction)selectSateliteMap:(id)sender
+{
+    MKMapView *mapView = (MKMapView *)[self.view viewWithTag:20];
+    mapView.mapType = MKMapTypeSatellite;
 }
 
 #define LOCATION_ANNOTATION_VIEWS @"LocationAnnotationViews"

@@ -211,7 +211,20 @@
     [mapPositionView addSubview:positionButton];
     [self.mapView addSubview:mapNavView];
     [self.mapView addSubview:mapPositionView];
-    //[self.mapView bringSubviewToFront:mapNavView];
+    
+    UIView* mapCategoryView = [[UIView alloc] initWithFrame:CGRectMake(230, 10, 80, 40)];
+    
+    UIButton *mapNormalButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,40)];
+    [mapNormalButton setImage:[UIImage imageNamed:@"normalmap.png"] forState:UIControlStateNormal];
+    [mapNormalButton addTarget:self action:@selector(selectNormalMap:) forControlEvents:UIControlEventTouchDown];
+    
+    UIButton *mapSateliteButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,40)];
+    [mapSateliteButton setImage:[UIImage imageNamed:@"satelitemap.png"] forState:UIControlStateNormal];
+    [mapSateliteButton addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchDown];
+    
+    [mapCategoryView addSubview:mapNormalButton];
+    [mapCategoryView addSubview:mapSateliteButton];
+    [self.mapView addSubview:mapCategoryView];
     
     [self.view addSubview:self.mapView];
     
@@ -258,6 +271,17 @@
 //		[self.tableView addSubview:view];
 //		pullDownMenuView = view;
 //	}
+}
+
+- (IBAction)selectNormalMap:(id)sender
+{
+    self.mapView.mapType = MKMapTypeStandard;
+}
+
+
+- (IBAction)selectSateliteMap:(id)sender
+{
+    self.mapView.mapType = MKMapTypeSatellite;
 }
 
 - (IBAction)previousMapLocation:(id)sender
