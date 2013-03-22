@@ -388,14 +388,11 @@
             Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
             CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
             [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
-            MKCoordinateRegion region;
-            region.center = customLoc2D_5;
-            MKCoordinateSpan span;
-            span.latitudeDelta = 0.4;
-            span.longitudeDelta = 0.4;
-            region.span=span;
-            [self.mapView setRegion:region animated:TRUE];
-            //self.annotations = [self mapAnnotations];
+            
+            MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
+            MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
+            
+            [self.mapView setRegion:adjustedRegion animated:TRUE];
             [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
         }
         
@@ -868,15 +865,12 @@
     {
         Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
         CLLocationCoordinate2D firstLocationCoordinate = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
-        //需要处理第一个地点经纬度有错误的问题
         [self.mapView setCenterCoordinate:firstLocationCoordinate animated:YES];
-        MKCoordinateRegion region;
-        region.center = firstLocationCoordinate;
-        MKCoordinateSpan span;
-        span.latitudeDelta = 0.4;
-        span.longitudeDelta = 0.4;
-        region.span=span;
-        [self.mapView setRegion:region animated:TRUE];
+        
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(firstLocationCoordinate, 1500, 1500);
+        MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
+        
+        [self.mapView setRegion:adjustedRegion animated:TRUE];
         [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
     }
 }

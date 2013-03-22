@@ -29,6 +29,8 @@
 @property (nonatomic, assign) BOOL hasCoordinate;
 @property (nonatomic, assign) BOOL addLocation;
 
+@property (nonatomic, strong) NSArray *annotations;
+
 @property (nonatomic, strong) Location *location;
 
 @property (nonatomic,strong) MKMapView *mapView;

@@ -79,18 +79,21 @@
     self.navigationItem.rightBarButtonItem = segmentBarItem;
     self.navigationItem.title = self.location.name;
     
-    if ([self.location.latitude intValue] != 10000 && self.location.latitude != nil && [self.location.latitude intValue] != 0)  
+    if (self.location.latitude && self.location.longitude)
     {
-        showMap = YES;
-        MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, MAP_VIEW_HEIGHT)];
-        mapView.tag = TAG_MAPVIEW;
-        mapView.delegate = self;
-        [self.view addSubview:mapView];
-        
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setFrame:mapView.frame];
-        [self.view addSubview:button];
-        [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
+        if(!([self.location.latitude doubleValue] == 0 && [self.location.longitude doubleValue] == 0))
+        {
+            showMap = YES;
+            MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, MAP_VIEW_HEIGHT)];
+            mapView.tag = TAG_MAPVIEW;
+            mapView.delegate = self;
+            [self.view addSubview:mapView];
+            
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            [button setFrame:mapView.frame];
+            [self.view addSubview:button];
+            [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
+        }
     }
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];

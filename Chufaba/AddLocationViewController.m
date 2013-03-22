@@ -126,7 +126,9 @@
             [self.mapView setRegion:adjustedRegion animated:false];
             
             [self searchJiepangForKeyword:self.location.name AroundLocation:CGPointMake([self.lastLatitude floatValue], [self.lastLongitude floatValue])];
-        } else {
+        }
+        else
+        {
             [self searchJiepangForKeyword:self.location.name];
         }
     }
@@ -294,12 +296,59 @@
 - (void)showAnnotations:(NSArray *)locations
 {
     int count = MAX(locations.count, 3);
+    NSMutableArray *sAnnotations = [[NSMutableArray alloc] init];
+    Location *sLocation = [[Location alloc] init];
     for (int i=0; i < count; i++) {
-        NSString *name = [(NSDictionary *)[locations objectAtIndex:i] objectForKey:@"name"];
-        NSNumber *lat = (NSNumber *)[(NSDictionary *)[locations objectAtIndex:i] objectForKey:@"lat"];
-        NSNumber *lon = (NSNumber *)[(NSDictionary *)[locations objectAtIndex:i] objectForKey:@"lon"];
-        //TODO show annotion
+        sLocation.name = [(NSDictionary *)[locations objectAtIndex:i] objectForKey:@"name"];
+        sLocation.latitude = (NSNumber *)[(NSDictionary *)[locations objectAtIndex:i] objectForKey:@"lat"];
+        sLocation.longitude = (NSNumber *)[(NSDictionary *)[locations objectAtIndex:i] objectForKey:@"lon"];
+        [sAnnotations addObject:[LocationAnnotation annotationForLocation:sLocation ShowTitle:YES]];
     }
+    self.annotations = sAnnotations;
+}
+
+- (void)updateMapView
+{
+    if (self.mapView.annotations)
+        [self.mapView removeAnnotations:self.mapView.annotations];
+    if (self.annotations)
+        [self.mapView addAnnotations:self.annotations];
+    LocationAnnotation *firstAnnotation = [self.annotations objectAtIndex:0];
+    CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([firstAnnotation.location.latitude doubleValue], [firstAnnotation.location.longitude doubleValue]);
+    
+    [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(selectedLocationCoordinate, 500, 500);
+    MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
+    
+    [self.mapView setRegion:adjustedRegion animated:TRUE];
+    [self.mapView selectAnnotation:firstAnnotation animated:YES];
+}
+
+- (void)setMapView:(MKMapView *)mapView
+{
+    _mapView = mapView;
+    [self updateMapView];
+}
+
+- (void)setAnnotations:(NSArray *)annotations
+{
+    _annotations = annotations;
+    [self updateMapView];
+}
+
+#define SEARCH_ANNOTATION_VIEWS @"SearchAnnotationViews"
+
+- (MKAnnotationView *)mapView:(MKMapView *)sender viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    MKAnnotationView *aView = [sender dequeueReusableAnnotationViewWithIdentifier:SEARCH_ANNOTATION_VIEWS];
+    
+	if (!aView)
+    {
+		aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:SEARCH_ANNOTATION_VIEWS];
+	}
+    
+	aView.annotation = annotation;
+	return aView;
 }
 
 @end
