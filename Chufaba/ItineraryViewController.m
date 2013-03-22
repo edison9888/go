@@ -974,17 +974,18 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    //Location *locationAtIndex = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
     if ([object isEqual:DUMMY_CELL])
     {
         cell.textLabel.text = @"";
+        cell.contentView.backgroundColor = [UIColor clearColor];
+        cell.imageView.image = nil;
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     else
     {
         Location *locationAtIndex = (Location *)object;
-        //[[cell textLabel] setText:locationAtIndex.name];
         cell.textLabel.text = locationAtIndex.name;
         cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
         if (locationAtIndex.visitBegin) {
