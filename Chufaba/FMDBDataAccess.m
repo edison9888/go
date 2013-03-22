@@ -37,7 +37,8 @@
 {
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];    
     [db open];    
-    BOOL success =  [db executeUpdate:@"DELETE FROM plan WHERE id = ?", plan.planId];    
+    BOOL success =  [db executeUpdate:@"DELETE FROM plan WHERE id = ?", plan.planId];
+    [db executeUpdate:@"DELETE FROM location WHERE plan_id = ?", plan.planId];   
     [db close];
     return success;
 }
