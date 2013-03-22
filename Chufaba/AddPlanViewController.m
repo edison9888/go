@@ -248,6 +248,7 @@
         }
         else
         {
+            //需要检查那些做出了修改再去赋值，保存
             self.plan.name = self.nameInput.text;
             self.plan.duration = [f numberFromString:self.durationInput.text];
             NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:[(UIDatePicker *)self.dateInput.inputView date]];
@@ -399,7 +400,8 @@
     }
 }
 
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
     if(buttonIndex == 0)
     {
         NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
@@ -421,7 +423,6 @@
 
 - (void)saveImage:(UIImage *)image withName:(NSString*)imageName
 {
-    
     NSData *imageData = UIImagePNGRepresentation(image); 
     
     NSFileManager *fileManager = [NSFileManager defaultManager];

@@ -431,10 +431,10 @@
     self.grabbedObject = [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:DUMMY_CELL];
     
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",indexPath.row+1, indexPath.section+1]];
-    [db close];
+//    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+//    [db open];
+//    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",indexPath.row+1, indexPath.section+1]];
+//    [db close];
 }
 
 - (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsMoveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
@@ -442,31 +442,32 @@
     [[self.dataController.masterTravelDayList objectAtIndex:sourceIndexPath.section] removeObjectAtIndex:sourceIndexPath.row];
     [[self.dataController.masterTravelDayList objectAtIndex:destinationIndexPath.section] insertObject:object atIndex:destinationIndexPath.row];
     
-//    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-//    [db open];
-//    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",sourceIndexPath.row+1, sourceIndexPath.section+1]];
-//    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday >= %d and whichday = %d",destinationIndexPath.row, destinationIndexPath.section+1]];
-//    [db close];
-}
-
-- (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsReplacePlaceholderForRowAtIndexPath:(NSIndexPath *)indexPath {
-    [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:self.grabbedObject];
-    
     Location *locationToMove = (Location *)self.grabbedObject;
     int idOfLocationToMove = [locationToMove.locationId intValue];
+    
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday >= %d and whichday = %d",indexPath.row, indexPath.section+1]];
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",indexPath.section+1, indexPath.row+1, idOfLocationToMove]];
-    [db close];
     
+    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",sourceIndexPath.row+1, sourceIndexPath.section+1]];
+    
+    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",sourceIndexPath.section+1, 0, idOfLocationToMove]];
+    
+    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday > %d and whichday = %d",destinationIndexPath.row, destinationIndexPath.section+1]];
+    
+    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",destinationIndexPath.section+1, destinationIndexPath.row+1, idOfLocationToMove]];
+    
+    [db close];
+}
+
+- (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsReplacePlaceholderForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:self.grabbedObject];
     self.grabbedObject = nil;
 }
 
 //Implement NavigationLocation delegate
 -(Location *) getPreviousLocation:(Location *)curLocation;
 {
-    //[self previousMapLocation:NULL];
     int index = [oneDimensionLocationList indexOfObject:curLocation];
     return [oneDimensionLocationList objectAtIndex:index-1];
 }
@@ -474,7 +475,6 @@
 
 -(Location *) getNextLocation:(Location *)curLocation
 {
-    //[self nextMapLocation:NULL];
     int index = [oneDimensionLocationList indexOfObject:curLocation];
     return [oneDimensionLocationList objectAtIndex:index+1];
 }
