@@ -108,7 +108,7 @@
 - (IBAction) segmentAction:(id)sender
 {
     int clickedSegmentIndex = [(UISegmentedControl *)sender selectedSegmentIndex];
-    if(clickedSegmentIndex == 0 && self.locationIndex > 1) {
+    if(clickedSegmentIndex == 0 && self.locationIndex > 0) {
         self.locationIndex--;
         self.location = [self.navDelegate getPreviousLocation:self.location];
         [self configureView];
