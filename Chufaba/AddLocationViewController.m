@@ -24,6 +24,8 @@
 
 #define TAG_TOPVIEW 1
 #define TAG_NAME_TEXTFIELD 2
+#define TAG_POSITIONNOW_BUTTON 3
+#define TAG_IMPLY_LABEL 4
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -85,25 +87,13 @@
     self.mapView.delegate = self;
     
     UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
+    implyLabel.tag = TAG_IMPLY_LABEL;
     implyLabel.text = @"选择一个靠近的地点来设定坐标";
     implyLabel.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:0.9];
     implyLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
     implyLabel.textColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0];
     implyLabel.textAlignment = NSTextAlignmentCenter;
     [self.mapView addSubview:implyLabel];
-    
-    UILabel *positionByMyself = [[UILabel alloc] initWithFrame:CGRectMake(0, 330, self.view.frame.size.width, 40)];
-    positionByMyself.text = @"参考地点都不准，自己来设定吧";
-    positionByMyself.textColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0];
-    positionByMyself.font = [UIFont fontWithName:@"Heiti SC" size:12];
-    positionByMyself.textAlignment = NSTextAlignmentCenter;
-    positionByMyself.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:0.9];
-    //[positionByMyself addTarget:self action:@selector(positionNow:) forControlEvents:UIControlEventTouchDown];
-    [self.mapView addSubview:positionByMyself];
-
-    
-//    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-//    [self.mapView addGestureRecognizer:tgr];
     
     [self.view addSubview:self.mapView];
     
@@ -116,7 +106,7 @@
         customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
         [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
         
-        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1000, 1000);
         MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
         
         [self.mapView setRegion:adjustedRegion animated:false];
@@ -128,14 +118,6 @@
     {
         if (self.lastLatitude && self.lastLongitude)
         {
-            customLoc2D_5 = CLLocationCoordinate2DMake([self.lastLatitude doubleValue], [self.lastLongitude doubleValue]);
-            [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
-            
-            MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
-            MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
-            
-            [self.mapView setRegion:adjustedRegion animated:false];
-            
             [self searchJiepangForKeyword:self.location.name AroundLocation:CGPointMake([self.lastLatitude floatValue], [self.lastLongitude floatValue])];
         }
         else
@@ -147,6 +129,7 @@
 
 - (IBAction)positionNow:(id)sender
 {
+    [self.mapView removeAnnotations:self.mapView.annotations];
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self.mapView addGestureRecognizer:tgr];
 }
@@ -165,6 +148,8 @@
     MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
     pa.coordinate = touchMapCoordinate;
     [self.mapView addAnnotation:pa];
+    
+    ((MKPinAnnotationView *)[self.mapView viewForAnnotation:pa]).pinColor = MKPinAnnotationColorGreen;
 }
 
 - (IBAction)confirmAddLocation:(id)sender
@@ -188,6 +173,12 @@
         addLocation.category = self.location.category;
         addLocation.name = self.location.name;
         
+        if ([self.mapView.annotations count] > 1)
+        {
+            LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
+            addLocation.latitude = selectedAnnotation.location.latitude;
+            addLocation.longitude = selectedAnnotation.location.longitude;
+        }
         if ([self.mapView.annotations count] == 1)
         {
             id<MKAnnotation> tappedAnnotation = [self.mapView.annotations objectAtIndex:0];
@@ -320,13 +311,37 @@
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
     NSArray *items = [(NSDictionary *)aFetcher.result objectForKey:@"items"];
-    if (items.count > 0) {
+    if (items.count > 0)
+    {
+        ((UILabel *)[self.mapView viewWithTag:TAG_IMPLY_LABEL]).text = @"选择一个靠近的地点来设定坐标";
         [self showAnnotations:items];
+        
+        UIButton *positionByMyself = [[UIButton alloc] initWithFrame:CGRectMake(0, 330, self.view.frame.size.width, 40)];
+        positionByMyself.tag = TAG_POSITIONNOW_BUTTON;
+        [positionByMyself setTitle:@"参考地点都不靠谱，点击地图自己设定" forState:UIControlStateNormal];
+        [positionByMyself setTitleColor:[UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0] forState:UIControlStateNormal];
+        positionByMyself.titleLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
+        positionByMyself.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:0.9];
+        [positionByMyself addTarget:self action:@selector(positionNow:) forControlEvents:UIControlEventTouchDown];
+        [self.mapView addSubview:positionByMyself];
+    }
+    else
+    {
+        UIButton *positionNowBtn = (UIButton *)[self.mapView viewWithTag:TAG_POSITIONNOW_BUTTON];
+        if(positionNowBtn)
+        {
+            [positionNowBtn removeFromSuperview];
+        }
+        ((UILabel *)[self.mapView viewWithTag:TAG_IMPLY_LABEL]).text = @"没找到可以参考的附近地点，点击地图可设定坐标";
+        
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+        [self.mapView addGestureRecognizer:tgr];
     }
 }
 
 - (void)showAnnotations:(NSArray *)locations
 {
+    coordinateChanged = YES;
     int count = MIN(locations.count, 5);
     NSMutableArray *sAnnotations = [[NSMutableArray alloc] init];
     Location *sLocation;
@@ -339,6 +354,16 @@
         [sAnnotations addObject:[LocationAnnotation annotationForLocation:sLocation ShowTitle:YES]];
     }
     self.annotations = sAnnotations;
+    
+    LocationAnnotation *firstAnnotation = (LocationAnnotation *)[self.annotations objectAtIndex:0];
+    CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([firstAnnotation.location.latitude doubleValue], [firstAnnotation.location.longitude doubleValue]);
+    
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(selectedLocationCoordinate, 1000, 1000);
+    MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
+    [self.mapView setRegion:adjustedRegion animated:NO];
+    
+    [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
+    [self.mapView selectAnnotation:firstAnnotation animated:YES];
 }
 
 - (void)updateMapView
@@ -351,16 +376,6 @@
     {
         [self.mapView addAnnotations:self.annotations];
     }
-    
-    LocationAnnotation *firstAnnotation = (LocationAnnotation *)[self.annotations objectAtIndex:0];
-    CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([firstAnnotation.location.latitude doubleValue], [firstAnnotation.location.longitude doubleValue]);
-    
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(selectedLocationCoordinate, 1000, 1000);
-    MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
-    [self.mapView setRegion:adjustedRegion animated:NO];
-    
-    [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
-    [self.mapView selectAnnotation:firstAnnotation animated:YES];
 }
 
 - (void)setMapView:(MKMapView *)mapView
@@ -390,9 +405,14 @@
 	return aView;
 }
 
-- (void)mapView:(MKMapView *)sender didSelectAnnotationView:(MKAnnotationView *)aView
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
+    ((MKPinAnnotationView *)view).pinColor = MKPinAnnotationColorGreen;
+}
 
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    ((MKPinAnnotationView *)view).pinColor = MKPinAnnotationColorRed;
 }
 
 @end
