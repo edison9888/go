@@ -554,8 +554,8 @@
     LocationViewController *locationViewController = [[LocationViewController alloc] init];
     locationViewController.delegate = self;
     locationViewController.location = ((LocationAnnotation *)tappedAnnotation).location;
-    locationViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:locationViewController.location]];
-    locationViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
+    locationViewController.locationIndex = [oneDimensionLocationList indexOfObject:locationViewController.location];
+    locationViewController.totalLocationCount = [oneDimensionLocationList count];
     locationViewController.navDelegate = self;
     [self.navigationController pushViewController:locationViewController animated:YES];
 }
@@ -1121,8 +1121,8 @@
     LocationViewController *locationViewController = [[LocationViewController alloc] init];
     locationViewController.delegate = self;
     locationViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    locationViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:locationViewController.location]];
-    locationViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
+    locationViewController.locationIndex = [oneDimensionLocationList indexOfObject:locationViewController.location];
+    locationViewController.totalLocationCount = [oneDimensionLocationList count];
     locationViewController.navDelegate = self;
     [self.navigationController pushViewController:locationViewController animated:YES];
 }

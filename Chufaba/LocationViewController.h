@@ -13,11 +13,8 @@
 
 @protocol EditLocationDelegate<NSObject>
 
--(void) didEditTransport:(NSString *)transportation;
--(void) didEditCostWithAmount:(NSNumber *)amount AndCurrency:(NSString *)currency;
 -(void) didEditScheduleWithStart:(NSDate *)start AndEnd:(NSDate *)end;
 -(void) didEditDetail:(NSString *)detail;
--(void) didEditCategory:(NSString *)category;
 
 @end
 
@@ -38,12 +35,9 @@
 @interface LocationViewController : UIViewController<EditLocationDelegate, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate, AddLocationViewControllerDelegate>
 
 @property (strong, nonatomic) Location *location;
-@property (strong, nonatomic) NSNumber *locationIndex;
-@property (strong, nonatomic) NSNumber *totalLocationCount;
+@property int locationIndex;
+@property int totalLocationCount;
 @property (nonatomic,weak) id<AddLocationDelegate> delegate;
 @property (nonatomic,weak) id<NavigateLocationDelegate> navDelegate;
-
--(void) didEditName:(NSString *)name;
--(void) didEditCoordinate:(NSNumber *)latitude withLongitude:(NSNumber *)longitude;
 
 @end

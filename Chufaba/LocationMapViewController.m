@@ -89,7 +89,7 @@
         ((UILabel *)aView.leftCalloutAccessoryView).textAlignment = NSTextAlignmentCenter;
         ((UILabel *)aView.leftCalloutAccessoryView).textColor = [UIColor whiteColor];
         ((UILabel *)aView.leftCalloutAccessoryView).backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.1];
-        ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", [self.index intValue]+1];
+        ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", self.index + 1];
         
         aView.annotation = annotation;
 		aView.canShowCallout = YES;

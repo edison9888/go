@@ -14,6 +14,6 @@
 @interface LocationMapViewController : UIViewController<MKMapViewDelegate>
 
 @property (strong, nonatomic) Location *location;
-@property NSNumber *index;
+@property int index;
 
 @end

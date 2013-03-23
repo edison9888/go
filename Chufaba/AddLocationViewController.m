@@ -15,6 +15,7 @@
 {
     BOOL nameChanged;
     BOOL coordinateChanged;
+    JSONFetcher *fetcher;
 }
 
 @end
@@ -168,6 +169,10 @@
 
 - (IBAction)confirmAddLocation:(id)sender
 {
+    if (fetcher) {
+        [fetcher cancel];
+        [fetcher close];
+    }
     NSString *textFieldValue = ((UITextField *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_NAME_TEXTFIELD]).text;
     
     if(![textFieldValue isEqual: self.location.name])
@@ -200,13 +205,16 @@
         {
             [self.editLocationDelegate AddLocationViewController:self didFinishAdd:addLocation];
         }
-    }else{
-        [self dismissViewControllerAnimated:YES completion:NULL];
     }
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (IBAction)cancelAddLocation:(id)sender
 {
+    if (fetcher) {
+        [fetcher cancel];
+        [fetcher close];
+    }
     NSString *textFieldValue = ((UITextField *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_NAME_TEXTFIELD]).text;
     
     if(![textFieldValue isEqual: self.location.name])
@@ -249,12 +257,12 @@
                                                                                                 NULL,
                                                                                                 CFSTR("!*'();:@&=+$,/?%#[]"),
                                                                                                 kCFStringEncodingUTF8));
-        JSONFetcher *fetcher = [[JSONFetcher alloc]
+        JSONFetcher *saveFetcher = [[JSONFetcher alloc]
                                 initWithURLString:[NSString stringWithFormat: @"http://chufaba.me:3000/pois/useradd?useradd[name]=%@&useradd[category]=%@&useradd[user]=%@&useradd[latitude]=%f&useradd[longitude]=%f", name, category, @"", [location.latitude doubleValue], [location.longitude doubleValue]]
                                 receiver:nil
                                 action:nil];
-        fetcher.showAlerts = NO;
-        [fetcher start];
+        saveFetcher.showAlerts = NO;
+        [saveFetcher start];
     }
 }
 
@@ -277,7 +285,11 @@
                                                                                                      NULL,
                                                                                                      CFSTR("!*'();:@&=+$,/?%#[]"),
                                                                                                      kCFStringEncodingUTF8));
-    JSONFetcher *fetcher = [[JSONFetcher alloc]
+    if (fetcher) {
+        [fetcher cancel];
+        [fetcher close];
+    }
+    fetcher = [[JSONFetcher alloc]
                initWithURLString:[NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=5&lat=%f&lon=%f", encodedString, location.x, location.y]
                receiver:self
                action:@selector(receiveResponse:)];
@@ -293,7 +305,11 @@
                                                                                                      NULL,
                                                                                                      CFSTR("!*'();:@&=+$,/?%#[]"),
                                                                                                      kCFStringEncodingUTF8));
-    JSONFetcher *fetcher = [[JSONFetcher alloc]
+    if (fetcher) {
+        [fetcher cancel];
+        [fetcher close];
+    }
+    fetcher = [[JSONFetcher alloc]
                             initWithURLString:[NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=5", encodedString]
                             receiver:self
                             action:@selector(receiveResponse:)];
