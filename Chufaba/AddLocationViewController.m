@@ -13,7 +13,6 @@
 
 @interface AddLocationViewController ()
 {
-    BOOL nameChanged;
     BOOL coordinateChanged;
     JSONFetcher *fetcher;
 }
@@ -26,6 +25,7 @@
 #define TAG_NAME_TEXTFIELD 2
 #define TAG_POSITIONNOW_BUTTON 3
 #define TAG_IMPLY_LABEL 4
+#define TAG_SEARCHBAR 5
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,50 +45,22 @@
         UIImage *image = [UIImage imageNamed:@"bar.png"];
         [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     }
+
+    self.navigationItem.title = @"编辑地点坐标";
     
-    if(self.hasCoordinate)
-    {
-        self.navigationItem.title = @"编辑旅行地点";
-    }
-    else
-    {
-        self.navigationItem.title = @"创建旅行地点";
-    }
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    searchBar.placeholder = @"地点名称或地址";
+    searchBar.delegate = self;
+    searchBar.tag = TAG_SEARCHBAR;
+    searchBar.text = self.location.name;
+    [self.view addSubview:searchBar];
     
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    topView.tag = TAG_TOPVIEW;
-    topView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
-    
-    UITextField *nameOfAddLocation = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, 300, 40)];
-    [nameOfAddLocation setBorderStyle:UITextBorderStyleNone];
-    nameOfAddLocation.layer.masksToBounds=YES;
-    nameOfAddLocation.text = self.location.name;
-    nameOfAddLocation.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    [nameOfAddLocation setReturnKeyType:UIReturnKeyDone];
-    nameOfAddLocation.backgroundColor = [UIColor clearColor];
-    nameOfAddLocation.font = [UIFont fontWithName:@"Heiti SC" size:16];
-    nameOfAddLocation.delegate = self;
-    
-    nameOfAddLocation.borderStyle = UITextBorderStyleNone;
-    nameOfAddLocation.background = [UIImage imageNamed:@"kuang.png"];
-    
-    //add padding to the UITextfield
-    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
-    nameOfAddLocation.leftView = paddingView;
-    nameOfAddLocation.leftViewMode = UITextFieldViewModeAlways;
-    
-    [topView addSubview:nameOfAddLocation];
-    [topView bringSubviewToFront:nameOfAddLocation];
-    nameOfAddLocation.tag = TAG_NAME_TEXTFIELD;
-    [self.view addSubview:topView];
-    
-	//MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 50, 320, 430)];
     self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 50, 320, 430)];
     self.mapView.delegate = self;
     
     UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
     implyLabel.tag = TAG_IMPLY_LABEL;
-    implyLabel.text = @"选择一个靠近的地点来设定坐标";
+    implyLabel.text = @"选一个靠近的地点来设定坐标";
     implyLabel.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:0.9];
     implyLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
     implyLabel.textColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0];
@@ -103,16 +75,21 @@
     CLLocationCoordinate2D customLoc2D_5;
     if(self.hasCoordinate)
     {
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+        [self.mapView addGestureRecognizer:tgr];
+        
         customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
         [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
         
         MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1000, 1000);
         MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
-        
         [self.mapView setRegion:adjustedRegion animated:false];
+        
         MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
         pa.coordinate = customLoc2D_5;
         [self.mapView addAnnotation:pa];
+        
+        ((MKPinAnnotationView *)[self.mapView viewForAnnotation:pa]).pinColor = MKPinAnnotationColorGreen;
     }
     else
     {
@@ -124,6 +101,31 @@
         {
             [self searchJiepangForKeyword:self.location.name];
         }
+    }
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    searchBar.showsCancelButton = YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    searchBar.showsCancelButton = NO;
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+	searchBar.showsCancelButton = NO;
+    [searchBar resignFirstResponder];
+	if (self.lastLatitude && self.lastLongitude)
+    {
+        [self searchJiepangForKeyword:searchBar.text AroundLocation:CGPointMake([self.lastLatitude floatValue], [self.lastLongitude floatValue])];
+    }
+    else
+    {
+        [self searchJiepangForKeyword:searchBar.text];
     }
 }
 
@@ -158,15 +160,8 @@
         [fetcher cancel];
         [fetcher close];
     }
-    NSString *textFieldValue = ((UITextField *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_NAME_TEXTFIELD]).text;
     
-    if(![textFieldValue isEqual: self.location.name])
-    {
-        self.location.name = textFieldValue;
-        nameChanged = YES;
-    }
-    
-    if(nameChanged || coordinateChanged || self.addLocation)
+    if(coordinateChanged || self.addLocation)
     {
         Location *addLocation = [[Location alloc] init];
         addLocation.useradd = YES;
@@ -188,9 +183,9 @@
         }
         
         [self saveLocationToServer:addLocation];
-        if ([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishEdit:name:coordinate:)])
+        if ([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishEdit:coordinate:)])
         {
-            [self.editLocationDelegate AddLocationViewController:self didFinishEdit:addLocation name:nameChanged coordinate:coordinateChanged];
+            [self.editLocationDelegate AddLocationViewController:self didFinishEdit:addLocation coordinate:coordinateChanged];
         }
         if([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishAdd:)])
         {
@@ -206,15 +201,8 @@
         [fetcher cancel];
         [fetcher close];
     }
-    NSString *textFieldValue = ((UITextField *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_NAME_TEXTFIELD]).text;
     
-    if(![textFieldValue isEqual: self.location.name])
-    {
-        self.location.name = textFieldValue;
-        nameChanged = YES;
-    }
-    
-    if(nameChanged || coordinateChanged)
+    if(coordinateChanged)
     {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"修改尚未保存，你确定放弃并返回吗？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"确定", nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
@@ -313,8 +301,13 @@
     NSArray *items = [(NSDictionary *)aFetcher.result objectForKey:@"items"];
     if (items.count > 0)
     {
-        ((UILabel *)[self.mapView viewWithTag:TAG_IMPLY_LABEL]).text = @"选择一个靠近的地点来设定坐标";
+        ((UILabel *)[self.mapView viewWithTag:TAG_IMPLY_LABEL]).text = @"选一个靠近的地点来设定坐标";
         [self showAnnotations:items];
+        
+        if(self.mapView.gestureRecognizers.count)
+        {
+            [self.mapView removeGestureRecognizer:[self.mapView.gestureRecognizers objectAtIndex:0]];
+        }
         
         UIButton *positionByMyself = [[UIButton alloc] initWithFrame:CGRectMake(0, 330, self.view.frame.size.width, 40)];
         positionByMyself.tag = TAG_POSITIONNOW_BUTTON;
@@ -332,7 +325,7 @@
         {
             [positionNowBtn removeFromSuperview];
         }
-        ((UILabel *)[self.mapView viewWithTag:TAG_IMPLY_LABEL]).text = @"没找到可以参考的附近地点，点击地图可设定坐标";
+        ((UILabel *)[self.mapView viewWithTag:TAG_IMPLY_LABEL]).text = @"没找到可参考的地点，换个词搜或者点击地图自己设定";
         
         UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
         [self.mapView addGestureRecognizer:tgr];

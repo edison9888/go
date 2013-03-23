@@ -335,7 +335,7 @@
 }
 
 //Implement AddLocationViewControllerDelegate
--(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *) location name:(BOOL) nameChanged coordinate:(BOOL) coordinateChanged
+-(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *)location coordinate:(BOOL) coordinateChanged
 {
     self.location = location;
     [self configureView];

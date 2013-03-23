@@ -16,12 +16,12 @@
 
 @protocol AddLocationViewControllerDelegate <NSObject>
 @optional
--(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *) location name:(BOOL) nameChanged coordinate:(BOOL) coordinateChanged;
+-(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *) location coordinate:(BOOL) coordinateChanged;
 -(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishAdd:(Location *) location;
 
 @end
 
-@interface AddLocationViewController : UIViewController <MKMapViewDelegate, UIActionSheetDelegate, UITextFieldDelegate>
+@interface AddLocationViewController : UIViewController <MKMapViewDelegate, UIActionSheetDelegate, UITextFieldDelegate, UISearchBarDelegate>
 
 @property (nonatomic, copy) NSNumber *lastLatitude;
 @property (nonatomic, copy) NSNumber *lastLongitude;
