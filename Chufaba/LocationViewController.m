@@ -382,6 +382,14 @@
         }
         cell.textLabel.text = [self.location contentForRow:indexPath.row];
         cell.imageView.image = [UIImage imageNamed:[self.location imageNameForRow:indexPath.row]];
+        if ([[cell.textLabel.text lowercaseString] rangeOfString:@"http"].location == 0) {
+            cell.textLabel.userInteractionEnabled = YES;
+            
+            UITapGestureRecognizer *gestureRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openUrl:)];
+            gestureRec.numberOfTouchesRequired = 1;
+            gestureRec.numberOfTapsRequired = 1;
+            [cell.textLabel addGestureRecognizer:gestureRec];
+        }
     } else {
         if (indexPath.row == 0) {
             NSString *CellIdentifier = @"ArriveTimeCell";
@@ -479,6 +487,12 @@
     self.location.detail = detail;
     [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) reloadData];
     [self.delegate didChangeLocation:self.location];
+}
+
+- (void)openUrl:(UIGestureRecognizer*)gestureRecognizer
+{
+    UILabel *urlLabel = (UILabel *)gestureRecognizer.view;
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlLabel.text]];
 }
 
 - (void)didReceiveMemoryWarning
