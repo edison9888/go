@@ -12,7 +12,7 @@
 
 @interface SearchLocationViewController ()
 
-@property NSNumber *total;
+@property int total;
 @property NSString *keyword;
 
 @end
@@ -140,15 +140,18 @@
 
 - (NSString *)getPostBody:(NSString *)keyword {
     NSString *query = [NSString stringWithFormat:@
-                       "    \"min_score\" : 1.0,"
-                       "    \"query\":{ "
+                       "    \"min_score\" : 2.0,"
+                       "    \"query\":{"
                        "        \"bool\" : { "
-                       "            \"must\" : {"
-                       "                \"term\" : {"
-                       "                    \"category\": \"%@\" "
-                       "                } "
-                       "            }, "
                        "            \"should\" : ["
+                       "                {"
+                       "                    \"term\" : {"
+                       "                        \"category\": {"
+                       "                            \"value\" : \"%@\","
+                       "                            \"boost\" : 2.0"
+                       "                        }"
+                       "                    }"
+                       "                },"
                        "                {"
                        "                    \"match_phrase_prefix\" :{"
                        "                        \"query\" : {"
@@ -217,7 +220,7 @@
         [alert show];
     } else {
         NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
-        self.total = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"total"];
+        self.total = [[(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"total"] intValue];
         
         if (locations) {
             allLocationList = [locations mutableCopy];
@@ -237,8 +240,8 @@
 {
     if([self.keyword length] > 0)
     {
-        NSInteger from = allLocationList.count;
-        if (from >= [self.total intValue]) {
+        int from = allLocationList.count;
+        if (from >= self.total) {
             return;
         };
         if (fetcher) {
@@ -312,7 +315,7 @@
     }
     else
     {
-        if ([allLocationList count] == [self.total intValue])
+        if ([allLocationList count] == self.total)
         {
             return [allLocationList count] + 1; //添加自定义地点的cell
         }
@@ -367,7 +370,7 @@
         
         cell.imageView.image = [Location getCategoryIconMedium:[locationAtIndex objectForKey:@"category"]];
     }
-    else if ([allLocationList count] != [self.total intValue])
+    else if ([allLocationList count] != self.total)
     {
         NSString *CellIdentifier = @"LoadingCell";
         
