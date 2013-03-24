@@ -81,19 +81,35 @@ CGFloat const JTTableViewRowAnimationDuration          = 0.25;       // Rough gu
     NSIndexPath *indexPath  = nil;
     CGPoint location        = CGPointZero;
     
-
     // Refresh the indexPath since it may change while we use a new offset
     location  = [self.longPressRecognizer locationInView:self.tableView];
     indexPath = [self.tableView indexPathForRowAtPoint:location];
-
+    
+    //add following code to enable drop cell to an empty section
+    CGRect frameSection = [self.tableView rectForSection:self.addingIndexPath.section];
+    NSInteger numSections = [self.tableView numberOfSections];
+    if ((indexPath.section == 0) && (indexPath.row == 0))
+    {
+        if (((location.y < frameSection.origin.y) && (location.y >= 0)) && (self.addingIndexPath.section > 0))
+        {
+            indexPath = [NSIndexPath indexPathForRow:0 inSection:(self.addingIndexPath.section - 1)];
+        }
+        else if ((location.y > (frameSection.origin.y + frameSection.size.height)) && (self.addingIndexPath.section < (numSections - 1)))
+        {
+            indexPath = [NSIndexPath indexPathForRow:0 inSection:(self.addingIndexPath.section + 1)];
+        }
+        
+    }
+    //add finished
+    
     if (indexPath && ! [indexPath isEqual:self.addingIndexPath]) {
         [self.tableView beginUpdates];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.addingIndexPath] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
         [self.delegate gestureRecognizer:self needsMoveRowAtIndexPath:self.addingIndexPath toIndexPath:indexPath];
-
+        
         self.addingIndexPath = indexPath;
-
+        
         [self.tableView endUpdates];
     }
 }
