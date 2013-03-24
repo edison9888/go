@@ -43,17 +43,51 @@
 + (UIImage *)getCategoryIcon:(NSString *)category
 {
     if ([category isEqualToString:@"景点"]) {
-        return [UIImage imageNamed:@"scene.jpg"];
+        return [UIImage imageNamed:@"sight40.png"];
     } else if([category isEqualToString:@"美食"]) {
-        return [UIImage imageNamed:@"food.gif"];
+        return [UIImage imageNamed:@"food40.png"];
     } else if([category isEqualToString:@"住宿"]) {
-        return [UIImage imageNamed:@"hotel.gif"];
+        return [UIImage imageNamed:@"hotel40.png"];
     } else if([category isEqualToString:@"交通"]) {
-        return [UIImage imageNamed:@"transport.gif"];
+        return [UIImage imageNamed:@"transport40.png"];
     } else if([category isEqualToString:@"娱乐"]) {
-        return [UIImage imageNamed:@"entertainment.gif"];
+        return [UIImage imageNamed:@"entertainment40.png"];
     } else {
-        return [UIImage imageNamed:@"other.gif"];
+        return [UIImage imageNamed:@"more40.png"];
+    }
+}
+
++ (UIImage *)getCategoryIconMedium:(NSString *)category
+{
+    if ([category isEqualToString:@"景点"]) {
+        return [UIImage imageNamed:@"sight60.png"];
+    } else if([category isEqualToString:@"美食"]) {
+        return [UIImage imageNamed:@"food60.png"];
+    } else if([category isEqualToString:@"住宿"]) {
+        return [UIImage imageNamed:@"hotel60.png"];
+    } else if([category isEqualToString:@"交通"]) {
+        return [UIImage imageNamed:@"transport60.png"];
+    } else if([category isEqualToString:@"娱乐"]) {
+        return [UIImage imageNamed:@"entertainment60.png"];
+    } else {
+        return [UIImage imageNamed:@"more60.png"];
+    }
+}
+
++ (UIImage *)getCategoryIconLarge:(NSString *)category
+{
+    if ([category isEqualToString:@"景点"]) {
+        return [UIImage imageNamed:@"sight80.png"];
+    } else if([category isEqualToString:@"美食"]) {
+        return [UIImage imageNamed:@"food80.png"];
+    } else if([category isEqualToString:@"住宿"]) {
+        return [UIImage imageNamed:@"hotel80.png"];
+    } else if([category isEqualToString:@"交通"]) {
+        return [UIImage imageNamed:@"transport80.png"];
+    } else if([category isEqualToString:@"娱乐"]) {
+        return [UIImage imageNamed:@"entertainment80.png"];
+    } else {
+        return [UIImage imageNamed:@"more80.png"];
     }
 }
 

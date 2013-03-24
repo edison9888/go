@@ -358,8 +358,14 @@
         } else {
             [[cell textLabel] setText: name];
         }
+        cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+        cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+        
         [[cell detailTextLabel] setText: name_en];
-        cell.imageView.image = [Location getCategoryIcon:[locationAtIndex objectForKey:@"category"]];
+        cell.detailTextLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+        cell.detailTextLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+        
+        cell.imageView.image = [Location getCategoryIconMedium:[locationAtIndex objectForKey:@"category"]];
     }
     else if ([allLocationList count] != [self.total intValue])
     {

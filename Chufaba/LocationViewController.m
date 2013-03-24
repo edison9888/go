@@ -209,7 +209,7 @@
         categoryImage.contentMode = UIViewContentModeCenter;
         [self.view addSubview:categoryImage];
     }
-    categoryImage.image = [Location getCategoryIcon:self.location.category];
+    categoryImage.image = [Location getCategoryIconLarge:self.location.category];
     categoryImage.frame = CGRectMake(10, showMap? MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT : INFO_VIEW_HEIGHT, NAME_SCROLL_HEIGHT, NAME_SCROLL_HEIGHT);
 
     FadeScrollView *nameScroll = (FadeScrollView *)[self.view viewWithTag:TAG_NAMESCROLL];

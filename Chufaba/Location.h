@@ -41,6 +41,8 @@
 
 + (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category;
 + (UIImage *)getCategoryIcon:(NSString *)category;
++ (UIImage *)getCategoryIconMedium:(NSString *)category;
++ (UIImage *)getCategoryIconLarge:(NSString *)category;
 
 - (NSString *)getNameAndCity;
 - (NSString *)getRealName;

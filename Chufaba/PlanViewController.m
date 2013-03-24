@@ -174,7 +174,7 @@
         navBar.layer.masksToBounds = NO;
         navBar.layer.shadowOffset = CGSizeMake(0, 1);
         navBar.layer.shadowRadius = 2;
-        navBar.layer.shadowColor = [[UIColor colorWithRed:163/255.0 green:160/255.0 blue:155/255.0 alpha:1.0] CGColor];
+        navBar.layer.shadowColor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3] CGColor];
         navBar.layer.shadowOpacity = 1;
     }
     
