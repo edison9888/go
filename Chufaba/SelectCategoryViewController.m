@@ -14,6 +14,13 @@
 
 @implementation SelectCategoryViewController
 
+#define ICON_HEIGHT 90
+#define ICON_WIDTH 90
+#define LABEL_HEIGHT 20
+#define LABEL_WIDTH 90
+#define ICON_ORIGIN_FIRST 50
+#define ICON_ORIGIN_SECOND 180
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,74 +34,96 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
-	// Do any additional setup after loading the view.
+	
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = btn;
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(45.0, 20.0, 100.0, 100.0)];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(ICON_ORIGIN_FIRST, 20.0, ICON_WIDTH, ICON_HEIGHT)];
     [button setBackgroundColor:[UIColor clearColor]];
     [button setBackgroundImage:[UIImage imageNamed:@"sight.png"]  forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage imageNamed:@"sight.png"]  forState:UIControlStateSelected | UIControlStateHighlighted];
     [button addTarget:self action:@selector(selectSight:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:button];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(45.0, 120.0, 100.0, 20.0)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(ICON_ORIGIN_FIRST, 116.0, LABEL_WIDTH, LABEL_HEIGHT)];
+    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
     label.text = @"景点";
     label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:label];
     
-    button = [[UIButton alloc] initWithFrame:CGRectMake(175.0, 20.0, 100.0, 100.0)];
+    button = [[UIButton alloc] initWithFrame:CGRectMake(ICON_ORIGIN_SECOND, 20.0, ICON_WIDTH, ICON_HEIGHT)];
     [button setBackgroundColor:[UIColor clearColor]];
     [button setBackgroundImage:[UIImage imageNamed:@"food.png"]  forState:UIControlStateNormal];
     [button addTarget:self action:@selector(selectFood:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:button];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(175.0, 120.0, 100.0, 20.0)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(ICON_ORIGIN_SECOND, 116.0, LABEL_WIDTH, LABEL_HEIGHT)];
+    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
     label.text = @"美食";
     label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:label];
     
-    button = [[UIButton alloc] initWithFrame:CGRectMake(45.0, 150.0, 100.0, 100.0)];
+    button = [[UIButton alloc] initWithFrame:CGRectMake(ICON_ORIGIN_FIRST, 150.0, ICON_WIDTH, ICON_HEIGHT)];
     [button setBackgroundColor:[UIColor clearColor]];
     [button setBackgroundImage:[UIImage imageNamed:@"hotel.png"]  forState:UIControlStateNormal];
     [button addTarget:self action:@selector(selectHotel:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:button];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(45.0, 250.0, 100.0, 20.0)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(ICON_ORIGIN_FIRST, 246.0, LABEL_WIDTH, LABEL_HEIGHT)];
+    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
     label.text = @"住宿";
     label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:label];
     
-    button = [[UIButton alloc] initWithFrame:CGRectMake(175.0, 150.0, 100.0, 100.0)];
+    button = [[UIButton alloc] initWithFrame:CGRectMake(ICON_ORIGIN_SECOND, 150.0, ICON_WIDTH, ICON_HEIGHT)];
     [button setBackgroundColor:[UIColor clearColor]];
     [button setBackgroundImage:[UIImage imageNamed:@"entertainment.png"]  forState:UIControlStateNormal];
     [button addTarget:self action:@selector(selectEntertainment:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:button];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(175.0, 250.0, 100.0, 20.0)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(ICON_ORIGIN_SECOND, 246.0, LABEL_WIDTH, LABEL_HEIGHT)];
+    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
     label.text = @"娱乐";
     label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:label];
     
-    button = [[UIButton alloc] initWithFrame:CGRectMake(45.0, 280.0, 100.0, 100.0)];
+    button = [[UIButton alloc] initWithFrame:CGRectMake(ICON_ORIGIN_FIRST, 280.0, ICON_WIDTH, ICON_HEIGHT)];
     [button setBackgroundColor:[UIColor clearColor]];
     [button setBackgroundImage:[UIImage imageNamed:@"transport.png"]  forState:UIControlStateNormal];
     [button addTarget:self action:@selector(selectTransport:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:button];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(45.0, 380.0, 100.0, 20.0)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(ICON_ORIGIN_FIRST, 376.0, LABEL_WIDTH, LABEL_HEIGHT)];
+    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
     label.text = @"交通";
     label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:label];
     
-    button = [[UIButton alloc] initWithFrame:CGRectMake(175.0, 280.0, 100.0, 100.0)];
+    button = [[UIButton alloc] initWithFrame:CGRectMake(ICON_ORIGIN_SECOND, 280.0, ICON_WIDTH, ICON_HEIGHT)];
     [button setBackgroundColor:[UIColor clearColor]];
     [button setBackgroundImage:[UIImage imageNamed:@"more.png"]  forState:UIControlStateNormal];
     [button addTarget:self action:@selector(selectMore:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:button];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(175.0, 380.0, 100.0, 20.0)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(ICON_ORIGIN_SECOND, 376.0, LABEL_WIDTH, LABEL_HEIGHT)];
+    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
     label.text = @"其他";
     label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:label];
+}
+
+- (IBAction)backToPrevious:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning

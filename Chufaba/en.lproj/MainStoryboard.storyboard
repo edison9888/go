@@ -33,21 +33,14 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="3Wy-tf-haT">
-                        <barButtonItem key="leftBarButtonItem" image="setting.png" id="mIh-bv-Imy">
-                            <connections>
-                                <action selector="showLogin:" destination="UlT-wR-sjT" id="rvz-i0-X8P"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tOc-xM-nyn">
-                            <connections>
-                                <segue destination="bu1-ru-VTq" kind="modal" identifier="AddPlan" id="Z6G-Rc-YoY"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="mIh-bv-Imy"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tOc-xM-nyn"/>
                     </navigationItem>
                     <connections>
                         <segue destination="HMl-gS-ZDK" kind="modal" identifier="ShowSettings" id="L0Z-bU-9YN"/>
                         <segue destination="bu1-ru-VTq" kind="modal" identifier="EditPlan" id="jre-iT-ek3"/>
                         <segue destination="wjh-IL-Fsz" kind="push" identifier="ShowItinerary" id="vfQ-9D-Opd"/>
+                        <segue destination="bu1-ru-VTq" kind="modal" identifier="AddPlan" id="8Ho-Dc-hG7"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tdq-A5-gnd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -636,73 +629,13 @@
     </scenes>
     <resources>
         <image name="other.gif" width="32" height="32"/>
-        <image name="setting.png" width="24" height="24"/>
     </resources>
-    <classes>
-        <class className="AddPlanViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel:"/>
-                <relationship kind="action" name="done:"/>
-                <relationship kind="outlet" name="coverImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dateInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="durationInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="nameInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="EditScheduleViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditScheduleViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="startInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="ItineraryViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ItineraryViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PlanViewController" superclassName="SwipeableTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlanViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="showLogin:"/>
-            </relationships>
-        </class>
-        <class className="SearchLocationViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchLocationViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addCustomLocation:"/>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SelectCategoryViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SelectCategoryViewController.h"/>
-        </class>
-        <class className="SettingViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="saveSetting:"/>
-                <relationship kind="outlet" name="loginCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="logoutCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="userEmail" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="userName" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SwipeableTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SwipeableTableViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="jre-iT-ek3"/>
+        <segue reference="8Ho-Dc-hG7"/>
     </inferredMetricsTieBreakers>
 </document>

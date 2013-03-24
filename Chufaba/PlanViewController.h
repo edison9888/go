@@ -18,8 +18,6 @@
 
 @property (nonatomic,strong) NSIndexPath *indexPathOfplanToEditOrDelete;
 
-- (IBAction)showLogin:(id)sender;
-
 -(void) populateTravelPlans;
 
 @end

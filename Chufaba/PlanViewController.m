@@ -126,9 +126,14 @@
 }
 
 
-- (IBAction)showLogin:(id)sender
+- (IBAction)showSetting:(id)sender
 {
     [self performSegueWithIdentifier:@"ShowSettings" sender:self];
+}
+
+- (IBAction)AddPlan:(id)sender
+{
+    [self performSegueWithIdentifier:@"AddPlan" sender:self];
 }
 
 - (void) populateTravelPlans
@@ -143,6 +148,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [addBtn setImage:[UIImage imageNamed:@"add.png"] forState:UIControlStateNormal];
+    [addBtn addTarget:self action:@selector(AddPlan:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:addBtn];
+    self.navigationItem.rightBarButtonItem = btn;
+    
+    UIButton *settingBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [settingBtn setImage:[UIImage imageNamed:@"setting.png"] forState:UIControlStateNormal];
+    [settingBtn addTarget:self action:@selector(showSetting:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *setBtn = [[UIBarButtonItem alloc] initWithCustomView:settingBtn];
+    self.navigationItem.leftBarButtonItem = setBtn;
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
@@ -265,6 +282,8 @@
     lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 93, self.view.bounds.size.width, 1)];
     lineView.backgroundColor = [UIColor whiteColor];
     [cell.contentView addSubview:lineView];
+    
+    cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailinfo.png"]];
     
     return cell;
 }

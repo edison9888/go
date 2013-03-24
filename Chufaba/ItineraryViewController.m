@@ -163,6 +163,12 @@
 {
     [super viewDidLoad];
     
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = btn;
+    
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
@@ -236,7 +242,13 @@
     self.curLocation = nil;
     [self.locationManager startUpdatingLocation];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:MAP_BUTTON_TITLE style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMap)];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:MAP_BUTTON_TITLE style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMap)];
+    
+    UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [modeBtn setImage:[UIImage imageNamed:@"map.png"] forState:UIControlStateNormal];
+    [modeBtn addTarget:self action:@selector(toggleMap) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:modeBtn];
+    self.navigationItem.rightBarButtonItem = rightBtn;
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setFrame:CGRectMake(100,0,120,30)];
@@ -271,6 +283,11 @@
 //		[self.tableView addSubview:view];
 //		pullDownMenuView = view;
 //	}
+}
+
+- (IBAction)backToPrevious:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 //- (IBAction)selectNormalMap:(id)sender
@@ -402,7 +419,12 @@
                         animations:^{ self.tableView.hidden = YES; self.mapView.hidden = NO; }
                         completion:NULL];
         
-		self.navigationItem.rightBarButtonItem.title = LIST_BUTTON_TITLE;
+		//self.navigationItem.rightBarButtonItem.title = LIST_BUTTON_TITLE;
+        UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+        [modeBtn setImage:[UIImage imageNamed:@"list.png"] forState:UIControlStateNormal];
+        [modeBtn addTarget:self action:@selector(toggleMap) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:modeBtn];
+        self.navigationItem.rightBarButtonItem = rightBtn;
 	}
     else
     {
@@ -414,7 +436,13 @@
                         animations:^{ self.mapView.hidden = YES; self.tableView.hidden = NO; }
                         completion:NULL];
         
-		self.navigationItem.rightBarButtonItem.title = MAP_BUTTON_TITLE;
+		//self.navigationItem.rightBarButtonItem.title = MAP_BUTTON_TITLE;
+        
+        UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+        [modeBtn setImage:[UIImage imageNamed:@"map.png"] forState:UIControlStateNormal];
+        [modeBtn addTarget:self action:@selector(toggleMap) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:modeBtn];
+        self.navigationItem.rightBarButtonItem = rightBtn;
 	}
 }
 
@@ -989,6 +1017,7 @@
             [[cell detailTextLabel] setText:@""];
         }
         [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];
+        cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
     }
     
 //    NSInteger lastRowIndex = [[self.dataController objectInListAtIndex:indexPath.section] count] - 1;
@@ -1028,7 +1057,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 50;
+    return 44;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -1059,7 +1088,7 @@
     NSDate *sectionDate = [gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
     
     //Headerview
-    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 50.0)];
+    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
     
     //HeaderLabel
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 6.0, 250.0, 20.0)] ;
@@ -1069,7 +1098,7 @@
     label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
     
-    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 28.0, 250.0, 20.0)] ;
+    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 24.0, 250.0, 20.0)] ;
     wLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     wLabel.shadowColor = [UIColor whiteColor];
     wLabel.shadowOffset = CGSizeMake(0, 1);
@@ -1078,8 +1107,8 @@
     wLabel.text = [dateFormatter stringFromDate:sectionDate];;
     
     //AddParameterButton
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    [button setFrame:CGRectMake(275.0, 10.0, 30.0, 30.0)];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
+    [button setImage:[UIImage imageNamed:@"addLocation.png"] forState:UIControlStateNormal];
     button.tag = dayValue;
     button.hidden = NO;
     [button setBackgroundColor:[UIColor clearColor]];
