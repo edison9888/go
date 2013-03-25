@@ -28,6 +28,12 @@
     self.searchSameCategory = YES; //默认显示搜索当前类别
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self cancelCurrentSearch];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -73,8 +79,6 @@
                         forState:UIControlStateNormal];
     
     [addLocationBtn addTarget:self action:@selector(addCustomLocation:) forControlEvents:UIControlEventTouchDown];
-    
-    showAddLocationBtn = NO;
 }
 
 - (IBAction)addCustomLocation:(id)sender
@@ -116,26 +120,24 @@
 
 - (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText
 {
+    searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if([searchText length] == 0)
     {
-        showAddLocationBtn = NO;
-        allLocationList = nil;
-        [self.tableView reloadData];
+        self.keyword = nil;
+        [self clearResults];
     }
-    else
+    else if(![searchText isEqualToString:self.keyword])
     {
-        showAddLocationBtn = YES;
         NSString *addLocationBtnText = [NSString stringWithFormat:@"搜不到 \"%@\" ？ 我来创建！", searchText];
-        //[addLocationBtn setTitle:addLocationBtnText forState:UIControlStateNormal];
         ((UILabel *)[addLocationBtn viewWithTag:TAG_IMPLYLABEL]).text = addLocationBtnText;
-        [self searchPoiByKeyword:searchText WithCategory:YES];
+        [self searchPoiByKeyword:searchText andSameCategory:YES];
     }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
     [_searchBar resignFirstResponder];
     [self enableCancelButton:theSearchBar];
-    [self searchPoiByKeyword:_searchBar.text WithCategory:YES];
+    [self searchBar:theSearchBar textDidChange:theSearchBar.text];
 }
 
 - (NSString *)getSameCategoryPostBody:(NSString *)keyword {
@@ -226,31 +228,41 @@
     }
 }
 
-- (void)searchPoiByKeyword:(NSString *)keyword WithCategory:(Boolean)category{
-    if([keyword length] > 0)
-    {
-        self.searchSameCategory = category;
-        self.total = nil;
-        self.keyword = keyword;
-        if (fetcher) {
-            [fetcher cancel];
-            [fetcher close];
-        }
-        NSString *body;
-        if (category) {
-            body = [self getSameCategoryPostBody:keyword];
-        } else {
-            body = [self getOtherCategoryPostBody:keyword];
-        } 
-        fetcher = [[JSONFetcher alloc]
-                                initWithURLString:@"http://chufaba.me:9200/cfb/poi/_search?size=30&from=0"
-                                body:body
-                                receiver:self
-                                action:@selector(receiveResponse:)];
-        fetcher.showAlerts = NO;
-        [fetcher start];
-        allLocationList = nil;
+- (void)cancelCurrentSearch
+{
+    if (fetcher) {
+        [fetcher cancel];
+        [fetcher close];
+        fetcher = nil;
     }
+}
+
+- (void)clearResults
+{
+    [self cancelCurrentSearch];
+    self.total = 0;
+    allLocationList = nil;
+    [self.tableView reloadData];
+}
+
+- (void)searchPoiByKeyword:(NSString *)keyword andSameCategory:(Boolean)category{
+    [self cancelCurrentSearch];
+    self.searchSameCategory = category;
+    self.keyword = keyword;
+ 
+    NSString *body;
+    if (category) {
+        body = [self getSameCategoryPostBody:keyword];
+    } else {
+        body = [self getOtherCategoryPostBody:keyword];
+    }
+    fetcher = [[JSONFetcher alloc]
+               initWithURLString:@"http://chufaba.me:9200/cfb/poi/_search?size=30&from=0"
+               body:body
+               receiver:self
+               action:@selector(receiveResponse:)];
+    fetcher.showAlerts = NO;
+    [fetcher start];
 }
 
 - (void)receiveResponse:(JSONFetcher *)aFetcher
@@ -264,24 +276,25 @@
          cancelButtonTitle:@"确定"
          otherButtonTitles:nil];
         [alert show];
-        fetcher = nil;
     } else {
         NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
-        self.total = [[(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"total"] intValue];
-        fetcher = nil;
-        if (locations.count > 0) {
+        if (locations.count == 0 ) {
+            if(self.searchSameCategory) {
+                [self searchPoiByKeyword:self.keyword andSameCategory:NO];
+            }else{
+                [self clearResults];
+            }
+        } else {
+            self.total = [[(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"total"] intValue];
             allLocationList = [locations mutableCopy];
             [self.tableView reloadData];
-        } else if(self.searchSameCategory) {
-            [self searchPoiByKeyword:self.keyword WithCategory:NO];
         }
     }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    allLocationList = [[NSMutableArray alloc] init];
-    [self.tableView reloadData];
+    [self clearResults];
 }
 
 - (void)fetchRestResult
@@ -291,11 +304,8 @@
         int from = allLocationList.count;
         if (from >= self.total) {
             return;
-        };
-        if (fetcher) {
-            return;
         }
-        
+        [self cancelCurrentSearch];
         NSString *body;
         if (self.searchSameCategory) {
             body = [self getSameCategoryPostBody:self.keyword];
@@ -325,8 +335,7 @@
         [alert show];
     } else {
         NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
-        
-        if (locations) {
+        if (locations.count > 0) {
             [allLocationList addObjectsFromArray:locations];
             [self.tableView reloadData];
         }
@@ -349,39 +358,17 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{    
-//    if(showAddLocationBtn)
-//        return [allLocationList count] + 1;
-//    else
-//        return [allLocationList count];
-    
-    if ([allLocationList count] == 0)
-    {
-        if (fetcher)
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    else
-    {
-        if ([allLocationList count] == self.total)
-        {
-            return [allLocationList count] + 1; //添加自定义地点的cell
-        }
-        else
-        {
-            return [allLocationList count] + 1; //菊花
-        }
+{
+    if (self.keyword.length == 0) {
+        return 0;
+    } else {
+        return [allLocationList count] + 1;
     }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [NSString stringWithFormat:@"搜索%@", self.searchSameCategory ? self.category : @"其他类型"];
+    return [NSString stringWithFormat:@"搜索%@", self.searchSameCategory ? self.category : @"所有类型"];
 }
 
 - (float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {

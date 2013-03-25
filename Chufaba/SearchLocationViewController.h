@@ -23,7 +23,6 @@
 {
     JSONFetcher *fetcher;
     UIButton *addLocationBtn;
-    BOOL showAddLocationBtn;
     NSMutableArray *allLocationList;
 }
 
