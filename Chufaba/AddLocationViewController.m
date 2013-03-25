@@ -39,6 +39,16 @@
     return self;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if (fetcher) {
+        [fetcher cancel];
+        [fetcher close];
+        fetcher = nil;
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
