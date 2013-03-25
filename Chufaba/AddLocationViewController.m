@@ -9,11 +9,14 @@
 #import "AddLocationViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "JsonFetcher.h"
+#import "Utility.h"
 
 
 @interface AddLocationViewController ()
 {
     BOOL coordinateChanged;
+    BOOL nameChanged;
+    BOOL selfEditMode;
     JSONFetcher *fetcher;
 }
 
@@ -75,6 +78,9 @@
     CLLocationCoordinate2D customLoc2D_5;
     if(self.hasCoordinate)
     {
+        selfEditMode = YES;
+        implyLabel.text = @"点击地图可以重设坐标";
+        
         UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
         [self.mapView addGestureRecognizer:tgr];
         
@@ -134,6 +140,7 @@
     [self.mapView removeAnnotations:self.mapView.annotations];
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self.mapView addGestureRecognizer:tgr];
+    selfEditMode = YES;
 }
 
 - (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer
@@ -161,31 +168,57 @@
         [fetcher close];
     }
     
-    if(coordinateChanged || self.addLocation)
+    NSString *searchText = ((UISearchBar *)[self.view viewWithTag:TAG_SEARCHBAR]).text;
+    if([searchText length] == 0)
+    {
+        [Utility showAlert:@"提醒" message:@"地点名字没有填写哦!"];
+        return;
+    }
+    else if(searchText != self.location.name)
+    {
+        nameChanged = YES;
+    }
+    
+    if(nameChanged || coordinateChanged || self.addLocation)
     {
         Location *addLocation = [[Location alloc] init];
         addLocation.useradd = YES;
         addLocation.category = self.location.category;
         addLocation.name = self.location.name;
-        
-        if ([self.mapView.annotations count] > 1)
+        if(nameChanged)
         {
-            LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
-            addLocation.latitude = selectedAnnotation.location.latitude;
-            addLocation.longitude = selectedAnnotation.location.longitude;
+            addLocation.name = ((UISearchBar *)[self.view viewWithTag:TAG_SEARCHBAR]).text;
         }
-        if ([self.mapView.annotations count] == 1)
+        
+        if(coordinateChanged || self.addLocation)
         {
-            id<MKAnnotation> tappedAnnotation = [self.mapView.annotations objectAtIndex:0];
-            CLLocationCoordinate2D tappedPoint = tappedAnnotation.coordinate;
-            addLocation.latitude = [NSNumber numberWithDouble:tappedPoint.latitude];
-            addLocation.longitude = [NSNumber numberWithDouble:tappedPoint.longitude];
+            if (!selfEditMode)
+            {
+                LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
+                if(selectedAnnotation)
+                {
+                    addLocation.latitude = selectedAnnotation.location.latitude;
+                    addLocation.longitude = selectedAnnotation.location.longitude;
+                }
+                else
+                {
+                    addLocation.latitude = nil;
+                    addLocation.longitude = nil;
+                }
+            }
+            else
+            {
+                id<MKAnnotation> tappedAnnotation = [self.mapView.annotations objectAtIndex:0];
+                CLLocationCoordinate2D tappedPoint = tappedAnnotation.coordinate;
+                addLocation.latitude = [NSNumber numberWithDouble:tappedPoint.latitude];
+                addLocation.longitude = [NSNumber numberWithDouble:tappedPoint.longitude];
+            }
         }
         
         [self saveLocationToServer:addLocation];
-        if ([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishEdit:coordinate:)])
+        if ([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishEdit:name:coordinate:)])
         {
-            [self.editLocationDelegate AddLocationViewController:self didFinishEdit:addLocation coordinate:coordinateChanged];
+            [self.editLocationDelegate AddLocationViewController:self didFinishEdit:addLocation name:(BOOL)nameChanged coordinate:coordinateChanged];
         }
         if([self.editLocationDelegate respondsToSelector:@selector(AddLocationViewController:didFinishAdd:)])
         {
@@ -202,7 +235,12 @@
         [fetcher close];
     }
     
-    if(coordinateChanged)
+    if(((UISearchBar *)[self.view viewWithTag:TAG_SEARCHBAR]).text != self.location.name)
+    {
+        nameChanged = YES;
+    }
+    
+    if(nameChanged || coordinateChanged)
     {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"修改尚未保存，你确定放弃并返回吗？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"确定", nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
@@ -329,12 +367,12 @@
         
         UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
         [self.mapView addGestureRecognizer:tgr];
+        selfEditMode = YES;
     }
 }
 
 - (void)showAnnotations:(NSArray *)locations
 {
-    coordinateChanged = YES;
     int count = MIN(locations.count, 5);
     NSMutableArray *sAnnotations = [[NSMutableArray alloc] init];
     Location *sLocation;
@@ -356,7 +394,7 @@
     [self.mapView setRegion:adjustedRegion animated:NO];
     
     [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
-    [self.mapView selectAnnotation:firstAnnotation animated:YES];
+    selfEditMode = NO;
 }
 
 - (void)updateMapView
@@ -400,11 +438,14 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
+    coordinateChanged = YES;
     ((MKPinAnnotationView *)view).pinColor = MKPinAnnotationColorGreen;
+    ((UISearchBar *)[self.view viewWithTag:TAG_SEARCHBAR]).text = ((id <MKAnnotation>)view.annotation).title;
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
 {
+    //coordinateChanged = NO;
     ((MKPinAnnotationView *)view).pinColor = MKPinAnnotationColorRed;
 }
 

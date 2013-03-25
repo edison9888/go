@@ -44,6 +44,8 @@
 + (UIImage *)getCategoryIconMedium:(NSString *)category;
 + (UIImage *)getCategoryIconLarge:(NSString *)category;
 
+- (BOOL)hasCoordinate;
+
 - (NSString *)getNameAndCity;
 - (NSString *)getRealName;
 - (NSString *)getRealNameEn;

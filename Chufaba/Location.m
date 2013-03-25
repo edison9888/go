@@ -17,6 +17,15 @@
 
 @implementation Location
 
+- (BOOL)hasCoordinate
+{
+    if([self.latitude doubleValue] == 0 && [self.longitude doubleValue] == 0)
+    {
+        return NO;
+    }
+    return YES;
+}
+
 + (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category
 {
     NSString *prefix = [category substringToIndex:2];

@@ -166,7 +166,7 @@
 
 - (void)configureMap
 {
-    if (self.location.latitude != nil)
+    if ([self.location hasCoordinate])
     {
         showMap = YES;
         MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];
@@ -347,10 +347,14 @@
 }
 
 //Implement AddLocationViewControllerDelegate
--(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *)location coordinate:(BOOL) coordinateChanged
+-(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *)location name:(BOOL)nameChanged coordinate:(BOOL)coordinateChanged
 {
-    self.location = location;
+    self.location.name = location.name;
+    self.location.latitude = location.latitude;
+    self.location.longitude = location.longitude;
     [self configureView];
+    
+    [self.delegate didChangeLocation:self.location];
 }
 
 -(void) configureTable
