@@ -14,10 +14,17 @@
 
 @property int total;
 @property NSString *keyword;
+@property BOOL searchSameCategory;
 
 @end
 
 @implementation SearchLocationViewController
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.searchSameCategory = YES; //默认显示搜索当前类别
+}
 
 - (void)viewDidLoad
 {
@@ -128,30 +135,71 @@
         //NSString *addLocationBtnText = [NSString stringWithFormat:@"创建%@：%@", self.category, searchText];
         NSString *addLocationBtnText = [NSString stringWithFormat:@"搜不到 \"%@\" ？ 我来创建！", searchText];
         [addLocationBtn setTitle:addLocationBtnText forState:UIControlStateNormal];
-        [self searchJiepangByKeyword:searchText];
+        [self searchPoiByKeyword:searchText WithCategory:YES];
     }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
     [_searchBar resignFirstResponder];
     [self enableCancelButton:theSearchBar];
-    [self searchJiepangByKeyword:_searchBar.text];
+    [self searchPoiByKeyword:_searchBar.text WithCategory:YES];
 }
 
-- (NSString *)getPostBody:(NSString *)keyword {
+- (NSString *)getSameCategoryPostBody:(NSString *)keyword {
     NSString *query = [NSString stringWithFormat:@
                        "    \"min_score\" : 2.0,"
                        "    \"query\":{"
                        "        \"bool\" : { "
+                       "            \"must\" : {"
+                       "                \"term\" : {"
+                       "                    \"category\":\"%@\""
+                       "                }"
+                       "            },"
                        "            \"should\" : ["
                        "                {"
-                       "                    \"term\" : {"
-                       "                        \"category\": {"
-                       "                            \"value\" : \"%@\","
-                       "                            \"boost\" : 2.0"
+                       "                    \"match_phrase_prefix\" :{"
+                       "                        \"query\" : {"
+                       "                            \"query\" : \"%@\","
+                       "                            \"max_expansions\" : 10"
                        "                        }"
                        "                    }"
                        "                },"
+                       "                {"
+                       "                    \"multi_match\" :{"
+                       "                        \"query\" : \"%@\","
+                       "                        \"fields\" : [ \"name\", \"name_en\", \"query\" ]"
+                       "                    }"
+                       "                }"
+                       "            ],"
+                       "            \"minimum_number_should_match\" : 1"
+                       "        }"
+                       "    }"
+                       , self.category, keyword, keyword];
+    if (self.lastLatitude && [self.lastLatitude intValue] != 10000) {
+        return [NSString stringWithFormat:@"{"
+                "\"sort\" : [ "
+                "{ \"_geo_distance\" : {"
+                "\"location\" : { \"lat\" : %f, \"lon\" : %f }, "
+                "\"order\" : \"asc\", "
+                "\"unit\" : \"km\" "
+                "} } ],"
+                "%@}", [self.lastLatitude floatValue], [self.lastLongitude floatValue], query];
+    } else {
+        return [NSString stringWithFormat:@"{%@}", query];
+    }
+}
+
+- (NSString *)getOtherCategoryPostBody:(NSString *)keyword {
+    NSString *query = [NSString stringWithFormat:@
+                       "    \"min_score\" : 2.0,"
+                       "    \"query\":{"
+                       "        \"bool\" : { "
+                       "            \"must_not\" : {"
+                       "                \"term\" : {"
+                       "                    \"category\":\"%@\""
+                       "                }"
+                       "            },"
+                       "            \"should\" : ["
                        "                {"
                        "                    \"match_phrase_prefix\" :{"
                        "                        \"query\" : {"
@@ -185,16 +233,22 @@
     }
 }
 
-- (void)searchJiepangByKeyword:(NSString *)keyword {
+- (void)searchPoiByKeyword:(NSString *)keyword WithCategory:(Boolean)category{
     if([keyword length] > 0)
     {
+        self.searchSameCategory = category;
         self.total = nil;
         self.keyword = keyword;
         if (fetcher) {
             [fetcher cancel];
             [fetcher close];
         }
-        NSString *body = [self getPostBody:keyword];
+        NSString *body;
+        if (category) {
+            body = [self getSameCategoryPostBody:keyword];
+        } else {
+            body = [self getOtherCategoryPostBody:keyword];
+        } 
         fetcher = [[JSONFetcher alloc]
                                 initWithURLString:@"http://chufaba.me:9200/cfb/poi/_search?size=30&from=0"
                                 body:body
@@ -203,7 +257,6 @@
         fetcher.showAlerts = NO;
         [fetcher start];
         allLocationList = nil;
-        //[self.tableView reloadData];
     }
 }
 
@@ -218,16 +271,18 @@
          cancelButtonTitle:@"确定"
          otherButtonTitles:nil];
         [alert show];
+        fetcher = nil;
     } else {
         NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
         self.total = [[(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"total"] intValue];
-        
-        if (locations) {
+        fetcher = nil;
+        if (locations.count > 0) {
             allLocationList = [locations mutableCopy];
             [self.tableView reloadData];
+        } else if(self.searchSameCategory) {
+            [self searchPoiByKeyword:self.keyword WithCategory:NO];
         }
     }
-    fetcher = nil;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -248,7 +303,12 @@
             return;
         }
         
-        NSString *body = [self getPostBody:self.keyword];
+        NSString *body;
+        if (self.searchSameCategory) {
+            body = [self getSameCategoryPostBody:self.keyword];
+        } else {
+            body = [self getOtherCategoryPostBody:self.keyword];
+        }
         fetcher = [[JSONFetcher alloc]
                    initWithURLString:[NSString stringWithFormat:@"http://chufaba.me:9200/cfb/poi/_search?size=30&from=%d", from]
                    body:body
@@ -324,6 +384,11 @@
             return [allLocationList count] + 1; //菊花
         }
     }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return [NSString stringWithFormat:@"搜索%@", self.searchSameCategory ? self.category : @"其他类型"];
 }
 
 - (float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
