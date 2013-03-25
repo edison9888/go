@@ -275,22 +275,26 @@
     label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     
     //add separator line
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 92, self.view.bounds.size.width, 1)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 90, self.view.bounds.size.width, 1)];
     lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     [cell.contentView addSubview:lineView];
 
-    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 93, self.view.bounds.size.width, 1)];
+    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 91, self.view.bounds.size.width, 1)];
     lineView.backgroundColor = [UIColor whiteColor];
     [cell.contentView addSubview:lineView];
     
     cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailinfo.png"]];
+    
+    UIView *bgColorView = [[UIView alloc] init];
+    [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
+    [cell setSelectedBackgroundView:bgColorView];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 94.0f;
+    return 92.0f;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

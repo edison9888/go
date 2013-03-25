@@ -256,6 +256,10 @@
     [button setBackgroundColor:[UIColor clearColor]];
     button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [button addTarget:self action:@selector(selectClicked:) forControlEvents:UIControlEventTouchDown];
+    
+//    UIImageView *arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+//    arrowView.image = [UIImage imageNamed:@"arrow.png"];
+//    [button addSubview:arrowView];
     self.navigationItem.titleView = button;
     
     NSInteger scrollSection = [self daySequence:[NSDate date]];
@@ -642,13 +646,11 @@
     [arr addObject:@"全部"];
     for(int i=0; i<[self.dataController.itineraryDuration intValue]; i++)
     {
-        [arr addObject:[@"Day " stringByAppendingString:[NSString stringWithFormat:@"%d",i+1]]];
+        [arr addObject:[NSString stringWithFormat:@"第%d天", i+1]];
     }
     if(dropDown == nil) {
         //add the dark view part
         UIView *darkView = [[UIView alloc] initWithFrame:self.view.bounds];
-//        darkView.alpha = 0.5;
-//        darkView.backgroundColor = [UIColor blackColor];
         darkView.backgroundColor = [UIColor clearColor];
         darkView.tag = 55;
         UITapGestureRecognizer *singleFingerTap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickDarkView:)];
@@ -1007,6 +1009,8 @@
         Location *locationAtIndex = (Location *)object;
         cell.textLabel.text = locationAtIndex.name;
         cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+        cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
         if (locationAtIndex.visitBegin) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateStyle:NSDateFormatterNoStyle];
@@ -1018,6 +1022,10 @@
         }
         [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];
         cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
+        
+        UIView *bgColorView = [[UIView alloc] init];
+        [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
+        [cell setSelectedBackgroundView:bgColorView];
     }
     
 //    NSInteger lastRowIndex = [[self.dataController objectInListAtIndex:indexPath.section] count] - 1;

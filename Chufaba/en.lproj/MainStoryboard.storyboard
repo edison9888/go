@@ -165,18 +165,7 @@
                             <outlet property="delegate" destination="OjR-hy-7gj" id="4A4-HP-I6R"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="KLT-if-wTY">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="k2t-YC-mXw">
-                            <connections>
-                                <action selector="cancel:" destination="OjR-hy-7gj" id="fYg-Zx-bhE"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="DSw-an-0uQ">
-                            <connections>
-                                <action selector="done:" destination="OjR-hy-7gj" id="Lnz-6h-B80"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="KLT-if-wTY"/>
                     <connections>
                         <outlet property="coverImageView" destination="yRS-1s-BpR" id="EW8-1x-BQS"/>
                         <outlet property="dateInput" destination="q1G-Vl-CGz" id="kKQ-0q-5ds"/>
@@ -199,7 +188,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dw4-dV-6Zh">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SearchLocationCell" textLabel="7CF-tz-LLg" detailTextLabel="uyc-WL-NwB" style="IBUITableViewCellStyleSubtitle" id="WDH-96-pCt">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SearchLocationCell" textLabel="7CF-tz-LLg" detailTextLabel="uyc-WL-NwB" style="IBUITableViewCellStyleSubtitle" id="WDH-96-pCt">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -269,7 +258,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TKi-SV-ZJD">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TravelLocationCell" textLabel="Gwf-h4-PQ7" detailTextLabel="Sy0-H7-6V3" imageView="nEu-Ug-JAn" style="IBUITableViewCellStyleValue1" id="gSi-vV-5Zu">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TravelLocationCell" textLabel="Gwf-h4-PQ7" detailTextLabel="Sy0-H7-6V3" imageView="nEu-Ug-JAn" style="IBUITableViewCellStyleValue1" id="gSi-vV-5Zu">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -550,13 +539,7 @@
                             <outlet property="delegate" destination="EN8-Sf-w8y" id="grr-Hl-bGo"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="设置" id="iTb-G7-FbH">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="o76-2w-0YN">
-                            <connections>
-                                <action selector="saveSetting:" destination="EN8-Sf-w8y" id="MDK-mv-zIf"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="设置" id="iTb-G7-FbH"/>
                     <connections>
                         <outlet property="logoutCell" destination="PL5-Md-gzU" id="zWU-Dq-sCg"/>
                     </connections>

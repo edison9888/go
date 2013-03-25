@@ -126,7 +126,7 @@
     NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
     
     //UITableViewCell *swipedCell  = [tableView cellForRowAtIndexPath:swipedIndexPath];
-    NSInteger yPosition = 94*swipedIndexPath.row + 24;
+    NSInteger yPosition = 92*swipedIndexPath.row;
     
     UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,480)];
     maskView.backgroundColor = [UIColor clearColor];
@@ -135,16 +135,21 @@
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:tapRecognizer];
     
-    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(232,yPosition,44,44)];
+    UIView *editView = [[UIView alloc] initWithFrame:CGRectMake(218,yPosition,102,90)];
+    editView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
+    
+    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(20,35,21,21)];
     [editButton setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
     [editButton addTarget:self action:@selector(editPlan:) forControlEvents:UIControlEventTouchDown];
 	
-	UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(276,yPosition,44,44)];
+	UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(61,35,21,21)];
     [deleteButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
     [deleteButton addTarget:self action:@selector(deletePlan:) forControlEvents:UIControlEventTouchDown];
     
-    [maskView addSubview:editButton];
-    [maskView addSubview:deleteButton];
+    [editView addSubview:editButton];
+    [editView addSubview:deleteButton];
+    
+    [maskView addSubview:editView];
     [tableView addSubview:maskView];
     
 	id delegate = tableView.nextResponder; 

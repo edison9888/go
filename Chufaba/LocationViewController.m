@@ -94,11 +94,11 @@
     if (!segmentedControl) {
         segmentedControl = [[UISegmentedControl alloc] initWithItems:
          [NSArray arrayWithObjects:
-          [UIImage imageNamed:@"arrow_up.png"],
-          [UIImage imageNamed:@"arrow_down.png"],
+          [UIImage imageNamed:@"prevLoc.png"],
+          [UIImage imageNamed:@"nextLoc.png"],
           nil]];
         [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-        segmentedControl.frame = CGRectMake(0, 0, 90, 30);
+        segmentedControl.frame = CGRectMake(0, 0, 80, 30);
         segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
         segmentedControl.momentary = YES;
         

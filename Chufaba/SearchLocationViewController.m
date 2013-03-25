@@ -20,6 +20,8 @@
 
 @implementation SearchLocationViewController
 
+#define TAG_IMPLYLABEL 1
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -58,26 +60,17 @@
     [_searchBar becomeFirstResponder];
     [_searchBar setShowsCancelButton:YES];
     
-    addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 5.0f, 300.0f, 35.0f)];
-    CALayer *addBtnLayer = addLocationBtn.layer;
+    addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 5.0f, 300.0f, 44.0f)];
     
-//    CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
-//    viewShadow.frame = addLocationBtn.bounds;
-//    viewShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0].CGColor,(id)[UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor,nil];
-//    [addBtnLayer addSublayer:viewShadow];
-    
-    [addLocationBtn setTitle:[NSString stringWithFormat:@"创建%@", self.category] forState:UIControlStateNormal];
-    [addLocationBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    addLocationBtn.backgroundColor = [UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0];
-    addBtnLayer.borderWidth = 1.0;
-    addBtnLayer.borderColor = [UIColor grayColor].CGColor;
-    addBtnLayer.cornerRadius = 5.0;
-    
-    addBtnLayer.masksToBounds = NO;
-    addBtnLayer.shadowOffset = CGSizeMake(0, 1);
-    addBtnLayer.shadowRadius = 1;
-    addBtnLayer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
-    addBtnLayer.shadowOpacity = 1;
+    UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 6.0f, 240.0f, 32.0f)];
+    implyLabel.backgroundColor = [UIColor clearColor];
+    implyLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    implyLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    implyLabel.text = @"搜不到\" \"，我来创建";
+    implyLabel.tag = TAG_IMPLYLABEL;
+    [addLocationBtn addSubview:implyLabel];
+    [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn.png"]
+                        forState:UIControlStateNormal];
     
     [addLocationBtn addTarget:self action:@selector(addCustomLocation:) forControlEvents:UIControlEventTouchDown];
     
@@ -132,9 +125,9 @@
     else
     {
         showAddLocationBtn = YES;
-        //NSString *addLocationBtnText = [NSString stringWithFormat:@"创建%@：%@", self.category, searchText];
         NSString *addLocationBtnText = [NSString stringWithFormat:@"搜不到 \"%@\" ？ 我来创建！", searchText];
-        [addLocationBtn setTitle:addLocationBtnText forState:UIControlStateNormal];
+        //[addLocationBtn setTitle:addLocationBtnText forState:UIControlStateNormal];
+        ((UILabel *)[addLocationBtn viewWithTag:TAG_IMPLYLABEL]).text = addLocationBtnText;
         [self searchPoiByKeyword:searchText WithCategory:YES];
     }
 }
