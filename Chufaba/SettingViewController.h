@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "SocialAccountManager.h"
 
-@interface SettingViewController : UITableViewController <SocialAccountManagerDelegate, UIActionSheetDelegate>
+//@interface SettingViewController : UITableViewController <SocialAccountManagerDelegate, UIActionSheetDelegate>
+@interface SettingViewController : UITableViewController
 
-@property (strong, nonatomic) SocialAccountManager *accountManager;
+//@property (strong, nonatomic) SocialAccountManager *accountManager;
 
-@property (weak, nonatomic) IBOutlet UITableViewCell *loginCell;
-@property (weak, nonatomic) IBOutlet UILabel *userName;
-@property (weak, nonatomic) IBOutlet UILabel *userEmail;
+//@property (weak, nonatomic) IBOutlet UITableViewCell *loginCell;
+//@property (weak, nonatomic) IBOutlet UILabel *userName;
+//@property (weak, nonatomic) IBOutlet UILabel *userEmail;
 @property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;
 
 - (IBAction)saveSetting:(id)sender;

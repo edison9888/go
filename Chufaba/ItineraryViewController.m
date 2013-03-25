@@ -525,7 +525,7 @@
         UILabel *label = ((UILabel *)aView.leftCalloutAccessoryView);
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor whiteColor];
-        label.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.1];
+        label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
 		aView.canShowCallout = YES;
 	}

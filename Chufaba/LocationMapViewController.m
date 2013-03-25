@@ -26,6 +26,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = btn;
+    
     MKMapView *mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
     mapView.delegate = self;
     mapView.tag = 20;
@@ -55,6 +62,11 @@
     
     [mapView addSubview:mapCategoryView];
     [self.view addSubview:mapView];
+}
+
+- (IBAction)backToPrevious:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)selectNormalMap:(id)sender

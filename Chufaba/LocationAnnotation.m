@@ -23,10 +23,10 @@
     return self.showTitle ? self.location.name : nil;    
 }
 
-- (NSString *)subtitle
-{
-    return self.showTitle ? self.location.category : nil;
-}
+//- (NSString *)subtitle
+//{
+//    return self.showTitle ? self.location.category : nil;
+//}
 
 - (CLLocationCoordinate2D)coordinate
 {
