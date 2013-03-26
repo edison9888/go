@@ -141,6 +141,8 @@
 }
 
 - (NSString *)getSameCategoryPostBody:(NSString *)keyword {
+    keyword = [keyword stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    keyword = [keyword stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
     NSString *query = [NSString stringWithFormat:@
                        "    \"min_score\" : 2.0,"
                        "    \"query\":{"
@@ -185,6 +187,8 @@
 }
 
 - (NSString *)getOtherCategoryPostBody:(NSString *)keyword {
+    keyword = [keyword stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    keyword = [keyword stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
     NSString *query = [NSString stringWithFormat:@
                        "    \"min_score\" : 2.0,"
                        "    \"query\":{"
