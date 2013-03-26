@@ -24,6 +24,8 @@
 #import "ShareViewController.h"
 #import "LoginViewController.h"
 
+#import "ItineraryViewTableViewCell.h"
+
 
 @class ItineraryDataController;
 
@@ -33,7 +35,7 @@
 @end
 
 //@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, SocialAccountManagerDelegate>
-@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, SocialAccountManagerDelegate>
+@interface ItineraryViewController:SwipeableViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, SocialAccountManagerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
@@ -69,6 +71,8 @@
 @property (nonatomic,weak) NSNumber *seqToAdd;
 
 @property (nonatomic,weak) id<ItineraryViewControllerDelegate> itineraryDelegate;
+
+@property (nonatomic,strong) NSIndexPath *indexPathOfLocationToDelete;
 
 //@property (strong, nonatomic) SocialAccountManager *accountManager;
 

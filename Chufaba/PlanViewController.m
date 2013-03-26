@@ -275,11 +275,11 @@
     label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     
     //add separator line
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 90, self.view.bounds.size.width, 1)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 91, self.view.bounds.size.width, 1)];
     lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     [cell.contentView addSubview:lineView];
 
-    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 91, self.view.bounds.size.width, 1)];
+    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
     lineView.backgroundColor = [UIColor whiteColor];
     [cell.contentView addSubview:lineView];
     
@@ -384,18 +384,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        
-//        FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
-//        
-//        Plan *planToDelete = [self.travelPlans objectAtIndex:indexPath.row];
-//        
-//        [db deleteTravelPlan:planToDelete];
-//        
-//        [self.travelPlans removeObjectAtIndex:indexPath.row];
-//        
-//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//    }
+
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath

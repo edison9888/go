@@ -61,7 +61,7 @@
 {
 	//[self setBackgroundColor:[UIColor clearColor]];
 
-    contentView = [[SwipeableTableViewCellView alloc] initWithFrame:CGRectMake(0, 0, 320, 94)];
+    contentView = [[SwipeableTableViewCellView alloc] initWithFrame:CGRectMake(0, 0, 320, 92)];
 	[contentView setClipsToBounds:YES];
 	[contentView setOpaque:NO];
     contentView.tag = 22;
@@ -135,7 +135,7 @@
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:tapRecognizer];
     
-    UIView *editView = [[UIView alloc] initWithFrame:CGRectMake(218,yPosition,102,90)];
+    UIView *editView = [[UIView alloc] initWithFrame:CGRectMake(218,yPosition,102,92)];
     editView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
     
     UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(20,35,21,21)];

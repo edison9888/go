@@ -42,6 +42,7 @@
 		1330A6851700A1EC00D79653 /* prevLoc.png in Resources */ = {isa = PBXBuildFile; fileRef = 1330A6811700A1EC00D79653 /* prevLoc.png */; };
 		1330A6881700AB5400D79653 /* add_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1330A6861700AB5400D79653 /* add_btn@2x.png */; };
 		1330A6891700AB5400D79653 /* add_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 1330A6871700AB5400D79653 /* add_btn.png */; };
+		1331521C1701CBF4004BE107 /* ItineraryViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1331521B1701CBF4004BE107 /* ItineraryViewTableViewCell.m */; };
 		1337E51716BBEBFE0039F257 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51616BBEBFE0039F257 /* MapKit.framework */; };
 		1337E51A16BBEC070039F257 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51916BBEC070039F257 /* CoreLocation.framework */; };
 		13397E4F16EF64190071F2B2 /* logo_bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13397E4D16EF64190071F2B2 /* logo_bar@2x.png */; };
@@ -253,6 +254,8 @@
 		1330A6811700A1EC00D79653 /* prevLoc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prevLoc.png; sourceTree = "<group>"; };
 		1330A6861700AB5400D79653 /* add_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_btn@2x.png"; sourceTree = "<group>"; };
 		1330A6871700AB5400D79653 /* add_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_btn.png; sourceTree = "<group>"; };
+		1331521A1701CBF4004BE107 /* ItineraryViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItineraryViewTableViewCell.h; sourceTree = "<group>"; };
+		1331521B1701CBF4004BE107 /* ItineraryViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItineraryViewTableViewCell.m; sourceTree = "<group>"; };
 		1337E51616BBEBFE0039F257 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1337E51916BBEC070039F257 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		13397E4D16EF64190071F2B2 /* logo_bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_bar@2x.png"; sourceTree = "<group>"; };
@@ -884,6 +887,8 @@
 				D25F701516A637C300ED7AF5 /* ItineraryDataController.m */,
 				D25F700216A6332E00ED7AF5 /* ItineraryViewController.h */,
 				D25F700316A6332E00ED7AF5 /* ItineraryViewController.m */,
+				1331521A1701CBF4004BE107 /* ItineraryViewTableViewCell.h */,
+				1331521B1701CBF4004BE107 /* ItineraryViewTableViewCell.m */,
 			);
 			name = Itinerary;
 			sourceTree = "<group>";
@@ -1311,6 +1316,7 @@
 				132D205216DF9307004921DD /* AddLocationViewController.m in Sources */,
 				1318DCFF16E8C0FE00A1E34C /* SwipeableTableViewCell.m in Sources */,
 				C29C391916F4865F00106DC4 /* FadeScrollView.m in Sources */,
+				1331521C1701CBF4004BE107 /* ItineraryViewTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

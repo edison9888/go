@@ -34,6 +34,4 @@
 
 @property (nonatomic, copy) NSString * text;
 
-//- (void)drawContentView:(CGRect)rect;
-
 @end

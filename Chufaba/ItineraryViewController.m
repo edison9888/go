@@ -15,7 +15,6 @@
 #import "LocationAnnotation.h"
 #import "ShareViewController.h"
 
-
 @interface ItineraryViewController () {
     NSNumber *lastLatitude;
     NSNumber *lastLongitude;
@@ -993,34 +992,53 @@
 {
     static NSString *CellIdentifier = @"TravelLocationCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    ItineraryViewTableViewCell *cell = (ItineraryViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (!cell)
+        cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     
     NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
+    UIView *contentView = (UIView *)[cell viewWithTag:30];
+    
+    UIImageView *categoryIcon = (UIImageView *)[contentView viewWithTag:1];
+    
+    UILabel *titleLabel = (UILabel *)[contentView viewWithTag:2];
+    titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    titleLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    titleLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    
+    UILabel *timeLabel = (UILabel *)[contentView viewWithTag:3];
+    timeLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+    timeLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    timeLabel.highlightedTextColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    
     if ([object isEqual:DUMMY_CELL])
     {
-        cell.textLabel.text = @"";
+        titleLabel.text = @"";
         cell.contentView.backgroundColor = [UIColor clearColor];
-        cell.imageView.image = nil;
+        categoryIcon.image = nil;
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     else
     {
         Location *locationAtIndex = (Location *)object;
-        cell.textLabel.text = locationAtIndex.name;
-        cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-        cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-        if (locationAtIndex.visitBegin) {
+        
+        titleLabel.text = locationAtIndex.name;
+        if (locationAtIndex.visitBegin)
+        {
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateStyle:NSDateFormatterNoStyle];
             [formatter setTimeStyle:NSDateFormatterShortStyle];
-            [[cell detailTextLabel] setText:[formatter stringFromDate:locationAtIndex.visitBegin]];
-        } else {
-            //被重用的cell要清空时间
-            [[cell detailTextLabel] setText:@""];
+            [timeLabel setText:[formatter stringFromDate:locationAtIndex.visitBegin]];
         }
-        [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];
+        else
+        {
+            //被重用的cell要清空时间
+            [timeLabel setText:@""];
+        }
+        [categoryIcon setImage:[Location getCategoryIcon:locationAtIndex.category]];
+        
         cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
         
         UIView *bgColorView = [[UIView alloc] init];
@@ -1028,39 +1046,73 @@
         [cell setSelectedBackgroundView:bgColorView];
     }
     
-//    NSInteger lastRowIndex = [[self.dataController objectInListAtIndex:indexPath.section] count] - 1;
-//    if(singleDayMode || (lastRowIndex != indexPath.row && !singleDayMode))
-//    {
-//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
-//        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-//        [cell.contentView addSubview:lineView];
-//        
-//        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, self.view.bounds.size.width, 1)];
-//        lineView.backgroundColor = [UIColor whiteColor];
-//        [cell.contentView addSubview:lineView];
-//    }
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, self.view.bounds.size.width, 1)];
     lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     [cell.contentView addSubview:lineView];
     
-    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, self.view.bounds.size.width, 1)];
+    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
     lineView.backgroundColor = [UIColor whiteColor];
     [cell.contentView addSubview:lineView];
     
     return cell;
 }
 
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSString *CellIdentifier = @"TravelLocationCell";
+//    
+//    ItineraryViewTableViewCell *cell = (ItineraryViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    
+//    if (!cell)
+//        cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+//    
+//    NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+//    
+//    if ([object isEqual:DUMMY_CELL])
+//    {
+//        cell.textLabel.text = @"";
+//        cell.contentView.backgroundColor = [UIColor clearColor];
+//        cell.imageView.image = nil;
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//    }
+//    else
+//    {
+//        Location *locationAtIndex = (Location *)object;
+//        cell.textLabel.text = locationAtIndex.name;
+//        cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+//        cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+//        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+//        if (locationAtIndex.visitBegin) {
+//            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//            [formatter setDateStyle:NSDateFormatterNoStyle];
+//            [formatter setTimeStyle:NSDateFormatterShortStyle];
+//            [[cell detailTextLabel] setText:[formatter stringFromDate:locationAtIndex.visitBegin]];
+//        } else {
+//            //被重用的cell要清空时间
+//            [[cell detailTextLabel] setText:@""];
+//        }
+//        [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];
+//        cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
+//        
+//        UIView *bgColorView = [[UIView alloc] init];
+//        [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
+//        [cell setSelectedBackgroundView:bgColorView];
+//    }
+//    
+//    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
+//    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+//    [cell.contentView addSubview:lineView];
+//    
+//    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, self.view.bounds.size.width, 1)];
+//    lineView.backgroundColor = [UIColor whiteColor];
+//    [cell.contentView addSubview:lineView];
+//    
+//    return cell;
+//}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger lastRowIndex = [[self.dataController objectInListAtIndex:indexPath.section] count] - 1;
-    if(indexPath.row == lastRowIndex)
-    {
-        return 44.0f;
-    }
-    else
-    {
-        return 46.0f;
-    }
+    return 44.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -1146,8 +1198,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return NO;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1203,24 +1254,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        //NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:indexPath] - 1;
-        NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:indexPath];
-        Location *locationToDelete = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        [[self.dataController objectInListAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [oneDimensionLocationList removeObjectAtIndex:deleteIndex];
-        
-        //add this to resolve the issue that map annotations doesn't update
-        self.annotations = [self mapAnnotations];
-        
-        //delete travel location in database
-        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-        [db open];
-        [db executeUpdate:@"DELETE FROM location WHERE id = ?", locationToDelete.locationId];
-        [db close];
-        [self.itineraryDelegate didDeleteLocationFromPlan];
-    }
+
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
@@ -1291,6 +1325,31 @@
         return -1;
     }
     
+}
+
+//method to delete location
+- (void)tableView:(UITableView *)tableView didSwipeCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.indexPathOfLocationToDelete = indexPath;
+}
+
+- (void) deleteLocation
+{
+    NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:self.indexPathOfLocationToDelete];
+    Location *locationToDelete = [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] objectAtIndex:self.indexPathOfLocationToDelete.row];
+    [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] removeObjectAtIndex:self.indexPathOfLocationToDelete.row];
+    [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfLocationToDelete] withRowAnimation:UITableViewRowAnimationFade];
+    [oneDimensionLocationList removeObjectAtIndex:deleteIndex];
+    
+    //add this to resolve the issue that map annotations doesn't update
+    self.annotations = [self mapAnnotations];
+    
+    //delete travel location in database
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    [db executeUpdate:@"DELETE FROM location WHERE id = ?", locationToDelete.locationId];
+    [db close];
+    [self.itineraryDelegate didDeleteLocationFromPlan];
 }
 
 @end
