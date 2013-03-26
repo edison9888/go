@@ -20,13 +20,19 @@
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = btn;
     
-    self.navigationItem.rightBarButtonItem.action = @selector(done);
+    UIButton *saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [saveBtn setImage:[UIImage imageNamed:@"done.png"] forState:UIControlStateNormal];
+    [saveBtn addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
+    self.navigationItem.rightBarButtonItem = dBtn;
+    
+    //self.navigationItem.rightBarButtonItem.action = @selector(done);
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     [self configureView];
@@ -49,6 +55,11 @@
     self.startInput.inputView = datePicker;
     
     [self.startInput becomeFirstResponder];
+}
+
+- (IBAction)backToPrevious:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)configureView
@@ -89,7 +100,7 @@
     [self configureView];
 }
 
-- (void)done
+-(IBAction)done:(id) sender
 {
     [self.delegate didEditScheduleWithStart:self.start AndEnd:self.end];
     [self.navigationController popViewControllerAnimated:YES];

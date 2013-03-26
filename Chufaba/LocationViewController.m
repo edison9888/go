@@ -99,6 +99,7 @@
           nil]];
         [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
         segmentedControl.frame = CGRectMake(0, 0, 80, 30);
+        segmentedControl.tintColor = [UIColor colorWithRed:19/255.0 green:87/255.0 blue:84/255.0 alpha:1.0];
         segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
         segmentedControl.momentary = YES;
         

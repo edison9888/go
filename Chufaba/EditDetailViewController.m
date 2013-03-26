@@ -22,6 +22,12 @@
 
     self.title = @"备注";
     
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = btn;
+    
     UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
     textView.tag = TAG_TEXTVIEW;
     textView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
@@ -32,6 +38,11 @@
     
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetail)];
     self.navigationItem.rightBarButtonItem = editButton;
+}
+
+- (IBAction)backToPrevious:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning
