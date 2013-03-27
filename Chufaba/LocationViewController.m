@@ -361,6 +361,7 @@
 -(void) configureTable
 {
     UITableView *tableView = (UITableView *)[self.view viewWithTag:TAG_TABLEVIEW];
+    NSInteger tableviewHeight;
     if (!tableView) {
         tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         tableView.tag = TAG_TABLEVIEW;
@@ -368,8 +369,16 @@
         tableView.dataSource = self;
         tableView.backgroundView = nil;
         [self.view addSubview:tableView];
+        tableviewHeight = self.view.frame.size.height-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT-self.navigationController.navigationBar.frame.size.height;
+        if (showMap) {
+            tableviewHeight -= MAP_VIEW_HEIGHT;
+        }
+    } else {
+        tableviewHeight = self.view.frame.size.height-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT;
+        if (showMap) {
+            tableviewHeight -= MAP_VIEW_HEIGHT;
+        }
     }
-    NSInteger tableviewHeight = showMap ? self.view.frame.size.height-MAP_VIEW_HEIGHT-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT:self.view.frame.size.height-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT;
     tableView.frame = CGRectMake(0, showMap? MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT+INFO_VIEW_HEIGHT : NAME_SCROLL_HEIGHT+INFO_VIEW_HEIGHT, self.view.frame.size.width, tableviewHeight);
     [tableView reloadData];
 }
@@ -415,7 +424,7 @@
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
-                cell.imageView.image = [UIImage imageNamed:@"location_time.png"];
+                cell.imageView.image = [UIImage imageNamed:@"time.png"];
             }
             if(self.location.visitBegin){
                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -433,7 +442,7 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
                 cell.textLabel.numberOfLines = 4;
-                cell.imageView.image = [UIImage imageNamed:@"location_note.png"];
+                cell.imageView.image = [UIImage imageNamed:@"remark.png"];
             }
             if (self.location.detail.length > 0) {
                 cell.textLabel.text = self.location.detail;
