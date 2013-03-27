@@ -43,7 +43,7 @@
     self.searchBar.translucent = YES;
     self.searchBar.tintColor = [UIColor colorWithRed:22/255.0 green:108/255.0 blue:104/255.0 alpha:1.0];
     //self.searchBar.backgroundColor = [UIColor clearColor];
-    self.searchBar.placeholder = [NSString stringWithFormat:@"搜索%@", self.category];
+    self.searchBar.placeholder = @"去哪呢？";
     
     UIImage *image = [UIImage imageNamed:@"bar.png"];
     [self.searchBar setBackgroundImage:image];
@@ -366,9 +366,30 @@
     }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger) section
 {
-    return [NSString stringWithFormat:@"搜索%@", self.searchSameCategory ? self.category : @"所有类型"];
+    UILabel *hint = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
+    hint.textAlignment = NSTextAlignmentCenter;
+    hint.font = [UIFont systemFontOfSize:12];
+    hint.backgroundColor = [UIColor colorWithRed:223/255.0 green:215/255.0 blue:198/255.0 alpha:1.0];
+    hint.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    hint.shadowColor = [UIColor whiteColor];
+    hint.shadowOffset = CGSizeMake(0, 1);
+    hint.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+    if (self.total > 0) {
+        if (self.searchSameCategory) {
+            hint.text = self.category;
+        } else {
+            hint.text = @"没有搜到合适的地点，为您推荐其他类别";
+        }
+    } else {
+        hint.text = self.category;
+    }
+    return hint;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 20.0f;
 }
 
 - (float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
