@@ -189,25 +189,25 @@
     self.annotations = [self mapAnnotations];
     self.mapView.showsUserLocation = YES;
     
-    UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, 370, 80, 40)];
-    mapNavView.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.5];
+    UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-80, 80, 30)];
+    mapNavView.backgroundColor = [UIColor clearColor];
     mapNavView.tag = 21;
     
-    UIButton *mapPreviousButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,40)];
+    UIButton *mapPreviousButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
     mapPreviousButton.tag = 22;
-    [mapPreviousButton setImage:[UIImage imageNamed:@"previous.png"] forState:UIControlStateNormal];
+    [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap.png"] forState:UIControlStateNormal];
     [mapPreviousButton addTarget:self action:@selector(previousMapLocation:) forControlEvents:UIControlEventTouchDown];
     
-    UIButton *mapNextButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,40)];
+    UIButton *mapNextButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,30)];
     mapNextButton.tag = 23;
-    [mapNextButton setImage:[UIImage imageNamed:@"next.png"] forState:UIControlStateNormal];
+    [mapNextButton setImage:[UIImage imageNamed:@"nextmap.png"] forState:UIControlStateNormal];
     [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchDown];
     
-    UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, 370, 40, 40)];
-    mapPositionView.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.5];
+    UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-80, 40, 30)];
+    mapPositionView.backgroundColor = [UIColor clearColor];
     mapPositionView.tag = 24;
     
-    UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,40)];
+    UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
     [positionButton setImage:[UIImage imageNamed:@"position.png"] forState:UIControlStateNormal];
     [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchDown];
     
@@ -218,7 +218,7 @@
     [self.mapView addSubview:mapPositionView];
     
     [self.view addSubview:self.mapView];
-    
+    NSLog(@"mapnav:%f", self.mapView.frame.size.height);
     
     //location manager part
     self.locationManager = [[CLLocationManager alloc] init];
@@ -500,7 +500,7 @@
         aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
         UILabel *label = ((UILabel *)aView.leftCalloutAccessoryView);
         label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor whiteColor];
+        label.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1];
         label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
 		aView.canShowCallout = YES;
@@ -1029,59 +1029,6 @@
     
     return cell;
 }
-
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    static NSString *CellIdentifier = @"TravelLocationCell";
-//    
-//    ItineraryViewTableViewCell *cell = (ItineraryViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    
-//    if (!cell)
-//        cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-//    
-//    NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-//    
-//    if ([object isEqual:DUMMY_CELL])
-//    {
-//        cell.textLabel.text = @"";
-//        cell.contentView.backgroundColor = [UIColor clearColor];
-//        cell.imageView.image = nil;
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//    }
-//    else
-//    {
-//        Location *locationAtIndex = (Location *)object;
-//        cell.textLabel.text = locationAtIndex.name;
-//        cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-//        cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-//        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-//        if (locationAtIndex.visitBegin) {
-//            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//            [formatter setDateStyle:NSDateFormatterNoStyle];
-//            [formatter setTimeStyle:NSDateFormatterShortStyle];
-//            [[cell detailTextLabel] setText:[formatter stringFromDate:locationAtIndex.visitBegin]];
-//        } else {
-//            //被重用的cell要清空时间
-//            [[cell detailTextLabel] setText:@""];
-//        }
-//        [[cell imageView] setImage:[Location getCategoryIcon:locationAtIndex.category]];
-//        cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
-//        
-//        UIView *bgColorView = [[UIView alloc] init];
-//        [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
-//        [cell setSelectedBackgroundView:bgColorView];
-//    }
-//    
-//    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
-//    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-//    [cell.contentView addSubview:lineView];
-//    
-//    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 45, self.view.bounds.size.width, 1)];
-//    lineView.backgroundColor = [UIColor whiteColor];
-//    [cell.contentView addSubview:lineView];
-//    
-//    return cell;
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

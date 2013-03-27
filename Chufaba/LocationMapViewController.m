@@ -47,13 +47,13 @@
     [mapView setRegion:adjustedRegion animated:false];
     [mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true] animated:false];
     
-    UIView* mapCategoryView = [[UIView alloc] initWithFrame:CGRectMake(230, 10, 80, 40)];
+    UIView* mapCategoryView = [[UIView alloc] initWithFrame:CGRectMake(230, 10, 80, 30)];
     
-    UIButton *mapNormalButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,40)];
+    UIButton *mapNormalButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
     [mapNormalButton setImage:[UIImage imageNamed:@"normalmap.png"] forState:UIControlStateNormal];
     [mapNormalButton addTarget:self action:@selector(selectNormalMap:) forControlEvents:UIControlEventTouchDown];
     
-    UIButton *mapSateliteButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,40)];
+    UIButton *mapSateliteButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,30)];
     [mapSateliteButton setImage:[UIImage imageNamed:@"satelitemap.png"] forState:UIControlStateNormal];
     [mapSateliteButton addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchDown];
     
@@ -99,8 +99,8 @@
         
         aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
         ((UILabel *)aView.leftCalloutAccessoryView).textAlignment = NSTextAlignmentCenter;
-        ((UILabel *)aView.leftCalloutAccessoryView).textColor = [UIColor whiteColor];
-        ((UILabel *)aView.leftCalloutAccessoryView).backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:0.1];
+        ((UILabel *)aView.leftCalloutAccessoryView).textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1];
+        ((UILabel *)aView.leftCalloutAccessoryView).backgroundColor = [UIColor clearColor];
         ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", self.index + 1];
         
         aView.annotation = annotation;
