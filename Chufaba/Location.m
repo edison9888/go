@@ -132,19 +132,19 @@
         imageArray = [[NSMutableArray alloc] init];
         if (self.transportation.length > 0) {
             [infoArray addObject:self.transportation];
-            [imageArray addObject:@"location_transport.png"];
+            [imageArray addObject:@"traffic.png"];
         }
         if (self.opening.length > 0) {
             [infoArray addObject:self.opening];
-            [imageArray addObject:@"location_time.png"];
+            [imageArray addObject:@"opentime.png"];
         }
         if (self.fee.length > 0) {
             [infoArray addObject:self.fee];
-            [imageArray addObject:@"location_money.png"];
+            [imageArray addObject:@"tickets.png"];
         }
         if (self.website.length > 0) {
             [infoArray addObject:self.website];
-            [imageArray addObject:@"location_note.png"];
+            [imageArray addObject:@"website.png"];
         }
     }
     return [infoArray count];

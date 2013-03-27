@@ -424,7 +424,7 @@
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
-                cell.imageView.image = [UIImage imageNamed:@"location_time.png"];
+                cell.imageView.image = [UIImage imageNamed:@"time.png"];
             }
             if(self.location.visitBegin){
                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -442,7 +442,7 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
                 cell.textLabel.numberOfLines = 4;
-                cell.imageView.image = [UIImage imageNamed:@"location_note.png"];
+                cell.imageView.image = [UIImage imageNamed:@"remark.png"];
             }
             if (self.location.detail.length > 0) {
                 cell.textLabel.text = self.location.detail;
