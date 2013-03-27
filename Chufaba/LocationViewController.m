@@ -306,8 +306,8 @@
     }
     nameScroll.contentSize = CGSizeMake(contentWidht, nameScroll.frame.size.height);
     
+    UIButton *editLocationBtn = (UIButton *)[self.view viewWithTag:TAG_EDITBUTTON];
     if(self.location.useradd){
-        UIButton *editLocationBtn = (UIButton *)[nameScroll viewWithTag:TAG_EDITBUTTON];
         if (!editLocationBtn) {
             editLocationBtn = [[UIButton alloc] init];
             editLocationBtn.tag = TAG_EDITBUTTON;
@@ -319,7 +319,6 @@
         }
         editLocationBtn.frame = CGRectMake(self.view.frame.size.width - 31,nameScroll.frame.origin.y+17,21,21);
     }else{
-        UIButton *editLocationBtn = (UIButton *)[nameScroll viewWithTag:TAG_EDITBUTTON];
         if (editLocationBtn) {
             editLocationBtn.frame = CGRectZero;
         }
