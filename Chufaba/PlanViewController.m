@@ -182,6 +182,10 @@
     [self populateTravelPlans];
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+    footerView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableFooterView = footerView;
 }
 
 - (void)didReceiveMemoryWarning

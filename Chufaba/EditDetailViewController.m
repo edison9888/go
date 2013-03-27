@@ -36,8 +36,11 @@
     [self.view addSubview:textView];
 	textView.text = self.detail;
     
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetail)];
-    self.navigationItem.rightBarButtonItem = editButton;
+    UIButton *editBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [editBtn setImage:[UIImage imageNamed:@"edittext.png"] forState:UIControlStateNormal];
+    [editBtn addTarget:self action:@selector(editDetail) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *eBtn = [[UIBarButtonItem alloc] initWithCustomView:editBtn];
+    self.navigationItem.rightBarButtonItem = eBtn;
 }
 
 - (IBAction)backToPrevious:(id)sender
@@ -53,8 +56,11 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
-    self.navigationItem.rightBarButtonItem = doneButton;
+    UIButton *doneBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [doneBtn setImage:[UIImage imageNamed:@"done.png"] forState:UIControlStateNormal];
+    [doneBtn addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:doneBtn];
+    self.navigationItem.rightBarButtonItem = dBtn;
 }
 
 - (void)editDetail
