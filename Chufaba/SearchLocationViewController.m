@@ -41,30 +41,25 @@
 
     self.searchBar.barStyle = UIBarStyleBlack;
     self.searchBar.translucent = YES;
-    self.searchBar.backgroundColor = [UIColor clearColor];
+    self.searchBar.tintColor = [UIColor colorWithRed:22/255.0 green:108/255.0 blue:104/255.0 alpha:1.0];
+    //self.searchBar.backgroundColor = [UIColor clearColor];
     self.searchBar.placeholder = [NSString stringWithFormat:@"搜索%@", self.category];
-    
-//    for (UIView *subview in self.searchBar.subviews)
-//    {
-//        if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
-//        {
-//            [subview removeFromSuperview];
-//            break;  
-//        }  
-//    }
-    
-//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bar.png"]];
-//    [self.searchBar insertSubview:imageView atIndex:1];
     
     UIImage *image = [UIImage imageNamed:@"bar.png"];
     [self.searchBar setBackgroundImage:image];
     
-    //[[UISearchBar appearance] setSearchFieldBackgroundImage:[UIImage imageNamed:@"bar.png"]forState:UIControlStateNormal];
-    
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
-    [_searchBar becomeFirstResponder];
-    [_searchBar setShowsCancelButton:YES];
+    [self.searchBar becomeFirstResponder];
+    [self.searchBar setShowsCancelButton:YES];
+    
+    for (UIView *subView in self.searchBar.subviews) {
+        if([subView isKindOfClass:[UIButton class]])
+        {
+            UIButton *cancelButton = (UIButton *)subView;
+            [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+        }
+    }
     
     addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 5.0f, 300.0f, 44.0f)];
     

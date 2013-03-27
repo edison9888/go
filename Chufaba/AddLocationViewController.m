@@ -53,6 +53,18 @@
 {
     [super viewDidLoad];
     
+    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [cancelBtn setImage:[UIImage imageNamed:@"cancel.png"] forState:UIControlStateNormal];
+    [cancelBtn addTarget:self action:@selector(cancelAddLocation:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *cBtn = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
+    self.navigationItem.leftBarButtonItem = cBtn;
+    
+    UIButton *saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [saveBtn setImage:[UIImage imageNamed:@"done.png"] forState:UIControlStateNormal];
+    [saveBtn addTarget:self action:@selector(confirmAddLocation:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
+    self.navigationItem.rightBarButtonItem = dBtn;
+    
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
     {
         UIImage *image = [UIImage imageNamed:@"bar.png"];
@@ -66,6 +78,9 @@
     searchBar.delegate = self;
     searchBar.tag = TAG_SEARCHBAR;
     searchBar.text = self.location.name;
+    searchBar.barStyle = UIBarStyleBlack;
+    searchBar.translucent = YES;
+    searchBar.tintColor = [UIColor colorWithRed:22/255.0 green:108/255.0 blue:104/255.0 alpha:1.0];
     [self.view addSubview:searchBar];
     
     self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 50, 320, 430)];
@@ -81,9 +96,6 @@
     [self.mapView addSubview:implyLabel];
     
     [self.view addSubview:self.mapView];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(confirmAddLocation:)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAddLocation:)];
     
     CLLocationCoordinate2D customLoc2D_5;
     if(self.hasCoordinate)
@@ -123,6 +135,14 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     searchBar.showsCancelButton = YES;
+    
+    for (UIView *subView in searchBar.subviews) {
+        if([subView isKindOfClass:[UIButton class]])
+        {
+            UIButton *cancelButton = (UIButton *)subView;
+            [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+        }
+    }
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
