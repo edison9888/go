@@ -217,20 +217,6 @@
     [self.mapView addSubview:mapNavView];
     [self.mapView addSubview:mapPositionView];
     
-//    UIView* mapCategoryView = [[UIView alloc] initWithFrame:CGRectMake(230, 10, 80, 40)];
-//    
-//    UIButton *mapNormalButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,40)];
-//    [mapNormalButton setImage:[UIImage imageNamed:@"normalmap.png"] forState:UIControlStateNormal];
-//    [mapNormalButton addTarget:self action:@selector(selectNormalMap:) forControlEvents:UIControlEventTouchDown];
-//    
-//    UIButton *mapSateliteButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,40)];
-//    [mapSateliteButton setImage:[UIImage imageNamed:@"satelitemap.png"] forState:UIControlStateNormal];
-//    [mapSateliteButton addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchDown];
-//    
-//    [mapCategoryView addSubview:mapNormalButton];
-//    [mapCategoryView addSubview:mapSateliteButton];
-//    [self.mapView addSubview:mapCategoryView];
-    
     [self.view addSubview:self.mapView];
     
     
@@ -240,8 +226,6 @@
     self.locationManager.delegate = self;
     self.curLocation = nil;
     [self.locationManager startUpdatingLocation];
-    
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:MAP_BUTTON_TITLE style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMap)];
     
     UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [modeBtn setImage:[UIImage imageNamed:@"map.png"] forState:UIControlStateNormal];
@@ -292,17 +276,6 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-//- (IBAction)selectNormalMap:(id)sender
-//{
-//    self.mapView.mapType = MKMapTypeStandard;
-//}
-//
-//
-//- (IBAction)selectSateliteMap:(id)sender
-//{
-//    self.mapView.mapType = MKMapTypeSatellite;
-//}
 
 - (IBAction)previousMapLocation:(id)sender
 {

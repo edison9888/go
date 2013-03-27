@@ -7,6 +7,7 @@
 //
 
 #import "ItineraryViewTableViewCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation SwipeableViewController
 
@@ -94,8 +95,13 @@
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:tapRecognizer];
     
-    UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(279,yPosition,41,44)];
+    UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,41,44)];
     deleteView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
+    
+    CALayer *leftBorder = [CALayer layer];
+    leftBorder.frame = CGRectMake(0, 0, 1, 44);
+    leftBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
+    [deleteView.layer addSublayer:leftBorder];
 	
 	UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(10,12,20,20)];
     [deleteButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
@@ -114,6 +120,12 @@
     {
         [delegate tableView:tableView didSwipeCellAtIndexPath:myIndexPath];
     }
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.2];
+    [contentView setFrame:CGRectMake(-41, 0, 320, 44)];
+    [deleteView setFrame:CGRectMake(279,yPosition,41,44)];
+    [UIView commitAnimations];
 }
 
 - (IBAction)notifyDeleteLocation:(id)sender
@@ -131,6 +143,7 @@
 
 - (IBAction)maskViewTapped:(id)sender
 {
+    [contentView setFrame:CGRectMake(0, 0, 320, 44)];
     UITableView * tableView = (UITableView *)self.superview;
     UIView *maskView = [tableView viewWithTag:10];
     [maskView removeFromSuperview];

@@ -47,6 +47,7 @@
     
     UIImage *image = [UIImage imageNamed:@"bar.png"];
     [self.searchBar setBackgroundImage:image];
+    //[self.searchBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     

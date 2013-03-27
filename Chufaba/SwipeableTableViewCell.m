@@ -7,6 +7,7 @@
 //
 
 #import "SwipeableTableViewCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation SwipeableTableViewController
 
@@ -135,8 +136,13 @@
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:tapRecognizer];
     
-    UIView *editView = [[UIView alloc] initWithFrame:CGRectMake(218,yPosition,102,92)];
+    UIView *editView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,102,92)];
     editView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
+    
+    CALayer *leftBorder = [CALayer layer];
+    leftBorder.frame = CGRectMake(0, 0, 1, 92);
+    leftBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
+    [editView.layer addSublayer:leftBorder];
     
     UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(20,35,21,21)];
     [editButton setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
@@ -160,10 +166,17 @@
     {
         [delegate tableView:tableView didSwipeCellAtIndexPath:myIndexPath];
     }
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.2];
+    [contentView setFrame:CGRectMake(-102, 0, 320, 92)];
+    [editView setFrame:CGRectMake(218,yPosition,102,92)];
+    [UIView commitAnimations];
 }
 
 - (IBAction)maskViewTapped:(id)sender
 {
+    [contentView setFrame:CGRectMake(0, 0, 320, 92)];
     UITableView * tableView = (UITableView *)self.superview;
     UIView *maskView = [tableView viewWithTag:10];
     [maskView removeFromSuperview];
