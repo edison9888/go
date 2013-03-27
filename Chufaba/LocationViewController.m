@@ -233,7 +233,11 @@
         nameScroll.showsVerticalScrollIndicator = FALSE;
         [self.view addSubview:nameScroll];
     }
-    nameScroll.frame = CGRectMake(10+NAME_SCROLL_HEIGHT+5, showMap? MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT : INFO_VIEW_HEIGHT, self.view.frame.size.width - NAME_SCROLL_HEIGHT - 15, NAME_SCROLL_HEIGHT);
+    NSInteger nameScrollWidth = self.view.frame.size.width - NAME_SCROLL_HEIGHT - 15;
+    if (self.location.useradd) {
+        nameScrollWidth -= 31;
+    }
+    nameScroll.frame = CGRectMake(10+NAME_SCROLL_HEIGHT+5, showMap? MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT : INFO_VIEW_HEIGHT, nameScrollWidth, NAME_SCROLL_HEIGHT);
         
     UILabel *nameLabel = (UILabel *)[nameScroll viewWithTag:TAG_NAMELABEL];
     if (!nameLabel) {
@@ -311,9 +315,9 @@
             [editLocationBtn setAlpha:1];
             editLocationBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
             [editLocationBtn addTarget:self action:@selector(editLocationCoordinate:) forControlEvents:UIControlEventTouchDown];
-            [nameScroll addSubview:editLocationBtn];
+            [self.view addSubview:editLocationBtn];
         }
-        editLocationBtn.frame = CGRectMake(nameScroll.frame.size.width*0.9-55,0,60,60);
+        editLocationBtn.frame = CGRectMake(self.view.frame.size.width - 31,nameScroll.frame.origin.y+17,21,21);
     }else{
         UIButton *editLocationBtn = (UIButton *)[nameScroll viewWithTag:TAG_EDITBUTTON];
         if (editLocationBtn) {
