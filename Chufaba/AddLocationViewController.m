@@ -178,51 +178,37 @@
         [fetcher close];
     }
     
-    NSString *searchText = ((UISearchBar *)[self.view viewWithTag:TAG_SEARCHBAR]).text;
-    if([searchText length] == 0)
-    {
-        [Utility showAlert:@"提醒" message:@"地点名字没有填写哦!"];
-        return;
-    }
-    else if(searchText != self.location.name)
-    {
-        nameChanged = YES;
-    }
-    
-    if(nameChanged || coordinateChanged || self.addLocation)
+    if(coordinateChanged || self.addLocation)
     {
         Location *addLocation = [[Location alloc] init];
         addLocation.useradd = YES;
         addLocation.category = self.location.category;
         addLocation.name = self.location.name;
-        if(nameChanged)
-        {
-            addLocation.name = ((UISearchBar *)[self.view viewWithTag:TAG_SEARCHBAR]).text;
-        }
         
-        if(coordinateChanged || self.addLocation)
+        if (!selfEditMode)
         {
-            if (!selfEditMode)
+            LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
+            if(selectedAnnotation)
             {
-                LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
-                if(selectedAnnotation)
-                {
-                    addLocation.latitude = selectedAnnotation.location.latitude;
-                    addLocation.longitude = selectedAnnotation.location.longitude;
-                }
-                else
-                {
-                    addLocation.latitude = nil;
-                    addLocation.longitude = nil;
-                }
+                addLocation.latitude = selectedAnnotation.location.latitude;
+                addLocation.longitude = selectedAnnotation.location.longitude;
+                addLocation.name = selectedAnnotation.title;
+                nameChanged = YES;
             }
             else
             {
-                id<MKAnnotation> tappedAnnotation = [self.mapView.annotations objectAtIndex:0];
-                CLLocationCoordinate2D tappedPoint = tappedAnnotation.coordinate;
-                addLocation.latitude = [NSNumber numberWithDouble:tappedPoint.latitude];
-                addLocation.longitude = [NSNumber numberWithDouble:tappedPoint.longitude];
+                addLocation.latitude = nil;
+                addLocation.longitude = nil;
+                nameChanged = NO;
             }
+        }
+        else
+        {
+            id<MKAnnotation> tappedAnnotation = [self.mapView.annotations objectAtIndex:0];
+            CLLocationCoordinate2D tappedPoint = tappedAnnotation.coordinate;
+            addLocation.latitude = [NSNumber numberWithDouble:tappedPoint.latitude];
+            addLocation.longitude = [NSNumber numberWithDouble:tappedPoint.longitude];
+            nameChanged = NO;
         }
         
         [self saveLocationToServer:addLocation];
@@ -245,12 +231,7 @@
         [fetcher close];
     }
     
-    if(((UISearchBar *)[self.view viewWithTag:TAG_SEARCHBAR]).text != self.location.name)
-    {
-        nameChanged = YES;
-    }
-    
-    if(nameChanged || coordinateChanged)
+    if(coordinateChanged)
     {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"修改尚未保存，你确定放弃并返回吗？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"确定", nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
@@ -450,7 +431,6 @@
 {
     coordinateChanged = YES;
     ((MKPinAnnotationView *)view).pinColor = MKPinAnnotationColorGreen;
-    ((UISearchBar *)[self.view viewWithTag:TAG_SEARCHBAR]).text = ((id <MKAnnotation>)view.annotation).title;
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
