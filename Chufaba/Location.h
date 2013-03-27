@@ -50,6 +50,7 @@
 - (NSString *)getRealName;
 - (NSString *)getRealNameEn;
 
+- (NSUInteger)numberOfSections;
 - (NSUInteger)numberOfRowsInInfoSection;
 - (NSString *)contentForRow:(NSInteger)row;
 - (NSString *)imageNameForRow:(NSInteger)row;
