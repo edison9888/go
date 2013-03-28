@@ -39,6 +39,24 @@
     return self;
 }
 
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
+    if (!titleView) {
+        titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleView.backgroundColor = [UIColor clearColor];
+        titleView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:20];
+        titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        
+        titleView.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
+        
+        self.navigationItem.titleView = titleView;
+    }
+    titleView.text = title;
+    [titleView sizeToFit];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -71,7 +89,7 @@
         [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     }
 
-    self.navigationItem.title = @"编辑地点坐标";
+    [self setTitle:@"编辑地点坐标"];
     
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
     searchBar.placeholder = @"地点名称或地址";
@@ -79,8 +97,10 @@
     searchBar.tag = TAG_SEARCHBAR;
     searchBar.text = self.location.name;
     searchBar.barStyle = UIBarStyleBlack;
-    searchBar.translucent = YES;
-    searchBar.tintColor = [UIColor colorWithRed:22/255.0 green:108/255.0 blue:104/255.0 alpha:1.0];
+    //searchBar.t
+    //searchBar.translucent = YES;
+    searchBar.tintColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    searchBar.backgroundImage = [UIImage imageNamed:@"bgbar.png"];
     [self.view addSubview:searchBar];
     
     self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 50, 320, 430)];
@@ -89,10 +109,17 @@
     UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
     implyLabel.tag = TAG_IMPLY_LABEL;
     implyLabel.text = @"选一个靠近的地点来设定坐标";
-    implyLabel.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:0.9];
+    implyLabel.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:0.8];
     implyLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
     implyLabel.textColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0];
     implyLabel.textAlignment = NSTextAlignmentCenter;
+    
+    implyLabel.layer.masksToBounds = NO;
+    implyLabel.layer.shadowOffset = CGSizeMake(0, 2);
+    implyLabel.layer.shadowRadius = 4;
+    implyLabel.layer.shadowColor = [[UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0] CGColor];
+    implyLabel.layer.shadowOpacity = 0.3;
+    
     [self.mapView addSubview:implyLabel];
     
     [self.view addSubview:self.mapView];
@@ -140,7 +167,22 @@
         if([subView isKindOfClass:[UIButton class]])
         {
             UIButton *cancelButton = (UIButton *)subView;
-            [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+            [cancelButton setTitle:@"" forState:UIControlStateNormal];
+            
+            UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(2, 2, 40, 20)];
+            [overlay setBackgroundColor:[UIColor clearColor]];
+            [overlay setUserInteractionEnabled:NO]; 
+            [cancelButton addSubview:overlay];
+            
+            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 40, 20)];
+            newLabel.backgroundColor = [UIColor clearColor];
+            //[newLabel setTextColor:[UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0]];
+            newLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+            newLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+            [newLabel setText:@"取消"];
+            [newLabel setTextAlignment:NSTextAlignmentCenter];
+            [newLabel setUserInteractionEnabled:NO];
+            [overlay addSubview:newLabel];
         }
     }
 }

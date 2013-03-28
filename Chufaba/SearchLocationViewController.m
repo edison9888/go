@@ -41,13 +41,11 @@
 
     self.searchBar.barStyle = UIBarStyleBlack;
     self.searchBar.translucent = YES;
-    self.searchBar.tintColor = [UIColor colorWithRed:22/255.0 green:108/255.0 blue:104/255.0 alpha:1.0];
-    //self.searchBar.backgroundColor = [UIColor clearColor];
+    self.searchBar.tintColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
     self.searchBar.placeholder = @"去哪呢？";
     
-    UIImage *image = [UIImage imageNamed:@"bar.png"];
+    UIImage *image = [UIImage imageNamed:@"bar_Search.png"];
     [self.searchBar setBackgroundImage:image];
-    //[self.searchBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
@@ -68,7 +66,6 @@
     implyLabel.backgroundColor = [UIColor clearColor];
     implyLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     implyLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-    implyLabel.text = @"搜不到\" \"，我来创建";
     implyLabel.tag = TAG_IMPLYLABEL;
     [addLocationBtn addSubview:implyLabel];
     [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn.png"]
@@ -124,7 +121,7 @@
     }
     else if(![searchText isEqualToString:self.keyword])
     {
-        NSString *addLocationBtnText = [NSString stringWithFormat:@"搜不到 \"%@\" ？ 我来创建！", searchText];
+        NSString *addLocationBtnText = [NSString stringWithFormat:@"创建旅行地点 \"%@\"", searchText];
         ((UILabel *)[addLocationBtn viewWithTag:TAG_IMPLYLABEL]).text = addLocationBtnText;
         [self searchPoiByKeyword:searchText andSameCategory:YES];
     }

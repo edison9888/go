@@ -361,14 +361,14 @@
     {
         UINavigationController *navigationController = segue.destinationViewController;
         AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
-        addPlanViewController.navigationItem.title = @"添加旅行计划";
+        [addPlanViewController setTitle:@"添加旅行计划"];
         addPlanViewController.delegate = self;
     }
     else if ([[segue identifier] isEqualToString:@"EditPlan"])
     {
         UINavigationController *navigationController = segue.destinationViewController;
         AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
-        addPlanViewController.navigationItem.title = @"编辑旅行计划";
+        [addPlanViewController setTitle:@"编辑旅行计划"];
         addPlanViewController.delegate = self;
         Plan *tempPlan = [self.travelPlans objectAtIndex:self.indexPathOfplanToEditOrDelete.row];
         addPlanViewController.plan = [[Plan alloc] initWithName:tempPlan.name duration:tempPlan.duration date:tempPlan.date image:tempPlan.image];

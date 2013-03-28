@@ -23,6 +23,24 @@
     return self;
 }
 
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
+    if (!titleView) {
+        titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleView.backgroundColor = [UIColor clearColor];
+        titleView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:20];
+        titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        
+        titleView.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
+        
+        self.navigationItem.titleView = titleView;
+    }
+    titleView.text = title;
+    [titleView sizeToFit];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -38,7 +56,7 @@
     mapView.delegate = self;
     mapView.tag = 20;
     
-    self.navigationItem.title = @"地图详情";
+    [self setTitle:@"地图详情"];
 	CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
     [mapView setCenterCoordinate:customLoc2D_5 animated:YES];
     
