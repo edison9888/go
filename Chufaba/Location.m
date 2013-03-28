@@ -49,6 +49,23 @@
     return @"其它";
 }
 
++ (UIImage *)getCategoryIconMap:(NSString *)category
+{
+    if ([category isEqualToString:@"景点"]) {
+        return [UIImage imageNamed:@"pin_sight.png"];
+    } else if([category isEqualToString:@"美食"]) {
+        return [UIImage imageNamed:@"pin_food.png"];
+    } else if([category isEqualToString:@"住宿"]) {
+        return [UIImage imageNamed:@"pin_hotel.png"];
+    } else if([category isEqualToString:@"交通"]) {
+        return [UIImage imageNamed:@"pin_transport.png"];
+    } else if([category isEqualToString:@"娱乐"]) {
+        return [UIImage imageNamed:@"pin_entertainment.png"];
+    } else {
+        return [UIImage imageNamed:@"pin_more.png"];
+    }
+}
+
 + (UIImage *)getCategoryIcon:(NSString *)category
 {
     if ([category isEqualToString:@"景点"]) {

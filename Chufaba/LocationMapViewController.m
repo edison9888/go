@@ -48,14 +48,27 @@
     [mapView setRegion:adjustedRegion animated:false];
     [mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true] animated:false];
     
-    UIButton *mapModeButton = [[UIButton alloc] initWithFrame:CGRectMake(270,10,40,30)];
+    UIButton *mapModeButton = [[UIButton alloc] initWithFrame:CGRectMake(270,mapView.frame.size.height-80,40,30)];
     mapModeButton.tag = 21;
     [mapModeButton setImage:[UIImage imageNamed:@"satelitemap.png"] forState:UIControlStateNormal];
     [mapModeButton addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchDown];
     
+    UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(10,mapView.frame.size.height-80,40,30)];
+    [positionButton setImage:[UIImage imageNamed:@"position.png"] forState:UIControlStateNormal];
+    [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchDown];
+    
     [mapView addSubview:mapModeButton];
+    [mapView addSubview:positionButton];
+    mapView.showsUserLocation = YES;
     
     [self.view addSubview:mapView];
+}
+
+- (IBAction)positionMe:(id)sender
+{
+    MKMapView *mapView = (MKMapView *)[self.view viewWithTag:20];
+    [mapView setCenterCoordinate:mapView.userLocation.coordinate animated:YES];
+    [mapView selectAnnotation:mapView.userLocation animated:YES];
 }
 
 - (IBAction)backToPrevious:(id)sender
@@ -92,10 +105,22 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)sender viewForAnnotation:(id <MKAnnotation>)annotation
 {
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+    {
+//        ((MKUserLocation *)annotation).title = @"我在这";
+//        MKPinAnnotationView *userLocationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"UserLocation"];
+//        userLocationView.pinColor = MKPinAnnotationColorGreen;
+//        userLocationView.canShowCallout = YES;
+//        return userLocationView;
+        ((MKUserLocation *)annotation).title = @"我在这";
+        return nil;
+    }
+    
     MKAnnotationView *aView = [sender dequeueReusableAnnotationViewWithIdentifier:LOCATION_ANNOTATION_VIEWS];
     
 	if (!aView) {
-		aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
+        aView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
+        aView.image = [Location getCategoryIconMap:self.location.category];
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(0, 0, 20, 20);

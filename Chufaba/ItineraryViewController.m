@@ -489,17 +489,14 @@
 	if ([annotation isKindOfClass:[MKUserLocation class]])
     {
         ((MKUserLocation *)annotation).title = @"我在这";
-        MKPinAnnotationView *userLocationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"UserLocation"];
-        userLocationView.pinColor = MKPinAnnotationColorGreen;
-        userLocationView.canShowCallout = YES;
-        return userLocationView;
-        //return nil to use default blue dot view
+        return nil;
     }
     
     MKAnnotationView *aView = [sender dequeueReusableAnnotationViewWithIdentifier:LOCATION_ANNOTATION_VIEWS];
     
 	if (!aView) {
-		aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
+        aView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
+        
 		aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
         UILabel *label = ((UILabel *)aView.leftCalloutAccessoryView);
@@ -511,6 +508,7 @@
 	}
 
     LocationAnnotation *locationAnnotation = (LocationAnnotation *)annotation;
+    aView.image = [Location getCategoryIconMap:locationAnnotation.location.category];
     NSUInteger index = [oneDimensionLocationList indexOfObject:locationAnnotation.location];
     ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", index+1];
 	aView.annotation = annotation;

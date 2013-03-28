@@ -43,6 +43,7 @@
 + (UIImage *)getCategoryIcon:(NSString *)category;
 + (UIImage *)getCategoryIconMedium:(NSString *)category;
 + (UIImage *)getCategoryIconLarge:(NSString *)category;
++ (UIImage *)getCategoryIconMap:(NSString *)category;
 
 - (BOOL)hasCoordinate;
 
