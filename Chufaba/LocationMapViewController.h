@@ -15,5 +15,6 @@
 
 @property (strong, nonatomic) Location *location;
 @property int index;
+@property (nonatomic, assign) BOOL normalMapMode;
 
 @end

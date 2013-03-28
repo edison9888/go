@@ -26,6 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.normalMapMode = YES;
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
@@ -47,20 +48,13 @@
     [mapView setRegion:adjustedRegion animated:false];
     [mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true] animated:false];
     
-    UIView* mapCategoryView = [[UIView alloc] initWithFrame:CGRectMake(230, 10, 80, 30)];
+    UIButton *mapModeButton = [[UIButton alloc] initWithFrame:CGRectMake(270,10,40,30)];
+    mapModeButton.tag = 21;
+    [mapModeButton setImage:[UIImage imageNamed:@"satelitemap.png"] forState:UIControlStateNormal];
+    [mapModeButton addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchDown];
     
-    UIButton *mapNormalButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
-    [mapNormalButton setImage:[UIImage imageNamed:@"normalmap.png"] forState:UIControlStateNormal];
-    [mapNormalButton addTarget:self action:@selector(selectNormalMap:) forControlEvents:UIControlEventTouchDown];
+    [mapView addSubview:mapModeButton];
     
-    UIButton *mapSateliteButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,30)];
-    [mapSateliteButton setImage:[UIImage imageNamed:@"satelitemap.png"] forState:UIControlStateNormal];
-    [mapSateliteButton addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchDown];
-    
-    [mapCategoryView addSubview:mapNormalButton];
-    [mapCategoryView addSubview:mapSateliteButton];
-    
-    [mapView addSubview:mapCategoryView];
     [self.view addSubview:mapView];
 }
 
@@ -72,13 +66,25 @@
 - (IBAction)selectNormalMap:(id)sender
 {
     MKMapView *mapView = (MKMapView *)[self.view viewWithTag:20];
+    
+    UIButton *mapModeBtn = (UIButton *)[mapView viewWithTag:21];
+    [mapModeBtn setImage:[UIImage imageNamed:@"satelitemap.png"] forState:UIControlStateNormal];
+    [mapModeBtn removeTarget:self action:@selector(selectNormalMap:) forControlEvents:UIControlEventTouchDown];
+    [mapModeBtn addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchDown];
+    
     mapView.mapType = MKMapTypeStandard;
 }
 
 
 - (IBAction)selectSateliteMap:(id)sender
-{
+{    
     MKMapView *mapView = (MKMapView *)[self.view viewWithTag:20];
+    
+    UIButton *mapModeBtn = (UIButton *)[mapView viewWithTag:21];
+    [mapModeBtn setImage:[UIImage imageNamed:@"normalmap.png"] forState:UIControlStateNormal];
+    [mapModeBtn removeTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchDown];
+    [mapModeBtn addTarget:self action:@selector(selectNormalMap:) forControlEvents:UIControlEventTouchDown];
+    
     mapView.mapType = MKMapTypeSatellite;
 }
 
