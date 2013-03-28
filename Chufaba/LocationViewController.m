@@ -306,8 +306,8 @@
     }
     nameScroll.contentSize = CGSizeMake(contentWidht, nameScroll.frame.size.height);
     
+    UIButton *editLocationBtn = (UIButton *)[self.view viewWithTag:TAG_EDITBUTTON];
     if(self.location.useradd){
-        UIButton *editLocationBtn = (UIButton *)[nameScroll viewWithTag:TAG_EDITBUTTON];
         if (!editLocationBtn) {
             editLocationBtn = [[UIButton alloc] init];
             editLocationBtn.tag = TAG_EDITBUTTON;
@@ -319,7 +319,6 @@
         }
         editLocationBtn.frame = CGRectMake(self.view.frame.size.width - 31,nameScroll.frame.origin.y+17,21,21);
     }else{
-        UIButton *editLocationBtn = (UIButton *)[nameScroll viewWithTag:TAG_EDITBUTTON];
         if (editLocationBtn) {
             editLocationBtn.frame = CGRectZero;
         }
@@ -389,18 +388,22 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return [self.location numberOfSections];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return section == 0 ? [self.location numberOfRowsInInfoSection] : 2;
+    if ([self.location numberOfSections] == 2 && section == 0) {
+        return [self.location numberOfRowsInInfoSection];
+    } else {
+        return 2;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    if (indexPath.section == 0) {
+    if ([self.location numberOfSections] == 2 && indexPath.section == 0) {
         NSString *CellIdentifier = @"LocationInfoCell";
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (!cell) {
@@ -460,7 +463,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if ([self.location numberOfSections] == 2 && indexPath.section == 0) {
         NSString *content = [self.location contentForRow:indexPath.row];
         CGSize constraint = CGSizeMake(tableView.bounds.size.width - 80, 20000.0f);
         CGSize size = [content sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
@@ -482,7 +485,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
+    if ([self.location numberOfSections] == 1 || indexPath.section == 1) {
         if (indexPath.row == 0) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
             EditScheduleViewController *scheduleViewController = [storyboard instantiateViewControllerWithIdentifier:@"EditScheduleStoryBoard"];

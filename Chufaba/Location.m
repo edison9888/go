@@ -125,6 +125,11 @@
     return _nameEn;
 }
 
+- (NSUInteger)numberOfSections
+{
+    return [self numberOfRowsInInfoSection] > 0 ? 2 : 1;
+}
+
 - (NSUInteger)numberOfRowsInInfoSection
 {
     if (infoArray == nil) {
