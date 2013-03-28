@@ -263,6 +263,10 @@
         }
     }
     
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+    footerView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableFooterView = footerView;
+    
     //sync,edit,share menu part
 //    if (pullDownMenuView == nil) {
 //		PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
@@ -1012,7 +1016,7 @@
         }
         [categoryIcon setImage:[Location getCategoryIcon:locationAtIndex.category]];
         
-        cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
+        //cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
         
         UIView *bgColorView = [[UIView alloc] init];
         [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];

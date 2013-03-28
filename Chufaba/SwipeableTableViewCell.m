@@ -60,8 +60,6 @@
 
 - (void)initialSetup
 {
-	//[self setBackgroundColor:[UIColor clearColor]];
-
     contentView = [[SwipeableTableViewCellView alloc] initWithFrame:CGRectMake(0, 0, 320, 92)];
 	[contentView setClipsToBounds:YES];
 	[contentView setOpaque:NO];
@@ -86,6 +84,10 @@
     planInfo.tag = 4;
     planInfo.backgroundColor = [UIColor clearColor];
     [contentView addSubview:planInfo];
+    
+    UIImageView *accessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(300, 38, 12, 16)];
+    accessoryView.image = [UIImage imageNamed:@"detailinfo.png"];
+    [contentView addSubview:accessoryView];
 	
 	UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cellWasSwiped:)];
     [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
@@ -105,6 +107,7 @@
     if ([delegate respondsToSelector:@selector(didEditPlan)]){
         [delegate didEditPlan];
     }
+    [contentView setFrame:CGRectMake(0, 0, 320, 92)];
 }
 
 - (IBAction)deletePlan:(id)sender

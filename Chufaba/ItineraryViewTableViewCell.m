@@ -63,6 +63,10 @@
     time.tag = 3;
     time.backgroundColor = [UIColor clearColor];
     [contentView addSubview:time];
+    
+    UIImageView *accessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
+    accessoryView.image = [UIImage imageNamed:@"detailsmall.png"];
+    [contentView addSubview:accessoryView];
 	
 	UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cellWasSwiped:)];
     [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
@@ -95,15 +99,22 @@
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:tapRecognizer];
     
-    UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,41,44)];
+    UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,51,44)];
     deleteView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
     
     CALayer *leftBorder = [CALayer layer];
-    leftBorder.frame = CGRectMake(0, 0, 1, 44);
+    if(swipedIndexPath.row == 0)
+    {
+        leftBorder.frame = CGRectMake(0, 0, 1, 43);
+    }
+    else
+    {
+        leftBorder.frame = CGRectMake(0, 0, 1, 44);
+    }
     leftBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
     [deleteView.layer addSublayer:leftBorder];
 	
-	UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(10,12,20,20)];
+	UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(12,12,20,20)];
     [deleteButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
     [deleteButton addTarget:self action:@selector(notifyDeleteLocation:) forControlEvents:UIControlEventTouchDown];
     
@@ -123,8 +134,15 @@
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.2];
-    [contentView setFrame:CGRectMake(-41, 0, 320, 44)];
-    [deleteView setFrame:CGRectMake(279,yPosition,41,44)];
+    [contentView setFrame:CGRectMake(-51, 0, 320, 44)];
+    if(swipedIndexPath.row == 0)
+    {
+        [deleteView setFrame:CGRectMake(279,yPosition+1,41,43)];
+    }
+    else
+    {
+        [deleteView setFrame:CGRectMake(279,yPosition,41,44)];
+    }
     [UIView commitAnimations];
 }
 
