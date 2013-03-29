@@ -45,7 +45,7 @@
 {
 	//[self setBackgroundColor:[UIColor clearColor]];
     
-    contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
 	[contentView setClipsToBounds:YES];
 	[contentView setOpaque:NO];
     contentView.tag = 30;
@@ -72,7 +72,7 @@
     [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
 	[contentView addGestureRecognizer:swipeRecognizer];
     
-    [self addSubview:contentView];
+    [self.contentView addSubview:contentView];
 }
 
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer
@@ -82,24 +82,28 @@
     CGPoint location = [recognizer locationInView:tableView];
     NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
     
-    NSLog(@"section:%d", swipedIndexPath.section);
-    NSLog(@"row:%d", swipedIndexPath.row);
+//    NSInteger yPosition = 0;
+//    for(int i=0; i<swipedIndexPath.section; i++)
+//    {
+//        yPosition = yPosition + 44*[tableView numberOfRowsInSection:i];
+//    }
+//    yPosition = yPosition + 44*swipedIndexPath.row + 44*(swipedIndexPath.section+1);
+    NSInteger yPosition = self.frame.origin.y - tableView.bounds.origin.y;
     
-    NSInteger yPosition = 0;
-    for(int i=0; i<swipedIndexPath.section; i++)
-    {
-        yPosition = yPosition + 44*[tableView numberOfRowsInSection:i];
-    }
-    yPosition = yPosition + 44*swipedIndexPath.row + 44*(swipedIndexPath.section+1);
-    
-    UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,480)];
+    //UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,480)];
+    UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,tableView.bounds.origin.y,320,480)];
     maskView.backgroundColor = [UIColor clearColor];
     maskView.tag = 10;
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:tapRecognizer];
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
+    [maskView addGestureRecognizer:panRecognizer];
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
+    [maskView addGestureRecognizer:longPressRecognizer];
     
     UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,51,44)];
+    //UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(320,0,51,44)];
     deleteView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
     
     CALayer *leftBorder = [CALayer layer];
@@ -121,6 +125,8 @@
     [deleteView addSubview:deleteButton];
     
     [maskView addSubview:deleteView];
+    deleteView.tag = 11;
+    //[self.contentView addSubview:deleteView];
     [tableView addSubview:maskView];
     
 	id delegate = tableView.superview.nextResponder;
@@ -134,14 +140,16 @@
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.2];
-    [contentView setFrame:CGRectMake(-51, 0, 320, 44)];
+    [[self.contentView viewWithTag:30] setFrame:CGRectMake(-51, 0, 320, 44)];
     if(swipedIndexPath.row == 0)
     {
         [deleteView setFrame:CGRectMake(279,yPosition+1,41,43)];
+        //[deleteView setFrame:CGRectMake(279,1,41,43)];
     }
     else
     {
         [deleteView setFrame:CGRectMake(279,yPosition,41,44)];
+        //[deleteView setFrame:CGRectMake(279,0,41,44)];
     }
     [UIView commitAnimations];
 }
@@ -157,11 +165,13 @@
     {
         [delegate deleteLocation];
     }
+    [[self.contentView viewWithTag:30] setFrame:CGRectMake(0, 0, 320, 44)];
 }
 
 - (IBAction)maskViewTapped:(id)sender
 {
-    [contentView setFrame:CGRectMake(0, 0, 320, 44)];
+    [[self.contentView viewWithTag:30] setFrame:CGRectMake(0, 0, 320, 44)];
+    [[self.contentView viewWithTag:11] removeFromSuperview];
     UITableView * tableView = (UITableView *)self.superview;
     UIView *maskView = [tableView viewWithTag:10];
     [maskView removeFromSuperview];

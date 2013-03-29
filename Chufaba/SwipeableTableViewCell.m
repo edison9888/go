@@ -120,24 +120,31 @@
     if ([delegate respondsToSelector:@selector(didDeletePlan)]){
         [delegate didDeletePlan];
     }
+    [contentView setFrame:CGRectMake(0, 0, 320, 92)];
 }
 
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer
 {	
 	UITableView * tableView = (UITableView *)self.superview;
     
-    CGPoint location = [recognizer locationInView:tableView];
-    NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
+    //CGPoint location = [recognizer locationInView:tableView];
+    //NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
     
     //UITableViewCell *swipedCell  = [tableView cellForRowAtIndexPath:swipedIndexPath];
-    NSInteger yPosition = 92*swipedIndexPath.row;
+    //NSInteger yPosition = 92*swipedIndexPath.row;
+    NSInteger yPosition = self.frame.origin.y - tableView.bounds.origin.y;
     
-    UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,480)];
+    //UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,480)];
+    UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,tableView.bounds.origin.y,320,480)];
     maskView.backgroundColor = [UIColor clearColor];
     maskView.tag = 10;
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:tapRecognizer];
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
+    [maskView addGestureRecognizer:panRecognizer];
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
+    [maskView addGestureRecognizer:longPressRecognizer];
     
     UIView *editView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,102,92)];
     editView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];

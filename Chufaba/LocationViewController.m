@@ -477,6 +477,9 @@
         }
         cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
     }
+    UIView *bgColorView = [[UIView alloc] init];
+    [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
+    [cell setSelectedBackgroundView:bgColorView];
     return cell;
 }
 
