@@ -64,6 +64,7 @@
     MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
     
     [mapView setRegion:adjustedRegion animated:false];
+    [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
     [mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true] animated:false];
     
     UIButton *mapModeButton = [[UIButton alloc] initWithFrame:CGRectMake(270,mapView.frame.size.height-80,40,30)];
@@ -125,11 +126,6 @@
 {
     if ([annotation isKindOfClass:[MKUserLocation class]])
     {
-//        ((MKUserLocation *)annotation).title = @"我在这";
-//        MKPinAnnotationView *userLocationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"UserLocation"];
-//        userLocationView.pinColor = MKPinAnnotationColorGreen;
-//        userLocationView.canShowCallout = YES;
-//        return userLocationView;
         ((MKUserLocation *)annotation).title = @"我在这";
         return nil;
     }

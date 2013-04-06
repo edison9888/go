@@ -213,7 +213,8 @@
         MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
         [mapView setRegion:adjustedRegion animated:false];
         [mapView removeAnnotations:mapView.selectedAnnotations];
-        [mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
+        [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
+        //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
     }else{
         showMap = NO;
         MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];
@@ -221,6 +222,21 @@
             mapView.frame = CGRectZero;
         }
     }
+}
+
+#define LOCATION_ANNOTATION_VIEWS @"LocationAnnotationViews"
+
+- (MKAnnotationView *)mapView:(MKMapView *)sender viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    MKAnnotationView *aView = [sender dequeueReusableAnnotationViewWithIdentifier:LOCATION_ANNOTATION_VIEWS];
+    
+	if (!aView)
+    {
+        aView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
+        aView.image = [Location getCategoryIconMap:self.location.category];
+        aView.annotation = annotation;
+	}
+	return aView;
 }
 
 - (void)showLargeMap
