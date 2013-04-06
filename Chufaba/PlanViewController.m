@@ -359,6 +359,7 @@
     }
     else if ([[segue identifier] isEqualToString:@"AddPlan"])
     {
+        [(SwipeableTableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPathOfplanToEditOrDelete] maskViewTapped:NULL];
         UINavigationController *navigationController = segue.destinationViewController;
         AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
         [addPlanViewController setTitle:@"添加旅行计划"];

@@ -127,8 +127,8 @@
 {	
 	UITableView * tableView = (UITableView *)self.superview;
     
-    //CGPoint location = [recognizer locationInView:tableView];
-    //NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
+//    CGPoint location = [recognizer locationInView:tableView];
+//    NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
     
     //UITableViewCell *swipedCell  = [tableView cellForRowAtIndexPath:swipedIndexPath];
     //NSInteger yPosition = 92*swipedIndexPath.row;

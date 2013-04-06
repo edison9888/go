@@ -34,4 +34,6 @@
 
 @property (nonatomic, copy) NSString * text;
 
+- (IBAction)maskViewTapped:(id)sender;
+
 @end
