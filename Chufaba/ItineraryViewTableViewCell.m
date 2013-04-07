@@ -59,9 +59,10 @@
     title.backgroundColor = [UIColor clearColor];
     [contentView addSubview:title];
     
-    UILabel *time = [[UILabel alloc] initWithFrame:CGRectMake(240, 12, 60, 20)];
+    UILabel *time = [[UILabel alloc] initWithFrame:CGRectMake(235, 12, 60, 20)];
     time.tag = 3;
     time.backgroundColor = [UIColor clearColor];
+    time.textAlignment = NSTextAlignmentRight;
     [contentView addSubview:time];
     
     UIImageView *accessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
