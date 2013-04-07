@@ -1020,10 +1020,7 @@
         titleLabel.text = locationAtIndex.name;
         if (locationAtIndex.visitBegin)
         {
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateStyle:NSDateFormatterNoStyle];
-            [formatter setTimeStyle:NSDateFormatterShortStyle];
-            [timeLabel setText:[formatter stringFromDate:locationAtIndex.visitBegin]];
+            [timeLabel setText:locationAtIndex.visitBegin];
         }
         else
         {

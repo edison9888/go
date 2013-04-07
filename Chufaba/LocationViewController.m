@@ -469,10 +469,7 @@
                 cell.imageView.image = [UIImage imageNamed:@"time.png"];
             }
             if(self.location.visitBegin){
-                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                [formatter setDateStyle:NSDateFormatterNoStyle];
-                [formatter setTimeStyle:NSDateFormatterShortStyle];
-                cell.textLabel.text = [NSString stringWithFormat:@"到达时间：%@", [formatter stringFromDate:self.location.visitBegin]];
+                cell.textLabel.text = [NSString stringWithFormat:@"到达时间：%@", self.location.visitBegin];
             }else{
                 cell.textLabel.text = @"设定到达时间";
             }
@@ -528,7 +525,10 @@
         if (indexPath.row == 0) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
             EditScheduleViewController *scheduleViewController = [storyboard instantiateViewControllerWithIdentifier:@"EditScheduleStoryBoard"];
-            scheduleViewController.start = self.location.visitBegin;
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateStyle:NSDateFormatterNoStyle];
+            [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+            scheduleViewController.start = [dateFormatter dateFromString:self.location.visitBegin];
             scheduleViewController.delegate = self;
             [scheduleViewController setTitle:@"时间安排"];
             [self.navigationController pushViewController:scheduleViewController animated:YES];
@@ -548,9 +548,12 @@
     [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
 }
 
--(void) didEditScheduleWithStart:(NSDate *)start AndEnd:(NSDate *)end
+-(void) didEditScheduleWithStart:(NSDate *)start
 {
-    self.location.visitBegin = start;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    self.location.visitBegin = [dateFormatter stringFromDate:start];
     [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) reloadData];
     [self.delegate didChangeLocation:self.location];
 }

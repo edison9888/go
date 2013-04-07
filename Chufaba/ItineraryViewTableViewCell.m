@@ -59,7 +59,7 @@
     title.backgroundColor = [UIColor clearColor];
     [contentView addSubview:title];
     
-    UILabel *time = [[UILabel alloc] initWithFrame:CGRectMake(240, 12, 50, 20)];
+    UILabel *time = [[UILabel alloc] initWithFrame:CGRectMake(240, 12, 60, 20)];
     time.tag = 3;
     time.backgroundColor = [UIColor clearColor];
     [contentView addSubview:time];
