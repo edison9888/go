@@ -50,6 +50,8 @@
 #define DUMMY_CELL @"Dummy"
 #define COMMITING_CREATE_CELL_HEIGHT 60
 #define NORMAL_CELL_FINISHING_HEIGHT 60
+#define DAY_FILTER_FONT_SIZE 18
+#define TAG_DAY_FILTER_ARROW 1
 
 #pragma mark - Synchronize Model and View
 - (void)updateMapView
@@ -236,13 +238,15 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setFrame:CGRectMake(100,0,120,30)];
     [button setTitle:@"全部" forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:DAY_FILTER_FONT_SIZE];
     [button setBackgroundColor:[UIColor clearColor]];
-    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [button addTarget:self action:@selector(selectClicked:) forControlEvents:UIControlEventTouchDown];
     
-//    UIImageView *arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-//    arrowView.image = [UIImage imageNamed:@"arrow.png"];
-//    [button addSubview:arrowView];
+    CGSize stringsize = [button.titleLabel.text sizeWithFont:[UIFont systemFontOfSize:DAY_FILTER_FONT_SIZE]];
+    UIImageView *arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(button.titleLabel.frame.origin.x + stringsize.width + 3, 12, 10, 6)];
+    arrowView.image = [UIImage imageNamed:@"arrow.png"];
+    arrowView.tag = TAG_DAY_FILTER_ARROW;
+    [button addSubview:arrowView];
     self.navigationItem.titleView = button;
     
     NSInteger scrollSection = [self daySequence:[NSDate date]];
@@ -852,6 +856,10 @@
 //DropDownDelegate
 - (void) niDropDownDelegateMethod: (NIDropDown *) sender selectRow:(NSInteger)rowIndex
 {
+    UIButton *dayFilterBtn = (UIButton *)self.navigationItem.titleView;
+    CGSize stringsize = [dayFilterBtn.titleLabel.text sizeWithFont:[UIFont systemFontOfSize:DAY_FILTER_FONT_SIZE]];
+    UIImageView *dayFilterImg = (UIImageView *)[dayFilterBtn viewWithTag:TAG_DAY_FILTER_ARROW];
+    dayFilterImg.frame = CGRectMake(dayFilterBtn.titleLabel.frame.origin.x + stringsize.width + 3, dayFilterImg.frame.origin.y, dayFilterImg.frame.size.width, dayFilterImg.frame.size.height );
     dropDown = nil;
     //self.tableView.contentInset = UIEdgeInsetsZero;
     [[self.view viewWithTag:55] removeFromSuperview];
