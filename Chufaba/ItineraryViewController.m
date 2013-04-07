@@ -50,7 +50,7 @@
 #define DUMMY_CELL @"Dummy"
 #define COMMITING_CREATE_CELL_HEIGHT 60
 #define NORMAL_CELL_FINISHING_HEIGHT 60
-#define DAY_FILTER_FONT_SIZE 18
+#define DAY_FILTER_FONT_SIZE 20
 #define TAG_DAY_FILTER_ARROW 1
 
 #pragma mark - Synchronize Model and View
@@ -237,9 +237,12 @@
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setFrame:CGRectMake(100,0,120,30)];
-    [button setTitle:@"全部" forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:DAY_FILTER_FONT_SIZE];
     [button setBackgroundColor:[UIColor clearColor]];
+    [button setTitle:@"全部" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0] forState:UIControlStateNormal];
+    [button setTitleShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5] forState:UIControlStateNormal];
+    button.titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+    button.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:DAY_FILTER_FONT_SIZE];
     [button addTarget:self action:@selector(selectClicked:) forControlEvents:UIControlEventTouchDown];
     
     CGSize stringsize = [button.titleLabel.text sizeWithFont:[UIFont systemFontOfSize:DAY_FILTER_FONT_SIZE]];
