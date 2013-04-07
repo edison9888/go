@@ -66,6 +66,7 @@
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
     datePicker.tag = 13;
     datePicker.datePickerMode = UIDatePickerModeTime;
+    datePicker.minuteInterval = 15;
     [self.view addSubview:datePicker];
     datePicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
     [datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];

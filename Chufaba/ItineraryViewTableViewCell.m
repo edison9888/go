@@ -118,7 +118,7 @@
     leftBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
     [deleteView.layer addSublayer:leftBorder];
 	
-	UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(12,12,20,20)];
+	UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,46,44)];
     [deleteButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
     [deleteButton addTarget:self action:@selector(notifyDeleteLocation:) forControlEvents:UIControlEventTouchDown];
     
