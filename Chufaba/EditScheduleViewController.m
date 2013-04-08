@@ -10,8 +10,6 @@
 
 @interface EditScheduleViewController ()
 
-@property NSInteger selectedRow;
-
 @end
 
 @implementation EditScheduleViewController
@@ -96,7 +94,6 @@
 {
     UIDatePicker *datePicker = (UIDatePicker *)textField.inputView;
     if(textField == self.startInput){
-        //self.selectedRow = 0;
         if (self.start) {
             [datePicker setDate:self.start];
         }
@@ -112,9 +109,21 @@
 - (void)timeChanged:(id)sender
 {
     UIDatePicker *picker = sender;
-    if (self.selectedRow == 0) {
-        self.start = picker.date;
+    
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:picker.date];
+    NSInteger minutes = [components minute];
+    
+    // check if the minutes should be rounded
+    NSInteger remainder = minutes % 15;
+    if(remainder)
+    {
+        minutes += 15 - remainder;
+        [components setMinute:minutes];
+        picker.date = [calendar dateFromComponents:components];
     }
+    
+    self.start = picker.date;
     [self configureView];
 }
 

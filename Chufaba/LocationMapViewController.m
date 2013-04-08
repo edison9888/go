@@ -139,7 +139,7 @@
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(0, 0, 20, 20);
         button.tag = 1;
-        [button setImage:[UIImage imageNamed:@"direction.png"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"navigation.png"] forState:UIControlStateNormal];
         aView.rightCalloutAccessoryView = button;
         
 //        aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
