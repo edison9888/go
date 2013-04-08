@@ -83,10 +83,11 @@
 
 - (void)configureView
 {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateStyle:NSDateFormatterNoStyle];
-    [formatter setTimeStyle:NSDateFormatterShortStyle];
     if (self.start) {
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateStyle:NSDateFormatterNoStyle];
+        [formatter setTimeStyle:NSDateFormatterShortStyle];
         self.startInput.text = [formatter stringFromDate:self.start];
     }
 }
@@ -111,18 +112,15 @@
 - (void)timeChanged:(id)sender
 {
     UIDatePicker *picker = sender;
-//    if (self.selectedRow == 0) {
-//        self.start = picker.date;
-//    }else if(self.selectedRow == 1){
-//        self.end = picker.date;
-//    }
-    self.start = picker.date;
+    if (self.selectedRow == 0) {
+        self.start = picker.date;
+    }
     [self configureView];
 }
 
 -(IBAction)done:(id) sender
 {
-    [self.delegate didEditScheduleWithStart:self.start AndEnd:self.end];
+    [self.delegate didEditScheduleWithStart:self.start];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

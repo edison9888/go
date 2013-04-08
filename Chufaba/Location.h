@@ -30,7 +30,7 @@
 @property (nonatomic, copy) NSString *website;
 
 //user
-@property (nonatomic, strong) NSDate *visitBegin;
+@property (nonatomic, strong) NSString *visitBegin;
 @property (nonatomic, copy) NSString *detail;
 
 //hide
