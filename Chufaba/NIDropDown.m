@@ -40,9 +40,9 @@
         table.delegate = self;
         table.dataSource = self;
         table.layer.cornerRadius = 5;
-        table.backgroundColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
+        table.backgroundColor = [UIColor colorWithRed:29/255.0 green:141/255.0 blue:141/255.0 alpha:1.0];
         table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        table.separatorColor = [UIColor colorWithRed:157/255.0 green:204/255.0 blue:143/255.0 alpha:1.0];
+        table.separatorColor = [UIColor colorWithRed:9/255.0 green:103/255.0 blue:106/255.0 alpha:1.0];
         
         table.scrollEnabled = YES;
         
@@ -99,11 +99,11 @@
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
     }
     cell.textLabel.text =[list objectAtIndex:indexPath.row];
-    cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    cell.textLabel.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
     cell.textLabel.font = [UIFont fontWithName:@"Heiti SC" size:16];
     
     UIView * v = [[UIView alloc] init];
-    v.backgroundColor = [UIColor colorWithRed:169/255.0 green:212/255.0 blue:155/255.0 alpha:1.0];
+    v.backgroundColor = [UIColor colorWithRed:15/255.0 green:112/255.0 blue:114/255.0 alpha:1.0];
     cell.selectedBackgroundView = v;
     
     return cell;
