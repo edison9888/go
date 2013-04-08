@@ -136,6 +136,13 @@
     return [NSIndexPath indexPathForRow:row inSection:section];
 }
 
+- (NSIndexPath *) indexPathForLocationIndex:(int)locationIndex
+{
+    int row = 0;
+    int section = 0;
+    return [NSIndexPath indexPathForRow:row inSection:section];
+}
+
 //- (NSInteger) oneDimensionCountOfIndexPath:(NSIndexPath *)indexPath
 //{
 //    int count = 0;
@@ -903,6 +910,7 @@
     [db close];
     
     location.whichday = self.dayToAdd;
+    location.seqofday = self.seqToAdd;
     if(singleDayMode){
         [[self.dataController objectInListAtIndex:0] addObject:location];
     }
@@ -948,8 +956,8 @@
 
 -(void) didChangeLocation:(Location *)location
 {
-    [[self.dataController objectInListAtIndex:[self.tableView indexPathForSelectedRow].section] replaceObjectAtIndex:[self.tableView indexPathForSelectedRow].row withObject:location];
-    
+    //int index = location.loca
+    [[self.dataController objectInListAtIndex:[location.whichday intValue]-1] replaceObjectAtIndex:[location.seqofday intValue]-1 withObject:location];
     [self.tableView reloadData];
     
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
@@ -1266,17 +1274,27 @@
 {
     NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:self.indexPathOfLocationToDelete];
     Location *locationToDelete = [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] objectAtIndex:self.indexPathOfLocationToDelete.row];
+    
     [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] removeObjectAtIndex:self.indexPathOfLocationToDelete.row];
+    for (Location *location in [self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section])
+    {
+        if([location.seqofday intValue] > [locationToDelete.seqofday intValue])
+        {
+            location.seqofday = [NSNumber numberWithInt:[location.seqofday intValue] -1];
+        }
+    }
+    
     [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfLocationToDelete] withRowAnimation:UITableViewRowAnimationFade];
     [oneDimensionLocationList removeObjectAtIndex:deleteIndex];
     
     //add this to resolve the issue that map annotations doesn't update
     self.annotations = [self mapAnnotations];
     
-    //delete travel location in database
+    //delete travel location in database and update seqofday of the location after the deleted location
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
     [db executeUpdate:@"DELETE FROM location WHERE id = ?", locationToDelete.locationId];
+    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",[locationToDelete.seqofday intValue], [locationToDelete.whichday intValue]]];
     [db close];
     [self.itineraryDelegate didDeleteLocationFromPlan];
 }

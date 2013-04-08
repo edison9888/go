@@ -95,7 +95,7 @@
 {
     UIDatePicker *datePicker = (UIDatePicker *)textField.inputView;
     if(textField == self.startInput){
-        self.selectedRow = 0;
+        //self.selectedRow = 0;
         if (self.start) {
             [datePicker setDate:self.start];
         }
@@ -111,11 +111,12 @@
 - (void)timeChanged:(id)sender
 {
     UIDatePicker *picker = sender;
-    if (self.selectedRow == 0) {
-        self.start = picker.date;
-    }else if(self.selectedRow == 1){
-        self.end = picker.date;
-    }
+//    if (self.selectedRow == 0) {
+//        self.start = picker.date;
+//    }else if(self.selectedRow == 1){
+//        self.end = picker.date;
+//    }
+    self.start = picker.date;
     [self configureView];
 }
 

@@ -154,11 +154,13 @@
     leftBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
     [editView.layer addSublayer:leftBorder];
     
-    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(20,35,21,21)];
+    //UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(20,35,21,21)];
+    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,51,92)];
     [editButton setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
     [editButton addTarget:self action:@selector(editPlan:) forControlEvents:UIControlEventTouchDown];
 	
-	UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(61,35,21,21)];
+	//UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(61,35,21,21)];
+    UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(51,0,51,92)];
     [deleteButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
     [deleteButton addTarget:self action:@selector(deletePlan:) forControlEvents:UIControlEventTouchDown];
     

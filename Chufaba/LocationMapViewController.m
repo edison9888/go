@@ -142,11 +142,11 @@
         [button setImage:[UIImage imageNamed:@"direction.png"] forState:UIControlStateNormal];
         aView.rightCalloutAccessoryView = button;
         
-        aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
-        ((UILabel *)aView.leftCalloutAccessoryView).textAlignment = NSTextAlignmentCenter;
-        ((UILabel *)aView.leftCalloutAccessoryView).textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1];
-        ((UILabel *)aView.leftCalloutAccessoryView).backgroundColor = [UIColor clearColor];
-        ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", self.index + 1];
+//        aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
+//        ((UILabel *)aView.leftCalloutAccessoryView).textAlignment = NSTextAlignmentCenter;
+//        ((UILabel *)aView.leftCalloutAccessoryView).textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1];
+//        ((UILabel *)aView.leftCalloutAccessoryView).backgroundColor = [UIColor clearColor];
+//        ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", self.index + 1];
         
         aView.annotation = annotation;
 		aView.canShowCallout = YES;
