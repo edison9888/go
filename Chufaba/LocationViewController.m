@@ -526,7 +526,7 @@
             NSString *content = self.location.detail;
             CGSize constraint = CGSizeMake(tableView.bounds.size.width - 80, 20000.0f);
             CGSize size = [content sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
-            CGFloat height = MAX(size.height + 10, 44.0f);
+            CGFloat height = MIN(MAX(size.height + 10, 44.0f), 74.0f);
             return height;
         }
     }

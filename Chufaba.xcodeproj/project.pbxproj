@@ -220,6 +220,7 @@
 		C28C4D3117034763009F510E /* traffic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C28C4D2517034763009F510E /* traffic@2x.png */; };
 		C28C4D3217034763009F510E /* website.png in Resources */ = {isa = PBXBuildFile; fileRef = C28C4D2617034763009F510E /* website.png */; };
 		C28C4D3317034763009F510E /* website@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C28C4D2717034763009F510E /* website@2x.png */; };
+		C28C4D3617144DD1009F510E /* NoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = C28C4D3517144DD1009F510E /* NoteView.m */; };
 		C29C391916F4865F00106DC4 /* FadeScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C29C391816F4865F00106DC4 /* FadeScrollView.m */; };
 		C2C3A83016F5EC26000DB182 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C3A82E16F5EC26000DB182 /* libMobClickLibrary.a */; };
 		C2C3A83216F5EC62000DB182 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C3A83116F5EC62000DB182 /* libz.dylib */; };
@@ -514,6 +515,8 @@
 		C28C4D2517034763009F510E /* traffic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "traffic@2x.png"; sourceTree = "<group>"; };
 		C28C4D2617034763009F510E /* website.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = website.png; sourceTree = "<group>"; };
 		C28C4D2717034763009F510E /* website@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "website@2x.png"; sourceTree = "<group>"; };
+		C28C4D3417144DD1009F510E /* NoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteView.h; sourceTree = "<group>"; };
+		C28C4D3517144DD1009F510E /* NoteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteView.m; sourceTree = "<group>"; };
 		C29C391716F4865F00106DC4 /* FadeScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeScrollView.h; sourceTree = "<group>"; };
 		C29C391816F4865F00106DC4 /* FadeScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FadeScrollView.m; sourceTree = "<group>"; };
 		C2C3A82E16F5EC26000DB182 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
@@ -1018,6 +1021,8 @@
 				132D205116DF9307004921DD /* AddLocationViewController.m */,
 				C29C391716F4865F00106DC4 /* FadeScrollView.h */,
 				C29C391816F4865F00106DC4 /* FadeScrollView.m */,
+				C28C4D3417144DD1009F510E /* NoteView.h */,
+				C28C4D3517144DD1009F510E /* NoteView.m */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -1461,6 +1466,7 @@
 				1318DCFF16E8C0FE00A1E34C /* SwipeableTableViewCell.m in Sources */,
 				C29C391916F4865F00106DC4 /* FadeScrollView.m in Sources */,
 				1331521C1701CBF4004BE107 /* ItineraryViewTableViewCell.m in Sources */,
+				C28C4D3617144DD1009F510E /* NoteView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
