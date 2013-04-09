@@ -277,9 +277,9 @@
         }
     }
     
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-    footerView.backgroundColor = [UIColor whiteColor];
-    self.tableView.tableFooterView = footerView;
+//    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+//    footerView.backgroundColor = [UIColor whiteColor];
+//    self.tableView.tableFooterView = footerView;
     
     //sync,edit,share menu part
 //    if (pullDownMenuView == nil) {
@@ -1087,6 +1087,14 @@
     lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
     lineView.backgroundColor = [UIColor whiteColor];
     [cell.contentView addSubview:lineView];
+    
+    int sectionOfLastDay = [self.dataController countOfList]-1;
+    if(indexPath.section == sectionOfLastDay && indexPath.row == [[self.dataController objectInListAtIndex:sectionOfLastDay] count]-1)
+    {
+        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        [cell.contentView addSubview:lineView];
+    }
     
     return cell;
 }
