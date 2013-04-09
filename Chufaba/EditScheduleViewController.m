@@ -65,6 +65,7 @@
     datePicker.tag = 13;
     datePicker.datePickerMode = UIDatePickerModeTime;
     datePicker.minuteInterval = 15;
+    datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_GB"];
     [self.view addSubview:datePicker];
     datePicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
     [datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
@@ -84,8 +85,7 @@
     if (self.start) {
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateStyle:NSDateFormatterNoStyle];
-        [formatter setTimeStyle:NSDateFormatterShortStyle];
+        [formatter setDateFormat:@"HH:mm"];
         self.startInput.text = [formatter stringFromDate:self.start];
     }
 }
