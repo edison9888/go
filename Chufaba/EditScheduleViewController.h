@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LocationViewController.h"
+#import "Location.h"
 
 @interface EditScheduleViewController : UITableViewController<UIPickerViewDelegate, UITextFieldDelegate>
 
