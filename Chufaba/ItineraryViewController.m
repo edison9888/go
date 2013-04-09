@@ -446,7 +446,8 @@
     return YES;
 }
 
-- (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsCreatePlaceholderForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsCreatePlaceholderForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     self.grabbedObject = [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:DUMMY_CELL];
 }
@@ -459,6 +460,41 @@
     
     Location *locationToMove = (Location *)self.grabbedObject;
     int idOfLocationToMove = [locationToMove.locationId intValue];
+    
+    for (NSObject *object in [self.dataController objectInListAtIndex:sourceIndexPath.section])
+    {
+        if ([object isEqual:DUMMY_CELL])
+        {
+            continue;
+        }
+        else
+        {
+            Location *location = (Location *)object;
+            if([location.seqofday intValue] > [locationToMove.seqofday intValue])
+            {
+                location.seqofday = [NSNumber numberWithInt:[location.seqofday intValue] -1];
+            }
+        }
+    }
+    
+    locationToMove.whichday = [NSNumber numberWithInt:destinationIndexPath.section+1];
+    locationToMove.seqofday = [NSNumber numberWithInt:destinationIndexPath.row+1];
+    
+    for (NSObject *object in [self.dataController objectInListAtIndex:destinationIndexPath.section])
+    {
+        if ([object isEqual:DUMMY_CELL])
+        {
+            continue;
+        }
+        else
+        {
+            Location *location = (Location *)object;
+            if([location.seqofday intValue] >= [locationToMove.seqofday intValue])
+            {
+                location.seqofday = [NSNumber numberWithInt:[location.seqofday intValue]+1];
+            }
+        }
+    }
     
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
