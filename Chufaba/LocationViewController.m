@@ -44,6 +44,8 @@
 #define TAG_EDITBUTTON 15
 #define TAG_MAPBTN 16
 #define TAG_SEGMENT 17
+#define TAG_PREVBTN 18
+#define TAG_NEXTBTN 19
 
 #define MAP_VIEW_HEIGHT 75
 #define INFO_VIEW_HEIGHT 20
@@ -109,42 +111,53 @@
 
 - (void)configureSegment
 {
-    UISegmentedControl *segmentedControl = (UISegmentedControl *)[self.view viewWithTag:TAG_SEGMENT];
+    UIView *segmentedControl = (UIView *)[self.view viewWithTag:TAG_SEGMENT];
     if (!segmentedControl) {
-        segmentedControl = [[UISegmentedControl alloc] initWithItems:
-         [NSArray arrayWithObjects:
-          [UIImage imageNamed:@"prevLoc.png"],
-          [UIImage imageNamed:@"nextLoc.png"],
-          nil]];
-        [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-        segmentedControl.frame = CGRectMake(0, 0, 80, 30);
-        segmentedControl.tintColor = [UIColor colorWithRed:22/255.0 green:108/255.0 blue:104/255.0 alpha:1.0];
-        segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-        segmentedControl.momentary = YES;
+        segmentedControl = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 80, 30)];
+        UIButton *prevBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 30)];
+        [prevBtn setImage:[UIImage imageNamed:@"prevLoc.png"] forState:UIControlStateNormal];
+        UIButton *nextBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, 0, 40, 30)];
+        [nextBtn setImage:[UIImage imageNamed:@"nextLoc.png"] forState:UIControlStateNormal];
+        
+        [prevBtn addTarget:self action:@selector(prevLocation:) forControlEvents:UIControlEventTouchDown];
+        [nextBtn addTarget:self action:@selector(nextLocation:) forControlEvents:UIControlEventTouchDown];
+
+        prevBtn.tag = TAG_PREVBTN;
+        [segmentedControl addSubview:prevBtn];
+        //[segmentedControl bringSubviewToFront:prevBtn];
+        nextBtn.tag = TAG_NEXTBTN;
+        [segmentedControl addSubview:nextBtn];
+        //[segmentedControl bringSubviewToFront:nextBtn];
         
         UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
         self.navigationItem.rightBarButtonItem = segmentBarItem;
     }
     if(self.locationIndex == 0){
-        [segmentedControl setEnabled:NO forSegmentAtIndex:0];
+        [(UIButton *)[segmentedControl viewWithTag:TAG_PREVBTN] setEnabled:NO];
     }else{
-        [segmentedControl setEnabled:YES forSegmentAtIndex:0];
+        [(UIButton *)[segmentedControl viewWithTag:TAG_PREVBTN] setEnabled:YES];
     }
     if (self.locationIndex == self.totalLocationCount-1) {
-        [segmentedControl setEnabled:NO forSegmentAtIndex:1];
+        [(UIButton *)[segmentedControl viewWithTag:TAG_NEXTBTN] setEnabled:NO];
     }else{
-        [segmentedControl setEnabled:YES forSegmentAtIndex:1];
+        [(UIButton *)[segmentedControl viewWithTag:TAG_NEXTBTN] setEnabled:YES];
     }
 }
 
-- (IBAction) segmentAction:(id)sender
+- (IBAction) prevLocation:(id)sender
 {
-    int clickedSegmentIndex = [(UISegmentedControl *)sender selectedSegmentIndex];
-    if(clickedSegmentIndex == 0 && self.locationIndex > 0) {
+    if(self.locationIndex > 0)
+    {
         self.locationIndex--;
         self.location = [self.navDelegate getPreviousLocation:self.location];
         [self configureView];
-    }else if(clickedSegmentIndex == 1 && self.locationIndex < self.totalLocationCount - 1) {
+    }
+}
+
+- (IBAction) nextLocation:(id)sender
+{
+    if(self.locationIndex < self.totalLocationCount - 1)
+    {
         self.locationIndex++;
         self.location = [self.navDelegate getNextLocation:self.location];
         [self configureView];
