@@ -145,17 +145,6 @@
     return [NSIndexPath indexPathForRow:row inSection:section];
 }
 
-//- (NSInteger) oneDimensionCountOfIndexPath:(NSIndexPath *)indexPath
-//{
-//    int count = 0;
-//    for(int i=0;i<indexPath.section;i++)
-//    {
-//        count += [self.tableView numberOfRowsInSection:i];
-//    }
-//    count = count+ indexPath.row +1;
-//    return count;
-//}
-
 - (NSInteger) oneDimensionCountOfIndexPath:(NSIndexPath *)indexPath
 {
     int count = 0;
@@ -531,7 +520,6 @@
     return [oneDimensionLocationList objectAtIndex:index-1];
 }
 
-
 -(Location *) getNextLocation:(Location *)curLocation
 {
     int index = [oneDimensionLocationList indexOfObject:curLocation];
@@ -620,25 +608,6 @@
     [self.navigationController pushViewController:locationViewController animated:YES];
 }
 
-//- (void)mapView:(MKMapView *)sender annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
-//{
-//    tappedAnnotation = aView.annotation;
-//    NSIndexPath *indexPath = [self indexPathForTappedAnnotation];
-//    
-//    LocationViewController *locationViewController = [[LocationViewController alloc] init];
-//    locationViewController.delegate = self;
-//    locationViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-//    locationViewController.locationIndex = [NSNumber numberWithInt:[oneDimensionLocationList indexOfObject:locationViewController.location]];
-//    locationViewController.totalLocationCount = [NSNumber numberWithInt:[oneDimensionLocationList count]];
-//    locationViewController.navDelegate = self;
-//    [self.navigationController pushViewController:locationViewController animated:YES];
-//}
-
-//- (void) mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
-//{
-//    [self.mapView selectAnnotation:[self.mapView.annotations objectAtIndex:0] animated:YES];
-//}
-
 //CLLocationManagerDelegate part
 - (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
@@ -709,50 +678,6 @@
     [[self.view viewWithTag:55] removeFromSuperview];
 }
 
-//Implement PullDownMenuDelegate method
-//- (void) showEditTravelPlan:(PullDownMenuView *)view
-//{
-//    [self performSegueWithIdentifier:@"EditPlan" sender:nil];
-//}
-//
-//- (void) showShareMenu:(PullDownMenuView *)view
-//{
-//    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-//    if([[ud stringForKey:@"LoginType"] isEqual: @"sina"] || [[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
-//    {
-//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到社交网络", @"分享给微信好友", @"分享到微信朋友圈", nil];
-//        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-//        [actionSheet showInView:self.view];
-//    }
-//    else
-//    {
-//        loginForShare = YES;
-//        LoginViewController *loginController = [[LoginViewController alloc] init];
-//        loginController.accountManager = [[SocialAccountManager alloc] init];
-//        loginController.accountManager.delegate = self;
-//        [self.navigationController pushViewController:loginController animated:YES];
-//    }
-//}
-//
-//- (void) startSynchronize:(PullDownMenuView *)view
-//{
-//    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-//    if([[ud stringForKey:@"LoginType"] isEqual: @"sina"] || [[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"开始同步" message:@"哈哈" delegate:self cancelButtonTitle:@"我知道啦" otherButtonTitles: nil];
-//		[alert show];
-//    }
-//    else
-//    {
-//        loginForShare = NO;
-//        LoginViewController *loginController = [[LoginViewController alloc] init];
-//        loginController.accountManager = [[SocialAccountManager alloc] init];
-//        loginController.accountManager.delegate = self;
-//        [self.navigationController pushViewController:loginController animated:YES];
-//    }
-//
-//}
-
 //Implement UIActionSheetDeleg
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     self.tableView.contentInset = UIEdgeInsetsZero;
@@ -773,131 +698,6 @@
 
     }
 }
-
-//Implement AddPlanViewControllerDelegate
-//- (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller
-//{
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//}
-//
-//- (void)addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(Plan *)plan
-//{
-//    FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
-//    [dba updateTravelPlan:plan];
-//    
-//    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-//    [db open];
-//    
-//    if([plan.date compare: self.dataController.date] == NSOrderedSame)
-//    {
-//        int offset = [self.dataController.itineraryDuration intValue] - [plan.duration intValue];
-//        if([plan.duration intValue] < [self.dataController.itineraryDuration intValue])
-//        {
-//            [self.dataController.masterTravelDayList removeObjectsInRange:NSMakeRange([plan.duration intValue], offset)];
-//            //delete days which are deleted by changing start date.
-//            [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", plan.duration,plan.planId];
-//        }
-//        else
-//        {
-//            for(int i=0; i < offset*(-1); i++)
-//            {
-//                NSMutableArray *dayList = [[NSMutableArray alloc] init];
-//                [self.dataController.masterTravelDayList addObject:dayList];
-//            }
-//        }
-//    }
-//    else if([plan.date compare: self.dataController.date] == NSOrderedDescending)
-//    {
-//        NSInteger daysBetween = [Utility daysBetweenDate:self.dataController.date andDate:plan.date];
-//        if(daysBetween >= [self.dataController.itineraryDuration intValue])
-//        {
-//            [self.dataController.masterTravelDayList removeAllObjects];
-//            //delete all days
-//            [db executeUpdate:@"DELETE FROM location WHERE plan_id = ?", plan.planId];
-//            for(int i=0; i < [plan.duration intValue]; i++)
-//            {
-//                NSMutableArray *dayList = [[NSMutableArray alloc] init];
-//                [self.dataController.masterTravelDayList addObject:dayList];
-//            }
-//        }
-//        else
-//        {
-//            [self.dataController.masterTravelDayList removeObjectsInRange:NSMakeRange(0, daysBetween)];
-//            [db executeUpdate:@"DELETE FROM location WHERE whichday <= ? AND plan_id = ?", [NSNumber numberWithInt:daysBetween],plan.planId];
-//            int offset = daysBetween + [plan.duration intValue] - [self.dataController.itineraryDuration intValue];
-//            if(daysBetween + [plan.duration intValue] >= [self.dataController.itineraryDuration intValue])
-//            {
-//                [db executeUpdate:@"UPDATE location SET whichday = whichday-? WHERE whichday > ? AND plan_id = ?", [NSNumber numberWithInt:daysBetween],[NSNumber numberWithInt:daysBetween],plan.planId];
-//                for(int i=0; i < offset; i++)
-//                {
-//                    NSMutableArray *dayList = [[NSMutableArray alloc] init];
-//                    [self.dataController.masterTravelDayList addObject:dayList];
-//                }
-//            }
-//            else
-//            {
-//                [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", [NSNumber numberWithInt:[self.dataController.itineraryDuration intValue]-offset*(-1)],plan.planId];
-//                for(int i=0; i < offset*(-1); i++)
-//                {
-//                    [self.dataController.masterTravelDayList removeLastObject];
-//                }
-//            }
-//        }
-//    }
-//    else
-//    {
-//        NSInteger daysBetween = [Utility daysBetweenDate:plan.date andDate:self.dataController.date];
-//        if(daysBetween >= [plan.duration intValue])
-//        {
-//            [self.dataController.masterTravelDayList removeAllObjects];
-//            [db executeUpdate:@"DELETE FROM location WHERE plan_id = ?", plan.planId];
-//            for(int i=0; i < [plan.duration intValue]; i++)
-//            {
-//                NSMutableArray *dayList = [[NSMutableArray alloc] init];
-//                [self.dataController.masterTravelDayList addObject:dayList];
-//            }
-//        }
-//        else
-//        {
-//            [db executeUpdate:@"UPDATE location SET whichday = whichday+? WHERE plan_id = ?", [NSNumber numberWithInt:daysBetween],plan.planId];
-//            for(int i=0; i < daysBetween; i++)
-//            {
-//                NSMutableArray *dayList = [[NSMutableArray alloc] init];
-//                [self.dataController.masterTravelDayList insertObject:dayList atIndex:0];
-//            }
-//            int offset = [plan.duration intValue] - [self.dataController.itineraryDuration intValue] - daysBetween;
-//            if(daysBetween + [self.dataController.itineraryDuration intValue] <= [plan.duration intValue])
-//            {
-//                for(int i=0; i < offset; i++)
-//                {
-//                    NSMutableArray *dayList = [[NSMutableArray alloc] init];
-//                    [self.dataController.masterTravelDayList addObject:dayList];
-//                }
-//            }
-//            else
-//            {
-//                [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", plan.duration,plan.planId];
-//                for(int i=0; i < offset*(-1); i++)
-//                {
-//                    [self.dataController.masterTravelDayList removeLastObject];
-//                }
-//            }
-//        }
-//    }
-//    
-//    self.plan.name = plan.name;
-//    self.plan.date = plan.date;
-//    self.plan.duration = plan.duration;
-//    self.plan.image = plan.image;
-//    self.itineraryListBackup = [self.dataController.masterTravelDayList mutableCopy];
-//    oneDimensionLocationList = [self getOneDimensionLocationList];
-//    
-//    self.dataController.date = plan.date;
-//    self.dataController.itineraryDuration = plan.duration;
-//    [self.delegate travelPlanDidChange:self];
-//    [self.tableView reloadData];
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//}
 
 //DropDownDelegate
 - (void) niDropDownDelegateMethod: (NIDropDown *) sender selectRow:(NSInteger)rowIndex
@@ -1278,22 +1078,6 @@
         [actionSheet showInView:self.view];
     }
 }
-
-#pragma mark -
-#pragma mark UIScrollViewDelegate Methods
-
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//	
-//	[pullDownMenuView pdmScrollViewDidScroll:scrollView];
-//    
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-//	
-//	[pullDownMenuView pdmScrollViewDidEndDragging:scrollView];
-//	
-//}
-
 
 -(NSInteger) daySequence:(NSDate *) date
 {
