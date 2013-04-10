@@ -62,7 +62,6 @@
     [super viewWillDisappear:animated];
     if (fetcher) {
         [fetcher cancel];
-        [fetcher close];
         fetcher = nil;
     }
 }
@@ -237,7 +236,6 @@
 {
     if (fetcher) {
         [fetcher cancel];
-        [fetcher close];
     }
     
     if(coordinateChanged || self.addLocation)
@@ -290,7 +288,6 @@
 {
     if (fetcher) {
         [fetcher cancel];
-        [fetcher close];
     }
     
     if(coordinateChanged)
@@ -357,7 +354,6 @@
                                                                                                      kCFStringEncodingUTF8));
     if (fetcher) {
         [fetcher cancel];
-        [fetcher close];
     }
     fetcher = [[JSONFetcher alloc]
                initWithURLString:[NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=5&lat=%f&lon=%f", encodedString, location.x, location.y]
@@ -377,7 +373,6 @@
                                                                                                      kCFStringEncodingUTF8));
     if (fetcher) {
         [fetcher cancel];
-        [fetcher close];
     }
     fetcher = [[JSONFetcher alloc]
                             initWithURLString:[NSString stringWithFormat:@"http://api.jiepang.com/v1/locations/search?q=%@&source=100743&count=5", encodedString]

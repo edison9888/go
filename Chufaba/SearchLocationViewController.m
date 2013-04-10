@@ -15,6 +15,7 @@
 @property int total;
 @property NSString *keyword;
 @property BOOL searchSameCategory;
+@property BOOL disappearing;
 
 @end
 
@@ -30,6 +31,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    self.disappearing = true;
     [super viewWillDisappear:animated];
     [self cancelCurrentSearch];
 }
@@ -113,6 +115,9 @@
 
 - (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText
 {
+    if (self.disappearing) {
+        return;
+    }
     searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if([searchText length] == 0)
     {
@@ -229,7 +234,6 @@
 {
     if (fetcher) {
         [fetcher cancel];
-        [fetcher close];
         fetcher = nil;
     }
 }
