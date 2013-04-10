@@ -47,7 +47,8 @@
         table.scrollEnabled = YES;
         
         [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+        [UIView setAnimationDuration:0.2];
         self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+18, btn.size.width, *height);
         
         table.frame = CGRectMake(0, 0, btn.size.width, *height>240 ? 240:*height);
@@ -64,7 +65,8 @@
     CGRect btn = b.frame;
     
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.5];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDuration:0.2];
     self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+18, btn.size.width, 0);
     table.frame = CGRectMake(0, 0, btn.size.width, 0);
     [UIView commitAnimations];
