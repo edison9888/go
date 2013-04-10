@@ -21,6 +21,7 @@
 @synthesize list;
 @synthesize delegate;
 
+
 - (id)showDropDown:(UIButton *)b withHeight:(CGFloat *)height withDays:(NSMutableArray *)arr {
     btnSender = b;
     self.table = (UITableView *)[super init];
@@ -94,11 +95,16 @@
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.textLabel.font = [UIFont systemFontOfSize:15];
-        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    cell.textLabel.font = [UIFont systemFontOfSize:15];
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.text =[list objectAtIndex:indexPath.row];
     cell.textLabel.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
     cell.textLabel.font = [UIFont fontWithName:@"Heiti SC" size:16];
+    cell.textLabel.highlightedTextColor = cell.textLabel.textColor;
+    
+    UIView * v = [[UIView alloc] init];
+    v.backgroundColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
+    cell.selectedBackgroundView = v;
     
     //add separator line
     if (indexPath.row > 0) {
@@ -112,10 +118,6 @@
         bottomlineView.backgroundColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
         [cell.contentView addSubview:bottomlineView];
     }
-    
-    UIView * v = [[UIView alloc] init];
-    v.backgroundColor = [UIColor colorWithRed:44/255.0 green:145/255.0 blue:144/255.0 alpha:1.0];
-    cell.selectedBackgroundView = v;
     
     return cell;
 }
