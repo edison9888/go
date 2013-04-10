@@ -40,9 +40,8 @@
         table.delegate = self;
         table.dataSource = self;
         table.layer.cornerRadius = 5;
-        table.backgroundColor = [UIColor colorWithRed:29/255.0 green:141/255.0 blue:141/255.0 alpha:1.0];
-        table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        table.separatorColor = [UIColor colorWithRed:9/255.0 green:103/255.0 blue:106/255.0 alpha:1.0];
+        table.backgroundColor = [UIColor colorWithRed:44/255.0 green:145/255.0 blue:144/255.0 alpha:1.0];
+        table.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         table.scrollEnabled = YES;
         
@@ -94,18 +93,28 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.textLabel.font = [UIFont systemFontOfSize:15];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    }
     cell.textLabel.text =[list objectAtIndex:indexPath.row];
     cell.textLabel.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
     cell.textLabel.font = [UIFont fontWithName:@"Heiti SC" size:16];
     
+    //add separator line
+    if (indexPath.row > 0) {
+        UIView *uplineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 1)];
+        uplineView.backgroundColor = [UIColor colorWithRed:56/255.0 green:154/255.0 blue:154/255.0 alpha:1.0];
+        [cell.contentView addSubview:uplineView];
+    }
+    
+    if(indexPath.row < [list count]-1){
+        UIView *bottomlineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, tableView.bounds.size.width, 1)];
+        bottomlineView.backgroundColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
+        [cell.contentView addSubview:bottomlineView];
+    }
+    
     UIView * v = [[UIView alloc] init];
-    v.backgroundColor = [UIColor colorWithRed:15/255.0 green:112/255.0 blue:114/255.0 alpha:1.0];
+    v.backgroundColor = [UIColor colorWithRed:44/255.0 green:145/255.0 blue:144/255.0 alpha:1.0];
     cell.selectedBackgroundView = v;
     
     return cell;
