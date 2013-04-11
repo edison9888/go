@@ -14,6 +14,7 @@
 #import "LocationMapViewController.h"
 #import "LocationTableViewCell.h"
 #import "FadeScrollView.h"
+#import "QuartzCore/QuartzCore.h"
 
 @interface LocationViewController ()
 {
@@ -97,8 +98,8 @@
         self.navigationItem.leftBarButtonItem = btn;
         
         [self configureSegment];
-        [self configureDate];
         [self configureMap];
+        [self configureDate];
         [self configureNameScroll];
         [self configureTable];
     }
@@ -175,7 +176,13 @@
         infoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, INFO_VIEW_HEIGHT)];
         infoView.tag = TAG_INFOVIEW;
         [self.view addSubview:infoView];
+        
+        CAGradientLayer *bottomShadow = [CAGradientLayer layer];
+        bottomShadow.frame = CGRectMake(0, INFO_VIEW_HEIGHT - 1, self.view.frame.size.width, 3);
+        bottomShadow.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0.0 alpha:0.2f] CGColor], (id)[[UIColor clearColor] CGColor], nil];
+        [infoView.layer addSublayer:bottomShadow];
     }
+    [self.view bringSubviewToFront:infoView];
     
     UILabel *dayLabel = (UILabel *)[self.view viewWithTag:TAG_DAYLABEL];
     if (!dayLabel) {
@@ -232,6 +239,13 @@
         [mapView setRegion:adjustedRegion animated:false];
         [mapView removeAnnotations:mapView.annotations];
         [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
+        //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
+        
+        CAGradientLayer *bottomBorder = [CALayer layer];
+        bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT - 1, self.view.frame.size.width, 1);
+        bottomBorder.backgroundColor = [UIColor colorWithWhite:0.8f
+                                                         alpha:1.0f].CGColor;
+        [mapView.layer addSublayer:bottomBorder];
     }else{
         showMap = NO;
         MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];
