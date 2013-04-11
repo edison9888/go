@@ -20,6 +20,8 @@
 
 @implementation PlanViewController
 
+#define TAG_SITELABEL 5
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -41,6 +43,21 @@
     [db insertTravelPlan:plan];
     
     [self populateTravelPlans];
+    
+    if([self.travelPlans count] == 5)
+    { 
+        [[self.view viewWithTag:TAG_SITELABEL] removeFromSuperview];
+        
+        UILabel *siteLabel = [[UILabel alloc] init];
+        siteLabel.backgroundColor = [UIColor clearColor];
+        siteLabel.text = @"chufaba.me";
+        siteLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+        siteLabel.textColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
+        [siteLabel setFrame:CGRectMake(122, 20, 76, 20)];
+        [footerView addSubview:siteLabel];
+        self.tableView.tableFooterView = footerView;
+    }
     
     if(controller.coverChanged)
     {
@@ -182,6 +199,26 @@
     [self populateTravelPlans];
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    
+    UILabel *siteLabel = [[UILabel alloc] init];
+    siteLabel.backgroundColor = [UIColor clearColor];
+    siteLabel.text = @"chufaba.me";
+    siteLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+    siteLabel.textColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    
+    if([self.travelPlans count] > 4)
+    {
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
+        [siteLabel setFrame:CGRectMake(122, 20, 76, 20)];
+        [footerView addSubview:siteLabel];
+        self.tableView.tableFooterView = footerView;
+    }
+    else
+    {
+        [siteLabel setFrame:CGRectMake(122, 380, 76, 30)];
+        siteLabel.tag = TAG_SITELABEL;
+        [self.view addSubview:siteLabel];
+    }
     
 //    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
 //    footerView.backgroundColor = [UIColor whiteColor];
@@ -443,6 +480,19 @@
         [db deleteTravelPlan:planToDelete];
         
         [self.travelPlans removeObjectAtIndex:self.indexPathOfplanToEditOrDelete.row];
+        
+        if([self.travelPlans count] == 4)
+        {
+            self.tableView.tableFooterView = NULL;
+            
+            UILabel *siteLabel = [[UILabel alloc] initWithFrame:CGRectMake(122, 380, 76, 30)];
+            siteLabel.backgroundColor = [UIColor clearColor];
+            siteLabel.text = @"chufaba.me";
+            siteLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+            siteLabel.textColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+            siteLabel.tag = TAG_SITELABEL;
+            [self.view addSubview:siteLabel];
+        }
         
         [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfplanToEditOrDelete] withRowAnimation:UITableViewRowAnimationFade];
         

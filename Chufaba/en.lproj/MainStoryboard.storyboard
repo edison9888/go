@@ -625,6 +625,9 @@
     <classes>
         <class className="AboutViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="backToPrevious:"/>
+            </relationships>
         </class>
         <class className="AddPlanViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanViewController.h"/>
@@ -651,6 +654,9 @@
         </class>
         <class className="GuideViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GuideViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="backToPrevious:"/>
+            </relationships>
         </class>
         <class className="ItineraryViewController" superclassName="SwipeableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ItineraryViewController.h"/>
@@ -664,6 +670,10 @@
         </class>
         <class className="PlanViewController" superclassName="SwipeableTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlanViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="AddPlan:"/>
+                <relationship kind="action" name="showSetting:"/>
+            </relationships>
         </class>
         <class className="SearchLocationViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchLocationViewController.h"/>
