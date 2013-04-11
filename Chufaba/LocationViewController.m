@@ -75,7 +75,7 @@
         titleView.backgroundColor = [UIColor clearColor];
         titleView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:20];
         titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-        titleView.shadowOffset = CGSizeMake(1.0, 1.0);
+        titleView.shadowOffset = CGSizeMake(0, 1.0);
         
         titleView.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
         
