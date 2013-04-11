@@ -31,11 +31,11 @@
         
         self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+18, btn.size.width, 0);
         self.list = [NSArray arrayWithArray:arr];
+        
         self.layer.masksToBounds = NO;
         self.layer.cornerRadius = 8;
-        self.layer.shadowOffset = CGSizeMake(0, 4);
+        self.layer.shadowOffset = CGSizeMake(0, 10);
         self.layer.shadowRadius = 8;
-        self.layer.shadowColor = [[UIColor blackColor] CGColor];
         self.layer.shadowOpacity = 0.3;
         
         table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, btn.size.width, 0)];

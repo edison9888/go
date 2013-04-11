@@ -237,7 +237,7 @@
     [button setTitle:@"全部" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0] forState:UIControlStateNormal];
     [button setTitleShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5] forState:UIControlStateNormal];
-    button.titleLabel.shadowOffset = CGSizeMake(1.0, 1.0);
+    button.titleLabel.shadowOffset = CGSizeMake(0, 1.0);
     button.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:DAY_FILTER_FONT_SIZE];
     [button addTarget:self action:@selector(selectClicked:) forControlEvents:UIControlEventTouchDown];
     
