@@ -116,8 +116,12 @@
         segmentedControl = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 80, 30)];
         UIButton *prevBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 30)];
         [prevBtn setImage:[UIImage imageNamed:@"prevLoc.png"] forState:UIControlStateNormal];
+        [prevBtn setImage:[UIImage imageNamed:@"prevLocDis.png"] forState:UIControlStateDisabled];
+        [prevBtn setImage:[UIImage imageNamed:@"prevLocClick.png"] forState:UIControlStateHighlighted];
         UIButton *nextBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, 0, 40, 30)];
         [nextBtn setImage:[UIImage imageNamed:@"nextLoc.png"] forState:UIControlStateNormal];
+        [nextBtn setImage:[UIImage imageNamed:@"nextLocDis.png"] forState:UIControlStateDisabled];
+        [nextBtn setImage:[UIImage imageNamed:@"nextLocClick.png"] forState:UIControlStateHighlighted];
         
         [prevBtn addTarget:self action:@selector(prevLocation:) forControlEvents:UIControlEventTouchDown];
         [nextBtn addTarget:self action:@selector(nextLocation:) forControlEvents:UIControlEventTouchDown];
