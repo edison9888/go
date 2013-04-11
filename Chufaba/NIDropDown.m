@@ -8,6 +8,7 @@
 
 #import "NIDropDown.h"
 #import "QuartzCore/QuartzCore.h"
+#import "DropDownCell.h"
 
 @interface NIDropDown ()
 @property(nonatomic, strong) UITableView *table;
@@ -94,31 +95,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    cell.textLabel.font = [UIFont systemFontOfSize:15];
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    DropDownCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        cell = [[DropDownCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
     cell.textLabel.text =[list objectAtIndex:indexPath.row];
-    cell.textLabel.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
-    cell.textLabel.font = [UIFont fontWithName:@"Heiti SC" size:16];
-    cell.textLabel.highlightedTextColor = cell.textLabel.textColor;
-    
-    UIView * v = [[UIView alloc] init];
-    v.backgroundColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
-    cell.selectedBackgroundView = v;
     
     //add separator line
-    if (indexPath.row > 0) {
-        UIView *uplineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 1)];
-        uplineView.backgroundColor = [UIColor colorWithRed:56/255.0 green:154/255.0 blue:154/255.0 alpha:1.0];
-        [cell.contentView addSubview:uplineView];
-    }
-    
-    if(indexPath.row < [list count]-1){
-        UIView *bottomlineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, tableView.bounds.size.width, 1)];
-        bottomlineView.backgroundColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
-        [cell.contentView addSubview:bottomlineView];
-    }
-    
+    [cell showUpLine:(indexPath.row > 0)];
+    [cell showBottomLine:(indexPath.row < ([list count]-1))];
     return cell;
 }
 
