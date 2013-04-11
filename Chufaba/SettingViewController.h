@@ -17,7 +17,11 @@
 //@property (weak, nonatomic) IBOutlet UITableViewCell *loginCell;
 //@property (weak, nonatomic) IBOutlet UILabel *userName;
 //@property (weak, nonatomic) IBOutlet UILabel *userEmail;
-@property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;
+//@property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *guideCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *reviewCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *feedbackCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *aboutCell;
 
 - (IBAction)saveSetting:(id)sender;
 

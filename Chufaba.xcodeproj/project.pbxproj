@@ -160,6 +160,9 @@
 		1372FE9216FF01BF0091A933 /* entertainment80.png in Resources */ = {isa = PBXBuildFile; fileRef = 1372FE8616FF01BF0091A933 /* entertainment80.png */; };
 		137F903217130CC100A718F8 /* navigation.png in Resources */ = {isa = PBXBuildFile; fileRef = 137F903017130CC100A718F8 /* navigation.png */; };
 		137F903317130CC100A718F8 /* navigation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137F903117130CC100A718F8 /* navigation@2x.png */; };
+		139601931716EF1400C1E090 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139601921716EF1400C1E090 /* AboutViewController.m */; };
+		139601961716EF2F00C1E090 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139601951716EF2F00C1E090 /* FeedbackViewController.m */; };
+		139601991716EF4100C1E090 /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139601981716EF4100C1E090 /* GuideViewController.m */; };
 		139DACA516BD554900B73AFA /* LocationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 139DACA416BD554900B73AFA /* LocationAnnotation.m */; };
 		13F1C76116DCFBBA007224B3 /* SelectCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13F1C76016DCFBBA007224B3 /* SelectCategoryViewController.m */; };
 		1C02971916B0D994003F676A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C02971816B0D994003F676A /* libsqlite3.dylib */; };
@@ -418,6 +421,12 @@
 		1372FE8616FF01BF0091A933 /* entertainment80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = entertainment80.png; sourceTree = "<group>"; };
 		137F903017130CC100A718F8 /* navigation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigation.png; sourceTree = "<group>"; };
 		137F903117130CC100A718F8 /* navigation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigation@2x.png"; sourceTree = "<group>"; };
+		139601911716EF1400C1E090 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		139601921716EF1400C1E090 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		139601941716EF2F00C1E090 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		139601951716EF2F00C1E090 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		139601971716EF4100C1E090 /* GuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideViewController.h; sourceTree = "<group>"; };
+		139601981716EF4100C1E090 /* GuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideViewController.m; sourceTree = "<group>"; };
 		139DACA316BD554900B73AFA /* LocationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationAnnotation.h; sourceTree = "<group>"; };
 		139DACA416BD554900B73AFA /* LocationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationAnnotation.m; sourceTree = "<group>"; };
 		13F1C75F16DCFBBA007224B3 /* SelectCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCategoryViewController.h; sourceTree = "<group>"; };
@@ -867,6 +876,12 @@
 				D22806AC16D2254E00CA2158 /* LoginViewController.m */,
 				D22806AF16D2354500CA2158 /* SocialAccountManager.h */,
 				D22806B016D2354500CA2158 /* SocialAccountManager.m */,
+				139601911716EF1400C1E090 /* AboutViewController.h */,
+				139601921716EF1400C1E090 /* AboutViewController.m */,
+				139601941716EF2F00C1E090 /* FeedbackViewController.h */,
+				139601951716EF2F00C1E090 /* FeedbackViewController.m */,
+				139601971716EF4100C1E090 /* GuideViewController.h */,
+				139601981716EF4100C1E090 /* GuideViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1467,6 +1482,9 @@
 				C29C391916F4865F00106DC4 /* FadeScrollView.m in Sources */,
 				1331521C1701CBF4004BE107 /* ItineraryViewTableViewCell.m in Sources */,
 				C28C4D3617144DD1009F510E /* NoteView.m in Sources */,
+				139601931716EF1400C1E090 /* AboutViewController.m in Sources */,
+				139601961716EF2F00C1E090 /* FeedbackViewController.m in Sources */,
+				139601991716EF4100C1E090 /* GuideViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

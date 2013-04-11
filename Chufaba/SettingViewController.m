@@ -72,6 +72,34 @@
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
+    //UIView *bgColorView = [[UIView alloc] init];
+    //[bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
+    
+    UIImageView *guideAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
+    guideAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
+    self.guideCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    self.guideCell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.guideCell.accessoryView = guideAccessory;
+    //[self.guideCell setSelectedBackgroundView:bgColorView];
+    
+    UIImageView *reviewAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
+    reviewAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
+    self.reviewCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    self.reviewCell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.reviewCell.accessoryView = reviewAccessory;
+    
+    UIImageView *feedbackAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
+    feedbackAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
+    self.feedbackCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    self.feedbackCell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.feedbackCell.accessoryView = feedbackAccessory;
+    
+    UIImageView *aboutAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
+    aboutAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
+    self.aboutCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    self.aboutCell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.aboutCell.accessoryView = aboutAccessory;
+    
 //    self.accountManager = [[SocialAccountManager alloc] init];
 //    self.accountManager.delegate = self;
 //    
@@ -125,7 +153,41 @@
 //        [actionSheet showInView:self.view];
 //    }
     
+    switch (indexPath.row)
+    {
+        case 0:
+            [self performSegueWithIdentifier:@"ShowUserGuide" sender:nil];
+            break;
+        case 1:
+            break;
+        case 2:
+            [self performSegueWithIdentifier:@"ShowFeedback" sender:nil];
+            break;
+        case 3:
+            [self performSegueWithIdentifier:@"ShowAbout" sender:nil];
+            break;
+            
+        default:
+            break;
+    }
+    
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"ShowUserGuide"])
+    {
+    
+    }
+    else if ([[segue identifier] isEqualToString:@"ShowFeedback"])
+    {
+    
+    }
+    else if ([[segue identifier] isEqualToString:@"ShowAbout"])
+    {
+    
+    }
 }
 
 - (IBAction)saveSetting:(id)sender
