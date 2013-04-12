@@ -79,13 +79,12 @@
     for(int i=0;i<[self.dataController.masterTravelDayList count];i++)
     {
         for (Location *location in [self.dataController.masterTravelDayList objectAtIndex:i]) {
-            if(!([location.latitude doubleValue] == 0 && [location.longitude doubleValue] == 0))
+            if([location hasCoordinate])
             {
                 [annotations addObject:[LocationAnnotation annotationForLocation:location ShowTitle:YES]];
             }
         }
     }
-    NSLog(@"annotations count:%d", annotations.count);
     return annotations;
 }
 
@@ -389,14 +388,16 @@
         if([self hasOneLocation])
         {
             Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
-            CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
-            [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
-            
-            MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
-            MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
-            
-            [self.mapView setRegion:adjustedRegion animated:TRUE];
-            [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
+            if ([firstLocation hasCoordinate]) {
+                CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
+                [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
+                
+                MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
+                MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
+                
+                [self.mapView setRegion:adjustedRegion animated:TRUE];
+                [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
+            }
         }
         
         [UIView transitionWithView:self.view
@@ -730,17 +731,19 @@
     [self.tableView reloadData];
     self.annotations = [self mapAnnotations];
     
-    if([self hasOneLocation])
+    if(!self.mapView.isHidden && [self hasOneLocation])
     {
         Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
-        CLLocationCoordinate2D firstLocationCoordinate = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
-        [self.mapView setCenterCoordinate:firstLocationCoordinate animated:YES];
-        
-        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(firstLocationCoordinate, 1500, 1500);
-        MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
-        
-        [self.mapView setRegion:adjustedRegion animated:TRUE];
-        [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
+        if ([firstLocation hasCoordinate]) {
+            CLLocationCoordinate2D firstLocationCoordinate = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
+            [self.mapView setCenterCoordinate:firstLocationCoordinate animated:YES];
+            
+            MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(firstLocationCoordinate, 1500, 1500);
+            MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
+            
+            [self.mapView setRegion:adjustedRegion animated:TRUE];
+            [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
+        }
     }
 }
 
