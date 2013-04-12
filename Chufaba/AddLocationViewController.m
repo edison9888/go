@@ -148,17 +148,20 @@
     }
     else
     {
-        UIImageView *loadingView = [[UIImageView alloc] initWithFrame:CGRectMake(140, 160, 40, 40)];
-        loadingView.image = [UIImage imageNamed:@"loading.gif"];
+        UIActivityIndicatorView *loadingView=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         loadingView.tag = TAG_LOADINGVIEW;
+        [loadingView setFrame:CGRectMake(140, 160, 40, 40)];
+        
         if (self.lastLatitude && self.lastLongitude)
         {
             [self searchJiepangForKeyword:self.location.name AroundLocation:CGPointMake([self.lastLatitude floatValue], [self.lastLongitude floatValue])];
+            [loadingView startAnimating];
             [self.mapView addSubview:loadingView];
         }
         else
         {
             [self searchJiepangForKeyword:self.location.name];
+            [loadingView startAnimating];
             [self.mapView addSubview:loadingView];
         }
     }
