@@ -44,19 +44,27 @@
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
     if (highlighted) {
-        self.backgroundColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
-        if (showUpLine) {
-            UIView *uplineView = [self.contentView viewWithTag:TAG_UP_LINE];
-            if (uplineView) {
-                uplineView.backgroundColor = [UIColor colorWithRed:22/255.0 green:121/255.0 blue:121/255.0 alpha:1.0];
-            }
+        self.backgroundColor = [UIColor colorWithRed:30/255.0 green:133/255.0 blue:133/255.0 alpha:1.0];
+        UIView *uplineView = [self.contentView viewWithTag:TAG_UP_LINE];
+        if (uplineView) {
+            [uplineView setHidden:true];
+        }
+        UIView *bottomlineView = [self.contentView viewWithTag:TAG_BOTTOM_LINE];
+        if (bottomlineView) {
+            [bottomlineView setHidden:true];
         }
     } else {
         self.backgroundColor = [UIColor colorWithRed:44/255.0 green:145/255.0 blue:144/255.0 alpha:1.0];
         if (showUpLine) {
             UIView *uplineView = [self.contentView viewWithTag:TAG_UP_LINE];
             if (uplineView) {
-                uplineView.backgroundColor = [UIColor colorWithRed:56/255.0 green:154/255.0 blue:154/255.0 alpha:1.0];
+                [uplineView setHidden:NO];
+            }
+        }
+        if (showBottomLine) {
+            UIView *bottomlineView = [self.contentView viewWithTag:TAG_BOTTOM_LINE];
+            if (bottomlineView) {
+                [bottomlineView setHidden:NO];
             }
         }
     }

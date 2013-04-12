@@ -14,6 +14,7 @@
 #import "LocationMapViewController.h"
 #import "LocationTableViewCell.h"
 #import "FadeScrollView.h"
+#import "QuartzCore/QuartzCore.h"
 
 @interface LocationViewController ()
 {
@@ -66,6 +67,30 @@
     [self configureView];
 }
 
+- (void)configureView
+{
+    if (self.location) {
+        [self setTitle:self.location.name];
+        
+        UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+        [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+        [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+        self.navigationItem.leftBarButtonItem = btn;
+        
+        [self configureSegment];
+        [self configureMap];
+        [self configureDate];
+        [self configureNameScroll];
+        [self configureTable];
+    }
+}
+
+- (IBAction)backToPrevious:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)setTitle:(NSString *)title
 {
     [super setTitle:title];
@@ -83,30 +108,6 @@
     }
     titleView.text = title;
     [titleView sizeToFit];
-}
-
-- (void)configureView
-{
-    if (self.location) {
-        [self setTitle:self.location.name];
-        
-        UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-        [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
-        [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
-        self.navigationItem.leftBarButtonItem = btn;
-        
-        [self configureSegment];
-        [self configureDate];
-        [self configureMap];
-        [self configureNameScroll];
-        [self configureTable];
-    }
-}
-
-- (IBAction)backToPrevious:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)configureSegment
@@ -171,9 +172,17 @@
     UIView *infoView = [self.view viewWithTag:TAG_INFOVIEW];
     if (!infoView) {
         infoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, INFO_VIEW_HEIGHT)];
+        infoView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
         infoView.tag = TAG_INFOVIEW;
         [self.view addSubview:infoView];
+        
+        infoView.layer.masksToBounds = NO;
+        infoView.layer.shadowOffset = CGSizeMake(0, 1);
+        infoView.layer.shadowRadius = 0.8;
+        infoView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
+        infoView.layer.shadowOpacity = 1;
     }
+    [self.view bringSubviewToFront:infoView];
     
     UILabel *dayLabel = (UILabel *)[self.view viewWithTag:TAG_DAYLABEL];
     if (!dayLabel) {
@@ -230,6 +239,12 @@
         [mapView setRegion:adjustedRegion animated:false];
         [mapView removeAnnotations:mapView.annotations];
         [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
+        //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
+        
+        CALayer *bottomBorder = [CALayer layer];
+        bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT - 1, self.view.frame.size.width, 2);
+        bottomBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
+        [mapView.layer addSublayer:bottomBorder];
     }else{
         showMap = NO;
         MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];

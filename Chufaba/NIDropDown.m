@@ -108,7 +108,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self hideDropDown:btnSender];
+    [self hideDropDownWithoutAnimation:btnSender];
     UITableViewCell *c = [tableView cellForRowAtIndexPath:indexPath];
     [btnSender setTitle:c.textLabel.text forState:UIControlStateNormal];
     [self.delegate niDropDownDelegateMethod:self selectRow:indexPath.row];
