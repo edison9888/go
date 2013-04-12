@@ -230,9 +230,8 @@
         MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1000, 1000);
         MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
         [mapView setRegion:adjustedRegion animated:false];
-        [mapView removeAnnotations:mapView.selectedAnnotations];
+        [mapView removeAnnotations:mapView.annotations];
         [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
-        //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
     }else{
         showMap = NO;
         MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];

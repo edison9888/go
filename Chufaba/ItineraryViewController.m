@@ -567,7 +567,7 @@
     if ([selectedAnnotation isKindOfClass:[MKUserLocation class]])
     {
         [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
-        [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
+        [(UIButton *)[self.mapView viewWithTag:23] setEnabled:NO];
     }
     else
     {
@@ -578,6 +578,10 @@
         if(indexOfCurSelected == 0)
         {
             [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
+            if([self.annotations count] == 1)
+            {
+                [(UIButton *)[self.mapView viewWithTag:23] setEnabled:NO];
+            }
         }
         else if(indexOfCurSelected == [self.annotations count]-1)
         {
