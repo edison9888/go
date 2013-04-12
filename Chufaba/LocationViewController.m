@@ -420,6 +420,11 @@
         [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
         //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
         
+        CALayer *topBorder = [CALayer layer];
+        topBorder.frame = CGRectMake(0, -1, self.view.frame.size.width, 2);
+        topBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
+        [mapView.layer addSublayer:topBorder];
+        
         CALayer *bottomBorder = [CALayer layer];
         bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT - 1, self.view.frame.size.width, 2);
         bottomBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
