@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LocationViewController.h"
 
-@interface EditDetailViewController : UIViewController<UITextViewDelegate>
+@interface EditDetailViewController : UIViewController<UITextViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, copy) NSString *detail;
 

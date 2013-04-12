@@ -29,6 +29,7 @@
 #define TAG_POSITIONNOW_BUTTON 3
 #define TAG_IMPLY_LABEL 4
 #define TAG_SEARCHBAR 5
+#define TAG_LOADINGVIEW 6
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -147,13 +148,18 @@
     }
     else
     {
+        UIImageView *loadingView = [[UIImageView alloc] initWithFrame:CGRectMake(140, 160, 40, 40)];
+        loadingView.image = [UIImage imageNamed:@"loading.gif"];
+        loadingView.tag = TAG_LOADINGVIEW;
         if (self.lastLatitude && self.lastLongitude)
         {
             [self searchJiepangForKeyword:self.location.name AroundLocation:CGPointMake([self.lastLatitude floatValue], [self.lastLongitude floatValue])];
+            [self.mapView addSubview:loadingView];
         }
         else
         {
             [self searchJiepangForKeyword:self.location.name];
+            [self.mapView addSubview:loadingView];
         }
     }
 }
@@ -417,6 +423,7 @@
         [self.mapView addGestureRecognizer:tgr];
         selfEditMode = YES;
     }
+    [[self.mapView viewWithTag:TAG_LOADINGVIEW] removeFromSuperview];
 }
 
 - (void)showAnnotations:(NSArray *)locations

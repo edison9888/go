@@ -266,9 +266,12 @@
         }
     }
     
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-    footerView.backgroundColor = [UIColor whiteColor];
-    self.tableView.tableFooterView = footerView;
+    if([[self.dataController.masterTravelDayList lastObject] count] > 0)
+    {
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+        footerView.backgroundColor = [UIColor whiteColor];
+        self.tableView.tableFooterView = footerView;
+    }
     
     //sync,edit,share menu part
 //    if (pullDownMenuView == nil) {
@@ -766,12 +769,16 @@
     BOOL addFooterView = FALSE;
     if(singleDayMode){
         if([[self.dataController objectInListAtIndex:0] count] == 0)
+        {
             addFooterView = TRUE;
+        } 
         [[self.dataController objectInListAtIndex:0] addObject:location];
     }
     else{
-        if([[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] count] == 0)
+        if([[self.dataController.masterTravelDayList lastObject] count] == 0 && [location.whichday intValue] == [self.dataController.masterTravelDayList count])
+        {
             addFooterView = TRUE;
+        }
         [[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] addObject:location];
     }
     if(addFooterView)
@@ -1139,7 +1146,7 @@
     [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfLocationToDelete] withRowAnimation:UITableViewRowAnimationFade];
     [oneDimensionLocationList removeObjectAtIndex:deleteIndex];
     
-    if([[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] count] == 0)
+    if([[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] count] == 0 && [self.dataController.masterTravelDayList count]-1 == self.indexPathOfLocationToDelete.section)
     {
         self.tableView.tableFooterView = NULL;
     }
