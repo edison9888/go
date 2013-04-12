@@ -19,6 +19,7 @@
 @interface LocationViewController ()
 {
     BOOL showMap;
+    UIView *tableHeaderView;
 }
 
 - (void)configureView;
@@ -47,6 +48,7 @@
 #define TAG_SEGMENT 17
 #define TAG_PREVBTN 18
 #define TAG_NEXTBTN 19
+#define TAG_TABLEHEADER 20
 
 #define MAP_VIEW_HEIGHT 75
 #define INFO_VIEW_HEIGHT 20
@@ -63,32 +65,46 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = btn;
+    
     [self configureView];
+}
+
+- (IBAction)backToPrevious:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)configureView
 {
     if (self.location) {
         [self setTitle:self.location.name];
-        
-        UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-        [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
-        [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
-        self.navigationItem.leftBarButtonItem = btn;
-        
         [self configureSegment];
-        [self configureMap];
-        [self configureDate];
-        [self configureNameScroll];
         [self configureTable];
+        [self configureDate];
+        
+        tableHeaderView = [self.view viewWithTag:TAG_TABLEHEADER];
+        if (!tableHeaderView) {
+            tableHeaderView = [[UIView alloc] init];
+            tableHeaderView.tag = TAG_TABLEHEADER;
+        }
+        [self configureMap];
+        [self configureNameScroll];
+        CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, NAME_SCROLL_HEIGHT + 5);
+        if (showMap) {
+            frame.size.height += MAP_VIEW_HEIGHT;
+        }
+        tableHeaderView.frame = frame;
+        UITableView *tableView = (UITableView *)[self.view viewWithTag:TAG_TABLEVIEW];
+        [tableView setTableHeaderView: tableHeaderView];
     }
-}
-
-- (IBAction)backToPrevious:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)setTitle:(NSString *)title
@@ -208,223 +224,6 @@
     seqLabel.text = [NSString stringWithFormat:@"%d/%d", self.locationIndex + 1, self.totalLocationCount];
 }
 
-- (void)configureMap
-{
-    if ([self.location hasCoordinate])
-    {
-        showMap = YES;
-        MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];
-        UIButton *button;
-        if (!mapView) {
-            mapView = [[MKMapView alloc] init];
-            mapView.tag = TAG_MAPVIEW;
-            mapView.delegate = self;
-            [self.view addSubview:mapView];
-            
-            button = [UIButton buttonWithType:UIButtonTypeCustom];
-            button.tag = TAG_MAPBTN;
-            [self.view addSubview:button];
-            [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
-        }
-        mapView.frame = CGRectMake(0, 20, self.view.frame.size.width, MAP_VIEW_HEIGHT);
-        if (!button) {
-            button = (UIButton *)[self.view viewWithTag:TAG_MAPBTN];
-        }
-        [button setFrame:mapView.frame];
-        
-        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
-        [mapView setCenterCoordinate:customLoc2D_5 animated:false];
-        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1000, 1000);
-        MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
-        [mapView setRegion:adjustedRegion animated:false];
-        [mapView removeAnnotations:mapView.annotations];
-        [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
-        //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
-        
-        CALayer *bottomBorder = [CALayer layer];
-        bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT - 1, self.view.frame.size.width, 2);
-        bottomBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
-        [mapView.layer addSublayer:bottomBorder];
-    }else{
-        showMap = NO;
-        MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];
-        if (mapView) {
-            mapView.frame = CGRectZero;
-        }
-    }
-}
-
-#define LOCATION_ANNOTATION_VIEWS @"LocationAnnotationViews"
-
-- (MKAnnotationView *)mapView:(MKMapView *)sender viewForAnnotation:(id <MKAnnotation>)annotation
-{
-    MKAnnotationView *aView = [sender dequeueReusableAnnotationViewWithIdentifier:LOCATION_ANNOTATION_VIEWS];
-    
-	if (!aView)
-    {
-        aView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
-        aView.image = [Location getCategoryIconMap:self.location.category];
-        aView.annotation = annotation;
-	}
-	return aView;
-}
-
-- (void)showLargeMap
-{
-    LocationMapViewController *mapViewController = [[LocationMapViewController alloc] init];
-    mapViewController.location = self.location;
-    mapViewController.index = self.locationIndex;
-    [self.navigationController pushViewController:mapViewController animated:YES];
-}
-
-- (void)configureNameScroll
-{
-    UIImageView *categoryImage = (UIImageView *)[self.view viewWithTag:TAG_CATEGORY_IMAGE];
-    if (!categoryImage) {
-        categoryImage = [[UIImageView alloc] init];
-        categoryImage.tag = TAG_CATEGORY_IMAGE;
-        categoryImage.contentMode = UIViewContentModeCenter;
-        [self.view addSubview:categoryImage];
-    }
-    categoryImage.image = [Location getCategoryIconLarge:self.location.category];
-    categoryImage.frame = CGRectMake(10, showMap? MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT : INFO_VIEW_HEIGHT, NAME_SCROLL_HEIGHT, NAME_SCROLL_HEIGHT);
-
-    FadeScrollView *nameScroll = (FadeScrollView *)[self.view viewWithTag:TAG_NAMESCROLL];
-    if (!nameScroll) {
-        nameScroll = [[FadeScrollView alloc] init];
-        nameScroll.tag = TAG_NAMESCROLL;
-        nameScroll.showsHorizontalScrollIndicator = FALSE;
-        nameScroll.showsVerticalScrollIndicator = FALSE;
-        [self.view addSubview:nameScroll];
-    }
-    NSInteger nameScrollWidth = self.view.frame.size.width - NAME_SCROLL_HEIGHT - 15;
-    if (self.location.useradd) {
-        nameScrollWidth -= 31;
-    }
-    nameScroll.frame = CGRectMake(10+NAME_SCROLL_HEIGHT+5, showMap? MAP_VIEW_HEIGHT+INFO_VIEW_HEIGHT : INFO_VIEW_HEIGHT, nameScrollWidth, NAME_SCROLL_HEIGHT);
-        
-    UILabel *nameLabel = (UILabel *)[nameScroll viewWithTag:TAG_NAMELABEL];
-    if (!nameLabel) {
-        nameLabel = [[UILabel alloc] init];
-        nameLabel.tag = TAG_NAMELABEL;
-        nameLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-        nameLabel.backgroundColor = [UIColor clearColor];
-        nameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-        [nameScroll addSubview:nameLabel];
-    }
-                
-    UILabel *eNameLabel = (UILabel *)[nameScroll viewWithTag:TAG_ENAMELABEL];
-    if (!eNameLabel) {
-        eNameLabel = [[UILabel alloc] init];
-        eNameLabel.tag = TAG_ENAMELABEL;
-        eNameLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-        eNameLabel.backgroundColor = [UIColor clearColor];
-        eNameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-        [nameScroll addSubview:eNameLabel];
-    }
-    
-    UILabel *addressLabel = (UILabel *)[nameScroll viewWithTag:TAG_ADDRESSLABEL];
-    if (!addressLabel) {
-        addressLabel = [[UILabel alloc] init];
-        addressLabel.tag = TAG_ADDRESSLABEL;
-        addressLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-        addressLabel.backgroundColor = [UIColor clearColor];
-        addressLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-        [nameScroll addSubview:addressLabel];
-    }
-
-    CGPoint nameLabelOrigin = CGPointMake(0, 5);
-    CGPoint nameEnLabelOrigin = CGPointMake(0, 25);
-    CGPoint addressLabelOrigin = CGPointMake(0, 40);
-    if (self.location.nameEn.length == 0 && self.location.address.length == 0) {
-        nameLabelOrigin = CGPointMake(0, 20);
-    } else if (self.location.nameEn.length == 0) {
-        nameLabelOrigin = CGPointMake(0, 10);
-        addressLabelOrigin = CGPointMake(0, 35);
-    } else if (self.location.address.length == 0) {
-        nameLabelOrigin = CGPointMake(0, 10);
-        nameEnLabelOrigin = CGPointMake(0, 35);
-    }
-    
-    nameLabel.frame = CGRectMake(nameLabelOrigin.x, nameLabelOrigin.y, self.view.frame.size.width, NAME_LABEL_HEIGHT);
-    nameLabel.text = [self.location getNameAndCity];
-    [nameLabel sizeToFit];
-    
-    
-    eNameLabel.frame = CGRectMake(nameEnLabelOrigin.x, nameEnLabelOrigin.y, self.view.frame.size.width, NAME_LABEL_HEIGHT);
-    eNameLabel.text = self.location.nameEn;
-    [eNameLabel sizeToFit];
-    
-    
-    addressLabel.frame = CGRectMake(addressLabelOrigin.x, addressLabelOrigin.y, self.view.frame.size.width, ADDRESS_LABEL_HEIGHT);
-    addressLabel.text = self.location.address;
-    [addressLabel sizeToFit];
-    
-    CGFloat nameWidth = nameLabel.frame.size.width;
-    CGFloat eNameWidth = eNameLabel.frame.size.width;
-    CGFloat addressWidth = addressLabel.frame.size.width;
-    
-    CGFloat contentWidht = MAX(nameWidth, MAX(eNameWidth, addressWidth));
-    if (contentWidht > nameScroll.bounds.size.width) {
-        contentWidht += nameScroll.bounds.size.width * 0.15; //15%的区域会渐隐，加上这段好让最右边的字也能全部显示出来
-    }
-    nameScroll.contentSize = CGSizeMake(contentWidht, nameScroll.frame.size.height);
-    
-    UIButton *editLocationBtn = (UIButton *)[self.view viewWithTag:TAG_EDITBUTTON];
-    if(self.location.useradd){
-        if (!editLocationBtn) {
-            editLocationBtn = [[UIButton alloc] init];
-            editLocationBtn.tag = TAG_EDITBUTTON;
-            [editLocationBtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-            [editLocationBtn setAlpha:1];
-            editLocationBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
-            [editLocationBtn addTarget:self action:@selector(editLocationCoordinate:) forControlEvents:UIControlEventTouchDown];
-            [self.view addSubview:editLocationBtn];
-        }
-        editLocationBtn.frame = CGRectMake(self.view.frame.size.width - 31,nameScroll.frame.origin.y+17,21,21);
-    }else{
-        if (editLocationBtn) {
-            editLocationBtn.frame = CGRectZero;
-        }
-    }
-}
-
-- (IBAction) editLocationCoordinate:(id)sender
-{
-    AddLocationViewController *addLocationViewController = [[AddLocationViewController alloc] init];
-    addLocationViewController.location = [[Location alloc] init];
-    addLocationViewController.location.name = self.location.name;
-    addLocationViewController.location.category = self.location.category;
-    addLocationViewController.location.locationId = self.location.locationId;
-    addLocationViewController.addLocation = NO;
-    
-    if(showMap)
-    {
-        addLocationViewController.location.latitude = self.location.latitude;
-        addLocationViewController.location.longitude = self.location.longitude;
-        addLocationViewController.hasCoordinate = YES;
-    }
-    else
-    {
-        addLocationViewController.hasCoordinate = NO;
-    }
-    addLocationViewController.editLocationDelegate = self;
-    
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addLocationViewController];
-    [self presentViewController:navController animated:YES completion:NULL];
-}
-
-//Implement AddLocationViewControllerDelegate
--(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *)location name:(BOOL)nameChanged coordinate:(BOOL)coordinateChanged
-{
-    self.location.name = location.name;
-    self.location.latitude = location.latitude;
-    self.location.longitude = location.longitude;
-    [self configureView];
-    
-    [self.delegate didChangeLocation:self.location];
-}
-
 -(void) configureTable
 {
     UITableView *tableView = (UITableView *)[self.view viewWithTag:TAG_TABLEVIEW];
@@ -436,17 +235,11 @@
         tableView.dataSource = self;
         tableView.backgroundView = nil;
         [self.view addSubview:tableView];
-        tableviewHeight = self.view.frame.size.height-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT-self.navigationController.navigationBar.frame.size.height;
-        if (showMap) {
-            tableviewHeight -= MAP_VIEW_HEIGHT;
-        }
+        tableviewHeight = self.view.frame.size.height-INFO_VIEW_HEIGHT-self.navigationController.navigationBar.frame.size.height;
     } else {
-        tableviewHeight = self.view.frame.size.height-NAME_SCROLL_HEIGHT-INFO_VIEW_HEIGHT;
-        if (showMap) {
-            tableviewHeight -= MAP_VIEW_HEIGHT;
-        }
+        tableviewHeight = self.view.frame.size.height-INFO_VIEW_HEIGHT;
     }
-    tableView.frame = CGRectMake(0, showMap? MAP_VIEW_HEIGHT+NAME_SCROLL_HEIGHT+INFO_VIEW_HEIGHT : NAME_SCROLL_HEIGHT+INFO_VIEW_HEIGHT, self.view.frame.size.width, tableviewHeight);
+    tableView.frame = CGRectMake(0, INFO_VIEW_HEIGHT, self.view.frame.size.width, tableviewHeight);
     [tableView reloadData];
 }
 
@@ -592,6 +385,223 @@
 {
     UILabel *urlLabel = (UILabel *)gestureRecognizer.view;
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlLabel.text]];
+}
+
+- (void)configureMap
+{
+    if ([self.location hasCoordinate])
+    {
+        showMap = YES;
+        MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];
+        UIButton *button;
+        if (!mapView) {
+            mapView = [[MKMapView alloc] init];
+            mapView.tag = TAG_MAPVIEW;
+            mapView.delegate = self;
+            [tableHeaderView addSubview:mapView];
+            
+            button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.tag = TAG_MAPBTN;
+            [tableHeaderView addSubview:button];
+            [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
+        }
+        mapView.frame = CGRectMake(0, 0, self.view.frame.size.width, MAP_VIEW_HEIGHT);
+        if (!button) {
+            button = (UIButton *)[self.view viewWithTag:TAG_MAPBTN];
+        }
+        [button setFrame:mapView.frame];
+        
+        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
+        [mapView setCenterCoordinate:customLoc2D_5 animated:false];
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1000, 1000);
+        MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
+        [mapView setRegion:adjustedRegion animated:false];
+        [mapView removeAnnotations:mapView.annotations];
+        [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
+        //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
+        
+        CALayer *bottomBorder = [CALayer layer];
+        bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT - 1, self.view.frame.size.width, 2);
+        bottomBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
+        [mapView.layer addSublayer:bottomBorder];
+    }else{
+        showMap = NO;
+        MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];
+        if (mapView) {
+            mapView.frame = CGRectZero;
+        }
+    }
+}
+
+#define LOCATION_ANNOTATION_VIEWS @"LocationAnnotationViews"
+
+- (MKAnnotationView *)mapView:(MKMapView *)sender viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    MKAnnotationView *aView = [sender dequeueReusableAnnotationViewWithIdentifier:LOCATION_ANNOTATION_VIEWS];
+    
+	if (!aView)
+    {
+        aView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
+        aView.image = [Location getCategoryIconMap:self.location.category];
+        aView.annotation = annotation;
+	}
+	return aView;
+}
+
+- (void)showLargeMap
+{
+    LocationMapViewController *mapViewController = [[LocationMapViewController alloc] init];
+    mapViewController.location = self.location;
+    mapViewController.index = self.locationIndex;
+    [self.navigationController pushViewController:mapViewController animated:YES];
+}
+
+- (void)configureNameScroll
+{
+    UIImageView *categoryImage = (UIImageView *)[self.view viewWithTag:TAG_CATEGORY_IMAGE];
+    if (!categoryImage) {
+        categoryImage = [[UIImageView alloc] init];
+        categoryImage.tag = TAG_CATEGORY_IMAGE;
+        categoryImage.contentMode = UIViewContentModeCenter;
+        [tableHeaderView addSubview:categoryImage];
+    }
+    categoryImage.image = [Location getCategoryIconLarge:self.location.category];
+    categoryImage.frame = CGRectMake(10, showMap? MAP_VIEW_HEIGHT : 0, NAME_SCROLL_HEIGHT, NAME_SCROLL_HEIGHT);
+
+    FadeScrollView *nameScroll = (FadeScrollView *)[self.view viewWithTag:TAG_NAMESCROLL];
+    if (!nameScroll) {
+        nameScroll = [[FadeScrollView alloc] init];
+        nameScroll.tag = TAG_NAMESCROLL;
+        nameScroll.showsHorizontalScrollIndicator = FALSE;
+        nameScroll.showsVerticalScrollIndicator = FALSE;
+        [tableHeaderView addSubview:nameScroll];
+    }
+    NSInteger nameScrollWidth = self.view.frame.size.width - NAME_SCROLL_HEIGHT - 15;
+    if (self.location.useradd) {
+        nameScrollWidth -= 31;
+    }
+    nameScroll.frame = CGRectMake(10+NAME_SCROLL_HEIGHT+5, showMap? MAP_VIEW_HEIGHT : 0, nameScrollWidth, NAME_SCROLL_HEIGHT);
+        
+    UILabel *nameLabel = (UILabel *)[nameScroll viewWithTag:TAG_NAMELABEL];
+    if (!nameLabel) {
+        nameLabel = [[UILabel alloc] init];
+        nameLabel.tag = TAG_NAMELABEL;
+        nameLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+        nameLabel.backgroundColor = [UIColor clearColor];
+        nameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+        [nameScroll addSubview:nameLabel];
+    }
+                
+    UILabel *eNameLabel = (UILabel *)[nameScroll viewWithTag:TAG_ENAMELABEL];
+    if (!eNameLabel) {
+        eNameLabel = [[UILabel alloc] init];
+        eNameLabel.tag = TAG_ENAMELABEL;
+        eNameLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+        eNameLabel.backgroundColor = [UIColor clearColor];
+        eNameLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+        [nameScroll addSubview:eNameLabel];
+    }
+    
+    UILabel *addressLabel = (UILabel *)[nameScroll viewWithTag:TAG_ADDRESSLABEL];
+    if (!addressLabel) {
+        addressLabel = [[UILabel alloc] init];
+        addressLabel.tag = TAG_ADDRESSLABEL;
+        addressLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+        addressLabel.backgroundColor = [UIColor clearColor];
+        addressLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+        [nameScroll addSubview:addressLabel];
+    }
+
+    CGPoint nameLabelOrigin = CGPointMake(0, 5);
+    CGPoint nameEnLabelOrigin = CGPointMake(0, 25);
+    CGPoint addressLabelOrigin = CGPointMake(0, 40);
+    if (self.location.nameEn.length == 0 && self.location.address.length == 0) {
+        nameLabelOrigin = CGPointMake(0, 20);
+    } else if (self.location.nameEn.length == 0) {
+        nameLabelOrigin = CGPointMake(0, 10);
+        addressLabelOrigin = CGPointMake(0, 35);
+    } else if (self.location.address.length == 0) {
+        nameLabelOrigin = CGPointMake(0, 10);
+        nameEnLabelOrigin = CGPointMake(0, 35);
+    }
+    
+    nameLabel.frame = CGRectMake(nameLabelOrigin.x, nameLabelOrigin.y, self.view.frame.size.width, NAME_LABEL_HEIGHT);
+    nameLabel.text = [self.location getNameAndCity];
+    [nameLabel sizeToFit];
+    
+    
+    eNameLabel.frame = CGRectMake(nameEnLabelOrigin.x, nameEnLabelOrigin.y, self.view.frame.size.width, NAME_LABEL_HEIGHT);
+    eNameLabel.text = self.location.nameEn;
+    [eNameLabel sizeToFit];
+    
+    
+    addressLabel.frame = CGRectMake(addressLabelOrigin.x, addressLabelOrigin.y, self.view.frame.size.width, ADDRESS_LABEL_HEIGHT);
+    addressLabel.text = self.location.address;
+    [addressLabel sizeToFit];
+    
+    CGFloat nameWidth = nameLabel.frame.size.width;
+    CGFloat eNameWidth = eNameLabel.frame.size.width;
+    CGFloat addressWidth = addressLabel.frame.size.width;
+    
+    CGFloat contentWidht = MAX(nameWidth, MAX(eNameWidth, addressWidth));
+    if (contentWidht > nameScroll.bounds.size.width) {
+        contentWidht += nameScroll.bounds.size.width * 0.15; //15%的区域会渐隐，加上这段好让最右边的字也能全部显示出来
+    }
+    nameScroll.contentSize = CGSizeMake(contentWidht, nameScroll.frame.size.height);
+    
+    UIButton *editLocationBtn = (UIButton *)[self.view viewWithTag:TAG_EDITBUTTON];
+    if(self.location.useradd){
+        if (!editLocationBtn) {
+            editLocationBtn = [[UIButton alloc] init];
+            editLocationBtn.tag = TAG_EDITBUTTON;
+            [editLocationBtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+            [editLocationBtn setAlpha:1];
+            editLocationBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+            [editLocationBtn addTarget:self action:@selector(editLocationCoordinate:) forControlEvents:UIControlEventTouchDown];
+            [tableHeaderView addSubview:editLocationBtn];
+        }
+        editLocationBtn.frame = CGRectMake(self.view.frame.size.width - 31,nameScroll.frame.origin.y+17,21,21);
+    }else{
+        if (editLocationBtn) {
+            editLocationBtn.frame = CGRectZero;
+        }
+    }
+}
+
+- (IBAction) editLocationCoordinate:(id)sender
+{
+    AddLocationViewController *addLocationViewController = [[AddLocationViewController alloc] init];
+    addLocationViewController.location = [[Location alloc] init];
+    addLocationViewController.location.name = self.location.name;
+    addLocationViewController.location.category = self.location.category;
+    addLocationViewController.location.locationId = self.location.locationId;
+    addLocationViewController.addLocation = NO;
+    
+    if(showMap)
+    {
+        addLocationViewController.location.latitude = self.location.latitude;
+        addLocationViewController.location.longitude = self.location.longitude;
+        addLocationViewController.hasCoordinate = YES;
+    }
+    else
+    {
+        addLocationViewController.hasCoordinate = NO;
+    }
+    addLocationViewController.editLocationDelegate = self;
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addLocationViewController];
+    [self presentViewController:navController animated:YES completion:NULL];
+}
+
+//Implement AddLocationViewControllerDelegate
+-(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishEdit:(Location *)location name:(BOOL)nameChanged coordinate:(BOOL)coordinateChanged
+{
+    self.location.name = location.name;
+    self.location.latitude = location.latitude;
+    self.location.longitude = location.longitude;
+    [self configureView];
+    
+    [self.delegate didChangeLocation:self.location];
 }
 
 - (void)didReceiveMemoryWarning
