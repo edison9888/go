@@ -67,25 +67,6 @@
     [self configureView];
 }
 
-- (void)setTitle:(NSString *)title
-{
-    [super setTitle:title];
-    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
-    if (!titleView) {
-        titleView = [[UILabel alloc] initWithFrame:CGRectZero];
-        titleView.backgroundColor = [UIColor clearColor];
-        titleView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:20];
-        titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-        titleView.shadowOffset = CGSizeMake(0, 1.0);
-        
-        titleView.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
-        
-        self.navigationItem.titleView = titleView;
-    }
-    titleView.text = title;
-    [titleView sizeToFit];
-}
-
 - (void)configureView
 {
     if (self.location) {
@@ -108,6 +89,25 @@
 - (IBAction)backToPrevious:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
+    if (!titleView) {
+        titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleView.backgroundColor = [UIColor clearColor];
+        titleView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:20];
+        titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        titleView.shadowOffset = CGSizeMake(0, 1.0);
+        
+        titleView.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
+        
+        self.navigationItem.titleView = titleView;
+    }
+    titleView.text = title;
+    [titleView sizeToFit];
 }
 
 - (void)configureSegment
@@ -174,13 +174,15 @@
     UIView *infoView = [self.view viewWithTag:TAG_INFOVIEW];
     if (!infoView) {
         infoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, INFO_VIEW_HEIGHT)];
+        infoView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
         infoView.tag = TAG_INFOVIEW;
         [self.view addSubview:infoView];
         
-        CAGradientLayer *bottomShadow = [CAGradientLayer layer];
-        bottomShadow.frame = CGRectMake(0, INFO_VIEW_HEIGHT - 1, self.view.frame.size.width, 3);
-        bottomShadow.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0.0 alpha:0.2f] CGColor], (id)[[UIColor clearColor] CGColor], nil];
-        [infoView.layer addSublayer:bottomShadow];
+        infoView.layer.masksToBounds = NO;
+        infoView.layer.shadowOffset = CGSizeMake(0, 1);
+        infoView.layer.shadowRadius = 0.8;
+        infoView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
+        infoView.layer.shadowOpacity = 1;
     }
     [self.view bringSubviewToFront:infoView];
     
@@ -241,10 +243,9 @@
         [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
         //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
         
-        CAGradientLayer *bottomBorder = [CALayer layer];
-        bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT - 1, self.view.frame.size.width, 1);
-        bottomBorder.backgroundColor = [UIColor colorWithWhite:0.8f
-                                                         alpha:1.0f].CGColor;
+        CALayer *bottomBorder = [CALayer layer];
+        bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT - 1, self.view.frame.size.width, 2);
+        bottomBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
         [mapView.layer addSublayer:bottomBorder];
     }else{
         showMap = NO;
