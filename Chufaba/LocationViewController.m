@@ -123,15 +123,13 @@
         [nextBtn setImage:[UIImage imageNamed:@"nextLocDis.png"] forState:UIControlStateDisabled];
         [nextBtn setImage:[UIImage imageNamed:@"nextLocClick.png"] forState:UIControlStateHighlighted];
         
-        [prevBtn addTarget:self action:@selector(prevLocation:) forControlEvents:UIControlEventTouchDown];
-        [nextBtn addTarget:self action:@selector(nextLocation:) forControlEvents:UIControlEventTouchDown];
+        [prevBtn addTarget:self action:@selector(prevLocation:) forControlEvents:UIControlEventTouchUpInside];
+        [nextBtn addTarget:self action:@selector(nextLocation:) forControlEvents:UIControlEventTouchUpInside];
 
         prevBtn.tag = TAG_PREVBTN;
         [segmentedControl addSubview:prevBtn];
-        //[segmentedControl bringSubviewToFront:prevBtn];
         nextBtn.tag = TAG_NEXTBTN;
         [segmentedControl addSubview:nextBtn];
-        //[segmentedControl bringSubviewToFront:nextBtn];
         
         UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
         self.navigationItem.rightBarButtonItem = segmentBarItem;

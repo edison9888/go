@@ -266,9 +266,9 @@
         }
     }
     
-//    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-//    footerView.backgroundColor = [UIColor whiteColor];
-//    self.tableView.tableFooterView = footerView;
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+    footerView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableFooterView = footerView;
     
     //sync,edit,share menu part
 //    if (pullDownMenuView == nil) {
@@ -762,11 +762,23 @@
     
     location.whichday = self.dayToAdd;
     location.seqofday = self.seqToAdd;
+    
+    BOOL addFooterView = FALSE;
     if(singleDayMode){
+        if([[self.dataController objectInListAtIndex:0] count] == 0)
+            addFooterView = TRUE;
         [[self.dataController objectInListAtIndex:0] addObject:location];
     }
     else{
+        if([[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] count] == 0)
+            addFooterView = TRUE;
         [[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] addObject:location];
+    }
+    if(addFooterView)
+    {
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+        footerView.backgroundColor = [UIColor whiteColor];
+        self.tableView.tableFooterView = footerView;
     }
     
     [self dismissViewControllerAnimated:NO completion:nil];
@@ -892,13 +904,13 @@
     lineView.backgroundColor = [UIColor whiteColor];
     [cell.contentView addSubview:lineView];
     
-    int sectionOfLastDay = [self.dataController countOfList]-1;
-    if(indexPath.section == sectionOfLastDay && indexPath.row == [[self.dataController objectInListAtIndex:sectionOfLastDay] count]-1)
-    {
-        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
-        lineView.backgroundColor = [UIColor whiteColor];
-        [cell.contentView addSubview:lineView];
-    }
+//    int sectionOfLastDay = [self.dataController countOfList]-1;
+//    if(indexPath.section == sectionOfLastDay && indexPath.row == [[self.dataController objectInListAtIndex:sectionOfLastDay] count]-1)
+//    {
+//        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
+//        lineView.backgroundColor = [UIColor whiteColor];
+//        [cell.contentView addSubview:lineView];
+//    }
     
     return cell;
 }
@@ -1126,6 +1138,11 @@
     
     [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfLocationToDelete] withRowAnimation:UITableViewRowAnimationFade];
     [oneDimensionLocationList removeObjectAtIndex:deleteIndex];
+    
+    if([[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] count] == 0)
+    {
+        self.tableView.tableFooterView = NULL;
+    }
     
     //add this to resolve the issue that map annotations doesn't update
     self.annotations = [self mapAnnotations];

@@ -494,7 +494,8 @@
             [self.view addSubview:siteLabel];
         }
         
-        [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfplanToEditOrDelete] withRowAnimation:UITableViewRowAnimationFade];
+        //[self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfplanToEditOrDelete] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView reloadData];
         
         [self removeImage: [[planToDelete.planId stringValue] stringByAppendingString:@"planCover"]];
     }
