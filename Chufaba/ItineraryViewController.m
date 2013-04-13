@@ -987,7 +987,7 @@
     button.tag = dayValue;
     button.hidden = NO;
     [button setBackgroundColor:[UIColor clearColor]];
-    [button addTarget:self action:@selector(pushSearchLocationViewController:) forControlEvents:UIControlEventTouchDown];
+    [button addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchDown];
     
     label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
     myView.backgroundColor = [UIColor colorWithRed:223/255.0 green:215/255.0 blue:198/255.0 alpha:1.0];
@@ -1030,7 +1030,28 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     dropDown = nil;
     self.tableView.contentInset = UIEdgeInsetsZero;
-    if ([[segue identifier] isEqualToString:@"SelectCategory"])
+//    if ([[segue identifier] isEqualToString:@"SelectCategory"])
+//    {
+//        UIButton *button = (UIButton*)sender;
+//        self.dayToAdd = [NSNumber numberWithInt:button.tag+1];
+//        if(singleDayMode){
+//            self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:0] count]+1];
+//        }
+//        else{
+//            self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:button.tag] count]+1];
+//        }
+//        
+//        SelectCategoryViewController *selectController = segue.destinationViewController;
+//        selectController.delegate = self;
+//        if(lastLatitude){
+//            selectController.lastLatitude = lastLatitude;
+//        }
+//        if(lastLongitude){
+//            selectController.lastLongitude = lastLongitude;
+//        }
+//    }
+    
+    if ([[segue identifier] isEqualToString:@"ShowSearch"])
     {
         UIButton *button = (UIButton*)sender;
         self.dayToAdd = [NSNumber numberWithInt:button.tag+1];
@@ -1041,14 +1062,9 @@
             self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:button.tag] count]+1];
         }
         
-        SelectCategoryViewController *selectController = segue.destinationViewController;
-        selectController.delegate = self;
-        if(lastLatitude){
-            selectController.lastLatitude = lastLatitude;
-        }
-        if(lastLongitude){
-            selectController.lastLongitude = lastLongitude;
-        }
+        UINavigationController *navigationController = segue.destinationViewController;
+        SearchViewController *searchController = [[navigationController viewControllers] objectAtIndex:0];
+        [searchController setTitle:@"添加旅行地点"];
     }
 //    else if ([[segue identifier] isEqualToString:@"EditPlan"])
 //    {
@@ -1061,10 +1077,9 @@
 //    }
 }
 
-- (IBAction)pushSearchLocationViewController:(id)sender
+- (IBAction)pushSearchViewController:(id)sender
 {
-    //[self performSegueWithIdentifier:@"SearchLocation" sender:sender];
-    [self performSegueWithIdentifier:@"SelectCategory" sender:sender];
+    [self performSegueWithIdentifier:@"ShowSearch" sender:sender];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath

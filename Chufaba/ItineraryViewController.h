@@ -10,7 +10,8 @@
 #import <MapKit/MapKit.h>
 #import "FMDBDataAccess.h" 
 //#import "SearchLocationViewController.h"
-#import "SelectCategoryViewController.h"
+//#import "SelectCategoryViewController.h"
+#import "SearchViewController.h"
 #import "NIDropDown.h"
 #import "PullDownMenuView.h"
 //#import "AddPlanViewController.h"

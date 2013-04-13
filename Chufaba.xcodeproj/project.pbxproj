@@ -168,6 +168,7 @@
 		1372FE9216FF01BF0091A933 /* entertainment80.png in Resources */ = {isa = PBXBuildFile; fileRef = 1372FE8616FF01BF0091A933 /* entertainment80.png */; };
 		137F903217130CC100A718F8 /* navigation.png in Resources */ = {isa = PBXBuildFile; fileRef = 137F903017130CC100A718F8 /* navigation.png */; };
 		137F903317130CC100A718F8 /* navigation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137F903117130CC100A718F8 /* navigation@2x.png */; };
+		1381A5271719246C0089F7DF /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1381A5261719246C0089F7DF /* SearchViewController.m */; };
 		139601931716EF1400C1E090 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139601921716EF1400C1E090 /* AboutViewController.m */; };
 		139601961716EF2F00C1E090 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139601951716EF2F00C1E090 /* FeedbackViewController.m */; };
 		139601991716EF4100C1E090 /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139601981716EF4100C1E090 /* GuideViewController.m */; };
@@ -438,6 +439,8 @@
 		1372FE8616FF01BF0091A933 /* entertainment80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = entertainment80.png; sourceTree = "<group>"; };
 		137F903017130CC100A718F8 /* navigation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigation.png; sourceTree = "<group>"; };
 		137F903117130CC100A718F8 /* navigation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigation@2x.png"; sourceTree = "<group>"; };
+		1381A5251719246C0089F7DF /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		1381A5261719246C0089F7DF /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		139601911716EF1400C1E090 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		139601921716EF1400C1E090 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		139601941716EF2F00C1E090 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
@@ -1067,6 +1070,8 @@
 				C29C391816F4865F00106DC4 /* FadeScrollView.m */,
 				C28C4D3417144DD1009F510E /* NoteView.h */,
 				C28C4D3517144DD1009F510E /* NoteView.m */,
+				1381A5251719246C0089F7DF /* SearchViewController.h */,
+				1381A5261719246C0089F7DF /* SearchViewController.m */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -1523,6 +1528,7 @@
 				139601961716EF2F00C1E090 /* FeedbackViewController.m in Sources */,
 				139601991716EF4100C1E090 /* GuideViewController.m in Sources */,
 				C2354EF11716ECC000403541 /* DropDownCell.m in Sources */,
+				1381A5271719246C0089F7DF /* SearchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
