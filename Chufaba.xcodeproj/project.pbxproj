@@ -169,6 +169,7 @@
 		137F903217130CC100A718F8 /* navigation.png in Resources */ = {isa = PBXBuildFile; fileRef = 137F903017130CC100A718F8 /* navigation.png */; };
 		137F903317130CC100A718F8 /* navigation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 137F903117130CC100A718F8 /* navigation@2x.png */; };
 		1381A5271719246C0089F7DF /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1381A5261719246C0089F7DF /* SearchViewController.m */; };
+		1381A52A1719B5010089F7DF /* iToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 1381A5291719B5010089F7DF /* iToast.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		139601931716EF1400C1E090 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139601921716EF1400C1E090 /* AboutViewController.m */; };
 		139601961716EF2F00C1E090 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139601951716EF2F00C1E090 /* FeedbackViewController.m */; };
 		139601991716EF4100C1E090 /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 139601981716EF4100C1E090 /* GuideViewController.m */; };
@@ -441,6 +442,8 @@
 		137F903117130CC100A718F8 /* navigation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigation@2x.png"; sourceTree = "<group>"; };
 		1381A5251719246C0089F7DF /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		1381A5261719246C0089F7DF /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		1381A5281719B5010089F7DF /* iToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iToast.h; sourceTree = "<group>"; };
+		1381A5291719B5010089F7DF /* iToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iToast.m; sourceTree = "<group>"; };
 		139601911716EF1400C1E090 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		139601921716EF1400C1E090 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		139601941716EF2F00C1E090 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
@@ -830,6 +833,13 @@
 			name = categorylarge;
 			sourceTree = "<group>";
 		};
+		1381A52B1719BD160089F7DF /* tabcategory */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = tabcategory;
+			sourceTree = "<group>";
+		};
 		139DACA216BD550D00B73AFA /* Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -1046,6 +1056,8 @@
 		C26413F216BD029A00B175A8 /* Location */ = {
 			isa = PBXGroup;
 			children = (
+				1381A5281719B5010089F7DF /* iToast.h */,
+				1381A5291719B5010089F7DF /* iToast.m */,
 				D25F700D16A6354F00ED7AF5 /* Location.h */,
 				D25F700E16A6354F00ED7AF5 /* Location.m */,
 				D25F700516A6332E00ED7AF5 /* LocationViewController.h */,
@@ -1180,6 +1192,7 @@
 		D25F6FEE16A6332D00ED7AF5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1381A52B1719BD160089F7DF /* tabcategory */,
 				1319F27D17046D5100F3C6DE /* mapcategory */,
 				C28C4D1B1703473F009F510E /* location */,
 				1372FE7A16FF015B0091A933 /* categorylarge */,
@@ -1529,6 +1542,7 @@
 				139601991716EF4100C1E090 /* GuideViewController.m in Sources */,
 				C2354EF11716ECC000403541 /* DropDownCell.m in Sources */,
 				1381A5271719246C0089F7DF /* SearchViewController.m in Sources */,
+				1381A52A1719B5010089F7DF /* iToast.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

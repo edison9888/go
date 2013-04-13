@@ -9,6 +9,7 @@
 #import "SearchViewController.h"
 #import "QuartzCore/QuartzCore.h"
 #import "FMDBDataAccess.h" 
+#import "iToast.h"
 
 @interface SearchViewController ()
 
@@ -167,10 +168,10 @@
     }
     else if(sender == self.locationInput)
     {
-        self.LocationKeyword = [self.locationInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        self.locationKeyword = [self.locationInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     }
     
-    if([self.nameKeyword length] == 0 && [self.LocationKeyword length] == 0)
+    if([self.nameKeyword length] == 0 && [self.locationKeyword length] == 0)
     {
         [self clearResults];
     }
@@ -277,6 +278,9 @@
 
 - (IBAction)addLocationToItinerary:(id)sender
 {
+    [self.nameInput resignFirstResponder];
+    [self.locationInput resignFirstResponder];
+    
     UIButton *button = (UIButton*)sender;
     int index = button.tag-10;
     NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:index] objectForKey:@"_source"];
@@ -314,6 +318,9 @@
     
     location.whichday = self.dayToAdd;
     location.seqofday = self.seqToAdd;
+    
+    //[[iToast makeText:NSLocalizedString(@"成功添加到计划", @"")] show];
+    [[[[iToast makeText:NSLocalizedString(@"成功添加到计划", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show];
 }
 
 - (IBAction)changeCategory:(id)sender
@@ -329,7 +336,7 @@
 
 - (void)fetchRestResult
 {
-    if([self.nameKeyword length] > 0 && [self.LocationKeyword length] > 0)
+    if([self.nameKeyword length] > 0 && [self.locationKeyword length] > 0)
     {
         int from = allLocationList.count;
         if (from >= self.total) {

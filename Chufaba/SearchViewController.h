@@ -27,7 +27,7 @@
 @property (nonatomic, copy) NSString *category;
 
 @property (nonatomic, copy) NSString *nameKeyword;
-@property (nonatomic, copy) NSString *LocationKeyword;
+@property (nonatomic, copy) NSString *locationKeyword;
 
 @property (nonatomic, strong) UITextField *nameInput;
 @property (nonatomic, strong) UITextField *locationInput;
