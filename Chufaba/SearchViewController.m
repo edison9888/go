@@ -8,6 +8,7 @@
 
 #import "SearchViewController.h"
 #import "QuartzCore/QuartzCore.h"
+#import "FMDBDataAccess.h" 
 
 @interface SearchViewController ()
 
@@ -236,6 +237,7 @@
         UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 15.0, 31.0, 31.0)];
         [addBtn setImage:[UIImage imageNamed:@"addLocation.png"] forState:UIControlStateNormal];
         [addBtn addTarget:self action:@selector(addLocationToItinerary:) forControlEvents:UIControlEventTouchDown];
+        addBtn.tag = indexPath.row+10;
         [cell.contentView addSubview:addBtn];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -275,7 +277,43 @@
 
 - (IBAction)addLocationToItinerary:(id)sender
 {
+    UIButton *button = (UIButton*)sender;
+    int index = button.tag-10;
+    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:index] objectForKey:@"_source"];
+    Location *location = [[Location alloc] init];
+    location.poiId = [locationAtIndex objectForKey: @"id"];
+    location.name = [locationAtIndex objectForKey: @"name"];
+    location.nameEn = [locationAtIndex objectForKey: @"name_en"];
+    location.country = [locationAtIndex objectForKey: @"country"];
+    location.city = [locationAtIndex objectForKey: @"city"];
+    location.category = [locationAtIndex objectForKey:@"category"];
+    location.address = [locationAtIndex objectForKey:@"address"];
+    NSDictionary *point = [locationAtIndex objectForKey:@"location"];
+    location.latitude = [point objectForKey:@"lat"];
+    if ([location.latitude intValue] == 10000) {
+        location.latitude = nil;
+    }
+    location.longitude = [point objectForKey:@"lon"];
+    if ([location.longitude intValue] == 10000) {
+        location.longitude = nil;
+    }
+    location.transportation = [locationAtIndex objectForKey:@"transport"];
+    location.opening = [locationAtIndex objectForKey:@"opening"];
+    location.fee = [locationAtIndex objectForKey:@"fee"];
+    location.website = [locationAtIndex objectForKey:@"website"];
     
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd,poi_id,opening,fee,website) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",self.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude,[NSNumber numberWithBool:location.useradd],location.poiId,location.opening,location.fee,location.website];
+    FMResultSet *results = [db executeQuery:@"SELECT * FROM location order by id desc limit 1"];
+    if([results next])
+    {
+        location.locationId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
+    }
+    [db close];
+    
+    location.whichday = self.dayToAdd;
+    location.seqofday = self.seqToAdd;
 }
 
 - (IBAction)changeCategory:(id)sender
@@ -285,6 +323,7 @@
 
 -(IBAction)close:(id)sender
 {
+    [self.searchDelegate notifyItinerayToReload];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

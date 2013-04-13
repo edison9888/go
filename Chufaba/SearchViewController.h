@@ -11,6 +11,12 @@
 #import "AddLocationViewController.h"
 #import "SearchTableViewCell.h"
 
+@protocol SearchViewControllerDelegate<NSObject>
+
+-(void) notifyItinerayToReload;
+
+@end
+
 @interface SearchViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     JSONFetcher *fetcher;
@@ -27,7 +33,13 @@
 @property (nonatomic, strong) UITextField *locationInput;
 @property (nonatomic, strong) UITableView *tableView;
 
+@property (nonatomic,weak) NSNumber *dayToAdd;
+@property (nonatomic,weak) NSNumber *seqToAdd;
+
 @property (nonatomic, copy) NSNumber *lastLatitude;
 @property (nonatomic, copy) NSNumber *lastLongitude;
+@property (nonatomic, copy) NSNumber *planId;
+
+@property (nonatomic,weak) id<SearchViewControllerDelegate> searchDelegate;
 
 @end

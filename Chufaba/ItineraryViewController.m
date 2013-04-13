@@ -30,6 +30,60 @@
     self.dataController = [[ItineraryDataController alloc] init];
 }
 
+- (void)reloadDataController
+{
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    
+    [db open];
+    
+    NSNumber *planID = self.plan.planId;
+    FMResultSet *results = [db executeQuery:@"SELECT * FROM location,plan WHERE plan_id=? AND plan_id=plan.id AND whichday=? order by seqofday",planID, self.dayToAdd];
+
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    while([results next])
+    {
+        Location *location = [[Location alloc] init];
+        location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
+        location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
+        location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
+        location.name = [results stringForColumn:@"name"];
+        location.nameEn = [results stringForColumn:@"name_en"];
+        location.country = [results stringForColumn:@"country"];
+        location.city = [results stringForColumn:@"city"];
+        location.address = [results stringForColumn:@"address"];
+        location.transportation = [results stringForColumn:@"transportation"];
+        location.cost = [NSNumber numberWithInt:[results intForColumn:@"cost"]];
+        location.currency = [results stringForColumn:@"currency"];
+        location.visitBegin = [results stringForColumn:@"visit_begin"];
+        location.detail = [results stringForColumn:@"detail"];
+        location.category = [results stringForColumn:@"category"];
+        location.latitude = [NSNumber numberWithDouble:[results doubleForColumn:@"latitude"]];
+        location.longitude = [NSNumber numberWithDouble:[results doubleForColumn:@"longitude"]];
+        location.useradd = [results boolForColumn:@"useradd"];
+        location.poiId = [NSNumber numberWithInt:[results intForColumn:@"poi_id"]];
+        location.opening = [results stringForColumn:@"opening"];
+        location.fee = [results stringForColumn:@"fee"];
+        location.website = [results stringForColumn:@"website"];
+        [array addObject:location];
+    }
+    if(singleDayMode)
+    {
+        [self.dataController.masterTravelDayList replaceObjectAtIndex:0 withObject:array];
+        [self.itineraryListBackup replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
+    }
+    else
+    {
+        [self.dataController.masterTravelDayList replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
+        [self.itineraryListBackup replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
+    }
+    
+    [db close];
+    
+    oneDimensionLocationList = [self getOneDimensionLocationList];
+    self.annotations = [self mapAnnotations];
+    [self.itineraryDelegate didAddLocationToPlan];
+}
+
 - (NSMutableArray *) getOneDimensionLocationList
 {
     NSMutableArray *locationList = [[NSMutableArray alloc] init];
@@ -1054,17 +1108,25 @@
     if ([[segue identifier] isEqualToString:@"ShowSearch"])
     {
         UIButton *button = (UIButton*)sender;
-        self.dayToAdd = [NSNumber numberWithInt:button.tag+1];
-        if(singleDayMode){
-            self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:0] count]+1];
-        }
-        else{
-            self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:button.tag] count]+1];
-        }
         
         UINavigationController *navigationController = segue.destinationViewController;
         SearchViewController *searchController = [[navigationController viewControllers] objectAtIndex:0];
         [searchController setTitle:@"添加旅行地点"];
+        
+        searchController.searchDelegate = self;
+        searchController.planId = self.plan.planId;
+        searchController.dayToAdd = [NSNumber numberWithInt:button.tag+1];
+        self.dayToAdd = searchController.dayToAdd;
+        if(singleDayMode)
+        {
+            searchController.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:0] count]+1];
+            self.seqToAdd = searchController.seqToAdd;
+        }
+        else
+        {
+            searchController.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:button.tag] count]+1];
+            self.seqToAdd = searchController.seqToAdd;
+        }
     }
 //    else if ([[segue identifier] isEqualToString:@"EditPlan"])
 //    {
@@ -1179,6 +1241,13 @@
     [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",[locationToDelete.seqofday intValue], [locationToDelete.whichday intValue]]];
     [db close];
     [self.itineraryDelegate didDeleteLocationFromPlan];
+}
+
+//SearchViewControllerDelegate implementation
+-(void) notifyItinerayToReload
+{
+    [self reloadDataController];
+    [self.tableView reloadData];
 }
 
 @end
