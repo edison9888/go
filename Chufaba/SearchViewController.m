@@ -210,7 +210,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [allLocationList count];
+    if (self.locationKeyword.length == 0) {
+        return 0;
+    } else {
+        return [allLocationList count] + 1;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -359,51 +363,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)fetchRestResult
-{
-    if([self.nameKeyword length] > 0 && [self.locationKeyword length] > 0)
-    {
-        int from = allLocationList.count;
-        if (from >= self.total) {
-            return;
-        }
-        [self cancelCurrentSearch];
-        
-        //需要修改成传name,location,category这三个参数
-        NSString *body = [self getSameCategoryPostBody:self.nameKeyword];
-        
-        fetcher = [[JSONFetcher alloc]
-                   initWithURLString:[NSString stringWithFormat:@"http://chufaba.me:9200/cfb/poi/_search?size=30&from=%d", from]
-                   body:body
-                   receiver:self
-                   action:@selector(receiveRestResult:)];
-        fetcher.showAlerts = NO;
-        [fetcher start];
-    }
-}
-
-- (void)receiveRestResult:(JSONFetcher *)aFetcher
-{
-    if (aFetcher.failureCode) {
-        UIAlertView *alert =
-        [[UIAlertView alloc]
-         initWithTitle:nil
-         message:@"服务器跪了，请稍后重试"
-         delegate:self
-         cancelButtonTitle:@"确定"
-         otherButtonTitles:nil];
-        [alert show];
-    } else {
-        NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
-        if (locations.count > 0) {
-            [allLocationList addObjectsFromArray:locations];
-            [self.tableView reloadData];
-        }
-    }
-    
-    fetcher = nil;
-}
-
 - (void)cancelCurrentSearch
 {
     if (fetcher) {
@@ -422,64 +381,106 @@
 
 - (void)searchPoi
 {
-    [self cancelCurrentSearch];
-    
-    //需要修改成传name,location,category这三个参数
-    NSString *body = [self getSameCategoryPostBody:self.nameKeyword];
-    
-    fetcher = [[JSONFetcher alloc]
-               initWithURLString:@"http://chufaba.me:9200/cfb/poi/_search?size=30&from=0"
-               body:body
-               receiver:self
-               action:@selector(receiveResponse:)];
-    fetcher.showAlerts = NO;
-    [fetcher start];
+    if([self.locationKeyword length] > 0)
+    {
+        [self cancelCurrentSearch];
+        
+        NSString *body = [self getSearchPostBody];
+        if (body != nil) {
+            fetcher = [[JSONFetcher alloc]
+                       initWithURLString:@"http://chufaba.me:9200/cfb/poi/_search?size=30&from=0"
+                       body:body
+                       receiver:self
+                       action:@selector(receiveResponse:)];
+            fetcher.showAlerts = NO;
+            [fetcher start];
+        }
+    }
 }
 
-- (NSString *)getSameCategoryPostBody:(NSString *)keyword {
-    keyword = [keyword stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+- (NSString *)getSearchPostBody {
+    NSString *keyword = [self.nameKeyword stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
     keyword = [keyword stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-    NSString *query = [NSString stringWithFormat:@
-                       "    \"min_score\" : 2.0,"
-                       "    \"query\":{"
-                       "        \"bool\" : { "
-                       "            \"must\" : {"
-                       "                \"term\" : {"
-                       "                    \"category\":\"%@\""
-                       "                }"
-                       "            },"
-                       "            \"should\" : ["
-                       "                {"
-                       "                    \"match_phrase_prefix\" :{"
-                       "                        \"query\" : {"
-                       "                            \"query\" : \"%@\","
-                       "                            \"max_expansions\" : 10"
-                       "                        }"
-                       "                    }"
-                       "                },"
-                       "                {"
-                       "                    \"multi_match\" :{"
-                       "                        \"query\" : \"%@\","
-                       "                        \"fields\" : [ \"name\", \"name_en\", \"query\" ]"
-                       "                    }"
-                       "                }"
-                       "            ],"
-                       "            \"minimum_number_should_match\" : 1"
-                       "        }"
-                       "    }"
-                       , self.category, keyword, keyword];
-    if (self.lastLatitude && [self.lastLatitude intValue] != 10000) {
-        return [NSString stringWithFormat:@"{"
-                "\"sort\" : [ "
-                "{ \"_geo_distance\" : {"
-                "\"location\" : { \"lat\" : %f, \"lon\" : %f }, "
-                "\"order\" : \"asc\", "
-                "\"unit\" : \"km\" "
-                "} } ],"
-                "%@}", [self.lastLatitude floatValue], [self.lastLongitude floatValue], query];
-    } else {
-        return [NSString stringWithFormat:@"{%@}", query];
+    NSString *location = [self.locationKeyword stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    location = [location stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    location = [location capitalizedString];
+    if (location.length == 0) {
+        //没有地名就不搜
+        return nil;
     }
+    NSString *sort = nil;
+    if (self.lastLatitude && [self.lastLatitude intValue] != 10000) {
+        sort = [NSString stringWithFormat:@"\"sort\" : ["
+                "{ \"_geo_distance\" : {"
+                "   \"location\" : { \"lat\" : %f, \"lon\" : %f }, "
+                "   \"order\" : \"asc\", "
+                "   \"unit\" : \"km\" "
+                "}},"
+                "{\"rank\":\"desc\"},"
+                "\"id\""
+                "]", [self.lastLatitude floatValue], [self.lastLongitude floatValue]];
+    } else {
+        sort = @"\"sort\":["
+                "{\"rank\":\"desc\"},"
+                "\"id\""
+                "]";
+    }
+    NSString *locationQuery = [NSString stringWithFormat:@
+                               "            \"should\" : ["
+                               "                {"
+                               "                    \"prefix\" : {"
+                               "                        \"city\": \"%@\" "
+                               "                    } "
+                               "                },"
+                               "                {"
+                               "                    \"prefix\" : {"
+                               "                        \"city_en\": \"%@\" "
+                               "                    } "
+                               "                },"
+                               "                {"
+                               "                    \"prefix\" : {"
+                               "                        \"country\": {"
+                               "                            \"prefix\": \"%@\","
+                               "                            \"boost\": 2.0"
+                               "                        }"
+                               "                    }"
+                               "                },"
+                               "                {"
+                               "                    \"prefix\" : {"
+                               "                        \"country_en\": {"
+                               "                            \"prefix\": \"%@\","
+                               "                            \"boost\": 2.0"
+                               "                        }"
+                               "                    }"
+                               "                }"
+                               "            ],"
+                               "            \"minimum_number_should_match\" : 1"
+                               , location, location, location, location];
+    NSString *keywordQuery = @"";
+    if (keyword.length > 0) {
+        keywordQuery = [NSString stringWithFormat:@
+                               "            \"must\" : {"
+                               "                \"match_phrase_prefix\" :{"
+                               "                    \"query\" : {"
+                               "                        \"query\" : \"%@\""
+                               "                    }"
+                               "                }"
+                               "            },"
+                               , keyword];
+    }
+    NSString *query = [NSString stringWithFormat:@
+                           "    \"query\":{ "
+                           "        \"bool\" : { "
+                           "            \"must\" : {"
+                           "                \"term\" : {"
+                           "                    \"category\": \"%@\" "
+                           "                } "
+                           "            }, "
+                           "            %@"
+                           "            %@"
+                           "}}", self.category, keywordQuery, locationQuery];
+    
+    return [NSString stringWithFormat:@"{%@,%@}", sort, query];
 }
 
 - (void)receiveResponse:(JSONFetcher *)aFetcher
@@ -507,6 +508,52 @@
             [self.tableView reloadData];
         }
     }
+}
+
+- (void)fetchRestResult
+{
+    if([self.locationKeyword length] > 0)
+    {
+        int from = allLocationList.count;
+        if (from >= self.total) {
+            return;
+        }
+        
+        [self cancelCurrentSearch];
+        
+        NSString *body = [self getSearchPostBody];
+        if (body != nil) {
+            fetcher = [[JSONFetcher alloc]
+                       initWithURLString:[NSString stringWithFormat:@"http://chufaba.me:9200/cfb/poi/_search?size=30&from=%d", from]
+                       body:body
+                       receiver:self
+                       action:@selector(receiveRestResult:)];
+            fetcher.showAlerts = NO;
+            [fetcher start];
+        }
+    }
+}
+
+- (void)receiveRestResult:(JSONFetcher *)aFetcher
+{
+    if (aFetcher.failureCode) {
+        UIAlertView *alert =
+        [[UIAlertView alloc]
+         initWithTitle:nil
+         message:@"服务器跪了，请稍后重试"
+         delegate:self
+         cancelButtonTitle:@"确定"
+         otherButtonTitles:nil];
+        [alert show];
+    } else {
+        NSArray *locations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
+        if (locations.count > 0) {
+            [allLocationList addObjectsFromArray:locations];
+            [self.tableView reloadData];
+        }
+    }
+    
+    fetcher = nil;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
