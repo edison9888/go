@@ -26,6 +26,7 @@
 }
 
 @property (nonatomic, copy) NSString *category;
+@property (nonatomic, strong) NSMutableArray *poiArray;
 
 @property (nonatomic, copy) NSString *nameKeyword;
 @property (nonatomic, copy) NSString *locationKeyword;

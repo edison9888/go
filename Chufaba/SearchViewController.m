@@ -238,12 +238,14 @@
         NSString *name = [locationAtIndex objectForKey: @"name"];
         NSString *name_en = [locationAtIndex objectForKey: @"name_en"];
         NSString *city = [locationAtIndex objectForKey: @"city"];
+        NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
         if ([name length] == 0) {
             name = name_en;
             name_en = nil;
         }
         if ([city length] > 0) {
-            [[cell textLabel] setText: [NSString stringWithFormat: @"%@, %@", name, city]];
+            //[[cell textLabel] setText: [NSString stringWithFormat: @"%@, %@", name, city]];
+            [[cell textLabel] setText: [NSString stringWithFormat: @"%@", name]];
         } else {
             [[cell textLabel] setText: name];
         }
@@ -256,11 +258,39 @@
         
         cell.imageView.image = [Location getCategoryIconMedium:[locationAtIndex objectForKey:@"category"]];
         
-        UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 15.0, 31.0, 31.0)];
-        [addBtn setImage:[UIImage imageNamed:@"addLocation.png"] forState:UIControlStateNormal];
-        [addBtn addTarget:self action:@selector(addOrRemoveLocation:) forControlEvents:UIControlEventTouchDown];
-        addBtn.tag = indexPath.row+10;
-        [cell.contentView addSubview:addBtn];
+        //UIButton *actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+        
+        BOOL addedBefore = FALSE;
+        for(NSNumber *poi in self.poiArray)
+        {
+            if([poi intValue] == [poiId intValue])
+            {
+                addedBefore = TRUE;
+                break;
+            }
+        }
+        
+        if(addedBefore)
+        {
+            UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [removeBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
+            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
+            [removeBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchDown];
+            removeBtn.tag = indexPath.row+10;
+            [cell.contentView addSubview:removeBtn];
+        }
+        else
+        {
+            UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [addBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
+            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
+            [addBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchDown];
+            addBtn.tag = indexPath.row+10;
+            [cell.contentView addSubview:addBtn];
+        }
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else if ([allLocationList count] != self.total)
@@ -300,7 +330,58 @@
     return cell;
 }
 
-- (IBAction)addOrRemoveLocation:(id)sender
+- (IBAction)removeLocation:(id)sender
+{
+    shouldUpdateItinerary = YES;
+    
+    [self.nameInput resignFirstResponder];
+    [self.locationInput resignFirstResponder];
+    
+    UIButton *button = (UIButton*)sender;
+    int index = button.tag-10;
+    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:index] objectForKey:@"_source"];
+    NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
+    
+    NSNumber *seqToDelete;
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    
+    FMResultSet *results = [db executeQuery:@"SELECT * FROM location WHERE poi_id = ? AND whichday = ?", poiId, self.dayToAdd];
+    if([results next])
+    {
+        seqToDelete = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
+    }
+
+    [db executeUpdate:@"DELETE FROM location WHERE poi_id = ? AND whichday = ?", poiId, self.dayToAdd];
+    [db executeUpdate:@"UPDATE location SET seqofday = seqofday-1 where seqofday > ? and whichday = ?",seqToDelete,self.dayToAdd];
+    [db close];
+    
+    //update poi array
+    for(NSNumber *poi in self.poiArray)
+    {
+        if([poi intValue] == [poiId intValue])
+        {
+            [self.poiArray removeObject:poi];
+            break;
+        }
+    }
+    
+    self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]-1];
+    
+    UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [addBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+    
+    addBtn.tag = button.tag;
+    UIView *cellContentView = button.superview;
+    [button removeFromSuperview];
+    
+    [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
+    [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
+    [addBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchDown];
+    [cellContentView addSubview:addBtn];
+}
+
+- (IBAction)addLocation:(id)sender
 {
     shouldUpdateItinerary = YES;
     
@@ -332,18 +413,30 @@
     location.fee = [locationAtIndex objectForKey:@"fee"];
     location.website = [locationAtIndex objectForKey:@"website"];
     
+    location.whichday = self.dayToAdd;
+    location.seqofday = self.seqToAdd;
+    
+    [self.poiArray addObject:location.poiId];
+    
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
     [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd,poi_id,opening,fee,website) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",self.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude,[NSNumber numberWithBool:location.useradd],location.poiId,location.opening,location.fee,location.website];
-    FMResultSet *results = [db executeQuery:@"SELECT * FROM location order by id desc limit 1"];
-    if([results next])
-    {
-        location.locationId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
-    }
     [db close];
     
-    location.whichday = self.dayToAdd;
-    location.seqofday = self.seqToAdd;
+    //increase seqToAdd
+    self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
+    
+    UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [removeBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+    
+    removeBtn.tag = button.tag;
+    UIView *cellContentView = button.superview;
+    [button removeFromSuperview];
+    
+    [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
+    [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
+    [removeBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchDown];
+    [cellContentView addSubview:removeBtn];
     
     //[[iToast makeText:NSLocalizedString(@"成功添加到计划", @"")] show];
     [[[[iToast makeText:NSLocalizedString(@"成功添加到计划", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show];

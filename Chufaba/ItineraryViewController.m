@@ -1117,16 +1117,35 @@
         searchController.planId = self.plan.planId;
         searchController.dayToAdd = [NSNumber numberWithInt:button.tag+1];
         self.dayToAdd = searchController.dayToAdd;
+        
+        NSMutableArray *array = [[NSMutableArray alloc] init];
         if(singleDayMode)
         {
             searchController.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:0] count]+1];
             self.seqToAdd = searchController.seqToAdd;
+            
+            for (Location *location in [self.dataController objectInListAtIndex:0])
+            {
+                if(location.poiId)
+                {
+                    [array addObject:location.poiId];
+                }
+            }
         }
         else
         {
             searchController.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:button.tag] count]+1];
             self.seqToAdd = searchController.seqToAdd;
+            
+            for (Location *location in [self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1])
+            {
+                if(location.poiId)
+                {
+                    [array addObject:location.poiId];
+                }
+            }
         }
+        searchController.poiArray = [array mutableCopy];
     }
 //    else if ([[segue identifier] isEqualToString:@"EditPlan"])
 //    {
