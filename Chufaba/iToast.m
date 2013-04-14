@@ -75,13 +75,13 @@ static iToastSettings *sharedSettings = nil;
 	
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, textSize.width + kComponentPadding, textSize.height + kComponentPadding)];
 	label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UIColor whiteColor];
+	label.textColor = [UIColor colorWithRed:0 green:72/255.0 blue:77/255.0 alpha:1];
 	label.font = font;
 	label.text = text;
-    label.textAlignment = NSTextAlignmentCenter;
+    label.textAlignment = NSTextAlignmentLeft;
 	label.numberOfLines = 0;
-	label.shadowColor = [UIColor darkGrayColor];
-	label.shadowOffset = CGSizeMake(1, 1);
+	//label.shadowColor = [UIColor darkGrayColor];
+	//label.shadowOffset = CGSizeMake(1, 1);
 	
 	UIButton *v = [UIButton buttonWithType:UIButtonTypeCustom];
 	if (image) {
@@ -122,7 +122,7 @@ static iToastSettings *sharedSettings = nil;
 		[imageView release];
 	}
 	
-	v.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+	v.backgroundColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:0.8];
 	v.layer.cornerRadius = 5;
 	
 	UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];

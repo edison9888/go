@@ -379,6 +379,11 @@
     [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
     [addBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchDown];
     [cellContentView addSubview:addBtn];
+    
+    iToastSettings *theSettings = [iToastSettings getSharedSettings];
+    [theSettings setImage:[UIImage imageNamed:@"prompt_no.png"] forType:iToastTypeNotice];
+    theSettings.duration = 8000;
+    [[[[iToast makeText:NSLocalizedString(@"已从计划中移除", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
 
 - (IBAction)addLocation:(id)sender
@@ -438,8 +443,10 @@
     [removeBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchDown];
     [cellContentView addSubview:removeBtn];
     
-    //[[iToast makeText:NSLocalizedString(@"成功添加到计划", @"")] show];
-    [[[[iToast makeText:NSLocalizedString(@"成功添加到计划", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show];
+    iToastSettings *theSettings = [iToastSettings getSharedSettings];
+    [theSettings setImage:[UIImage imageNamed:@"prompt_yes.png"] forType:iToastTypeNotice];
+    theSettings.duration = 8000;
+    [[[[iToast makeText:NSLocalizedString(@"已添加到计划", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
 
 - (IBAction)changeCategory:(id)sender

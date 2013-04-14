@@ -35,6 +35,10 @@
 		13140268171AA8A6009A7AC3 /* add_list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13140260171AA8A6009A7AC3 /* add_list@2x.png */; };
 		13140269171AA8A6009A7AC3 /* add_list.png in Resources */ = {isa = PBXBuildFile; fileRef = 13140261171AA8A6009A7AC3 /* add_list.png */; };
 		1314026A171AA8A6009A7AC3 /* add_list_click.png in Resources */ = {isa = PBXBuildFile; fileRef = 13140262171AA8A6009A7AC3 /* add_list_click.png */; };
+		1314026F171AD73E009A7AC3 /* prompt_no.png in Resources */ = {isa = PBXBuildFile; fileRef = 1314026B171AD73E009A7AC3 /* prompt_no.png */; };
+		13140270171AD73E009A7AC3 /* prompt_no@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1314026C171AD73E009A7AC3 /* prompt_no@2x.png */; };
+		13140271171AD73E009A7AC3 /* prompt_yes@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1314026D171AD73E009A7AC3 /* prompt_yes@2x.png */; };
+		13140272171AD73E009A7AC3 /* prompt_yes.png in Resources */ = {isa = PBXBuildFile; fileRef = 1314026E171AD73E009A7AC3 /* prompt_yes.png */; };
 		1318A93116D908C700D98B74 /* doubanlogin.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318A92E16D908C700D98B74 /* doubanlogin.png */; };
 		1318A93216D908C700D98B74 /* qqlogin.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318A92F16D908C700D98B74 /* qqlogin.png */; };
 		1318A93316D908C700D98B74 /* weibologin.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318A93016D908C700D98B74 /* weibologin.png */; };
@@ -315,6 +319,10 @@
 		13140260171AA8A6009A7AC3 /* add_list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_list@2x.png"; sourceTree = "<group>"; };
 		13140261171AA8A6009A7AC3 /* add_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_list.png; sourceTree = "<group>"; };
 		13140262171AA8A6009A7AC3 /* add_list_click.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_list_click.png; sourceTree = "<group>"; };
+		1314026B171AD73E009A7AC3 /* prompt_no.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prompt_no.png; sourceTree = "<group>"; };
+		1314026C171AD73E009A7AC3 /* prompt_no@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prompt_no@2x.png"; sourceTree = "<group>"; };
+		1314026D171AD73E009A7AC3 /* prompt_yes@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prompt_yes@2x.png"; sourceTree = "<group>"; };
+		1314026E171AD73E009A7AC3 /* prompt_yes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prompt_yes.png; sourceTree = "<group>"; };
 		1318A92E16D908C700D98B74 /* doubanlogin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = doubanlogin.png; sourceTree = "<group>"; };
 		1318A92F16D908C700D98B74 /* qqlogin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qqlogin.png; sourceTree = "<group>"; };
 		1318A93016D908C700D98B74 /* weibologin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weibologin.png; sourceTree = "<group>"; };
@@ -689,6 +697,10 @@
 		1314025A171AA895009A7AC3 /* addremove */ = {
 			isa = PBXGroup;
 			children = (
+				1314026B171AD73E009A7AC3 /* prompt_no.png */,
+				1314026C171AD73E009A7AC3 /* prompt_no@2x.png */,
+				1314026D171AD73E009A7AC3 /* prompt_yes@2x.png */,
+				1314026E171AD73E009A7AC3 /* prompt_yes.png */,
 				1314025B171AA8A6009A7AC3 /* remove_list@2x.png */,
 				1314025C171AA8A6009A7AC3 /* remove_list.png */,
 				1314025D171AA8A6009A7AC3 /* add_list_click@2x.png */,
@@ -1552,6 +1564,10 @@
 				13140268171AA8A6009A7AC3 /* add_list@2x.png in Resources */,
 				13140269171AA8A6009A7AC3 /* add_list.png in Resources */,
 				1314026A171AA8A6009A7AC3 /* add_list_click.png in Resources */,
+				1314026F171AD73E009A7AC3 /* prompt_no.png in Resources */,
+				13140270171AD73E009A7AC3 /* prompt_no@2x.png in Resources */,
+				13140271171AD73E009A7AC3 /* prompt_yes@2x.png in Resources */,
+				13140272171AD73E009A7AC3 /* prompt_yes.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
