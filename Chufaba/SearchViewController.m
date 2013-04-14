@@ -87,7 +87,7 @@
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     //top view part
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 85)];
     topView.tag = TAG_CATEGORYVIEW;
     topView.backgroundColor = [UIColor whiteColor];
     
@@ -132,29 +132,37 @@
     [topView addSubview:otherBtn];
     
     //search bar part
-    self.nameInput = [[UITextField alloc] initWithFrame:CGRectMake(10, 46, 180, 40)];
+    self.nameInput = [[UITextField alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
     self.nameInput.placeholder = @"搜索旅行地点";
     self.nameInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.nameInput.borderStyle = UITextBorderStyleNone;
     self.nameInput.background = [UIImage imageNamed:@"kuang.png"];
     self.nameInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-    UIView *nPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    UIView *nPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 26, 30)];
+    UIImageView *nImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 7, 16, 16)];
+    nImgView.image = [UIImage imageNamed:@"Search.png"];
+    [nPaddingView addSubview:nImgView];
     self.nameInput.leftView = nPaddingView;
     self.nameInput.leftViewMode = UITextFieldViewModeAlways;
     self.nameInput.delegate = self;
     [self.nameInput addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    self.nameInput.clearButtonMode = TRUE;
     
-    self.locationInput = [[UITextField alloc] initWithFrame:CGRectMake(200, 46, 110, 40)];
+    self.locationInput = [[UITextField alloc] initWithFrame:CGRectMake(200, 45, 110, 30)];
     self.locationInput.placeholder = @"城市或国家";
     self.locationInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.locationInput.borderStyle = UITextBorderStyleNone;
     self.locationInput.background = [UIImage imageNamed:@"kuang.png"];
     self.locationInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-    UIView *lPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
+    UIView *lPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 26, 30)];
+    UIImageView *lImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 7, 16, 16)];
+    lImgView.image = [UIImage imageNamed:@"pin.png"];
+    [lPaddingView addSubview:lImgView];
     self.locationInput.leftView = lPaddingView;
     self.locationInput.leftViewMode = UITextFieldViewModeAlways;
     self.locationInput.delegate = self;
     [self.locationInput addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    self.locationInput.clearButtonMode = TRUE;
     
     [topView addSubview:self.nameInput];
     [topView addSubview:self.locationInput];
@@ -163,13 +171,49 @@
     
     //tableview part
     NSLog(@"height:%f", self.view.bounds.size.height);
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 101, 320, 315) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 86, 320, 330) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     [self.view addSubview:self.tableView];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.5];
+    [self.nameInput setFrame:CGRectMake(10, 45, 180, 30)];
+    [self.locationInput setFrame:CGRectMake(200, 45, 110, 30)];
+    [UIView commitAnimations];
+    
+    if(textField == self.nameInput)
+    {
+        if(self.nameInput.frame.size.width != 180)
+        {
+//            [self.nameInput setFrame:CGRectMake(10, 45, 180, 30)];
+//            [self.locationInput setFrame:CGRectMake(200, 45, 110, 30)];
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.3];
+            [self.nameInput setFrame:CGRectMake(10, 45, 180, 30)];
+            [self.locationInput setFrame:CGRectMake(200, 45, 110, 30)];
+            [UIView commitAnimations];
+        }
+    }
+    else
+    {
+        if(self.locationInput.frame.size.width == 110)
+        {
+//            [self.locationInput setFrame:CGRectMake(130, 45, 180, 30)];
+//            [self.nameInput setFrame:CGRectMake(10, 45, 110, 30)];
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.3];
+            [self.locationInput setFrame:CGRectMake(130, 45, 180, 30)];
+            [self.nameInput setFrame:CGRectMake(10, 45, 110, 30)];
+            [UIView commitAnimations];
+        }
+    }
 }
 
 -(IBAction)textFieldDidChange:(id)sender
