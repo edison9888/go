@@ -43,6 +43,9 @@
 		1314027B171AF169009A7AC3 /* Search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13140277171AF169009A7AC3 /* Search@2x.png */; };
 		1314027C171AF169009A7AC3 /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 13140278171AF169009A7AC3 /* pin.png */; };
 		1314027D171AF169009A7AC3 /* Search.png in Resources */ = {isa = PBXBuildFile; fileRef = 13140279171AF169009A7AC3 /* Search.png */; };
+		13140280171AF85F009A7AC3 /* CfbTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1314027F171AF85F009A7AC3 /* CfbTextField.m */; };
+		13140283171AFE88009A7AC3 /* skuang@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13140281171AFE88009A7AC3 /* skuang@2x.png */; };
+		13140284171AFE88009A7AC3 /* skuang.png in Resources */ = {isa = PBXBuildFile; fileRef = 13140282171AFE88009A7AC3 /* skuang.png */; };
 		1318A93116D908C700D98B74 /* doubanlogin.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318A92E16D908C700D98B74 /* doubanlogin.png */; };
 		1318A93216D908C700D98B74 /* qqlogin.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318A92F16D908C700D98B74 /* qqlogin.png */; };
 		1318A93316D908C700D98B74 /* weibologin.png in Resources */ = {isa = PBXBuildFile; fileRef = 1318A93016D908C700D98B74 /* weibologin.png */; };
@@ -331,6 +334,10 @@
 		13140277171AF169009A7AC3 /* Search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Search@2x.png"; sourceTree = "<group>"; };
 		13140278171AF169009A7AC3 /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		13140279171AF169009A7AC3 /* Search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search.png; sourceTree = "<group>"; };
+		1314027E171AF85F009A7AC3 /* CfbTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CfbTextField.h; sourceTree = "<group>"; };
+		1314027F171AF85F009A7AC3 /* CfbTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CfbTextField.m; sourceTree = "<group>"; };
+		13140281171AFE88009A7AC3 /* skuang@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skuang@2x.png"; sourceTree = "<group>"; };
+		13140282171AFE88009A7AC3 /* skuang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skuang.png; sourceTree = "<group>"; };
 		1318A92E16D908C700D98B74 /* doubanlogin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = doubanlogin.png; sourceTree = "<group>"; };
 		1318A92F16D908C700D98B74 /* qqlogin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qqlogin.png; sourceTree = "<group>"; };
 		1318A93016D908C700D98B74 /* weibologin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weibologin.png; sourceTree = "<group>"; };
@@ -919,6 +926,8 @@
 		1381A52B1719BD160089F7DF /* tabcategory */ = {
 			isa = PBXGroup;
 			children = (
+				13140281171AFE88009A7AC3 /* skuang@2x.png */,
+				13140282171AFE88009A7AC3 /* skuang.png */,
 				1314023A171A5980009A7AC3 /* tab_hotel@2x.png */,
 				1314023B171A5980009A7AC3 /* tab_hotel.png */,
 				13140276171AF169009A7AC3 /* pin@2x.png */,
@@ -1187,6 +1196,8 @@
 				C28C4D3517144DD1009F510E /* NoteView.m */,
 				1381A5251719246C0089F7DF /* SearchViewController.h */,
 				1381A5261719246C0089F7DF /* SearchViewController.m */,
+				1314027E171AF85F009A7AC3 /* CfbTextField.h */,
+				1314027F171AF85F009A7AC3 /* CfbTextField.m */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -1584,6 +1595,8 @@
 				1314027B171AF169009A7AC3 /* Search@2x.png in Resources */,
 				1314027C171AF169009A7AC3 /* pin.png in Resources */,
 				1314027D171AF169009A7AC3 /* Search.png in Resources */,
+				13140283171AFE88009A7AC3 /* skuang@2x.png in Resources */,
+				13140284171AFE88009A7AC3 /* skuang.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1679,6 +1692,7 @@
 				C2354EF11716ECC000403541 /* DropDownCell.m in Sources */,
 				1381A5271719246C0089F7DF /* SearchViewController.m in Sources */,
 				1381A52A1719B5010089F7DF /* iToast.m in Sources */,
+				13140280171AF85F009A7AC3 /* CfbTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

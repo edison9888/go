@@ -10,6 +10,7 @@
 #import "QuartzCore/QuartzCore.h"
 #import "FMDBDataAccess.h" 
 #import "iToast.h"
+#import "CfbTextField.h"
 
 @interface SearchViewController ()
 
@@ -132,11 +133,14 @@
     [topView addSubview:otherBtn];
     
     //search bar part
-    self.nameInput = [[UITextField alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
-    self.nameInput.placeholder = @"搜索旅行地点";
+    self.nameInput = [[CfbTextField alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
+    //self.nameInput.textColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    self.nameInput.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.nameInput.placeholder = @"搜索景点";
     self.nameInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.nameInput.borderStyle = UITextBorderStyleNone;
-    self.nameInput.background = [UIImage imageNamed:@"kuang.png"];
+    //self.nameInput.background = [UIImage imageNamed:@"kuang.png"];
+    self.nameInput.background = [[UIImage imageNamed:@"skuang.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
     self.nameInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     UIView *nPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 26, 30)];
     UIImageView *nImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 7, 16, 16)];
@@ -148,14 +152,16 @@
     [self.nameInput addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     self.nameInput.clearButtonMode = TRUE;
     
-    self.locationInput = [[UITextField alloc] initWithFrame:CGRectMake(200, 45, 110, 30)];
-    self.locationInput.placeholder = @"城市或国家";
+    self.locationInput = [[CfbTextField alloc] initWithFrame:CGRectMake(200, 45, 110, 30)];
+    self.locationInput.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.locationInput.placeholder = @"城市,省,国家";
     self.locationInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.locationInput.borderStyle = UITextBorderStyleNone;
-    self.locationInput.background = [UIImage imageNamed:@"kuang.png"];
+    //self.locationInput.background = [UIImage imageNamed:@"kuang.png"];
+    self.locationInput.background = [[UIImage imageNamed:@"skuang.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
     self.locationInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-    UIView *lPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 26, 30)];
-    UIImageView *lImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 7, 16, 16)];
+    UIView *lPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 30)];
+    UIImageView *lImgView = [[UIImageView alloc] initWithFrame:CGRectMake(2, 7, 16, 16)];
     lImgView.image = [UIImage imageNamed:@"pin.png"];
     [lPaddingView addSubview:lImgView];
     self.locationInput.leftView = lPaddingView;
