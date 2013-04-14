@@ -86,36 +86,50 @@
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
-    //category view part
-    UIView *categoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-    categoryView.tag = TAG_CATEGORYVIEW;
-    categoryView.backgroundColor = [UIColor whiteColor];
+    //top view part
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+    topView.tag = TAG_CATEGORYVIEW;
+    topView.backgroundColor = [UIColor whiteColor];
     
-    UIButton *sightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 40)];
+    CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
+    CGRect viewShadowFrame = CGRectMake(0, 0, 320, topView.frame.size.height);
+    viewShadow.frame = viewShadowFrame;
+    viewShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0].CGColor,(id)[UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor,nil];
+    [topView.layer addSublayer:viewShadow];
+    
+    topView.layer.masksToBounds = NO;
+    topView.layer.shadowOffset = CGSizeMake(0, 1);
+    topView.layer.shadowRadius = 1;
+    topView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
+    topView.layer.shadowOpacity = 1;
+    
+    UIButton *sightBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 75, 25)];
     sightBtn.tag = TAG_SIGHTBTN;
-    [sightBtn setImage:[UIImage imageNamed:@"sight60.png"] forState:UIControlStateNormal];
+    [sightBtn setImage:[UIImage imageNamed:@"tab_sight.png"] forState:UIControlStateNormal];
+    [sightBtn setImage:[UIImage imageNamed:@"tab_sight_click.png"] forState:UIControlStateHighlighted];
     [sightBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
-    [categoryView addSubview:sightBtn];
+    [topView addSubview:sightBtn];
     
-    UIButton *foodBtn = [[UIButton alloc] initWithFrame:CGRectMake(80, 0, 80, 40)];
+    UIButton *foodBtn = [[UIButton alloc] initWithFrame:CGRectMake(85, 10, 75, 25)];
     foodBtn.tag = TAG_FOODBTN;
-    [foodBtn setImage:[UIImage imageNamed:@"food60.png"] forState:UIControlStateNormal];
+    [foodBtn setImage:[UIImage imageNamed:@"tab_food.png"] forState:UIControlStateNormal];
+    [foodBtn setImage:[UIImage imageNamed:@"tab_food_click.png"] forState:UIControlStateHighlighted];
     [foodBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
-    [categoryView addSubview:foodBtn];
+    [topView addSubview:foodBtn];
     
-    UIButton *hotelBtn = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 80, 40)];
+    UIButton *hotelBtn = [[UIButton alloc] initWithFrame:CGRectMake(160, 10, 75, 25)];
     hotelBtn.tag = TAG_HOTELBTN;
-    [hotelBtn setImage:[UIImage imageNamed:@"hotel60.png"] forState:UIControlStateNormal];
+    [hotelBtn setImage:[UIImage imageNamed:@"tab_hotel.png"] forState:UIControlStateNormal];
+    [hotelBtn setImage:[UIImage imageNamed:@"tab_hotel_click.png"] forState:UIControlStateHighlighted];
     [hotelBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
-    [categoryView addSubview:hotelBtn];
+    [topView addSubview:hotelBtn];
     
-    UIButton *otherBtn = [[UIButton alloc] initWithFrame:CGRectMake(240, 0, 80, 40)];
+    UIButton *otherBtn = [[UIButton alloc] initWithFrame:CGRectMake(235, 10, 75, 25)];
     otherBtn.tag = TAG_OTHERBTN;
-    [otherBtn setImage:[UIImage imageNamed:@"more60.png"] forState:UIControlStateNormal];
+    [otherBtn setImage:[UIImage imageNamed:@"tab_more.png"] forState:UIControlStateNormal];
+    [otherBtn setImage:[UIImage imageNamed:@"tab_more_click.png"] forState:UIControlStateHighlighted];
     [otherBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
-    [categoryView addSubview:otherBtn];
-    
-    [self.view addSubview:categoryView];
+    [topView addSubview:otherBtn];
     
     //search bar part
     self.nameInput = [[UITextField alloc] initWithFrame:CGRectMake(10, 46, 180, 40)];
@@ -142,11 +156,14 @@
     self.locationInput.delegate = self;
     [self.locationInput addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     
-    [self.view addSubview:self.nameInput];
-    [self.view addSubview:self.locationInput];
+    [topView addSubview:self.nameInput];
+    [topView addSubview:self.locationInput];
+    
+    [self.view addSubview:topView];
     
     //tableview part
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 90, 320, self.view.bounds.size.height) style:UITableViewStylePlain];
+    NSLog(@"height:%f", self.view.bounds.size.height);
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 101, 320, 315) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -237,7 +254,7 @@
         
         UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 15.0, 31.0, 31.0)];
         [addBtn setImage:[UIImage imageNamed:@"addLocation.png"] forState:UIControlStateNormal];
-        [addBtn addTarget:self action:@selector(addLocationToItinerary:) forControlEvents:UIControlEventTouchDown];
+        [addBtn addTarget:self action:@selector(addOrRemoveLocation:) forControlEvents:UIControlEventTouchDown];
         addBtn.tag = indexPath.row+10;
         [cell.contentView addSubview:addBtn];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -269,15 +286,20 @@
     lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     [cell.contentView addSubview:lineView];
     
-    UIView *wLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-    wLineView.backgroundColor = [UIColor whiteColor];
-    [cell.contentView addSubview:wLineView];
+    if(indexPath.row !=0)
+    {
+        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        [cell.contentView addSubview:lineView];
+    }
     
     return cell;
 }
 
-- (IBAction)addLocationToItinerary:(id)sender
+- (IBAction)addOrRemoveLocation:(id)sender
 {
+    shouldUpdateItinerary = YES;
+    
     [self.nameInput resignFirstResponder];
     [self.locationInput resignFirstResponder];
     
@@ -330,7 +352,10 @@
 
 -(IBAction)close:(id)sender
 {
-    [self.searchDelegate notifyItinerayToReload];
+    if(shouldUpdateItinerary)
+    {
+        [self.searchDelegate notifyItinerayToReload];
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

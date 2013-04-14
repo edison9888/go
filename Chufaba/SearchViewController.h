@@ -22,6 +22,7 @@
     JSONFetcher *fetcher;
     UIButton *addLocationBtn;
     NSMutableArray *allLocationList;
+    BOOL shouldUpdateItinerary;
 }
 
 @property (nonatomic, copy) NSString *category;
