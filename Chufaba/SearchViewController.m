@@ -11,6 +11,7 @@
 #import "FMDBDataAccess.h" 
 #import "iToast.h"
 #import "CfbTextField.h"
+#import "SearchTableViewCell.h"
 
 @interface SearchViewController ()
 
@@ -26,6 +27,11 @@
 #define TAG_FOODBTN 3
 #define TAG_HOTELBTN 4
 #define TAG_OTHERBTN 5
+
+#define LABEL_WIDTH 190
+#define NAME_LABEL_HEIGHT 24
+#define ENAME_LABEL_HEIGHT 12
+#define LOCATION_LABEL_HEIGHT 12
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -193,12 +199,6 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.5];
-    [self.nameInput setFrame:CGRectMake(10, 45, 180, 30)];
-    [self.locationInput setFrame:CGRectMake(200, 45, 110, 30)];
-    [UIView commitAnimations];
-    
     if(textField == self.nameInput)
     {
         if(self.nameInput.frame.size.width != 180)
@@ -275,41 +275,71 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
+    //[[cell textLabel] setText: [NSString stringWithFormat: @"%@, %@", name, city]];
+    SearchTableViewCell *cell;
     if (indexPath.row < [allLocationList count])
     {
         NSString *CellIdentifier = @"SearchLocationCell";
         
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell = (SearchTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         if (cell == nil){
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+            cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
         NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
         NSString *name = [locationAtIndex objectForKey: @"name"];
         NSString *name_en = [locationAtIndex objectForKey: @"name_en"];
         NSString *city = [locationAtIndex objectForKey: @"city"];
+        NSString *country = [locationAtIndex objectForKey: @"country"];
+        
         NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
+        
         if ([name length] == 0) {
             name = name_en;
             name_en = nil;
         }
-        if ([city length] > 0) {
-            //[[cell textLabel] setText: [NSString stringWithFormat: @"%@, %@", name, city]];
-            [[cell textLabel] setText: [NSString stringWithFormat: @"%@", name]];
-        } else {
-            [[cell textLabel] setText: name];
+        
+        UIImageView *categoryImage = (UIImageView *)[cell.contentView viewWithTag:1];
+        categoryImage.image = [Location getCategoryIconMedium:[locationAtIndex objectForKey:@"category"]];
+        
+        UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:2];
+        nameLabel.text = name;
+        
+        UILabel *eNameLabel = (UILabel *)[cell.contentView viewWithTag:3];
+        if(name_en.length != 0)
+            eNameLabel.text = name_en;
+        
+        UILabel *locationLabel = (UILabel *)[cell.contentView viewWithTag:4];
+        if(city.length != 0 && country.length != 0)
+        {
+            locationLabel.text = [NSString stringWithFormat: @"%@, %@", city, country];
         }
-        cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-        cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+        else if(city.length != 0)
+        {
+            locationLabel.text = city;
+        }
+        else if(country.length != 0)
+        {
+            locationLabel.text = country;
+        }
         
-        [[cell detailTextLabel] setText: name_en];
-        cell.detailTextLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-        cell.detailTextLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+        CGPoint nameLabelOrigin = CGPointMake(60, 7);
+        CGPoint eNameLabelOrigin = CGPointMake(60, 27);
+        CGPoint locationLabelOrigin = CGPointMake(60, 42);
         
-        cell.imageView.image = [Location getCategoryIconMedium:[locationAtIndex objectForKey:@"category"]];
+        if (name_en.length == 0 && city.length == 0) {
+            nameLabelOrigin = CGPointMake(60, 19);
+        } else if (name_en.length == 0) {
+            nameLabelOrigin = CGPointMake(60, 12);
+            locationLabelOrigin = CGPointMake(60, 35);
+        } else if (city.length == 0) {
+            nameLabelOrigin = CGPointMake(60, 12);
+            eNameLabelOrigin = CGPointMake(60, 35);
+        }
         
-        //UIButton *actionBtn = [[UIButton alloc] initWithFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+        nameLabel.frame = CGRectMake(nameLabelOrigin.x, nameLabelOrigin.y, LABEL_WIDTH, NAME_LABEL_HEIGHT);
+        eNameLabel.frame = CGRectMake(eNameLabelOrigin.x, eNameLabelOrigin.y, LABEL_WIDTH, ENAME_LABEL_HEIGHT);
+        locationLabel.frame = CGRectMake(locationLabelOrigin.x, locationLabelOrigin.y, LABEL_WIDTH, LOCATION_LABEL_HEIGHT);
         
         BOOL addedBefore = FALSE;
         for(NSNumber *poi in self.poiArray)
@@ -380,6 +410,112 @@
     
     return cell;
 }
+
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    UITableViewCell *cell;
+//    if (indexPath.row < [allLocationList count])
+//    {
+//        NSString *CellIdentifier = @"SearchLocationCell";
+//        
+//        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//        
+//        if (cell == nil){
+//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//        }
+//        NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
+//        NSString *name = [locationAtIndex objectForKey: @"name"];
+//        NSString *name_en = [locationAtIndex objectForKey: @"name_en"];
+//        NSString *city = [locationAtIndex objectForKey: @"city"];
+//        NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
+//        if ([name length] == 0) {
+//            name = name_en;
+//            name_en = nil;
+//        }
+//        if ([city length] > 0) {
+//            //[[cell textLabel] setText: [NSString stringWithFormat: @"%@, %@", name, city]];
+//            [[cell textLabel] setText: [NSString stringWithFormat: @"%@", name]];
+//        } else {
+//            [[cell textLabel] setText: name];
+//        }
+//        cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+//        cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+//        
+//        [[cell detailTextLabel] setText: name_en];
+//        cell.detailTextLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+//        cell.detailTextLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+//        
+//        cell.imageView.image = [Location getCategoryIconMedium:[locationAtIndex objectForKey:@"category"]];
+//        
+//        BOOL addedBefore = FALSE;
+//        for(NSNumber *poi in self.poiArray)
+//        {
+//            if([poi intValue] == [poiId intValue])
+//            {
+//                addedBefore = TRUE;
+//                break;
+//            }
+//        }
+//        
+//        if(addedBefore)
+//        {
+//            UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//            [removeBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+//            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
+//            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
+//            [removeBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchDown];
+//            removeBtn.tag = indexPath.row+10;
+//            [cell.contentView addSubview:removeBtn];
+//        }
+//        else
+//        {
+//            UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//            [addBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+//            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
+//            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
+//            [addBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchDown];
+//            addBtn.tag = indexPath.row+10;
+//            [cell.contentView addSubview:addBtn];
+//        }
+//        
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    }
+//    else if ([allLocationList count] != self.total)
+//    {
+//        NSString *CellIdentifier = @"LoadingCell";
+//        
+//        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//        
+//        if (cell == nil){
+//            cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+//            cell.imageView.image = [UIImage imageNamed:@"loading.gif"];
+//        }
+//        [self fetchRestResult];
+//    }
+//    else
+//    {
+//        UITableViewCell *addLocationCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addLocation"];
+//        [addLocationCell addSubview:addLocationBtn];
+//        
+//        [addLocationCell bringSubviewToFront:addLocationBtn];
+//        
+//        return addLocationCell;
+//    }
+//    
+//    //add separator line
+//    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 61, self.view.bounds.size.width, 1)];
+//    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+//    [cell.contentView addSubview:lineView];
+//    
+//    if(indexPath.row !=0)
+//    {
+//        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+//        lineView.backgroundColor = [UIColor whiteColor];
+//        [cell.contentView addSubview:lineView];
+//    }
+//    
+//    return cell;
+//}
 
 - (IBAction)removeLocation:(id)sender
 {
