@@ -21,7 +21,7 @@
 
 @implementation SearchViewController
 
-#define TAG_CATEGORYVIEW 1
+#define TAG_TOPVIEW 1
 #define TAG_SIGHTBTN 2
 #define TAG_FOODBTN 3
 #define TAG_HOTELBTN 4
@@ -89,7 +89,7 @@
     
     //top view part
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 85)];
-    topView.tag = TAG_CATEGORYVIEW;
+    topView.tag = TAG_TOPVIEW;
     topView.backgroundColor = [UIColor whiteColor];
     
     CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
@@ -108,13 +108,16 @@
     sightBtn.tag = TAG_SIGHTBTN;
     [sightBtn setImage:[UIImage imageNamed:@"tab_sight.png"] forState:UIControlStateNormal];
     [sightBtn setImage:[UIImage imageNamed:@"tab_sight_click.png"] forState:UIControlStateHighlighted];
+    [sightBtn setImage:[UIImage imageNamed:@"tab_sight_click.png"] forState:UIControlStateSelected];
     [sightBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
+    sightBtn.selected = YES;
     [topView addSubview:sightBtn];
     
     UIButton *foodBtn = [[UIButton alloc] initWithFrame:CGRectMake(85, 10, 75, 25)];
     foodBtn.tag = TAG_FOODBTN;
     [foodBtn setImage:[UIImage imageNamed:@"tab_food.png"] forState:UIControlStateNormal];
     [foodBtn setImage:[UIImage imageNamed:@"tab_food_click.png"] forState:UIControlStateHighlighted];
+    [foodBtn setImage:[UIImage imageNamed:@"tab_food_click.png"] forState:UIControlStateSelected];
     [foodBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:foodBtn];
     
@@ -122,6 +125,7 @@
     hotelBtn.tag = TAG_HOTELBTN;
     [hotelBtn setImage:[UIImage imageNamed:@"tab_hotel.png"] forState:UIControlStateNormal];
     [hotelBtn setImage:[UIImage imageNamed:@"tab_hotel_click.png"] forState:UIControlStateHighlighted];
+    [hotelBtn setImage:[UIImage imageNamed:@"tab_hotel_click.png"] forState:UIControlStateSelected];
     [hotelBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:hotelBtn];
     
@@ -129,6 +133,7 @@
     otherBtn.tag = TAG_OTHERBTN;
     [otherBtn setImage:[UIImage imageNamed:@"tab_more.png"] forState:UIControlStateNormal];
     [otherBtn setImage:[UIImage imageNamed:@"tab_more_click.png"] forState:UIControlStateHighlighted];
+    [otherBtn setImage:[UIImage imageNamed:@"tab_more_click.png"] forState:UIControlStateSelected];
     [otherBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:otherBtn];
     
@@ -160,8 +165,8 @@
     //self.locationInput.background = [UIImage imageNamed:@"kuang.png"];
     self.locationInput.background = [[UIImage imageNamed:@"skuang.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
     self.locationInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-    UIView *lPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 30)];
-    UIImageView *lImgView = [[UIImageView alloc] initWithFrame:CGRectMake(2, 7, 16, 16)];
+    UIView *lPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 22, 30)];
+    UIImageView *lImgView = [[UIImageView alloc] initWithFrame:CGRectMake(3, 7, 16, 16)];
     lImgView.image = [UIImage imageNamed:@"pin.png"];
     [lPaddingView addSubview:lImgView];
     self.locationInput.leftView = lPaddingView;
@@ -198,8 +203,6 @@
     {
         if(self.nameInput.frame.size.width != 180)
         {
-//            [self.nameInput setFrame:CGRectMake(10, 45, 180, 30)];
-//            [self.locationInput setFrame:CGRectMake(200, 45, 110, 30)];
             [UIView beginAnimations:nil context:nil];
             [UIView setAnimationDuration:0.3];
             [self.nameInput setFrame:CGRectMake(10, 45, 180, 30)];
@@ -211,8 +214,6 @@
     {
         if(self.locationInput.frame.size.width == 110)
         {
-//            [self.locationInput setFrame:CGRectMake(130, 45, 180, 30)];
-//            [self.nameInput setFrame:CGRectMake(10, 45, 110, 30)];
             [UIView beginAnimations:nil context:nil];
             [UIView setAnimationDuration:0.3];
             [self.locationInput setFrame:CGRectMake(130, 45, 180, 30)];
@@ -501,7 +502,37 @@
 
 - (IBAction)changeCategory:(id)sender
 {
-
+    [self.nameInput resignFirstResponder];
+    [self.locationInput resignFirstResponder];
+    
+    ((UIButton *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_SIGHTBTN]).selected = NO;
+    ((UIButton *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_FOODBTN]).selected = NO;
+    ((UIButton *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_HOTELBTN]).selected = NO;
+    ((UIButton *)[[self.view viewWithTag:TAG_TOPVIEW] viewWithTag:TAG_OTHERBTN]).selected = NO;
+    
+    UIButton *button = (UIButton*)sender;
+    button.selected = YES;
+    
+    switch (button.tag)
+    {
+        case TAG_SIGHTBTN:
+            self.category = @"景点";
+            break;
+        case TAG_FOODBTN:
+            self.category = @"美食";
+            break;
+        case TAG_HOTELBTN:
+            self.category = @"住宿";
+            break;
+        case TAG_OTHERBTN:
+            self.category = @"其它";
+            break;
+            
+        default:
+            break;
+    }
+    
+    [self searchPoi];
 }
 
 -(IBAction)close:(id)sender
