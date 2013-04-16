@@ -17,7 +17,7 @@
     [db open];
     double temp = [plan.date timeIntervalSince1970];
     NSNumber *dateToWriteDB = [NSNumber numberWithDouble:temp];
-    BOOL success = [db executeUpdate:@"UPDATE plan SET title = ?, startdate = ?, duration = ? WHERE id = ?",plan.name, dateToWriteDB, plan.duration, plan.planId];    
+    BOOL success = [db executeUpdate:@"UPDATE plan SET title = ?, destination = ?,startdate = ?, duration = ? WHERE id = ?",plan.name, plan.destination, dateToWriteDB, plan.duration, plan.planId];
     [db close];
     return success;
 }
@@ -28,7 +28,7 @@
     [db open];
     double temp = [plan.date timeIntervalSince1970];
     NSNumber *dateToWriteDB = [NSNumber numberWithDouble:temp];
-    BOOL success =  [db executeUpdate:@"INSERT INTO plan (title,startdate,duration) VALUES (?,?,?);",plan.name,dateToWriteDB,plan.duration,nil];    
+    BOOL success =  [db executeUpdate:@"INSERT INTO plan (title,destination,startdate,duration) VALUES (?,?,?,?);",plan.name,plan.destination,dateToWriteDB,plan.duration,nil];
     [db close];
     return success;
 }
@@ -58,6 +58,7 @@
         plan.duration = [NSNumber numberWithInt:[results intForColumn:@"duration"]];
         plan.image = [UIImage imageNamed:@"photo_add.png"];
         plan.name = [results stringForColumn:@"title"];
+        plan.destination = [results stringForColumn:@"destination"];
         
         FMResultSet *locationResults = [db executeQuery:@"SELECT count(*) as 'count' FROM location WHERE plan_id = ?",plan.planId];
         if([locationResults next])
