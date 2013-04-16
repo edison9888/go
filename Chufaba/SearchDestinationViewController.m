@@ -58,6 +58,8 @@
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = btn;
     
+    [self setTitle:@"搜索目的地"];
+    
     self.searchBar.tintColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
     self.searchBar.placeholder = @"想去哪里旅行？";
     self.searchBar.barStyle = UIBarStyleBlack;
