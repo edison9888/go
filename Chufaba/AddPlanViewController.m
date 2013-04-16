@@ -508,6 +508,7 @@
     SearchDestinationViewController *searchDestinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"SearchDestinationStoryBoard"];
     searchDestinationViewController.delegate = self;
     searchDestinationViewController.destination = self.destinationInput.text;
+    [searchDestinationViewController setTitle:@"搜索目的地"];
     [self.navigationController pushViewController:searchDestinationViewController animated:YES];
 }
 

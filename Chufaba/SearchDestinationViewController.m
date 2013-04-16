@@ -28,6 +28,24 @@
     [self cancelCurrentSearch];
 }
 
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
+    if (!titleView) {
+        titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleView.backgroundColor = [UIColor clearColor];
+        titleView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:20];
+        titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        
+        titleView.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
+        
+        self.navigationItem.titleView = titleView;
+    }
+    titleView.text = title;
+    [titleView sizeToFit];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -41,13 +59,26 @@
     self.navigationItem.leftBarButtonItem = btn;
     
     self.searchBar.tintColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
-    self.searchBar.placeholder = @"搜索目的地";
-    UIImage *image = [UIImage imageNamed:@"bar_Search.png"];
-    [self.searchBar setBackgroundImage:image];
+    self.searchBar.placeholder = @"想去哪里旅行？";
+    self.searchBar.barStyle = UIBarStyleBlack;
+    self.searchBar.tintColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    self.searchBar.backgroundImage = [UIImage imageNamed:@"bgbar.png"];
     [self.searchBar becomeFirstResponder];
+    
+    UIView *bottomBorder = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
+    bottomBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    [self.searchBar addSubview:bottomBorder];
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+    headerView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    self.tableView.tableHeaderView = headerView;
+    
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+    footerView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableFooterView = footerView;
     
     if ([self.destination length] > 0) {
         self.searchBar.text = self.destination;
@@ -58,6 +89,39 @@
 -(IBAction)cancel:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    searchBar.showsCancelButton = YES;
+    
+    for (UIView *subView in searchBar.subviews) {
+        if([subView isKindOfClass:[UIButton class]])
+        {
+            UIButton *cancelButton = (UIButton *)subView;
+            [cancelButton setTitle:@"" forState:UIControlStateNormal];
+            
+            UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(2, 2, 40, 20)];
+            [overlay setBackgroundColor:[UIColor clearColor]];
+            [overlay setUserInteractionEnabled:NO];
+            [cancelButton addSubview:overlay];
+            
+            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 40, 20)];
+            newLabel.backgroundColor = [UIColor clearColor];
+            newLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+            newLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+            [newLabel setText:@"取消"];
+            [newLabel setTextAlignment:NSTextAlignmentCenter];
+            [newLabel setUserInteractionEnabled:NO];
+            [overlay addSubview:newLabel];
+        }
+    }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    searchBar.showsCancelButton = NO;
+    [searchBar resignFirstResponder];
 }
 
 - (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText
@@ -318,42 +382,50 @@
         NSString *city = [destAtIndex objectForKey: @"city"];
         NSString *country = [destAtIndex objectForKey: @"country"];
         if ([city length] > 0 && [country length] > 0) {
-            [[cell textLabel] setText: [NSString stringWithFormat: @"%@, %@", city, country]];
+            [[cell textLabel] setText: [NSString stringWithFormat: @"%@，%@", city, country]];
         } else if([country length] > 0) {
             [[cell textLabel] setText: country];
         }
         
-        UIView *uplineView = [cell.contentView viewWithTag:TAG_UP_LINE];
-        if (indexPath.row > 0) {
-            if (uplineView) {
-                [uplineView setHidden:false];
-            } else {
-                uplineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, 1)];
-                uplineView.backgroundColor = [UIColor whiteColor];;
-                uplineView.tag = TAG_UP_LINE;
-                [cell.contentView addSubview:uplineView];
-            }
-        } else {
-            if (uplineView){
-                [uplineView setHidden:true];
-            }
-        }
-
-        UIView *bottomlineView = [cell.contentView viewWithTag:TAG_BOTTOM_LINE];
-        if (indexPath.row < [allDestinationList count] - 1) {
-            if (bottomlineView) {
-                [bottomlineView setHidden:false];
-            } else {
-                bottomlineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, cell.contentView.frame.size.width, 1)];
-                bottomlineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-                bottomlineView.tag = TAG_BOTTOM_LINE;
-                [cell.contentView addSubview:bottomlineView];
-            }
-        } else {
-            if (bottomlineView){
-                [bottomlineView setHidden:true];
-            }
-        }
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+        [cell.contentView addSubview:lineView];
+        
+        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        [cell.contentView addSubview:lineView];
+        
+//        UIView *uplineView = [cell.contentView viewWithTag:TAG_UP_LINE];
+//        if (indexPath.row > 0) {
+//            if (uplineView) {
+//                [uplineView setHidden:false];
+//            } else {
+//                uplineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, 1)];
+//                uplineView.backgroundColor = [UIColor whiteColor];;
+//                uplineView.tag = TAG_UP_LINE;
+//                [cell.contentView addSubview:uplineView];
+//            }
+//        } else {
+//            if (uplineView){
+//                [uplineView setHidden:true];
+//            }
+//        }
+//
+//        UIView *bottomlineView = [cell.contentView viewWithTag:TAG_BOTTOM_LINE];
+//        if (indexPath.row < [allDestinationList count] - 1) {
+//            if (bottomlineView) {
+//                [bottomlineView setHidden:false];
+//            } else {
+//                bottomlineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, cell.contentView.frame.size.width, 1)];
+//                bottomlineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+//                bottomlineView.tag = TAG_BOTTOM_LINE;
+//                [cell.contentView addSubview:bottomlineView];
+//            }
+//        } else {
+//            if (bottomlineView){
+//                [bottomlineView setHidden:true];
+//            }
+//        }
     }
     return cell;
 }

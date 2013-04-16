@@ -73,7 +73,6 @@
 {
     [super viewDidLoad];
     self.category = @"景点";
-    self.locationKeyword = @"京都";
     
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
     {
@@ -167,7 +166,7 @@
     self.nameInput.clearButtonMode = TRUE;
     
     self.locationInput = [[CfbTextField alloc] initWithFrame:CGRectMake(200, 45, 110, 30)];
-    self.locationInput.text = @"京都";
+    self.locationInput.text = self.locationKeyword;
     self.locationInput.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     self.locationInput.placeholder = @"城市,省,国家";
     self.locationInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;

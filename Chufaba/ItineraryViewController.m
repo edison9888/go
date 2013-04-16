@@ -1116,6 +1116,7 @@
         searchController.searchDelegate = self;
         searchController.planId = self.plan.planId;
         searchController.dayToAdd = [NSNumber numberWithInt:button.tag+1];
+        searchController.locationKeyword = self.plan.destination;
         self.dayToAdd = searchController.dayToAdd;
         
         NSMutableArray *array = [[NSMutableArray alloc] init];

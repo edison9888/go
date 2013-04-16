@@ -97,8 +97,6 @@
     searchBar.tag = TAG_SEARCHBAR;
     searchBar.text = self.location.name;
     searchBar.barStyle = UIBarStyleBlack;
-    //searchBar.t
-    //searchBar.translucent = YES;
     searchBar.tintColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     searchBar.backgroundImage = [UIImage imageNamed:@"bgbar.png"];
     [self.view addSubview:searchBar];
@@ -184,7 +182,6 @@
             
             UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 40, 20)];
             newLabel.backgroundColor = [UIColor clearColor];
-            //[newLabel setTextColor:[UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0]];
             newLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
             newLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
             [newLabel setText:@"取消"];
