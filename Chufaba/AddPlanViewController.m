@@ -122,18 +122,6 @@
     durationPicker.dataSource = self;
     durationPicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
     
-    //show datepicker part
-    //CGRect toolbarTargetFrame = CGRectMake(0, self.view.bounds.size.height-216-44, 320, 44);
-    //CGRect datePickerTargetFrame = CGRectMake(0, self.view.bounds.size.height-216, 320, 216);
-    
-    /*UIView *darkView = [[UIView alloc] initWithFrame:self.view.bounds];
-    darkView.alpha = 0;
-    darkView.backgroundColor = [UIColor blackColor];
-    darkView.tag = 12;
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissDatePicker:)];
-    [darkView addGestureRecognizer:tapGesture];
-    [self.view addSubview:darkView];*/
-    
     UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
     datePicker.tag = 13;
     datePicker.datePickerMode = UIDatePickerModeDate;
@@ -158,39 +146,27 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        self.destinationInput.text = self.plan.destination;
         self.nameInput.text = self.plan.name;
         self.durationInput.text = [self.plan.duration stringValue];
         self.dateInput.text = [dateFormatter stringFromDate:self.plan.date];
     }
     
-    //darkView.alpha = 0.5;
-    
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.dateInput.borderStyle = UITextBorderStyleNone;
-    self.dateInput.background = [UIImage imageNamed:@"kuang.png"];
     self.dateInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-    self.durationInput.borderStyle = UITextBorderStyleNone;
-    self.durationInput.background = [UIImage imageNamed:@"kuang.png"];
-    self.durationInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-    self.nameInput.borderStyle = UITextBorderStyleNone;
-    self.nameInput.background = [UIImage imageNamed:@"kuang.png"];
-    self.nameInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    self.dateInput.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
     
-    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
-    self.dateInput.leftView = paddingView;
-    self.dateInput.leftViewMode = UITextFieldViewModeAlways;
-    UIView *dPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
-    self.durationInput.leftView = dPaddingView;
-    self.durationInput.leftViewMode = UITextFieldViewModeAlways;
-    UIView *nPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
-    self.nameInput.leftView = nPaddingView;
-    self.nameInput.leftViewMode = UITextFieldViewModeAlways;
-
+    self.durationInput.borderStyle = UITextBorderStyleNone;
+    self.durationInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    self.durationInput.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
+    
+    self.nameInput.borderStyle = UITextBorderStyleNone;
+    self.nameInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    self.nameInput.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
+    
+    self.destinationInput.borderStyle = UITextBorderStyleNone;
+    self.destinationInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    self.destinationInput.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -255,9 +231,13 @@
 
 -(IBAction) done:(id) sender
 {
+    if ([self.destinationInput.text length] == 0) {
+        [Utility showAlert:nil message:@"请设定目的地"];
+        return;
+    }
     if ([self.dateInput.text length] == 0 || [self.durationInput.text length] == 0)
     {
-        [Utility showAlert:@"Error" message:@"Validation Failed!"];
+        [Utility showAlert:nil message:@"请设定旅行时间"];
         return;
     }
     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
@@ -275,7 +255,11 @@
         else
         {
             //需要检查那些做出了修改再去赋值，保存
+            self.plan.destination = self.destinationInput.text;
             self.plan.name = self.nameInput.text;
+            if (self.plan.name.length == 0) {
+                self.plan.name = [NSString stringWithFormat:@"%@之旅", self.plan.destination];
+            }
             self.plan.duration = [f numberFromString:self.durationInput.text];
             NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:[(UIDatePicker *)self.dateInput.inputView date]];
             if(daysBetween)
@@ -287,11 +271,11 @@
             [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
         }
     }
-    
     else
     {
         Plan *plan = [[Plan alloc] init];
         plan.name = self.nameInput.text;
+        plan.destination = self.destinationInput.text;
         plan.duration = [f numberFromString:self.durationInput.text];
         plan.date = [(UIDatePicker *)self.dateInput.inputView date];
         plan.image = self.coverImageView.image;
@@ -407,6 +391,20 @@
     //[self dismissModalViewControllerAnimated:YES];
 }
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if (textField == self.destinationInput) {
+        [self showSearch];
+        return NO;
+    }
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == self.nameInput && textField.text.length == 0 && self.destinationInput.text.length > 0) {
+        textField.placeholder = [NSString stringWithFormat:@"%@之旅", self.destinationInput.text];
+    }
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if ((textField == self.dateInput) || (textField == self.durationInput) || (textField == self.nameInput)) {
         [textField resignFirstResponder];
@@ -432,7 +430,11 @@
     {
         NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
         [f setNumberStyle:NSNumberFormatterDecimalStyle];
+        self.plan.destination = self.destinationInput.text;
         self.plan.name = self.nameInput.text;
+        if (self.plan.name.length == 0) {
+            self.plan.name = [NSString stringWithFormat:@"%@之旅", self.plan.destination];
+        }
         self.plan.duration = [f numberFromString:self.durationInput.text];
         NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:[(UIDatePicker *)self.dateInput.inputView date]];
         if(daysBetween)
@@ -499,4 +501,22 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)showSearch
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+    SearchDestinationViewController *searchDestinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"SearchDestinationStoryBoard"];
+    searchDestinationViewController.delegate = self;
+    searchDestinationViewController.destination = self.destinationInput.text;
+    [self.navigationController pushViewController:searchDestinationViewController animated:YES];
+}
+
+- (void)updateDestination:(NSString *)destination
+{
+    self.destinationInput.text = destination;
+    if([self.nameInput.text length] == 0){
+        self.nameInput.text = [NSString stringWithFormat:@"%@之旅", destination];
+    }
+}
+
 @end

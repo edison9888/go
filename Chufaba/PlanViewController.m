@@ -10,6 +10,7 @@
 #import "Plan.h"
 #import "ItineraryViewController.h"
 #import "ItineraryDataController.h"
+#import "SearchDestinationViewController.h"
 
 @implementation UINavigationBar (CustomImage)
 - (void)drawRect:(CGRect)rect {
@@ -416,7 +417,7 @@
         [addPlanViewController setTitle:@"编辑旅行计划"];
         addPlanViewController.delegate = self;
         Plan *tempPlan = [self.travelPlans objectAtIndex:self.indexPathOfplanToEditOrDelete.row];
-        addPlanViewController.plan = [[Plan alloc] initWithName:tempPlan.name duration:tempPlan.duration date:tempPlan.date image:tempPlan.image];
+        addPlanViewController.plan = [[Plan alloc] initWithName:tempPlan.name destination:tempPlan.destination duration:tempPlan.duration date:tempPlan.date image:tempPlan.image];
         addPlanViewController.plan.planId = tempPlan.planId;
         
         NSString *coverName = [[tempPlan.planId stringValue] stringByAppendingString:@"planCover"];
