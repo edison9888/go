@@ -61,7 +61,7 @@
     [self setTitle:@"搜索目的地"];
     
     self.searchBar.tintColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
-    self.searchBar.placeholder = @"国家、地区、城市";
+    self.searchBar.placeholder = @"城市，省，国家";
     UIImage *image = [UIImage imageNamed:@"bar_Search.png"];
     [self.searchBar setBackgroundImage:image];
     [self.searchBar becomeFirstResponder];
