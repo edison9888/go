@@ -28,6 +28,24 @@
     [self cancelCurrentSearch];
 }
 
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
+    if (!titleView) {
+        titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleView.backgroundColor = [UIColor clearColor];
+        titleView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:20];
+        titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        
+        titleView.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
+        
+        self.navigationItem.titleView = titleView;
+    }
+    titleView.text = title;
+    [titleView sizeToFit];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -40,8 +58,10 @@
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = btn;
     
+    [self setTitle:@"搜索目的地"];
+    
     self.searchBar.tintColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
-    self.searchBar.placeholder = @"搜索目的地";
+    self.searchBar.placeholder = @"国家、地区、城市";
     UIImage *image = [UIImage imageNamed:@"bar_Search.png"];
     [self.searchBar setBackgroundImage:image];
     [self.searchBar becomeFirstResponder];
