@@ -13,6 +13,7 @@
 #import "CfbTextField.h"
 #import "SearchTableViewCell.h"
 
+
 @interface SearchViewController ()
 
 @property int total;
@@ -27,6 +28,7 @@
 #define TAG_FOODBTN 3
 #define TAG_HOTELBTN 4
 #define TAG_OTHERBTN 5
+#define TAG_IMPLYLABEL 6
 
 #define LABEL_WIDTH 190
 #define NAME_LABEL_HEIGHT 24
@@ -194,7 +196,46 @@
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+//    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+//    footerView.backgroundColor = [UIColor whiteColor];
+//    self.tableView.tableFooterView = footerView;
+//    if([[self.dataController.masterTravelDayList lastObject] count] > 0)
+//    {
+//        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+//        footerView.backgroundColor = [UIColor whiteColor];
+//        self.tableView.tableFooterView = footerView;
+//    }
     [self.view addSubview:self.tableView];
+    
+    addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 5.0f, 300.0f, 44.0f)];
+    UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 6.0f, 240.0f, 32.0f)];
+    implyLabel.backgroundColor = [UIColor clearColor];
+    implyLabel.text = @"创建旅行地点";
+    implyLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    implyLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    implyLabel.tag = TAG_IMPLYLABEL;
+    [addLocationBtn addSubview:implyLabel];
+    [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn.png"]forState:UIControlStateNormal];
+    [addLocationBtn addTarget:self action:@selector(beginAddCustomLocation:) forControlEvents:UIControlEventTouchDown];
+}
+
+- (IBAction)beginAddCustomLocation:(id)sender
+{
+    [self.nameInput resignFirstResponder];
+    [self.locationInput resignFirstResponder];
+    
+    AddLocationViewController *addLocationViewController = [[AddLocationViewController alloc] init];
+    addLocationViewController.location = [[Location alloc] init];
+    addLocationViewController.location.name = self.nameInput.text;
+    addLocationViewController.location.category = self.category;
+    addLocationViewController.hasCoordinate = NO;
+    addLocationViewController.addLocation = YES;
+    addLocationViewController.lastLatitude = self.lastLatitude;
+    addLocationViewController.lastLongitude = self.lastLongitude;
+    addLocationViewController.editLocationDelegate = self;
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addLocationViewController];
+    [self presentViewController:navController animated:YES completion:NULL];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -233,6 +274,8 @@
     if(sender == self.nameInput)
     {
         self.nameKeyword = [self.nameInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString *addLocationBtnText = [NSString stringWithFormat:@"创建旅行地点 \"%@\"", self.nameKeyword];
+        ((UILabel *)[addLocationBtn viewWithTag:TAG_IMPLYLABEL]).text = addLocationBtnText;
     }
     else if(sender == self.locationInput)
     {
@@ -275,7 +318,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //[[cell textLabel] setText: [NSString stringWithFormat: @"%@, %@", name, city]];
     SearchTableViewCell *cell;
     if (indexPath.row < [allLocationList count])
     {
@@ -306,6 +348,7 @@
         nameLabel.text = name;
         
         UILabel *eNameLabel = (UILabel *)[cell.contentView viewWithTag:3];
+        eNameLabel.hidden = NO;
         if(name_en.length != 0)
             eNameLabel.text = name_en;
         
@@ -324,14 +367,16 @@
         }
         
         CGPoint nameLabelOrigin = CGPointMake(60, 7);
-        CGPoint eNameLabelOrigin = CGPointMake(60, 27);
+        CGPoint eNameLabelOrigin = CGPointMake(60, 29);
         CGPoint locationLabelOrigin = CGPointMake(60, 42);
         
         if (name_en.length == 0 && city.length == 0) {
             nameLabelOrigin = CGPointMake(60, 19);
+            eNameLabel.hidden = YES;
         } else if (name_en.length == 0) {
             nameLabelOrigin = CGPointMake(60, 12);
             locationLabelOrigin = CGPointMake(60, 35);
+            eNameLabel.hidden = YES;
         } else if (city.length == 0) {
             nameLabelOrigin = CGPointMake(60, 12);
             eNameLabelOrigin = CGPointMake(60, 35);
@@ -378,16 +423,20 @@
     {
         NSString *CellIdentifier = @"LoadingCell";
         
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell = (SearchTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         if (cell == nil){
             cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            cell.imageView.image = [UIImage imageNamed:@"loading.gif"];
         }
+        UIActivityIndicatorView *loadingView=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [loadingView setFrame:CGRectMake(140, 11, 40, 40)];
+        [loadingView startAnimating];
+        [cell.contentView addSubview:loadingView];
         [self fetchRestResult];
     }
     else
     {
+        //NSString *CellIdentifier = @"addLocation";
         UITableViewCell *addLocationCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addLocation"];
         [addLocationCell addSubview:addLocationBtn];
         
@@ -410,112 +459,6 @@
     
     return cell;
 }
-
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    UITableViewCell *cell;
-//    if (indexPath.row < [allLocationList count])
-//    {
-//        NSString *CellIdentifier = @"SearchLocationCell";
-//        
-//        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//        
-//        if (cell == nil){
-//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-//        }
-//        NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
-//        NSString *name = [locationAtIndex objectForKey: @"name"];
-//        NSString *name_en = [locationAtIndex objectForKey: @"name_en"];
-//        NSString *city = [locationAtIndex objectForKey: @"city"];
-//        NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
-//        if ([name length] == 0) {
-//            name = name_en;
-//            name_en = nil;
-//        }
-//        if ([city length] > 0) {
-//            //[[cell textLabel] setText: [NSString stringWithFormat: @"%@, %@", name, city]];
-//            [[cell textLabel] setText: [NSString stringWithFormat: @"%@", name]];
-//        } else {
-//            [[cell textLabel] setText: name];
-//        }
-//        cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-//        cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-//        
-//        [[cell detailTextLabel] setText: name_en];
-//        cell.detailTextLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-//        cell.detailTextLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-//        
-//        cell.imageView.image = [Location getCategoryIconMedium:[locationAtIndex objectForKey:@"category"]];
-//        
-//        BOOL addedBefore = FALSE;
-//        for(NSNumber *poi in self.poiArray)
-//        {
-//            if([poi intValue] == [poiId intValue])
-//            {
-//                addedBefore = TRUE;
-//                break;
-//            }
-//        }
-//        
-//        if(addedBefore)
-//        {
-//            UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            [removeBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
-//            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
-//            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
-//            [removeBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchDown];
-//            removeBtn.tag = indexPath.row+10;
-//            [cell.contentView addSubview:removeBtn];
-//        }
-//        else
-//        {
-//            UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            [addBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
-//            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
-//            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
-//            [addBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchDown];
-//            addBtn.tag = indexPath.row+10;
-//            [cell.contentView addSubview:addBtn];
-//        }
-//        
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    }
-//    else if ([allLocationList count] != self.total)
-//    {
-//        NSString *CellIdentifier = @"LoadingCell";
-//        
-//        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//        
-//        if (cell == nil){
-//            cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//            cell.imageView.image = [UIImage imageNamed:@"loading.gif"];
-//        }
-//        [self fetchRestResult];
-//    }
-//    else
-//    {
-//        UITableViewCell *addLocationCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addLocation"];
-//        [addLocationCell addSubview:addLocationBtn];
-//        
-//        [addLocationCell bringSubviewToFront:addLocationBtn];
-//        
-//        return addLocationCell;
-//    }
-//    
-//    //add separator line
-//    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 61, self.view.bounds.size.width, 1)];
-//    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-//    [cell.contentView addSubview:lineView];
-//    
-//    if(indexPath.row !=0)
-//    {
-//        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-//        lineView.backgroundColor = [UIColor whiteColor];
-//        [cell.contentView addSubview:lineView];
-//    }
-//    
-//    return cell;
-//}
 
 - (IBAction)removeLocation:(id)sender
 {
@@ -569,7 +512,7 @@
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_no.png"] forType:iToastTypeNotice];
-    theSettings.duration = 8000;
+    theSettings.duration = 3000;
     [[[[iToast makeText:NSLocalizedString(@"已从计划中移除", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
 
@@ -632,7 +575,23 @@
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_yes.png"] forType:iToastTypeNotice];
-    theSettings.duration = 8000;
+    theSettings.duration = 3000;
+    [[[[iToast makeText:NSLocalizedString(@"已添加到计划", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show:iToastTypeNotice];
+}
+
+- (void)addCustomLocation:(Location *)location
+{
+    shouldUpdateItinerary = YES;
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd,poi_id,opening,fee,website) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",self.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude,[NSNumber numberWithBool:location.useradd],location.poiId,location.opening,location.fee,location.website];
+    [db close];
+    
+    self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
+    iToastSettings *theSettings = [iToastSettings getSharedSettings];
+    [theSettings setImage:[UIImage imageNamed:@"prompt_yes.png"] forType:iToastTypeNotice];
+    theSettings.duration = 3000;
     [[[[iToast makeText:NSLocalizedString(@"已添加到计划", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
 
@@ -882,6 +841,11 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [self clearResults];
+}
+
+-(void) AddLocationViewController:(AddLocationViewController *) addLocationViewController didFinishAdd:(Location *) location
+{
+    [self addCustomLocation:location];
 }
 
 - (void)didReceiveMemoryWarning
