@@ -399,26 +399,49 @@
             }
         }
         
+//        UIButton *operationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [operationBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+        
+        UIButton *operationBtn = (UIButton *)[cell.contentView viewWithTag:5];
+        
         if(addedBefore)
         {
-            UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [removeBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
-            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
-            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
-            [removeBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchDown];
-            removeBtn.tag = indexPath.row+10;
-            [cell.contentView addSubview:removeBtn];
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
+            [operationBtn removeTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
+            [operationBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
         }
         else
         {
-            UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [addBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
-            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
-            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
-            [addBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchDown];
-            addBtn.tag = indexPath.row+10;
-            [cell.contentView addSubview:addBtn];
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
+            [operationBtn removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
+            [operationBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
         }
+        
+        //operationBtn.tag = indexPath.row+10;
+        //[cell.contentView addSubview:operationBtn];
+        
+//        if(addedBefore)
+//        {
+//            UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//            [removeBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+//            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
+//            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
+//            [removeBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchDown];
+//            removeBtn.tag = indexPath.row+10;
+//            [cell.contentView addSubview:removeBtn];
+//        }
+//        else
+//        {
+//            UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//            [addBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+//            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
+//            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
+//            [addBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchDown];
+//            addBtn.tag = indexPath.row+10;
+//            [cell.contentView addSubview:addBtn];
+//        }
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -471,8 +494,9 @@
     [self.locationInput resignFirstResponder];
     
     UIButton *button = (UIButton*)sender;
-    int index = button.tag-10;
-    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:index] objectForKey:@"_source"];
+    UITableViewCell *cell = (UITableViewCell *)button.superview.superview;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
     NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
     
     NSNumber *seqToDelete;
@@ -484,7 +508,7 @@
     {
         seqToDelete = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
     }
-
+    
     [db executeUpdate:@"DELETE FROM location WHERE poi_id = ? AND whichday = ?", poiId, self.dayToAdd];
     [db executeUpdate:@"UPDATE location SET seqofday = seqofday-1 where seqofday > ? and whichday = ?",seqToDelete,self.dayToAdd];
     [db close];
@@ -501,17 +525,10 @@
     
     self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]-1];
     
-    UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [addBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
-    
-    addBtn.tag = button.tag;
-    UIView *cellContentView = button.superview;
-    [button removeFromSuperview];
-    
-    [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
-    [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
-    [addBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchDown];
-    [cellContentView addSubview:addBtn];
+    [button setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
+    [button removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_no.png"] forType:iToastTypeNotice];
@@ -527,8 +544,9 @@
     [self.locationInput resignFirstResponder];
     
     UIButton *button = (UIButton*)sender;
-    int index = button.tag-10;
-    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:index] objectForKey:@"_source"];
+    UITableViewCell *cell = (UITableViewCell *)button.superview.superview;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
     Location *location = [[Location alloc] init];
     location.poiId = [locationAtIndex objectForKey: @"id"];
     location.name = [locationAtIndex objectForKey: @"name"];
@@ -564,17 +582,10 @@
     //increase seqToAdd
     self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
     
-    UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [removeBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
-    
-    removeBtn.tag = button.tag;
-    UIView *cellContentView = button.superview;
-    [button removeFromSuperview];
-    
-    [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
-    [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
-    [removeBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchDown];
-    [cellContentView addSubview:removeBtn];
+    [button setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
+    [button removeTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_yes.png"] forType:iToastTypeNotice];
@@ -830,7 +841,6 @@
         if (locations.count > 0) {
             [allLocationList addObjectsFromArray:locations];
             [self.tableView reloadData];
-            [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
         }
     }
     

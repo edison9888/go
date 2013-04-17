@@ -45,21 +45,16 @@
     locationLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     locationLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     [self.contentView addSubview:locationLabel];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.tag = 5;
+    [btn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
+    [self.contentView addSubview:btn];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
-//- (void)layoutSubviews {
-//    //have the cell layout normally
-//    [super layoutSubviews];
-//    //get the bounding rectangle that defines the position and size of the image
-//    CGRect imgFrame = [[self imageView] frame];
-//    imgFrame.origin = CGPointMake(self.bounds.size.width/2-20, self.bounds.size.height/2-20);
-//    [[self imageView] setFrame:imgFrame];
-//}
 @end
