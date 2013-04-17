@@ -220,10 +220,6 @@
         siteLabel.tag = TAG_SITELABEL;
         [self.view addSubview:siteLabel];
     }
-    
-//    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-//    footerView.backgroundColor = [UIColor whiteColor];
-//    self.tableView.tableFooterView = footerView;
 }
 
 - (void)didReceiveMemoryWarning

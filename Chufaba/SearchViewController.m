@@ -23,7 +23,7 @@
 
 @implementation SearchViewController
 
-#define TAG_TOPVIEW 1
+#define TAG_TOPVIEW 10000
 #define TAG_SIGHTBTN 2
 #define TAG_FOODBTN 3
 #define TAG_HOTELBTN 4
@@ -147,12 +147,10 @@
     
     //search bar part
     self.nameInput = [[CfbTextField alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
-    //self.nameInput.textColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     self.nameInput.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     self.nameInput.placeholder = @"搜索景点";
     self.nameInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.nameInput.borderStyle = UITextBorderStyleNone;
-    //self.nameInput.background = [UIImage imageNamed:@"kuang.png"];
     self.nameInput.background = [[UIImage imageNamed:@"skuang.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
     self.nameInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     UIView *nPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 26, 30)];
@@ -171,7 +169,6 @@
     self.locationInput.placeholder = @"城市,省,国家";
     self.locationInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.locationInput.borderStyle = UITextBorderStyleNone;
-    //self.locationInput.background = [UIImage imageNamed:@"kuang.png"];
     self.locationInput.background = [[UIImage imageNamed:@"skuang.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
     self.locationInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     UIView *lPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 22, 30)];
@@ -190,23 +187,19 @@
     [self.view addSubview:topView];
     
     //tableview part
-    NSLog(@"height:%f", self.view.bounds.size.height);
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 86, 320, 330) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 85, 320, 330) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
-//    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-//    footerView.backgroundColor = [UIColor whiteColor];
-//    self.tableView.tableFooterView = footerView;
-//    if([[self.dataController.masterTravelDayList lastObject] count] > 0)
-//    {
-//        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-//        footerView.backgroundColor = [UIColor whiteColor];
-//        self.tableView.tableFooterView = footerView;
-//    }
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+    headerView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    self.tableView.tableHeaderView = headerView;
+    
     [self.view addSubview:self.tableView];
+    [self.view bringSubviewToFront:topView];
     
     addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 5.0f, 300.0f, 44.0f)];
     UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 6.0f, 240.0f, 32.0f)];
@@ -285,7 +278,7 @@
         self.locationKeyword = [self.locationInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     }
     
-    if([self.nameKeyword length] == 0 && [self.locationKeyword length] == 0)
+    if([self.locationKeyword length] == 0)
     {
         [self clearResults];
     }
@@ -307,9 +300,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.locationKeyword.length == 0) {
+    if(self.locationKeyword.length == 0)
+    {
         return 0;
-    } else {
+    }
+    else
+    {
         return [allLocationList count] + 1;
     }
 }
@@ -399,9 +395,6 @@
             }
         }
         
-//        UIButton *operationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [operationBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
-        
         UIButton *operationBtn = (UIButton *)[cell.contentView viewWithTag:5];
         
         if(addedBefore)
@@ -418,31 +411,6 @@
             [operationBtn removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
             [operationBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
         }
-        
-        //operationBtn.tag = indexPath.row+10;
-        //[cell.contentView addSubview:operationBtn];
-        
-//        if(addedBefore)
-//        {
-//            UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            [removeBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
-//            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
-//            [removeBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
-//            [removeBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchDown];
-//            removeBtn.tag = indexPath.row+10;
-//            [cell.contentView addSubview:removeBtn];
-//        }
-//        else
-//        {
-//            UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            [addBtn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
-//            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
-//            [addBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
-//            [addBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchDown];
-//            addBtn.tag = indexPath.row+10;
-//            [cell.contentView addSubview:addBtn];
-//        }
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else if ([allLocationList count] != self.total)
@@ -460,15 +428,18 @@
         [cell.contentView addSubview:loadingView];
         [self fetchRestResult];
     }
-    else
+    else if (indexPath.row == [allLocationList count])
     {
-        //NSString *CellIdentifier = @"addLocation";
-        UITableViewCell *addLocationCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addLocation"];
-        [addLocationCell addSubview:addLocationBtn];
-        
-        [addLocationCell bringSubviewToFront:addLocationBtn];
-        
-        return addLocationCell;
+        cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addLocation"];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        [cell.contentView addSubview:lineView];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if(self.nameInput.text.length != 0)
+        {
+            [cell addSubview:addLocationBtn];
+        }
+        return cell;
     }
     
     //add separator line
@@ -476,12 +447,9 @@
     lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     [cell.contentView addSubview:lineView];
     
-    if(indexPath.row !=0)
-    {
-        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-        lineView.backgroundColor = [UIColor whiteColor];
-        [cell.contentView addSubview:lineView];
-    }
+    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+    lineView.backgroundColor = [UIColor whiteColor];
+    [cell.contentView addSubview:lineView];
     
     return cell;
 }
