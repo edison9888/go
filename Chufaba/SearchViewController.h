@@ -17,7 +17,7 @@
 
 @end
 
-@interface SearchViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationViewControllerDelegate>
+@interface SearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, AddLocationViewControllerDelegate, UISearchBarDelegate>
 {
     JSONFetcher *fetcher;
     UIButton *addLocationBtn;
@@ -31,8 +31,10 @@
 @property (nonatomic, copy) NSString *nameKeyword;
 @property (nonatomic, copy) NSString *locationKeyword;
 
-@property (nonatomic, strong) UITextField *nameInput;
-@property (nonatomic, strong) UITextField *locationInput;
+//@property (nonatomic, strong) UITextField *nameInput;
+//@property (nonatomic, strong) UITextField *locationInput;
+@property (nonatomic, strong) UISearchBar *nameInput;
+@property (nonatomic, strong) UISearchBar *locationInput;
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic,weak) NSNumber *dayToAdd;

@@ -11,6 +11,7 @@
 #import "FMDBDataAccess.h" 
 #import "iToast.h"
 #import "CfbTextField.h"
+#import "CfbSearchBar.h"
 #import "SearchTableViewCell.h"
 
 
@@ -146,40 +147,67 @@
     [topView addSubview:otherBtn];
     
     //search bar part
-    self.nameInput = [[CfbTextField alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
-    self.nameInput.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.nameInput = [[CfbSearchBar alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
     self.nameInput.placeholder = @"搜索景点";
-    self.nameInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    self.nameInput.borderStyle = UITextBorderStyleNone;
-    self.nameInput.background = [[UIImage imageNamed:@"skuang.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
-    self.nameInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-    UIView *nPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 26, 30)];
-    UIImageView *nImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 7, 16, 16)];
-    nImgView.image = [UIImage imageNamed:@"Search.png"];
-    [nPaddingView addSubview:nImgView];
-    self.nameInput.leftView = nPaddingView;
-    self.nameInput.leftViewMode = UITextFieldViewModeAlways;
     self.nameInput.delegate = self;
-    [self.nameInput addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    self.nameInput.clearButtonMode = TRUE;
-    
-    self.locationInput = [[CfbTextField alloc] initWithFrame:CGRectMake(200, 45, 110, 30)];
-    self.locationInput.text = self.locationKeyword;
-    self.locationInput.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-    self.locationInput.placeholder = @"城市,省,国家";
-    self.locationInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    self.locationInput.borderStyle = UITextBorderStyleNone;
-    self.locationInput.background = [[UIImage imageNamed:@"skuang.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
-    self.locationInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-    UIView *lPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 22, 30)];
-    UIImageView *lImgView = [[UIImageView alloc] initWithFrame:CGRectMake(3, 7, 16, 16)];
-    lImgView.image = [UIImage imageNamed:@"pin.png"];
-    [lPaddingView addSubview:lImgView];
-    self.locationInput.leftView = lPaddingView;
-    self.locationInput.leftViewMode = UITextFieldViewModeAlways;
+    self.locationInput = [[CfbSearchBar alloc] initWithFrame:CGRectMake(200, 45, 110, 30)];
+    self.locationInput.placeholder = @"市,省,国家";
     self.locationInput.delegate = self;
-    [self.locationInput addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    self.locationInput.clearButtonMode = TRUE;
+    self.locationInput.text = self.locationKeyword;
+    for(id cc in [self.nameInput subviews])
+    {
+        if([cc isKindOfClass:[UITextField class]])
+        {
+            UITextField *textField = (UITextField *)cc;
+            UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Search.png"]];
+            textField.leftView = view;
+            textField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+        }
+    }
+    for(id cc in [self.locationInput subviews])
+    {
+        if([cc isKindOfClass:[UITextField class]])
+        {
+            UITextField *textField = (UITextField *)cc;
+            UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin.png"]];
+            textField.leftView = view;
+            textField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+        }
+    }
+//    self.nameInput = [[CfbTextField alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
+//    self.nameInput.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+//    self.nameInput.placeholder = @"搜索景点";
+//    self.nameInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+//    self.nameInput.borderStyle = UITextBorderStyleNone;
+//    self.nameInput.background = [[UIImage imageNamed:@"skuang.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
+//    self.nameInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+//    UIView *nPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 26, 30)];
+//    UIImageView *nImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 7, 16, 16)];
+//    nImgView.image = [UIImage imageNamed:@"Search.png"];
+//    [nPaddingView addSubview:nImgView];
+//    self.nameInput.leftView = nPaddingView;
+//    self.nameInput.leftViewMode = UITextFieldViewModeAlways;
+//    self.nameInput.delegate = self;
+//    [self.nameInput addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+//    self.nameInput.clearButtonMode = TRUE;
+//    
+//    self.locationInput = [[CfbTextField alloc] initWithFrame:CGRectMake(200, 45, 110, 30)];
+//    self.locationInput.text = self.locationKeyword;
+//    self.locationInput.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+//    self.locationInput.placeholder = @"城市,省,国家";
+//    self.locationInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+//    self.locationInput.borderStyle = UITextBorderStyleNone;
+//    self.locationInput.background = [[UIImage imageNamed:@"skuang.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
+//    self.locationInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+//    UIView *lPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 22, 30)];
+//    UIImageView *lImgView = [[UIImageView alloc] initWithFrame:CGRectMake(3, 7, 16, 16)];
+//    lImgView.image = [UIImage imageNamed:@"pin.png"];
+//    [lPaddingView addSubview:lImgView];
+//    self.locationInput.leftView = lPaddingView;
+//    self.locationInput.leftViewMode = UITextFieldViewModeAlways;
+//    self.locationInput.delegate = self;
+//    [self.locationInput addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+//    self.locationInput.clearButtonMode = TRUE;
     
     [topView addSubview:self.nameInput];
     [topView addSubview:self.locationInput];
@@ -234,46 +262,78 @@
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    if(textField == self.nameInput)
+    if(searchBar == self.nameInput)
     {
         if(self.nameInput.frame.size.width != 180)
         {
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:0.3];
-            [self.nameInput setFrame:CGRectMake(10, 45, 180, 30)];
-            [self.locationInput setFrame:CGRectMake(200, 45, 110, 30)];
-            [UIView commitAnimations];
+            [UIView animateWithDuration:0.3
+                                  delay:0
+                                options:UIViewAnimationOptionLayoutSubviews
+                             animations:^{
+                                 [self.nameInput setFrame:CGRectMake(10, 45, 180, 30)];
+                                 [self.locationInput setFrame:CGRectMake(200, 45, 110, 30)];
+                             }
+                             completion:NULL];
         }
     }
     else
     {
         if(self.locationInput.frame.size.width == 110)
-        {
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:0.3];
-            [self.locationInput setFrame:CGRectMake(130, 45, 180, 30)];
-            [self.nameInput setFrame:CGRectMake(10, 45, 110, 30)];
-            [UIView commitAnimations];
+        {    
+            [UIView animateWithDuration:0.3
+                                  delay:0
+                                options:UIViewAnimationOptionLayoutSubviews
+                             animations:^{
+                                 [self.nameInput setFrame:CGRectMake(10, 45, 110, 30)];
+                                 [self.locationInput setFrame:CGRectMake(130, 45, 180, 30)];
+                             }
+                             completion:NULL];
         }
     }
 }
 
--(IBAction)textFieldDidChange:(id)sender
+//- (void)textFieldDidBeginEditing:(UITextField *)textField
+//{
+//    if(textField == self.nameInput)
+//    {
+//        if(self.nameInput.frame.size.width != 180)
+//        {
+//            [UIView beginAnimations:nil context:nil];
+//            [UIView setAnimationDuration:0.3];
+//            [self.nameInput setFrame:CGRectMake(10, 45, 180, 30)];
+//            [self.locationInput setFrame:CGRectMake(200, 45, 110, 30)];
+//            [UIView commitAnimations];
+//        }
+//    }
+//    else
+//    {
+//        if(self.locationInput.frame.size.width == 110)
+//        {
+//            [UIView beginAnimations:nil context:nil];
+//            [UIView setAnimationDuration:0.3];
+//            [self.locationInput setFrame:CGRectMake(130, 45, 180, 30)];
+//            [self.nameInput setFrame:CGRectMake(10, 45, 110, 30)];
+//            [UIView commitAnimations];
+//        }
+//    }
+//}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if (self.disappearing)
     {
         return;
     }
     
-    if(sender == self.nameInput)
+    if(searchBar == self.nameInput)
     {
         self.nameKeyword = [self.nameInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString *addLocationBtnText = [NSString stringWithFormat:@"创建旅行地点 \"%@\"", self.nameKeyword];
         ((UILabel *)[addLocationBtn viewWithTag:TAG_IMPLYLABEL]).text = addLocationBtnText;
     }
-    else if(sender == self.locationInput)
+    else if(searchBar == self.locationInput)
     {
         self.locationKeyword = [self.locationInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     }
@@ -287,6 +347,34 @@
         [self searchPoi];
     }
 }
+
+//-(IBAction)textFieldDidChange:(id)sender
+//{
+//    if (self.disappearing)
+//    {
+//        return;
+//    }
+//    
+//    if(sender == self.nameInput)
+//    {
+//        self.nameKeyword = [self.nameInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//        NSString *addLocationBtnText = [NSString stringWithFormat:@"创建旅行地点 \"%@\"", self.nameKeyword];
+//        ((UILabel *)[addLocationBtn viewWithTag:TAG_IMPLYLABEL]).text = addLocationBtnText;
+//    }
+//    else if(sender == self.locationInput)
+//    {
+//        self.locationKeyword = [self.locationInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//    }
+//    
+//    if([self.locationKeyword length] == 0)
+//    {
+//        [self clearResults];
+//    }
+//    else
+//    {
+//        [self searchPoi];
+//    }
+//}
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {

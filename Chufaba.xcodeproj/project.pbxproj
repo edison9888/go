@@ -72,6 +72,7 @@
 		131BF67916D64337001D4422 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67816D64337001D4422 /* TencentOpenAPI.framework */; };
 		131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67D16D6439A001D4422 /* libiconv.dylib */; };
 		131BF68016D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */; };
+		131D774517201631001094A2 /* CfbSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 131D774417201631001094A2 /* CfbSearchBar.m */; };
 		13225AD816ECDE9000B1BB5B /* uk.png in Resources */ = {isa = PBXBuildFile; fileRef = 13225AD416ECDE9000B1BB5B /* uk.png */; };
 		13225AD916ECDE9000B1BB5B /* sydney.png in Resources */ = {isa = PBXBuildFile; fileRef = 13225AD516ECDE9000B1BB5B /* sydney.png */; };
 		13225ADA16ECDE9000B1BB5B /* sydney@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13225AD616ECDE9000B1BB5B /* sydney@2x.png */; };
@@ -367,6 +368,8 @@
 		131BF67816D64337001D4422 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = Chufaba/TencentOpenAPI.framework; sourceTree = "<group>"; };
 		131BF67D16D6439A001D4422 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TencentOpenApi_IOS_Bundle.bundle; path = Chufaba/TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		131D774317201631001094A2 /* CfbSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CfbSearchBar.h; sourceTree = "<group>"; };
+		131D774417201631001094A2 /* CfbSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CfbSearchBar.m; sourceTree = "<group>"; };
 		13225AD416ECDE9000B1BB5B /* uk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uk.png; sourceTree = "<group>"; };
 		13225AD516ECDE9000B1BB5B /* sydney.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sydney.png; sourceTree = "<group>"; };
 		13225AD616ECDE9000B1BB5B /* sydney@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sydney@2x.png"; sourceTree = "<group>"; };
@@ -1208,6 +1211,8 @@
 				1381A5261719246C0089F7DF /* SearchViewController.m */,
 				1314027E171AF85F009A7AC3 /* CfbTextField.h */,
 				1314027F171AF85F009A7AC3 /* CfbTextField.m */,
+				131D774317201631001094A2 /* CfbSearchBar.h */,
+				131D774417201631001094A2 /* CfbSearchBar.m */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -1705,6 +1710,7 @@
 				13140280171AF85F009A7AC3 /* CfbTextField.m in Sources */,
 				C2354EF4171AA38300403541 /* SearchDestinationViewController.m in Sources */,
 				C2354EFA171AED0200403541 /* AddPlanTableViewCell.m in Sources */,
+				131D774517201631001094A2 /* CfbSearchBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
