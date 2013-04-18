@@ -419,7 +419,18 @@
         NSString *name = [locationAtIndex objectForKey: @"name"];
         NSString *name_en = [locationAtIndex objectForKey: @"name_en"];
         NSString *city = [locationAtIndex objectForKey: @"city"];
+        NSString *province = [locationAtIndex objectForKey: @"province"];
         NSString *country = [locationAtIndex objectForKey: @"country"];
+        NSMutableArray *dests = [[NSMutableArray alloc]init];
+        if (city.length > 0) {
+            [dests addObject:city];
+        }
+        if (province.length > 0) {
+            [dests addObject:province];
+        }
+        if ([country length] > 0) {
+            [dests addObject:country];
+        }
         
         NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
         
@@ -440,18 +451,7 @@
             eNameLabel.text = name_en;
         
         UILabel *locationLabel = (UILabel *)[cell.contentView viewWithTag:4];
-        if(city.length != 0 && country.length != 0)
-        {
-            locationLabel.text = [NSString stringWithFormat: @"%@, %@", city, country];
-        }
-        else if(city.length != 0)
-        {
-            locationLabel.text = city;
-        }
-        else if(country.length != 0)
-        {
-            locationLabel.text = country;
-        }
+        [locationLabel setText:[dests componentsJoinedByString:@"，"]];
         
         CGPoint nameLabelOrigin = CGPointMake(60, 7);
         CGPoint eNameLabelOrigin = CGPointMake(60, 29);
@@ -785,7 +785,7 @@
                                "                },"
                                "                {"
                                "                    \"prefix\" : {"
-                               "                        \"country\": {"
+                               "                        \"province\": {"
                                "                            \"prefix\": \"%@\","
                                "                            \"boost\": 2.0"
                                "                        }"
@@ -793,15 +793,31 @@
                                "                },"
                                "                {"
                                "                    \"prefix\" : {"
-                               "                        \"country_en\": {"
+                               "                        \"province_en\": {"
                                "                            \"prefix\": \"%@\","
                                "                            \"boost\": 2.0"
+                               "                        }"
+                               "                    }"
+                               "                },"
+                               "                {"
+                               "                    \"prefix\" : {"
+                               "                        \"country\": {"
+                               "                            \"prefix\": \"%@\","
+                               "                            \"boost\": 3.0"
+                               "                        }"
+                               "                    }"
+                               "                },"
+                               "                {"
+                               "                    \"prefix\" : {"
+                               "                        \"country_en\": {"
+                               "                            \"prefix\": \"%@\","
+                               "                            \"boost\": 3.0"
                                "                        }"
                                "                    }"
                                "                }"
                                "            ],"
                                "            \"minimum_number_should_match\" : 1"
-                               , location, location, location, location];
+                               , location, location, location, location, location, location];
     NSString *keywordQuery = @"";
     if (keyword.length > 0) {
         keywordQuery = [NSString stringWithFormat:@
