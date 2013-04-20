@@ -19,6 +19,7 @@
 
 @property int total;
 @property BOOL disappearing;
+@property UIActivityIndicatorView *loadingView;
 
 @end
 
@@ -715,6 +716,7 @@
         [fetcher cancel];
         fetcher = nil;
     }
+    [self hideLoading];
 }
 
 - (void)clearResults
@@ -723,6 +725,24 @@
     self.total = 0;
     allLocationList = nil;
     [self.tableView reloadData];
+}
+
+- (void)showLoading
+{
+    if (!self.loadingView) {
+        self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self.loadingView setFrame:CGRectMake(120, 120, 60, 60)];
+        [self.view addSubview:self.loadingView];
+    }
+    [self.view bringSubviewToFront:self.loadingView];
+    [self.loadingView startAnimating];
+}
+
+- (void)hideLoading
+{
+    if (self.loadingView) {
+        [self.loadingView stopAnimating];
+    }
 }
 
 - (void)searchPoi
@@ -740,6 +760,7 @@
                        action:@selector(receiveResponse:)];
             fetcher.showAlerts = NO;
             [fetcher start];
+            [self showLoading];
         }
     }
 }
@@ -847,6 +868,7 @@
 
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
+    [self hideLoading];
     if (aFetcher.failureCode)
     {
         UIAlertView *alert =
