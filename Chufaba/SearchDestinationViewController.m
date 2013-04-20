@@ -16,6 +16,7 @@
 
 @property int total;
 @property BOOL disappearing;
+@property UIActivityIndicatorView *loadingView;
 
 @end
 
@@ -151,6 +152,7 @@
         [fetcher cancel];
         fetcher = nil;
     }
+    [self hideLoading];
 }
 
 - (void)clearResults
@@ -159,6 +161,24 @@
     self.total = 0;
     allDestinationList = nil;
     [self.tableView reloadData];
+}
+
+- (void)showLoading
+{
+    if (!self.loadingView) {
+        self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self.loadingView setFrame:CGRectMake(120, 80, 60, 60)];
+        [self.view addSubview:self.loadingView];
+    }
+    [self.view bringSubviewToFront:self.loadingView];
+    [self.loadingView startAnimating];
+}
+
+- (void)hideLoading
+{
+    if (self.loadingView) {
+        [self.loadingView stopAnimating];
+    }
 }
 
 - (void)searchDestination:(NSString *)destination{
@@ -173,6 +193,7 @@
                action:@selector(receiveResponse:)];
     fetcher.showAlerts = NO;
     [fetcher start];
+    [self showLoading];
 }
 
 - (NSString *)getPostBody:(NSString *)keyword {
@@ -319,6 +340,7 @@
 
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
+    [self hideLoading];
     if (aFetcher.failureCode) {
         UIAlertView *alert =
         [[UIAlertView alloc]
@@ -330,7 +352,7 @@
         [alert show];
     } else {
         NSArray *destinations = [(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"hits"];
-        if (destinations.count == 0 ) {
+        if (destinations.count == 0) {
             [self clearResults];
         } else {
             self.total = [[(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"total"] intValue];
@@ -402,7 +424,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [allDestinationList count];
+    if (self.destination.length > 0) {
+        if ([allDestinationList count] < self.total) {
+            return [allDestinationList count] + 1;
+        } else if(self.total == 0) {
+            return 1; //提示没有结果
+        } else {
+            return [allDestinationList count];
+        }
+    } else {
+        return 0;
+    }
 }
 
 - (float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -458,38 +490,43 @@
         lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
         lineView.backgroundColor = [UIColor whiteColor];
         [cell.contentView addSubview:lineView];
+    } else if (self.total > 0){
+        NSString *CellIdentifier = @"LoadingCell";
         
-//        UIView *uplineView = [cell.contentView viewWithTag:TAG_UP_LINE];
-//        if (indexPath.row > 0) {
-//            if (uplineView) {
-//                [uplineView setHidden:false];
-//            } else {
-//                uplineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, 1)];
-//                uplineView.backgroundColor = [UIColor whiteColor];;
-//                uplineView.tag = TAG_UP_LINE;
-//                [cell.contentView addSubview:uplineView];
-//            }
-//        } else {
-//            if (uplineView){
-//                [uplineView setHidden:true];
-//            }
-//        }
-//
-//        UIView *bottomlineView = [cell.contentView viewWithTag:TAG_BOTTOM_LINE];
-//        if (indexPath.row < [allDestinationList count] - 1) {
-//            if (bottomlineView) {
-//                [bottomlineView setHidden:false];
-//            } else {
-//                bottomlineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, cell.contentView.frame.size.width, 1)];
-//                bottomlineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-//                bottomlineView.tag = TAG_BOTTOM_LINE;
-//                [cell.contentView addSubview:bottomlineView];
-//            }
-//        } else {
-//            if (bottomlineView){
-//                [bottomlineView setHidden:true];
-//            }
-//        }
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        UIActivityIndicatorView *loadingView=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [loadingView setFrame:CGRectMake(140, 0, 40, 40)];
+        [loadingView startAnimating];
+        [cell.contentView addSubview:loadingView];
+        [self fetchRestResult];
+    } else {
+        NSString *CellIdentifier = @"NoResultCell";
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (!cell){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        }
+        cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+        cell.textLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+        cell.textLabel.text = @"火星地址？";
+        
+        UIView *bgColorView = [[UIView alloc] init];
+        [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
+        [cell setSelectedBackgroundView:bgColorView];
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+        [cell.contentView addSubview:lineView];
+        
+        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        [cell.contentView addSubview:lineView];
     }
     return cell;
 }
@@ -499,23 +536,32 @@
     return 40.0f;
 }
 
-#pragma mark - Table view delegate
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return self.total == 0 ? nil : indexPath;
+}
 
+- (Boolean)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return self.total > 0;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *destAtIndex = [(NSDictionary *)[allDestinationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
-    NSString *country = [destAtIndex objectForKey: @"country"];
-    NSString *province = [destAtIndex objectForKey: @"province"];
-    NSString *city = [destAtIndex objectForKey: @"city"];
-    if (city.length > 0) {
-        [self.delegate updateDestination:city];
-    } else if (province.length > 0) {
-        [self.delegate updateDestination:province];
-    } else {
-        [self.delegate updateDestination:country];
+    if (indexPath.row < self.total) {
+        NSDictionary *destAtIndex = [(NSDictionary *)[allDestinationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
+        NSString *country = [destAtIndex objectForKey: @"country"];
+        NSString *province = [destAtIndex objectForKey: @"province"];
+        NSString *city = [destAtIndex objectForKey: @"city"];
+        if (city.length > 0) {
+            [self.delegate updateDestination:city];
+        } else if (province.length > 0) {
+            [self.delegate updateDestination:province];
+        } else {
+            [self.delegate updateDestination:country];
+        }
+        [self cancel:self];
     }
-    [self cancel:self];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
