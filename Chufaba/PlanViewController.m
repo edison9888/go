@@ -216,7 +216,7 @@
     }
     else
     {
-        [siteLabel setFrame:CGRectMake(122, 380, 76, 30)];
+        [siteLabel setFrame:CGRectMake(122, self.view.bounds.size.height-80, 76, 30)];
         siteLabel.tag = TAG_SITELABEL;
         [self.view addSubview:siteLabel];
     }

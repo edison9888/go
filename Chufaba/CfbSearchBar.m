@@ -21,7 +21,6 @@
 
 - (void)layoutSubviews
 {
-    [super layoutSubviews];
     [self setShowsCancelButton:NO animated:NO];
     UITextField *searchField;
     NSUInteger numViews = [self.subviews count];
@@ -42,7 +41,8 @@
     }
     
     [self bringSubviewToFront:searchField];
-    if(searchField) {
+    if(searchField)
+    {
         searchField.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
         searchField.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
         searchField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
@@ -51,6 +51,7 @@
         searchField.background = [[UIImage imageNamed:@"skuang.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
         searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
     }
+    [super layoutSubviews];
 }
 
 //- (void)drawPlace

@@ -161,7 +161,7 @@
             UITextField *textField = (UITextField *)cc;
             UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Search.png"]];
             textField.leftView = view;
-            textField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+            //textField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
         }
     }
     for(id cc in [self.locationInput subviews])
@@ -171,7 +171,7 @@
             UITextField *textField = (UITextField *)cc;
             UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin.png"]];
             textField.leftView = view;
-            textField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+            //textField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
         }
     }
 //    self.nameInput = [[CfbTextField alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
