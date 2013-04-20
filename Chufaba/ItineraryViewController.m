@@ -30,6 +30,23 @@
     self.dataController = [[ItineraryDataController alloc] init];
 }
 
+- (NSDateFormatter *)dateFormatter {
+    if (! _dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        _dateFormatter.dateFormat = @"YYYY-MM-d EEEE";
+        NSLocale *cnLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
+        _dateFormatter.locale = cnLocale;
+    }
+    return _dateFormatter;
+}
+
+- (NSCalendar *)gregorian {
+    if (! _gregorian) {
+        _gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    }
+    return _gregorian;
+}
+
 - (void)reloadDataController
 {
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
@@ -237,9 +254,6 @@
     self.mapView.hidden = YES;
     self.mapView.delegate = self;
     
-    self.annotations = [self mapAnnotations];
-    self.mapView.showsUserLocation = YES;
-    
     UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-80, 80, 30)];
     mapNavView.backgroundColor = [UIColor clearColor];
     mapNavView.tag = 21;
@@ -272,11 +286,11 @@
     NSLog(@"mapnav:%f", self.mapView.frame.size.height);
     
     //location manager part
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;    
-    self.locationManager.delegate = self;
-    self.curLocation = nil;
-    [self.locationManager startUpdatingLocation];
+//    self.locationManager = [[CLLocationManager alloc] init];
+//    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;    
+//    self.locationManager.delegate = self;
+//    self.curLocation = nil;
+//    [self.locationManager startUpdatingLocation];
     
     UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [modeBtn setImage:[UIImage imageNamed:@"map.png"] forState:UIControlStateNormal];
@@ -432,6 +446,21 @@
 {
 	if (self.mapView.isHidden)
     {
+        self.annotations = [self mapAnnotations];
+        if(self.mapView.showsUserLocation == NO)
+        {
+            self.mapView.showsUserLocation = YES;
+        }
+        
+        if(!self.locationManager)
+        {
+            self.locationManager = [[CLLocationManager alloc] init];
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+            self.locationManager.delegate = self;
+            self.curLocation = nil;
+            [self.locationManager startUpdatingLocation];
+        }
+        
         if(dropDown)
         {
             [dropDown hideDropDownWithoutAnimation:(UIButton *)self.navigationItem.titleView];
@@ -566,7 +595,7 @@
     oneDimensionLocationList = [self getOneDimensionLocationList];
     
     //add this to resolve the issue that map annotations doesn't update
-    self.annotations = [self mapAnnotations];
+    //self.annotations = [self mapAnnotations];
     
     self.grabbedObject = nil;
 }
@@ -877,7 +906,7 @@
     }
     
     //add this to resolve the issue that map annotations doesn't update
-    self.annotations = [self mapAnnotations];
+    //self.annotations = [self mapAnnotations];
     [self.itineraryDelegate didAddLocationToPlan];
 }
 
@@ -992,29 +1021,21 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSInteger dayValue = singleDayMode ? [self.daySelected intValue]-1 : section;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"YYYY-MM-d EEEE"];
     
-    NSLocale *cnLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
-    [dateFormatter setLocale:cnLocale];
-    
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *dayComponents = [gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:self.dataController.date];
+    //NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dayComponents = [self.gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:self.dataController.date];
     NSInteger theDay = [dayComponents day];
     NSInteger theMonth = [dayComponents month];
     NSInteger theYear = [dayComponents year];
     
-    // now build a NSDate object for yourDate using these components
     NSDateComponents *components = [[NSDateComponents alloc] init];
     [components setDay:theDay];
     [components setMonth:theMonth];
     [components setYear:theYear];
-    NSDate *thisDate = [gregorian dateFromComponents:components];
-    
-    // now build a NSDate object for the next day
+    NSDate *thisDate = [self.gregorian dateFromComponents:components];
     NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
     [offsetComponents setDay:dayValue];
-    NSDate *sectionDate = [gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
+    NSDate *sectionDate = [self.gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
     
     //Headerview
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
@@ -1033,14 +1054,14 @@
     wLabel.shadowOffset = CGSizeMake(0, 1);
     wLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     wLabel.backgroundColor = [UIColor clearColor];
-    wLabel.text = [dateFormatter stringFromDate:sectionDate];;
+    wLabel.text = [self.dateFormatter stringFromDate:sectionDate];;
     
     //AddParameterButton
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
     [button setImage:[UIImage imageNamed:@"addLocation.png"] forState:UIControlStateNormal];
     button.tag = dayValue;
     button.hidden = NO;
-    [button setBackgroundColor:[UIColor clearColor]];
+    //[button setBackgroundColor:[UIColor clearColor]];
     [button addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchDown];
     
     label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
@@ -1061,7 +1082,7 @@
     [myView addSubview:label];
     [myView addSubview:wLabel];
     [myView addSubview:button];
-    [myView bringSubviewToFront:button];
+    //[myView bringSubviewToFront:button];
     return myView;
 }
 
@@ -1252,7 +1273,7 @@
     }
     
     //add this to resolve the issue that map annotations doesn't update
-    self.annotations = [self mapAnnotations];
+    //self.annotations = [self mapAnnotations];
     
     //delete travel location in database and update seqofday of the location after the deleted location
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
