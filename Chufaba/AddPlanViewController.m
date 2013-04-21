@@ -25,6 +25,15 @@
     return self;
 }
 
+- (NSDateFormatter *)dateFormatter {
+    if (! _dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        [_dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [_dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    }
+    return _dateFormatter;
+}
+
 - (void)setTitle:(NSString *)title
 {
     [super setTitle:title];
@@ -87,11 +96,9 @@
         self.coverImageView.image = defaultCover;
     }
     
-    self.imgPickerController = [[UIImagePickerController alloc] init];
     UITapGestureRecognizer *imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageTap:)];
     imgTap.numberOfTapsRequired = 1;
     imgTap.numberOfTouchesRequired = 1;
-    self.imgPickerController.delegate = self;
     [self.coverImageView addGestureRecognizer:imgTap];
 
     _durationPick = [[NSMutableArray alloc] initWithCapacity:100];
@@ -122,11 +129,10 @@
     durationPicker.dataSource = self;
     durationPicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
     
-    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
-    datePicker.tag = 13;
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    [self.view addSubview:datePicker];
-    self.dateInput.inputView = datePicker;
+//    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
+//    self.datePicker.datePickerMode = UIDatePickerModeDate;
+//    [self.view addSubview:self.datePicker];
+//    self.dateInput.inputView = self.datePicker;
     
     UIToolbar *dateToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, 320, 44)];
     dateToolBar.tag = 14;
@@ -139,17 +145,14 @@
     self.dateInput.inputAccessoryView = dateToolBar;
     
     self.dateInput.delegate = self;
-    datePicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
+    self.datePicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
     
     if(self.plan)
     {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
         self.destinationInput.text = self.plan.destination;
         self.nameInput.text = self.plan.name;
         self.durationInput.text = [self.plan.duration stringValue];
-        self.dateInput.text = [dateFormatter stringFromDate:self.plan.date];
+        self.dateInput.text = [self.dateFormatter stringFromDate:self.plan.date];
     }
     
     self.dateInput.borderStyle = UITextBorderStyleNone;
@@ -169,12 +172,20 @@
     self.destinationInput.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void) viewDidAppear:(BOOL)animated
+{
+    if(!self.datePicker)
+    {
+        self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
+        self.datePicker.datePickerMode = UIDatePickerModeDate;
+        [self.view addSubview:self.datePicker];
+        self.dateInput.inputView = self.datePicker;
+    }
     NSInteger defaultDuration;
     if(self.plan)
     {
         defaultDuration = [self.plan.duration intValue]-1;
-        ((UIDatePicker *)[self.view viewWithTag:13]).date = self.plan.date;
+        self.datePicker.date = self.plan.date;
     }
     else
     {
@@ -331,10 +342,9 @@
     CGRect toolbarTargetFrame = CGRectMake(0, self.view.bounds.size.height, 320, 44);
     CGRect datePickerTargetFrame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
     [UIView beginAnimations:@"MoveOut" context:nil];
-    [self.view viewWithTag:13].frame = datePickerTargetFrame;
+    self.datePicker.frame = datePickerTargetFrame;
     [self.view viewWithTag:14].frame = toolbarTargetFrame;
     [UIView setAnimationDelegate:self];
-    //[UIView setAnimationDuration:2.0];
     
     if([sender isKindOfClass:[UIBarButtonItem class]])
     {
@@ -342,12 +352,7 @@
         UIToolbar *toolbar = (UIToolbar *)self.dateInput.inputAccessoryView;
         if(btn == [toolbar.items objectAtIndex:2])
         {
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-            [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-            UIDatePicker *currentDatePicker = (UIDatePicker *)self.dateInput.inputView;
-            NSDate *pickedDate = currentDatePicker.date;
-            self.dateInput.text = [dateFormatter stringFromDate:pickedDate];
+            self.dateInput.text = [self.dateFormatter stringFromDate:self.datePicker.date];
         }
     }
     
@@ -357,7 +362,6 @@
 }
 
 - (void)removeViews:(id)object {
-    //[[self.view viewWithTag:12] removeFromSuperview];
     [self.dateInput.inputView removeFromSuperview];
     [self.dateInput.inputAccessoryView removeFromSuperview];
 }
@@ -372,8 +376,13 @@
     return [[_durationPick objectAtIndex:row] stringValue];
 }
 
--(void)handleImageTap:(UITapGestureRecognizer *)sender{
-    
+-(void)handleImageTap:(UITapGestureRecognizer *)sender
+{
+    if(!self.imgPickerController)
+    {
+        self.imgPickerController = [[UIImagePickerController alloc] init];
+        self.imgPickerController.delegate = self;
+    }
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum])
     {
         NSArray *availableMediaTypeArr = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
@@ -436,10 +445,12 @@
             self.plan.name = [NSString stringWithFormat:@"%@之旅", self.plan.destination];
         }
         self.plan.duration = [f numberFromString:self.durationInput.text];
-        NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:[(UIDatePicker *)self.dateInput.inputView date]];
+        //NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:[(UIDatePicker *)self.dateInput.inputView date]];
+        NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:self.datePicker.date];
         if(daysBetween)
         {
-            self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
+            //self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
+            self.plan.date = self.datePicker.date;
         }
         self.plan.image = self.coverImageView.image;
         

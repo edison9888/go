@@ -243,6 +243,11 @@
     [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn.png"]forState:UIControlStateNormal];
     [addLocationBtn addTarget:self action:@selector(beginAddCustomLocation:) forControlEvents:UIControlEventTouchDown];
     
+    //[self searchPoi];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
     [self searchPoi];
 }
 

@@ -49,5 +49,7 @@
 @property (nonatomic,strong) NSMutableArray *durationPick;
 
 @property (nonatomic) UIImagePickerController *imgPickerController;
+@property (nonatomic,strong) UIDatePicker *datePicker;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @end
