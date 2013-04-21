@@ -733,7 +733,7 @@
 {
     if (!self.loadingView) {
         self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [self.loadingView setFrame:CGRectMake(120, 120, 60, 60)];
+        [self.loadingView setFrame:CGRectMake(140, 180, 40, 40)];
         [self.view addSubview:self.loadingView];
     }
     [self.view bringSubviewToFront:self.loadingView];
@@ -751,7 +751,8 @@
 {
     if([self.locationKeyword length] > 0)
     {
-        [self cancelCurrentSearch];
+        //[self cancelCurrentSearch];
+        [self clearResults];
         
         NSString *body = [self getSearchPostBody];
         if (body != nil) {
