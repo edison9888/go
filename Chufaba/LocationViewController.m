@@ -241,6 +241,8 @@
         tableView.delegate = self;
         tableView.dataSource = self;
         tableView.backgroundView = nil;
+        tableView.separatorColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         [self.view addSubview:tableView];
         tableviewHeight = self.view.frame.size.height-INFO_VIEW_HEIGHT-self.navigationController.navigationBar.frame.size.height;
     } else {
@@ -267,13 +269,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
+    UIImageView *bgColorView;
     if ([self.location numberOfSections] == 2 && indexPath.section == 0) {
         NSString *CellIdentifier = @"LocationInfoCell";
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (!cell) {
             cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
+            //cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
+            cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:13];
+            cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
             cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
             cell.textLabel.numberOfLines = 0;
         }
@@ -287,14 +292,16 @@
             gestureRec.numberOfTapsRequired = 1;
             [cell.textLabel addGestureRecognizer:gestureRec];
         }
-    } else {
+    }
+    else
+    {
         if (indexPath.row == 0) {
             NSString *CellIdentifier = @"ArriveTimeCell";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             if (!cell) {
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
+                cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:13];
                 cell.imageView.image = [UIImage imageNamed:@"time.png"];
             }
             if(self.location.visitBegin){
@@ -302,13 +309,14 @@
             }else{
                 cell.textLabel.text = @"设定到达时间";
             }
+            bgColorView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bg.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:4]];
         } else if (indexPath.row == 1) {
             NSString *CellIdentifier = @"NoteCell";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             if (!cell) {
                 cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
+                cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:13];
                 cell.textLabel.numberOfLines = 4;
                 cell.imageView.image = [UIImage imageNamed:@"remark.png"];
             }
@@ -317,12 +325,14 @@
             }else{
                 cell.textLabel.text = @"添加备注";
             }
+            bgColorView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bg.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:4]];
         }
         cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
+        cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     }
-    UIView *bgColorView = [[UIView alloc] init];
-    [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
     [cell setSelectedBackgroundView:bgColorView];
+    //cell.
     return cell;
 }
 
