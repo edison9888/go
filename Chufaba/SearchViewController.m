@@ -100,7 +100,8 @@
     //top view part
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 85)];
     topView.tag = TAG_TOPVIEW;
-    topView.backgroundColor = [UIColor whiteColor];
+    topView.opaque = YES;
+    [topView.layer setShadowPath:[[UIBezierPath bezierPathWithRect:topView.bounds] CGPath]];
     
     CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
     CGRect viewShadowFrame = CGRectMake(0, 0, 320, topView.frame.size.height);
@@ -113,6 +114,7 @@
     topView.layer.shadowRadius = 1;
     topView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
     topView.layer.shadowOpacity = 1;
+    topView.layer.opaque = YES;
     
     UIButton *sightBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 75, 25)];
     sightBtn.tag = TAG_SIGHTBTN;

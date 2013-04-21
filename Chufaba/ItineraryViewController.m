@@ -241,7 +241,7 @@
     
     oneDimensionLocationList = [self getOneDimensionLocationList];
     
-    self.mapView = [[MKMapView alloc] init];
+    //self.mapView = [[MKMapView alloc] init];
 
     self.tableView.frame = self.view.bounds;
     self.tableView.delegate = self;
@@ -250,47 +250,39 @@
     self.tableViewRecognizer = [self.tableView enableGestureTableViewWithDelegate:self];
     [self.view addSubview:self.tableView];
 
-    self.mapView.frame = self.view.bounds;
-    self.mapView.hidden = YES;
-    self.mapView.delegate = self;
+//    self.mapView.frame = self.view.bounds;
+//    self.mapView.hidden = YES;
+//    self.mapView.delegate = self;
     
-    UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-80, 80, 30)];
-    mapNavView.backgroundColor = [UIColor clearColor];
-    mapNavView.tag = 21;
-    
-    UIButton *mapPreviousButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
-    mapPreviousButton.tag = 22;
-    [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap.png"] forState:UIControlStateNormal];
-    [mapPreviousButton addTarget:self action:@selector(previousMapLocation:) forControlEvents:UIControlEventTouchDown];
-    
-    UIButton *mapNextButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,30)];
-    mapNextButton.tag = 23;
-    [mapNextButton setImage:[UIImage imageNamed:@"nextmap.png"] forState:UIControlStateNormal];
-    [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchDown];
-    
-    UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-80, 40, 30)];
-    mapPositionView.backgroundColor = [UIColor clearColor];
-    mapPositionView.tag = 24;
-    
-    UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
-    [positionButton setImage:[UIImage imageNamed:@"position.png"] forState:UIControlStateNormal];
-    [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchDown];
-    
-    [mapNavView addSubview:mapPreviousButton];
-    [mapNavView addSubview:mapNextButton];
-    [mapPositionView addSubview:positionButton];
-    [self.mapView addSubview:mapNavView];
-    [self.mapView addSubview:mapPositionView];
-    
-    [self.view addSubview:self.mapView];
-    NSLog(@"mapnav:%f", self.mapView.frame.size.height);
-    
-    //location manager part
-//    self.locationManager = [[CLLocationManager alloc] init];
-//    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;    
-//    self.locationManager.delegate = self;
-//    self.curLocation = nil;
-//    [self.locationManager startUpdatingLocation];
+//    UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-80, 80, 30)];
+//    mapNavView.backgroundColor = [UIColor clearColor];
+//    mapNavView.tag = 21;
+//    
+//    UIButton *mapPreviousButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
+//    mapPreviousButton.tag = 22;
+//    [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap.png"] forState:UIControlStateNormal];
+//    [mapPreviousButton addTarget:self action:@selector(previousMapLocation:) forControlEvents:UIControlEventTouchDown];
+//    
+//    UIButton *mapNextButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,30)];
+//    mapNextButton.tag = 23;
+//    [mapNextButton setImage:[UIImage imageNamed:@"nextmap.png"] forState:UIControlStateNormal];
+//    [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchDown];
+//    
+//    UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-80, 40, 30)];
+//    mapPositionView.backgroundColor = [UIColor clearColor];
+//    mapPositionView.tag = 24;
+//    
+//    UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
+//    [positionButton setImage:[UIImage imageNamed:@"position.png"] forState:UIControlStateNormal];
+//    [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchDown];
+//    
+//    [mapNavView addSubview:mapPreviousButton];
+//    [mapNavView addSubview:mapNextButton];
+//    [mapPositionView addSubview:positionButton];
+//    [self.mapView addSubview:mapNavView];
+//    [self.mapView addSubview:mapPositionView];
+//    
+//    [self.view addSubview:self.mapView];
     
     UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [modeBtn setImage:[UIImage imageNamed:@"map.png"] forState:UIControlStateNormal];
@@ -444,7 +436,43 @@
 
 - (void)toggleMap
 {
-	if (self.mapView.isHidden)
+	if(!self.mapView)
+    {
+        self.mapView = [[MKMapView alloc] init];
+        self.mapView.frame = self.view.bounds;
+        self.mapView.hidden = YES;
+        self.mapView.delegate = self;
+        UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-80, 80, 30)];
+        mapNavView.backgroundColor = [UIColor clearColor];
+        mapNavView.tag = 21;
+        
+        UIButton *mapPreviousButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
+        mapPreviousButton.tag = 22;
+        [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap.png"] forState:UIControlStateNormal];
+        [mapPreviousButton addTarget:self action:@selector(previousMapLocation:) forControlEvents:UIControlEventTouchDown];
+        
+        UIButton *mapNextButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,30)];
+        mapNextButton.tag = 23;
+        [mapNextButton setImage:[UIImage imageNamed:@"nextmap.png"] forState:UIControlStateNormal];
+        [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchDown];
+        
+        UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-80, 40, 30)];
+        mapPositionView.backgroundColor = [UIColor clearColor];
+        mapPositionView.tag = 24;
+        
+        UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
+        [positionButton setImage:[UIImage imageNamed:@"position.png"] forState:UIControlStateNormal];
+        [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchDown];
+        
+        [mapNavView addSubview:mapPreviousButton];
+        [mapNavView addSubview:mapNextButton];
+        [mapPositionView addSubview:positionButton];
+        [self.mapView addSubview:mapNavView];
+        [self.mapView addSubview:mapPositionView];
+        
+        [self.view addSubview:self.mapView];
+    }
+    if (self.mapView.isHidden)
     {
         self.annotations = [self mapAnnotations];
         if(self.mapView.showsUserLocation == NO)
