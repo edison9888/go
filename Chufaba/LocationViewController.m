@@ -75,6 +75,13 @@
     self.navigationItem.leftBarButtonItem = btn;
     
     [self configureView];
+    
+    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -60, 320, 60)];
+    UIImageView *pullImgView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 10, 72, 40)];
+    pullImgView.image = [UIImage imageNamed:@"pull_bg.png"];
+    [pullView addSubview:pullImgView];
+    UITableView *tableView = (UITableView *)[self.view viewWithTag:TAG_TABLEVIEW];
+    [tableView addSubview:pullView];
 }
 
 - (IBAction)backToPrevious:(id)sender

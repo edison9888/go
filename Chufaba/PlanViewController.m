@@ -11,6 +11,7 @@
 #import "ItineraryViewController.h"
 #import "ItineraryDataController.h"
 #import "SearchDestinationViewController.h"
+#import "CustomNavigationBar.h"
 
 @implementation UINavigationBar (CustomImage)
 - (void)drawRect:(CGRect)rect {
@@ -185,9 +186,8 @@
     
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
     {
-        UIImage *image = [UIImage imageNamed:@"bar.png"];
         UINavigationBar *navBar = self.navigationController.navigationBar;
-        [navBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+        [navBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
         
         navBar.layer.masksToBounds = NO;
         navBar.layer.shadowOffset = CGSizeMake(0, 1);

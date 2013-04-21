@@ -126,6 +126,9 @@
 		133CE8B016D87C00009E0481 /* tlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 133CE8AE16D87C00009E0481 /* tlogo.png */; };
 		134B1F7916F46F68004A7CD5 /* kuang@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 134B1F7716F46F68004A7CD5 /* kuang@2x.png */; };
 		134B1F7A16F46F68004A7CD5 /* kuang.png in Resources */ = {isa = PBXBuildFile; fileRef = 134B1F7816F46F68004A7CD5 /* kuang.png */; };
+		135703411723D0980076FD4F /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 135703401723D0980076FD4F /* CustomNavigationBar.m */; };
+		135703441723D6520076FD4F /* pull_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 135703421723D6520076FD4F /* pull_bg@2x.png */; };
+		135703451723D6520076FD4F /* pull_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 135703431723D6520076FD4F /* pull_bg.png */; };
 		1359810916D9E70A00CCDE0E /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 135980FC16D9E70A00CCDE0E /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1359810A16D9E70A00CCDE0E /* GTDouban.m in Sources */ = {isa = PBXBuildFile; fileRef = 135980FF16D9E70A00CCDE0E /* GTDouban.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1359810B16D9E70A00CCDE0E /* GTDoubanAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1359810116D9E70A00CCDE0E /* GTDoubanAuthor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -426,6 +429,10 @@
 		133CE8AE16D87C00009E0481 /* tlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tlogo.png; sourceTree = "<group>"; };
 		134B1F7716F46F68004A7CD5 /* kuang@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kuang@2x.png"; sourceTree = "<group>"; };
 		134B1F7816F46F68004A7CD5 /* kuang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kuang.png; sourceTree = "<group>"; };
+		1357033F1723D0980076FD4F /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBar.h; sourceTree = "<group>"; };
+		135703401723D0980076FD4F /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
+		135703421723D6520076FD4F /* pull_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pull_bg@2x.png"; sourceTree = "<group>"; };
+		135703431723D6520076FD4F /* pull_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pull_bg.png; sourceTree = "<group>"; };
 		135980FB16D9E70A00CCDE0E /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		135980FC16D9E70A00CCDE0E /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
 		135980FD16D9E70A00CCDE0E /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
@@ -772,6 +779,8 @@
 		134B1F7616F46F43004A7CD5 /* control */ = {
 			isa = PBXGroup;
 			children = (
+				135703421723D6520076FD4F /* pull_bg@2x.png */,
+				135703431723D6520076FD4F /* pull_bg.png */,
 				1319F29A17048A2D00F3C6DE /* bar_Search.png */,
 				137F903017130CC100A718F8 /* navigation.png */,
 				137F903117130CC100A718F8 /* navigation@2x.png */,
@@ -1155,6 +1164,8 @@
 				C2354EF3171AA38300403541 /* SearchDestinationViewController.m */,
 				C2354EF8171AED0100403541 /* AddPlanTableViewCell.h */,
 				C2354EF9171AED0200403541 /* AddPlanTableViewCell.m */,
+				1357033F1723D0980076FD4F /* CustomNavigationBar.h */,
+				135703401723D0980076FD4F /* CustomNavigationBar.m */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -1612,6 +1623,8 @@
 				1314027D171AF169009A7AC3 /* Search.png in Resources */,
 				13140283171AFE88009A7AC3 /* skuang@2x.png in Resources */,
 				13140284171AFE88009A7AC3 /* skuang.png in Resources */,
+				135703441723D6520076FD4F /* pull_bg@2x.png in Resources */,
+				135703451723D6520076FD4F /* pull_bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1711,6 +1724,7 @@
 				C2354EF4171AA38300403541 /* SearchDestinationViewController.m in Sources */,
 				C2354EFA171AED0200403541 /* AddPlanTableViewCell.m in Sources */,
 				131D774517201631001094A2 /* CfbSearchBar.m in Sources */,
+				135703411723D0980076FD4F /* CustomNavigationBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -240,14 +240,19 @@
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     oneDimensionLocationList = [self getOneDimensionLocationList];
-    
-    //self.mapView = [[MKMapView alloc] init];
 
     self.tableView.frame = self.view.bounds;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
     self.tableViewRecognizer = [self.tableView enableGestureTableViewWithDelegate:self];
+    
+    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -60.0f, self.view.frame.size.width, 60)];
+    UIImageView *pullImgView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 10, 72, 40)];
+    pullImgView.image = [UIImage imageNamed:@"pull_bg.png"];
+    [pullView addSubview:pullImgView];
+    [self.tableView addSubview:pullView];
+    
     [self.view addSubview:self.tableView];
 
 //    self.mapView.frame = self.view.bounds;
