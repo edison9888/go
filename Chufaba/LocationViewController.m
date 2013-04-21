@@ -309,7 +309,7 @@
             }else{
                 cell.textLabel.text = @"设定到达时间";
             }
-            bgColorView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bg.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:4]];
+            bgColorView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bg.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
         } else if (indexPath.row == 1) {
             NSString *CellIdentifier = @"NoteCell";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -325,14 +325,14 @@
             }else{
                 cell.textLabel.text = @"添加备注";
             }
-            bgColorView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bg.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:4]];
+            bgColorView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgb.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
         }
         cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
         cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
         cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     }
     [cell setSelectedBackgroundView:bgColorView];
-    //cell.
+    cell.backgroundColor = [UIColor whiteColor];
     return cell;
 }
 

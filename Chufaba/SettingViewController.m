@@ -73,34 +73,42 @@
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     self.tableView.separatorColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    
-    //UIView *bgColorView = [[UIView alloc] init];
-    //[bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
-    
+
+    UIImageView *guideSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bg.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
     UIImageView *guideAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
     guideAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
     self.guideCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     self.guideCell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.guideCell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     self.guideCell.accessoryView = guideAccessory;
-    //[self.guideCell setSelectedBackgroundView:bgColorView];
+    [self.guideCell setSelectedBackgroundView:guideSelView];
     
+    UIImageView *reviewSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgm.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
     UIImageView *reviewAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
     reviewAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
     self.reviewCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     self.reviewCell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.reviewCell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     self.reviewCell.accessoryView = reviewAccessory;
+    [self.reviewCell setSelectedBackgroundView:reviewSelView];
     
+    UIImageView *feedbackSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgm.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
     UIImageView *feedbackAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
     feedbackAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
     self.feedbackCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     self.feedbackCell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.feedbackCell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     self.feedbackCell.accessoryView = feedbackAccessory;
+    [self.feedbackCell setSelectedBackgroundView:feedbackSelView];
     
+    UIImageView *abountSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgb.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
     UIImageView *aboutAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
     aboutAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
     self.aboutCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     self.aboutCell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.aboutCell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     self.aboutCell.accessoryView = aboutAccessory;
+    [self.aboutCell setSelectedBackgroundView:abountSelView];
     
 //    self.accountManager = [[SocialAccountManager alloc] init];
 //    self.accountManager.delegate = self;
