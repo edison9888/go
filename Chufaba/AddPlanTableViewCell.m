@@ -29,8 +29,8 @@
 - (void)layoutSubviews {
     //have the cell layout normally
     [super layoutSubviews];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 20, 300, 40)];
-    imageView.image = [UIImage imageNamed:@"kuang.png"];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"kuang.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
+    imageView.frame = CGRectMake(10, 20, 300, 40);
     self.backgroundView = imageView;
 }
 
