@@ -37,17 +37,13 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (void)initialSetup
 {
-	//[self setBackgroundColor:[UIColor clearColor]];
-    
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-	[contentView setClipsToBounds:YES];
-	[contentView setOpaque:NO];
+    [contentView setClipsToBounds:YES];
+    [contentView setOpaque:YES];
     contentView.tag = 30;
     
     UIImageView *categoryIcon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12, 20, 20)];
@@ -57,12 +53,18 @@
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(40, 12, 200, 20)];
     title.tag = 2;
     title.backgroundColor = [UIColor clearColor];
+    title.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    title.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    title.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     [contentView addSubview:title];
     
     UILabel *time = [[UILabel alloc] initWithFrame:CGRectMake(235, 12, 60, 20)];
     time.tag = 3;
     time.backgroundColor = [UIColor clearColor];
     time.textAlignment = NSTextAlignmentRight;
+    time.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+    time.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    time.highlightedTextColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     [contentView addSubview:time];
     
     UIImageView *accessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
@@ -74,6 +76,18 @@
 	[contentView addGestureRecognizer:swipeRecognizer];
     
     [self.contentView addSubview:contentView];
+    
+    UIView *bgColorView = [[UIView alloc] init];
+    [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
+    [self setSelectedBackgroundView:bgColorView];
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
+    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    [self.contentView addSubview:lineView];
+    
+    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+    lineView.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:lineView];
 }
 
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer
@@ -83,15 +97,8 @@
     CGPoint location = [recognizer locationInView:tableView];
     NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
     
-//    NSInteger yPosition = 0;
-//    for(int i=0; i<swipedIndexPath.section; i++)
-//    {
-//        yPosition = yPosition + 44*[tableView numberOfRowsInSection:i];
-//    }
-//    yPosition = yPosition + 44*swipedIndexPath.row + 44*(swipedIndexPath.section+1);
     NSInteger yPosition = self.frame.origin.y - tableView.bounds.origin.y;
     
-    //UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,480)];
     UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,tableView.bounds.origin.y,320,480)];
     maskView.backgroundColor = [UIColor clearColor];
     maskView.tag = 10;
@@ -104,7 +111,6 @@
     [maskView addGestureRecognizer:longPressRecognizer];
     
     UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,51,44)];
-    //UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(320,0,51,44)];
     deleteView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
     
     CALayer *leftBorder = [CALayer layer];
@@ -127,7 +133,6 @@
     
     [maskView addSubview:deleteView];
     deleteView.tag = 11;
-    //[self.contentView addSubview:deleteView];
     [tableView addSubview:maskView];
     
 	id delegate = tableView.superview.nextResponder;
@@ -141,16 +146,14 @@
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.2];
-    [[self.contentView viewWithTag:30] setFrame:CGRectMake(-51, 0, 320, 44)];
+    [[self.contentView viewWithTag:30] setFrame:CGRectMake(-41, 0, 320, 44)];
     if(swipedIndexPath.row == 0)
     {
         [deleteView setFrame:CGRectMake(279,yPosition+1,41,43)];
-        //[deleteView setFrame:CGRectMake(279,1,41,43)];
     }
     else
     {
         [deleteView setFrame:CGRectMake(279,yPosition,41,44)];
-        //[deleteView setFrame:CGRectMake(279,0,41,44)];
     }
     [UIView commitAnimations];
 }

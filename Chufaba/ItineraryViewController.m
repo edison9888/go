@@ -258,40 +258,6 @@
     self.tableView.tableHeaderView = headerView;
     
     [self.view addSubview:self.tableView];
-
-//    self.mapView.frame = self.view.bounds;
-//    self.mapView.hidden = YES;
-//    self.mapView.delegate = self;
-    
-//    UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-80, 80, 30)];
-//    mapNavView.backgroundColor = [UIColor clearColor];
-//    mapNavView.tag = 21;
-//    
-//    UIButton *mapPreviousButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
-//    mapPreviousButton.tag = 22;
-//    [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap.png"] forState:UIControlStateNormal];
-//    [mapPreviousButton addTarget:self action:@selector(previousMapLocation:) forControlEvents:UIControlEventTouchDown];
-//    
-//    UIButton *mapNextButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,30)];
-//    mapNextButton.tag = 23;
-//    [mapNextButton setImage:[UIImage imageNamed:@"nextmap.png"] forState:UIControlStateNormal];
-//    [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchDown];
-//    
-//    UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-80, 40, 30)];
-//    mapPositionView.backgroundColor = [UIColor clearColor];
-//    mapPositionView.tag = 24;
-//    
-//    UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
-//    [positionButton setImage:[UIImage imageNamed:@"position.png"] forState:UIControlStateNormal];
-//    [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchDown];
-//    
-//    [mapNavView addSubview:mapPreviousButton];
-//    [mapNavView addSubview:mapNextButton];
-//    [mapPositionView addSubview:positionButton];
-//    [self.mapView addSubview:mapNavView];
-//    [self.mapView addSubview:mapPositionView];
-//    
-//    [self.view addSubview:self.mapView];
     
     UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [modeBtn setImage:[UIImage imageNamed:@"map.png"] forState:UIControlStateNormal];
@@ -451,7 +417,7 @@
         self.mapView.frame = self.view.bounds;
         self.mapView.hidden = YES;
         self.mapView.delegate = self;
-        UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-80, 80, 30)];
+        UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-40, 80, 30)];
         mapNavView.backgroundColor = [UIColor clearColor];
         mapNavView.tag = 21;
         
@@ -465,7 +431,7 @@
         [mapNextButton setImage:[UIImage imageNamed:@"nextmap.png"] forState:UIControlStateNormal];
         [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchDown];
         
-        UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-80, 40, 30)];
+        UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-40, 40, 30)];
         mapPositionView.backgroundColor = [UIColor clearColor];
         mapPositionView.tag = 24;
         
@@ -630,9 +596,6 @@
     
     self.itineraryListBackup = [self.dataController.masterTravelDayList mutableCopy];
     oneDimensionLocationList = [self getOneDimensionLocationList];
-    
-    //add this to resolve the issue that map annotations doesn't update
-    //self.annotations = [self mapAnnotations];
     
     self.grabbedObject = nil;
 }
@@ -978,23 +941,14 @@
     ItineraryViewTableViewCell *cell = (ItineraryViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (!cell)
-        cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+    {
+        cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
     
     NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    
-    UIView *contentView = (UIView *)[cell viewWithTag:30];
-    
-    UIImageView *categoryIcon = (UIImageView *)[contentView viewWithTag:1];
-    
-    UILabel *titleLabel = (UILabel *)[contentView viewWithTag:2];
-    titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-    titleLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-    titleLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-    
-    UILabel *timeLabel = (UILabel *)[contentView viewWithTag:3];
-    timeLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-    timeLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-    timeLabel.highlightedTextColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    UIImageView *categoryIcon = (UIImageView *)[cell.contentView viewWithTag:1];
+    UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:2];
+    UILabel *timeLabel = (UILabel *)[cell.contentView viewWithTag:3];
     
     if ([object isEqual:DUMMY_CELL])
     {
@@ -1010,30 +964,14 @@
         titleLabel.text = locationAtIndex.name;
         if (locationAtIndex.visitBegin)
         {
-            [timeLabel setText:locationAtIndex.visitBegin];
+            timeLabel.text = locationAtIndex.visitBegin;
         }
         else
         {
-            //被重用的cell要清空时间
-            [timeLabel setText:@""];
+            timeLabel.text = @"";
         }
         [categoryIcon setImage:[Location getCategoryIcon:locationAtIndex.category]];
-        
-        //cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
-        
-        UIView *bgColorView = [[UIView alloc] init];
-        [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
-        [cell setSelectedBackgroundView:bgColorView];
     }
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, self.view.bounds.size.width, 1)];
-    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    [cell.contentView addSubview:lineView];
-    
-    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-    lineView.backgroundColor = [UIColor whiteColor];
-    [cell.contentView addSubview:lineView];
-    
     return cell;
 }
 

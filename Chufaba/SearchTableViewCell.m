@@ -50,6 +50,14 @@
     btn.tag = 5;
     [btn setFrame:CGRectMake(260.0, 16.0, 50.0, 30.0)];
     [self.contentView addSubview:btn];
+    
+//    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 61, 320, 1)];
+//    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+//    [self.contentView addSubview:lineView];
+//    
+//    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+//    lineView.backgroundColor = [UIColor whiteColor];
+//    [self.contentView addSubview:lineView];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
