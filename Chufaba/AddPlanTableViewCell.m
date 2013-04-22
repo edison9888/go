@@ -30,7 +30,7 @@
     //have the cell layout normally
     [super layoutSubviews];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"kuang.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
-    imageView.frame = CGRectMake(10, 20, 300, 40);
+    imageView.frame = CGRectMake(10, 10, 300, self.frame.size.height - 20);
     self.backgroundView = imageView;
 }
 

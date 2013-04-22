@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3103" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -67,6 +67,7 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="5aW-5Q-aqo">
                                                     <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="dsj-rj-l8U"/>
                                                         <constraint firstAttribute="width" constant="200" id="uBO-d2-dOO"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -78,7 +79,6 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="目的地" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8d8-T8-ZO3">
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="0Ur-9S-sJG"/>
                                                         <constraint firstAttribute="width" constant="75" id="Fz4-lS-7r1"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="16"/>
@@ -89,11 +89,12 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="5aW-5Q-aqo" firstAttribute="centerY" secondItem="8d8-T8-ZO3" secondAttribute="centerY" type="default" id="By9-WE-mOL"/>
                                             <constraint firstItem="8d8-T8-ZO3" firstAttribute="leading" secondItem="1aI-aw-hTQ" secondAttribute="leading" constant="20" type="default" id="CzN-Ru-1pL"/>
-                                            <constraint firstItem="5aW-5Q-aqo" firstAttribute="bottom" secondItem="1aI-aw-hTQ" secondAttribute="bottom" type="default" id="PTE-O2-I3K"/>
-                                            <constraint firstItem="5aW-5Q-aqo" firstAttribute="centerY" secondItem="8d8-T8-ZO3" secondAttribute="centerY" type="default" id="YAG-tp-9E1"/>
+                                            <constraint firstItem="8d8-T8-ZO3" firstAttribute="top" secondItem="1aI-aw-hTQ" secondAttribute="top" constant="20" type="default" id="Pd1-jg-CVI"/>
                                             <constraint firstAttribute="trailing" secondItem="5aW-5Q-aqo" secondAttribute="trailing" constant="20" type="default" id="Ymn-kd-Pfv"/>
-                                            <constraint firstItem="5aW-5Q-aqo" firstAttribute="top" secondItem="1aI-aw-hTQ" secondAttribute="top" constant="20" type="default" id="bXZ-CJ-1f6"/>
+                                            <constraint firstAttribute="bottom" secondItem="8d8-T8-ZO3" secondAttribute="bottom" constant="20" type="default" id="a4h-gj-6Fb"/>
+                                            <constraint firstItem="5aW-5Q-aqo" firstAttribute="baseline" secondItem="8d8-T8-ZO3" secondAttribute="baseline" type="default" id="vq9-k0-fSh"/>
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="pBd-u2-ZQb" customClass="AddPlanTableViewCell">
@@ -105,6 +106,7 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="OMm-7t-bjn">
                                                     <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="8H1-Hb-2aP"/>
                                                         <constraint firstAttribute="width" constant="200" id="Qy4-Eb-1Kx"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -117,7 +119,6 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="75" id="cw6-iT-Flz"/>
-                                                        <constraint firstAttribute="height" constant="20" id="wrX-ab-onO"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="16"/>
                                                     <color key="textColor" red="0.59999999999999998" green="0.58823529411764708" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
@@ -127,12 +128,12 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="OMm-7t-bjn" firstAttribute="bottom" secondItem="pBd-u2-ZQb" secondAttribute="bottom" type="default" id="5Rv-0n-Rb5"/>
                                             <constraint firstItem="SBA-vO-ake" firstAttribute="baseline" secondItem="OMm-7t-bjn" secondAttribute="baseline" type="default" id="64v-BT-jVd"/>
-                                            <constraint firstItem="OMm-7t-bjn" firstAttribute="top" secondItem="pBd-u2-ZQb" secondAttribute="top" constant="20" type="default" id="GqV-Ev-JsO"/>
                                             <constraint firstAttribute="trailing" secondItem="OMm-7t-bjn" secondAttribute="trailing" constant="20" type="default" id="JXL-HK-dsF"/>
+                                            <constraint firstItem="SBA-vO-ake" firstAttribute="top" secondItem="pBd-u2-ZQb" secondAttribute="top" constant="20" type="default" id="KWa-HK-fuV"/>
+                                            <constraint firstAttribute="bottom" secondItem="SBA-vO-ake" secondAttribute="bottom" constant="20" type="default" id="VZH-md-naE"/>
                                             <constraint firstItem="SBA-vO-ake" firstAttribute="leading" secondItem="pBd-u2-ZQb" secondAttribute="leading" constant="20" type="default" id="aKz-gk-y3U"/>
-                                            <constraint firstItem="SBA-vO-ake" firstAttribute="centerY" secondItem="OMm-7t-bjn" secondAttribute="centerY" type="default" id="zTw-K3-i8a"/>
+                                            <constraint firstItem="OMm-7t-bjn" firstAttribute="centerY" secondItem="SBA-vO-ake" secondAttribute="centerY" type="default" id="s8W-WW-EMY"/>
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="VlC-hA-Lut" customClass="AddPlanTableViewCell">
@@ -145,6 +146,7 @@
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q1G-Vl-CGz">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="200" id="SCe-hk-6ZT"/>
+                                                        <constraint firstAttribute="height" constant="44" id="b3g-go-Mbp"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -155,7 +157,6 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="出发日期" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mdx-XC-FLj">
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="YX4-bJ-L86"/>
                                                         <constraint firstAttribute="width" constant="75" id="eTR-WT-qmc"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="16"/>
@@ -166,10 +167,10 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="Mdx-XC-FLj" firstAttribute="centerY" secondItem="q1G-Vl-CGz" secondAttribute="centerY" type="default" id="HKc-mn-JCY"/>
-                                            <constraint firstItem="q1G-Vl-CGz" firstAttribute="top" secondItem="VlC-hA-Lut" secondAttribute="top" constant="20" type="default" id="JKr-42-QFw"/>
+                                            <constraint firstItem="q1G-Vl-CGz" firstAttribute="centerY" secondItem="Mdx-XC-FLj" secondAttribute="centerY" type="default" id="FrT-0p-Xdb"/>
+                                            <constraint firstItem="Mdx-XC-FLj" firstAttribute="top" secondItem="VlC-hA-Lut" secondAttribute="top" constant="20" type="default" id="IUv-VR-r0R"/>
                                             <constraint firstItem="Mdx-XC-FLj" firstAttribute="leading" secondItem="VlC-hA-Lut" secondAttribute="leading" constant="20" type="default" id="PUy-Uy-sSY"/>
-                                            <constraint firstItem="q1G-Vl-CGz" firstAttribute="bottom" secondItem="VlC-hA-Lut" secondAttribute="bottom" type="default" id="Xdt-kb-vxt"/>
+                                            <constraint firstAttribute="bottom" secondItem="Mdx-XC-FLj" secondAttribute="bottom" constant="20" type="default" id="Sbr-T7-dAp"/>
                                             <constraint firstAttribute="trailing" secondItem="q1G-Vl-CGz" secondAttribute="trailing" constant="20" type="default" id="dDh-hW-7Up"/>
                                             <constraint firstItem="Mdx-XC-FLj" firstAttribute="baseline" secondItem="q1G-Vl-CGz" secondAttribute="baseline" type="default" id="x7a-nX-XbN"/>
                                         </constraints>
@@ -183,6 +184,7 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uYU-KJ-BcQ">
                                                     <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="BXC-Gk-May"/>
                                                         <constraint firstAttribute="width" constant="200" id="V55-fk-net"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -195,7 +197,6 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="75" id="afX-wo-QEU"/>
-                                                        <constraint firstAttribute="height" constant="20" id="bzn-mJ-maJ"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="16"/>
                                                     <color key="textColor" red="0.59999999999999998" green="0.58823529411764708" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
@@ -205,11 +206,11 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="uYU-KJ-BcQ" firstAttribute="top" secondItem="Rg2-uW-nG9" secondAttribute="top" constant="20" type="default" id="0CS-E1-vyU"/>
-                                            <constraint firstAttribute="bottom" secondItem="tQo-G1-919" secondAttribute="bottom" constant="10" id="4p8-BS-bwx"/>
                                             <constraint firstItem="tQo-G1-919" firstAttribute="leading" secondItem="Rg2-uW-nG9" secondAttribute="leading" constant="20" type="default" id="Myx-C7-VqN"/>
-                                            <constraint firstItem="tQo-G1-919" firstAttribute="centerY" secondItem="uYU-KJ-BcQ" secondAttribute="centerY" type="default" id="WbG-C7-2sj"/>
                                             <constraint firstAttribute="trailing" secondItem="uYU-KJ-BcQ" secondAttribute="trailing" constant="20" type="default" id="dJl-nX-2ms"/>
+                                            <constraint firstItem="uYU-KJ-BcQ" firstAttribute="centerY" secondItem="tQo-G1-919" secondAttribute="centerY" type="default" id="ggt-2m-1Uq"/>
+                                            <constraint firstAttribute="bottom" secondItem="tQo-G1-919" secondAttribute="bottom" constant="20" type="default" id="kEL-Nd-Aia"/>
+                                            <constraint firstItem="tQo-G1-919" firstAttribute="top" secondItem="Rg2-uW-nG9" secondAttribute="top" constant="20" type="default" id="loV-vk-lhI"/>
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="93" id="VCd-od-mbs">
@@ -381,6 +382,81 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qgl-9r-WNW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1253" y="-413"/>
+        </scene>
+        <!--Feedback View Controller-->
+        <scene sceneID="YbK-Qq-HQw">
+            <objects>
+                <tableViewController id="WV0-UF-spA" customClass="FeedbackViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="wBD-ze-dO5">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection id="aaE-N1-Tpm">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="130" id="UZW-32-MNd" customClass="AddPlanTableViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="130"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="129"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kGS-Q8-8od">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="300" id="5a5-lq-mbJ"/>
+                                                        <constraint firstAttribute="height" constant="110" id="tnR-CZ-0jg"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="kGS-Q8-8od" firstAttribute="centerX" secondItem="UZW-32-MNd" secondAttribute="centerX" type="default" id="Sqa-cX-5DT"/>
+                                            <constraint firstItem="kGS-Q8-8od" firstAttribute="centerY" secondItem="UZW-32-MNd" secondAttribute="centerY" type="default" id="zKR-R0-WeH"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="nKF-Lg-4CU" customClass="AddPlanTableViewCell">
+                                        <rect key="frame" x="0.0" y="130" width="320" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="WiO-Ah-P1M">
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="i85-46-hak"/>
+                                                        <constraint firstAttribute="width" constant="290" id="mBx-Xf-woH"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="WiO-Ah-P1M" firstAttribute="leading" secondItem="nKF-Lg-4CU" secondAttribute="leading" constant="18" id="ij3-b8-vce"/>
+                                            <constraint firstItem="WiO-Ah-P1M" firstAttribute="centerY" secondItem="nKF-Lg-4CU" secondAttribute="centerY" type="default" id="nij-b4-BTR"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="WV0-UF-spA" id="Rcx-HP-TsM"/>
+                            <outlet property="delegate" destination="WV0-UF-spA" id="8lV-N5-Els"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="AE2-7k-mxa"/>
+                    <connections>
+                        <outlet property="emailTextField" destination="WiO-Ah-P1M" id="zhe-4Z-uXp"/>
+                        <outlet property="feedbackTextView" destination="kGS-Q8-8od" id="hXV-tj-K5I"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="m0t-qo-a6s" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="493" y="-1265"/>
         </scene>
         <!--Edit Cost View Controller - 预算开销-->
         <scene sceneID="hx7-sG-hrp">
@@ -620,8 +696,8 @@
                         <outlet property="guideCell" destination="7ye-z5-tLr" id="tY7-nz-KWo"/>
                         <outlet property="reviewCell" destination="AVF-2S-fck" id="WXS-jz-OUO"/>
                         <segue destination="uKV-8h-ywb" kind="push" identifier="ShowUserGuide" id="VTj-Nq-13h"/>
-                        <segue destination="dVL-gY-S4E" kind="push" identifier="ShowFeedback" id="IDk-5S-G3Y"/>
                         <segue destination="wlN-O9-TQh" kind="push" identifier="ShowAbout" id="Qx4-ZF-JBc"/>
+                        <segue destination="WV0-UF-spA" kind="push" identifier="ShowFeedback" id="X1j-cZ-sK6"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gun-rd-yWd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -642,21 +718,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RE8-0m-0E1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="101" y="-1608"/>
-        </scene>
-        <!--Feedback View Controller-->
-        <scene sceneID="HD5-Zz-eLP">
-            <objects>
-                <viewController id="dVL-gY-S4E" customClass="FeedbackViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qBa-a5-yZo">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="yL5-pH-sVN"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Nfx-aO-8pu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="545" y="-1308"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="JTk-du-FGv">
@@ -710,85 +771,6 @@
             <point key="canvasLocation" x="727" y="-413"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="AboutViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="backToPrevious:"/>
-            </relationships>
-        </class>
-        <class className="AddPlanTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanTableViewCell.h"/>
-        </class>
-        <class className="AddPlanViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel:"/>
-                <relationship kind="action" name="done:"/>
-                <relationship kind="outlet" name="coverImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dateInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="destinationInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="durationInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="nameInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="EditScheduleViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditScheduleViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="backToPrevious:"/>
-                <relationship kind="action" name="done:"/>
-                <relationship kind="outlet" name="startInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="FeedbackViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedbackViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="backToPrevious:"/>
-            </relationships>
-        </class>
-        <class className="GuideViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GuideViewController.h"/>
-        </class>
-        <class className="ItineraryViewController" superclassName="SwipeableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ItineraryViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PlanViewController" superclassName="SwipeableTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlanViewController.h"/>
-        </class>
-        <class className="SearchDestinationViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchDestinationViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SearchViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchViewController.h"/>
-        </class>
-        <class className="SettingViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="saveSetting:"/>
-                <relationship kind="outlet" name="aboutCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="feedbackCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="guideCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="reviewCell" candidateClass="UITableViewCell"/>
-            </relationships>
-        </class>
-        <class className="SwipeableTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SwipeableTableViewController.h"/>
-        </class>
-        <class className="SwipeableViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SwipeableViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
