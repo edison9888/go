@@ -15,7 +15,7 @@
 
 @implementation UINavigationBar (CustomImage)
 - (void)drawRect:(CGRect)rect {
-    UIImage *image = [UIImage imageNamed:@"bar.png"];
+    UIImage *image = [UIImage imageNamed:@"bar"];
     [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
 }
 @end
@@ -169,13 +169,13 @@
     [super viewDidLoad];
     
     UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [addBtn setImage:[UIImage imageNamed:@"add.png"] forState:UIControlStateNormal];
+    [addBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
     [addBtn addTarget:self action:@selector(AddPlan:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:addBtn];
     self.navigationItem.rightBarButtonItem = btn;
     
     UIButton *settingBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [settingBtn setImage:[UIImage imageNamed:@"setting.png"] forState:UIControlStateNormal];
+    [settingBtn setImage:[UIImage imageNamed:@"setting"] forState:UIControlStateNormal];
     [settingBtn addTarget:self action:@selector(showSetting:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setBtn = [[UIBarButtonItem alloc] initWithCustomView:settingBtn];
     self.navigationItem.leftBarButtonItem = setBtn;
@@ -187,7 +187,7 @@
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
     {
         UINavigationBar *navBar = self.navigationController.navigationBar;
-        [navBar setBackgroundImage:[UIImage imageNamed:@"bar.png"] forBarMetrics:UIBarMetricsDefault];
+        [navBar setBackgroundImage:[UIImage imageNamed:@"bar"] forBarMetrics:UIBarMetricsDefault];
         
         navBar.layer.masksToBounds = NO;
         navBar.layer.shadowOffset = CGSizeMake(0, 1);
@@ -196,7 +196,7 @@
         navBar.layer.shadowOpacity = 1;
     }
     
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_bar.png"]];
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_bar"]];
     [self populateTravelPlans];
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
@@ -295,7 +295,7 @@
     }
     else
     {
-        planCover.image = [UIImage imageNamed:@"plan_cover.png"];
+        planCover.image = [UIImage imageNamed:@"plan_cover"];
     }
     
     UILabel *label;

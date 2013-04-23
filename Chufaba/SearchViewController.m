@@ -36,6 +36,7 @@
 #define NAME_LABEL_HEIGHT 24
 #define ENAME_LABEL_HEIGHT 12
 #define LOCATION_LABEL_HEIGHT 12
+#define TOP_VIEW_HEIGHT 85
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -78,7 +79,7 @@
     
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
     {
-        UIImage *image = [UIImage imageNamed:@"bar.png"];
+        UIImage *image = [UIImage imageNamed:@"bar"];
         UINavigationBar *navBar = self.navigationController.navigationBar;
         [navBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
         
@@ -90,7 +91,7 @@
     }
     
     UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [closeBtn setImage:[UIImage imageNamed:@"cancel.png"] forState:UIControlStateNormal];
+    [closeBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
     [closeBtn addTarget:self action:@selector(close:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *cBtn = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
     self.navigationItem.leftBarButtonItem = cBtn;
@@ -118,34 +119,34 @@
     
     UIButton *sightBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 75, 25)];
     sightBtn.tag = TAG_SIGHTBTN;
-    [sightBtn setImage:[UIImage imageNamed:@"tab_sight.png"] forState:UIControlStateNormal];
-    [sightBtn setImage:[UIImage imageNamed:@"tab_sight_click.png"] forState:UIControlStateHighlighted];
-    [sightBtn setImage:[UIImage imageNamed:@"tab_sight_click.png"] forState:UIControlStateSelected];
+    [sightBtn setImage:[UIImage imageNamed:@"tab_sight"] forState:UIControlStateNormal];
+    [sightBtn setImage:[UIImage imageNamed:@"tab_sight_click"] forState:UIControlStateHighlighted];
+    [sightBtn setImage:[UIImage imageNamed:@"tab_sight_click"] forState:UIControlStateSelected];
     [sightBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
     sightBtn.selected = YES;
     [topView addSubview:sightBtn];
     
     UIButton *foodBtn = [[UIButton alloc] initWithFrame:CGRectMake(85, 10, 75, 25)];
     foodBtn.tag = TAG_FOODBTN;
-    [foodBtn setImage:[UIImage imageNamed:@"tab_food.png"] forState:UIControlStateNormal];
-    [foodBtn setImage:[UIImage imageNamed:@"tab_food_click.png"] forState:UIControlStateHighlighted];
-    [foodBtn setImage:[UIImage imageNamed:@"tab_food_click.png"] forState:UIControlStateSelected];
+    [foodBtn setImage:[UIImage imageNamed:@"tab_food"] forState:UIControlStateNormal];
+    [foodBtn setImage:[UIImage imageNamed:@"tab_food_click"] forState:UIControlStateHighlighted];
+    [foodBtn setImage:[UIImage imageNamed:@"tab_food_click"] forState:UIControlStateSelected];
     [foodBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:foodBtn];
     
     UIButton *hotelBtn = [[UIButton alloc] initWithFrame:CGRectMake(160, 10, 75, 25)];
     hotelBtn.tag = TAG_HOTELBTN;
-    [hotelBtn setImage:[UIImage imageNamed:@"tab_hotel.png"] forState:UIControlStateNormal];
-    [hotelBtn setImage:[UIImage imageNamed:@"tab_hotel_click.png"] forState:UIControlStateHighlighted];
-    [hotelBtn setImage:[UIImage imageNamed:@"tab_hotel_click.png"] forState:UIControlStateSelected];
+    [hotelBtn setImage:[UIImage imageNamed:@"tab_hotel"] forState:UIControlStateNormal];
+    [hotelBtn setImage:[UIImage imageNamed:@"tab_hotel_click"] forState:UIControlStateHighlighted];
+    [hotelBtn setImage:[UIImage imageNamed:@"tab_hotel_click"] forState:UIControlStateSelected];
     [hotelBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:hotelBtn];
     
     UIButton *otherBtn = [[UIButton alloc] initWithFrame:CGRectMake(235, 10, 75, 25)];
     otherBtn.tag = TAG_OTHERBTN;
-    [otherBtn setImage:[UIImage imageNamed:@"tab_more.png"] forState:UIControlStateNormal];
-    [otherBtn setImage:[UIImage imageNamed:@"tab_more_click.png"] forState:UIControlStateHighlighted];
-    [otherBtn setImage:[UIImage imageNamed:@"tab_more_click.png"] forState:UIControlStateSelected];
+    [otherBtn setImage:[UIImage imageNamed:@"tab_more"] forState:UIControlStateNormal];
+    [otherBtn setImage:[UIImage imageNamed:@"tab_more_click"] forState:UIControlStateHighlighted];
+    [otherBtn setImage:[UIImage imageNamed:@"tab_more_click"] forState:UIControlStateSelected];
     [otherBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:otherBtn];
     
@@ -162,7 +163,7 @@
         if([cc isKindOfClass:[UITextField class]])
         {
             UITextField *textField = (UITextField *)cc;
-            UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Search.png"]];
+            UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Search"]];
             textField.leftView = view;
             //textField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
         }
@@ -172,7 +173,7 @@
         if([cc isKindOfClass:[UITextField class]])
         {
             UITextField *textField = (UITextField *)cc;
-            UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin.png"]];
+            UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin"]];
             textField.leftView = view;
             //textField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
         }
@@ -218,6 +219,7 @@
     [self.view addSubview:topView];
     
     //tableview part
+    NSLog(@"hahaheight:%f", self.view.bounds.size.height);
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 85, 320, 330) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -240,7 +242,7 @@
     implyLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     implyLabel.tag = TAG_IMPLYLABEL;
     [addLocationBtn addSubview:implyLabel];
-    [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn.png"]forState:UIControlStateNormal];
+    [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn"]forState:UIControlStateNormal];
     [addLocationBtn addTarget:self action:@selector(beginAddCustomLocation:) forControlEvents:UIControlEventTouchDown];
     
     //[self searchPoi];
@@ -495,15 +497,15 @@
         
         if(addedBefore)
         {
-            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
-            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list"] forState:UIControlStateNormal];
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click"] forState:UIControlStateHighlighted];
             [operationBtn removeTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
             [operationBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
         }
         else
         {
-            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
-            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
             [operationBtn removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
             [operationBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
         }
@@ -542,149 +544,6 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
-
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    SearchTableViewCell *cell;
-//    if (indexPath.row < [allLocationList count])
-//    {
-//        static NSString *CellIdentifier = @"SearchLocationCell";
-//        
-//        cell = (SearchTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//        
-//        if (cell == nil){
-//            cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//        }
-//        NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
-//        NSString *name = [locationAtIndex objectForKey: @"name"];
-//        NSString *name_en = [locationAtIndex objectForKey: @"name_en"];
-//        NSString *city = [locationAtIndex objectForKey: @"city"];
-//        NSString *province = [locationAtIndex objectForKey: @"province"];
-//        NSString *country = [locationAtIndex objectForKey: @"country"];
-//        NSMutableArray *dests = [[NSMutableArray alloc]init];
-//        if (city.length > 0) {
-//            [dests addObject:city];
-//        }
-//        if (province.length > 0) {
-//            [dests addObject:province];
-//        }
-//        if ([country length] > 0) {
-//            [dests addObject:country];
-//        }
-//        
-//        NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
-//        
-//        if ([name length] == 0) {
-//            name = name_en;
-//            name_en = nil;
-//        }
-//        
-//        UIImageView *categoryImage = (UIImageView *)[cell.contentView viewWithTag:1];
-//        categoryImage.image = [Location getCategoryIconMedium:[locationAtIndex objectForKey:@"category"]];
-//        
-//        UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:2];
-//        nameLabel.text = name;
-//        
-//        UILabel *eNameLabel = (UILabel *)[cell.contentView viewWithTag:3];
-//        eNameLabel.hidden = NO;
-//        if(name_en.length != 0)
-//            eNameLabel.text = name_en;
-//        
-//        UILabel *locationLabel = (UILabel *)[cell.contentView viewWithTag:4];
-//        [locationLabel setText:[dests componentsJoinedByString:@"，"]];
-//        
-//        CGPoint nameLabelOrigin = CGPointMake(60, 7);
-//        CGPoint eNameLabelOrigin = CGPointMake(60, 29);
-//        CGPoint locationLabelOrigin = CGPointMake(60, 42);
-//        
-//        if (name_en.length == 0 && city.length == 0) {
-//            nameLabelOrigin = CGPointMake(60, 19);
-//            eNameLabel.hidden = YES;
-//        } else if (name_en.length == 0) {
-//            nameLabelOrigin = CGPointMake(60, 12);
-//            locationLabelOrigin = CGPointMake(60, 35);
-//            eNameLabel.hidden = YES;
-//        } else if (city.length == 0) {
-//            nameLabelOrigin = CGPointMake(60, 12);
-//            eNameLabelOrigin = CGPointMake(60, 35);
-//        }
-//        
-//        nameLabel.frame = CGRectMake(nameLabelOrigin.x, nameLabelOrigin.y, LABEL_WIDTH, NAME_LABEL_HEIGHT);
-//        eNameLabel.frame = CGRectMake(eNameLabelOrigin.x, eNameLabelOrigin.y, LABEL_WIDTH, ENAME_LABEL_HEIGHT);
-//        locationLabel.frame = CGRectMake(locationLabelOrigin.x, locationLabelOrigin.y, LABEL_WIDTH, LOCATION_LABEL_HEIGHT);
-//        
-//        BOOL addedBefore = FALSE;
-//        for(NSNumber *poi in self.poiArray)
-//        {
-//            if([poi intValue] == [poiId intValue])
-//            {
-//                addedBefore = TRUE;
-//                break;
-//            }
-//        }
-//        
-//        UIButton *operationBtn = (UIButton *)[cell.contentView viewWithTag:5];
-//        
-//        if(addedBefore)
-//        {
-//            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
-//            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
-//            [operationBtn removeTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
-//            [operationBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
-//        }
-//        else
-//        {
-//            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
-//            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
-//            [operationBtn removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
-//            [operationBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
-//        }
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    }
-//    else if ([allLocationList count] != self.total)
-//    {
-//        static NSString *CellIdentifier = @"LoadingCell";
-//        
-//        cell = (SearchTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//        
-//        if (cell == nil){
-//            cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//        }
-//        UIActivityIndicatorView *loadingView=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//        [loadingView setFrame:CGRectMake(140, 11, 40, 40)];
-//        [loadingView startAnimating];
-//        [cell.contentView addSubview:loadingView];
-//        [self fetchRestResult];
-//    }
-//    else if (indexPath.row == [allLocationList count])
-//    {
-//        static NSString *CellIdentifier = @"addLocationCell";
-//        cell = (SearchTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//        if(!cell)
-//        {
-//            cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//        }
-//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-//        lineView.backgroundColor = [UIColor whiteColor];
-//        [cell.contentView addSubview:lineView];
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        if(self.nameInput.text.length != 0)
-//        {
-//            [cell addSubview:addLocationBtn];
-//        }
-//        return cell;
-//    }
-//
-//    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 61, self.view.bounds.size.width, 1)];
-//    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-//    [cell.contentView addSubview:lineView];
-//    
-//    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-//    lineView.backgroundColor = [UIColor whiteColor];
-//    [cell.contentView addSubview:lineView];
-//    
-//    return cell;
-//}
 
 - (IBAction)removeLocation:(id)sender
 {
@@ -725,13 +584,13 @@
     
     self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]-1];
     
-    [button setBackgroundImage:[UIImage imageNamed:@"add_list.png"] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"add_list_click.png"] forState:UIControlStateHighlighted];
+    [button setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
     [button removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
     [button addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
-    [theSettings setImage:[UIImage imageNamed:@"prompt_no.png"] forType:iToastTypeNotice];
+    [theSettings setImage:[UIImage imageNamed:@"prompt_no"] forType:iToastTypeNotice];
     theSettings.duration = 3000;
     [[[[iToast makeText:NSLocalizedString(@"已从计划中移除", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
@@ -782,13 +641,13 @@
     //increase seqToAdd
     self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
     
-    [button setBackgroundImage:[UIImage imageNamed:@"remove_list.png"] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"remove_list_click.png"] forState:UIControlStateHighlighted];
+    [button setBackgroundImage:[UIImage imageNamed:@"remove_list"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"remove_list_click"] forState:UIControlStateHighlighted];
     [button removeTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
     [button addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
-    [theSettings setImage:[UIImage imageNamed:@"prompt_yes.png"] forType:iToastTypeNotice];
+    [theSettings setImage:[UIImage imageNamed:@"prompt_yes"] forType:iToastTypeNotice];
     theSettings.duration = 3000;
     [[[[iToast makeText:NSLocalizedString(@"已添加到计划", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
@@ -804,7 +663,7 @@
     
     self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
-    [theSettings setImage:[UIImage imageNamed:@"prompt_yes.png"] forType:iToastTypeNotice];
+    [theSettings setImage:[UIImage imageNamed:@"prompt_yes"] forType:iToastTypeNotice];
     theSettings.duration = 3000;
     [[[[iToast makeText:NSLocalizedString(@"已添加到计划", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
