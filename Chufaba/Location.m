@@ -109,19 +109,19 @@
 {
     if ([category isEqualToString:@"景点"])
     {
-        return [UIImage imageNamed:@"sight80"];
+        return [UIImage imageNamed:@"sight"];
     }
     else if([category isEqualToString:@"美食"])
     {
-        return [UIImage imageNamed:@"food80"];
+        return [UIImage imageNamed:@"food"];
     }
     else if([category isEqualToString:@"住宿"])
     {
-        return [UIImage imageNamed:@"hotel80"];
+        return [UIImage imageNamed:@"hotel"];
     }
     else
     {
-        return [UIImage imageNamed:@"more80"];
+        return [UIImage imageNamed:@"more"];
     }
 }
 

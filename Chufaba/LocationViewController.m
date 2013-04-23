@@ -122,9 +122,6 @@
         titleView = [[UILabel alloc] initWithFrame:CGRectZero];
         titleView.backgroundColor = [UIColor clearColor];
         titleView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:20];
-        titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-        titleView.shadowOffset = CGSizeMake(0, 1.0);
-        
         titleView.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
         
         self.navigationItem.titleView = titleView;
@@ -195,15 +192,20 @@
     UIView *infoView = [self.view viewWithTag:TAG_INFOVIEW];
     if (!infoView) {
         infoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, INFO_VIEW_HEIGHT)];
-        infoView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+        infoView.backgroundColor = [UIColor colorWithRed:223/255.0 green:215/255.0 blue:198/255.0 alpha:1.0];
         infoView.tag = TAG_INFOVIEW;
         [self.view addSubview:infoView];
         
+        CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
+        CGRect viewShadowFrame = CGRectMake(-5, 0, infoView.frame.size.width + 10, infoView.frame.size.height);
+        viewShadow.frame = viewShadowFrame;
+        viewShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0].CGColor,(id)[UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor,nil];
+        [infoView.layer addSublayer:viewShadow];
+        
         infoView.layer.masksToBounds = NO;
+        infoView.layer.shadowColor = [UIColor blackColor].CGColor;
         infoView.layer.shadowOffset = CGSizeMake(0, 1);
-        infoView.layer.shadowRadius = 0.8;
-        infoView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
-        infoView.layer.shadowOpacity = 1;
+        infoView.layer.shadowOpacity = 0.5;
     }
     [self.view bringSubviewToFront:infoView];
     
@@ -437,14 +439,9 @@
         [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
         //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
         
-        CALayer *topBorder = [CALayer layer];
-        topBorder.frame = CGRectMake(0, -1, self.view.frame.size.width, 2);
-        topBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
-        [mapView.layer addSublayer:topBorder];
-        
         CALayer *bottomBorder = [CALayer layer];
         bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT - 1, self.view.frame.size.width, 2);
-        bottomBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
+        bottomBorder.backgroundColor = [UIColor whiteColor].CGColor;
         [mapView.layer addSublayer:bottomBorder];
     }else{
         showMap = NO;
@@ -488,7 +485,7 @@
         [tableHeaderView addSubview:categoryImage];
     }
     categoryImage.image = [Location getCategoryIconLarge:self.location.category];
-    categoryImage.frame = CGRectMake(10, showMap? MAP_VIEW_HEIGHT : 0, NAME_SCROLL_HEIGHT, NAME_SCROLL_HEIGHT);
+    categoryImage.frame = CGRectMake(10, showMap? MAP_VIEW_HEIGHT + 8 : 8, NAME_SCROLL_HEIGHT, NAME_SCROLL_HEIGHT);
 
     FadeScrollView *nameScroll = (FadeScrollView *)[self.view viewWithTag:TAG_NAMESCROLL];
     if (!nameScroll) {
@@ -502,7 +499,7 @@
     if (self.location.useradd) {
         nameScrollWidth -= 31;
     }
-    nameScroll.frame = CGRectMake(10+NAME_SCROLL_HEIGHT+5, showMap? MAP_VIEW_HEIGHT : 0, nameScrollWidth, NAME_SCROLL_HEIGHT);
+    nameScroll.frame = CGRectMake(10+NAME_SCROLL_HEIGHT+5, showMap? MAP_VIEW_HEIGHT + 5 : 5, nameScrollWidth, NAME_SCROLL_HEIGHT);
         
     UILabel *nameLabel = (UILabel *)[nameScroll viewWithTag:TAG_NAMELABEL];
     if (!nameLabel) {
@@ -535,16 +532,16 @@
     }
 
     CGPoint nameLabelOrigin = CGPointMake(0, 5);
-    CGPoint nameEnLabelOrigin = CGPointMake(0, 25);
-    CGPoint addressLabelOrigin = CGPointMake(0, 40);
+    CGPoint nameEnLabelOrigin = CGPointMake(0, 26);
+    CGPoint addressLabelOrigin = CGPointMake(0, 42);
     if (self.location.nameEn.length == 0 && self.location.address.length == 0) {
-        nameLabelOrigin = CGPointMake(0, 20);
+        nameLabelOrigin = CGPointMake(0, 22);
     } else if (self.location.nameEn.length == 0) {
-        nameLabelOrigin = CGPointMake(0, 10);
-        addressLabelOrigin = CGPointMake(0, 35);
+        nameLabelOrigin = CGPointMake(0, 13);
+        addressLabelOrigin = CGPointMake(0, 37);
     } else if (self.location.address.length == 0) {
-        nameLabelOrigin = CGPointMake(0, 10);
-        nameEnLabelOrigin = CGPointMake(0, 35);
+        nameLabelOrigin = CGPointMake(0, 13);
+        nameEnLabelOrigin = CGPointMake(0, 37);
     }
     
     nameLabel.frame = CGRectMake(nameLabelOrigin.x, nameLabelOrigin.y, self.view.frame.size.width, NAME_LABEL_HEIGHT);
