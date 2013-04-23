@@ -308,8 +308,12 @@
             }
             if(self.location.visitBegin){
                 cell.textLabel.text = [NSString stringWithFormat:@"到达时间：%@", self.location.visitBegin];
+                cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+                cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
             }else{
                 cell.textLabel.text = @"设定到达时间";
+                cell.textLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+                cell.textLabel.highlightedTextColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
             }
             bgColorView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bg.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
         } else if (indexPath.row == 1) {
@@ -324,14 +328,16 @@
             }
             if (self.location.detail.length > 0) {
                 cell.textLabel.text = self.location.detail;
+                cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+                cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
             }else{
                 cell.textLabel.text = @"添加备注";
+                cell.textLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+                cell.textLabel.highlightedTextColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
             }
             bgColorView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgb.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
         }
         cell.accessoryView = [[ UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
-        cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     }
     [cell setSelectedBackgroundView:bgColorView];
     cell.backgroundColor = [UIColor whiteColor];
