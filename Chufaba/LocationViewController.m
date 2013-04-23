@@ -65,6 +65,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight80", @"景点", @"food80", @"美食", @"hotel80", @"住宿", @"more80", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
@@ -464,7 +465,7 @@
 	if (!aView)
     {
         aView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
-        aView.image = [Location getCategoryIconMap:self.location.category];
+        aView.image = [UIImage imageNamed:[self.categoryImage objectForKey:[self.location.category stringByAppendingString:@"m"]]];
         aView.annotation = annotation;
 	}
 	return aView;
@@ -487,7 +488,8 @@
         categoryImage.contentMode = UIViewContentModeCenter;
         [tableHeaderView addSubview:categoryImage];
     }
-    categoryImage.image = [Location getCategoryIconLarge:self.location.category];
+    
+    categoryImage.image = [UIImage imageNamed:[self.categoryImage objectForKey: self.location.category]];
     categoryImage.frame = CGRectMake(10, showMap? MAP_VIEW_HEIGHT : 0, NAME_SCROLL_HEIGHT, NAME_SCROLL_HEIGHT);
 
     FadeScrollView *nameScroll = (FadeScrollView *)[self.view viewWithTag:TAG_NAMESCROLL];

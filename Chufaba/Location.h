@@ -40,10 +40,6 @@
 @property (nonatomic) BOOL useradd; 
 
 + (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category;
-+ (UIImage *)getCategoryIcon:(NSString *)category;
-+ (UIImage *)getCategoryIconMedium:(NSString *)category;
-+ (UIImage *)getCategoryIconLarge:(NSString *)category;
-+ (UIImage *)getCategoryIconMap:(NSString *)category;
 
 - (BOOL)hasCoordinate;
 

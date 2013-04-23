@@ -87,7 +87,10 @@
     
     lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
     lineView.backgroundColor = [UIColor whiteColor];
+    lineView.opaque = YES;
     [self.contentView addSubview:lineView];
+    self.contentView.opaque = YES;
+    self.contentView.layer.opaque = YES;
 }
 
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer

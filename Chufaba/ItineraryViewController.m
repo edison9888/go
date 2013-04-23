@@ -229,6 +229,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight40", @"景点", @"food40", @"美食", @"hotel40", @"住宿", @"more40", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
@@ -640,7 +641,7 @@
 	}
 
     LocationAnnotation *locationAnnotation = (LocationAnnotation *)annotation;
-    aView.image = [Location getCategoryIconMap:locationAnnotation.location.category];
+    aView.image = [UIImage imageNamed:[self.categoryImage objectForKey:[locationAnnotation.location.category stringByAppendingString:@"m"]]];
     NSUInteger index = [oneDimensionLocationList indexOfObject:locationAnnotation.location];
     ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", index+1];
 	aView.annotation = annotation;
@@ -970,8 +971,11 @@
         {
             timeLabel.text = @"";
         }
-        [categoryIcon setImage:[Location getCategoryIcon:locationAtIndex.category]];
+        categoryIcon.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
     }
+    cell.layer.opaque = YES;
+    cell.layer.shouldRasterize = YES;
+    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     return cell;
 }
 

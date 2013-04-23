@@ -75,6 +75,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight60", @"景点", @"food60", @"美食", @"hotel60", @"住宿", @"more60", @"其它", nil];
     self.category = @"景点";
     
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
@@ -116,6 +117,8 @@
     topView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
     topView.layer.shadowOpacity = 1;
     topView.layer.opaque = YES;
+    topView.layer.shouldRasterize = YES;
+    topView.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     UIButton *sightBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 75, 25)];
     sightBtn.tag = TAG_SIGHTBTN;
@@ -457,7 +460,7 @@
         }
         
         UIImageView *categoryImage = (UIImageView *)[cell.contentView viewWithTag:1];
-        categoryImage.image = [Location getCategoryIconMedium:[locationAtIndex objectForKey:@"category"]];
+        categoryImage.image = [UIImage imageNamed:[self.categoryImage objectForKey:[locationAtIndex objectForKey:@"category"]]];
         
         UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:2];
         nameLabel.text = name;
@@ -549,6 +552,9 @@
         }
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.layer.opaque = YES;
+    cell.layer.shouldRasterize = YES;
+    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     return cell;
 }
 

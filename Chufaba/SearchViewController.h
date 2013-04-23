@@ -44,6 +44,8 @@
 @property (nonatomic, copy) NSNumber *lastLongitude;
 @property (nonatomic, copy) NSNumber *planId;
 
+@property (nonatomic, strong) NSDictionary *categoryImage;
+
 @property (nonatomic,weak) id<SearchViewControllerDelegate> searchDelegate;
 
 @end

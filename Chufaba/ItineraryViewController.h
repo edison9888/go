@@ -74,6 +74,8 @@
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSCalendar *gregorian;
 
+@property (nonatomic, strong) NSDictionary *categoryImage;
+
 @property (nonatomic,weak) id<ItineraryViewControllerDelegate> itineraryDelegate;
 
 @property (nonatomic,strong) NSIndexPath *indexPathOfLocationToDelete;

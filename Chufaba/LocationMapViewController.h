@@ -17,4 +17,6 @@
 @property int index;
 @property (nonatomic, assign) BOOL normalMapMode;
 
+@property (nonatomic, strong) NSDictionary *categoryImage;
+
 @end

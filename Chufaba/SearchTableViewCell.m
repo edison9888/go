@@ -57,7 +57,9 @@
     
     lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
     lineView.backgroundColor = [UIColor whiteColor];
+    lineView.opaque = YES;
     [self.contentView addSubview:lineView];
+    self.contentView.opaque = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

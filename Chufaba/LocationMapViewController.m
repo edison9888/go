@@ -45,6 +45,7 @@
 {
     [super viewDidLoad];
     self.normalMapMode = YES;
+    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"pin_sight", @"景点", @"pin_food", @"美食", @"pin_hotel", @"住宿", @"pin_more", @"其它", nil];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
@@ -134,19 +135,14 @@
     
 	if (!aView) {
         aView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
-        aView.image = [Location getCategoryIconMap:self.location.category];
+        //aView.image = [Location getCategoryIconMap:self.location.category];
+        aView.image = [UIImage imageNamed:[self.categoryImage objectForKey:self.location.category]];
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(0, 0, 20, 20);
         button.tag = 1;
         [button setImage:[UIImage imageNamed:@"navigation.png"] forState:UIControlStateNormal];
         aView.rightCalloutAccessoryView = button;
-        
-//        aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
-//        ((UILabel *)aView.leftCalloutAccessoryView).textAlignment = NSTextAlignmentCenter;
-//        ((UILabel *)aView.leftCalloutAccessoryView).textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1];
-//        ((UILabel *)aView.leftCalloutAccessoryView).backgroundColor = [UIColor clearColor];
-//        ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", self.index + 1];
         
         aView.annotation = annotation;
 		aView.canShowCallout = YES;

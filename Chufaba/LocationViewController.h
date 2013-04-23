@@ -40,4 +40,6 @@
 @property (nonatomic,weak) id<AddLocationDelegate> delegate;
 @property (nonatomic,weak) id<NavigateLocationDelegate> navDelegate;
 
+@property (nonatomic, strong) NSDictionary *categoryImage;
+
 @end
