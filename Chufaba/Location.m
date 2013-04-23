@@ -51,69 +51,81 @@
 
 + (UIImage *)getCategoryIconMap:(NSString *)category
 {
-    if ([category isEqualToString:@"景点"]) {
-        return [UIImage imageNamed:@"pin_sight.png"];
-    } else if([category isEqualToString:@"美食"]) {
-        return [UIImage imageNamed:@"pin_food.png"];
-    } else if([category isEqualToString:@"住宿"]) {
-        return [UIImage imageNamed:@"pin_hotel.png"];
-    } else if([category isEqualToString:@"交通"]) {
-        return [UIImage imageNamed:@"pin_transport.png"];
-    } else if([category isEqualToString:@"娱乐"]) {
-        return [UIImage imageNamed:@"pin_entertainment.png"];
-    } else {
-        return [UIImage imageNamed:@"pin_more.png"];
+    if ([category isEqualToString:@"景点"])
+    {
+        return [UIImage imageNamed:@"pin_sight"];
+    }
+    else if([category isEqualToString:@"美食"])
+    {
+        return [UIImage imageNamed:@"pin_food"];
+    }
+    else if([category isEqualToString:@"住宿"])
+    {
+        return [UIImage imageNamed:@"pin_hotel"];
+    }
+    else
+    {
+        return [UIImage imageNamed:@"pin_more"];
     }
 }
 
 + (UIImage *)getCategoryIcon:(NSString *)category
 {
-    if ([category isEqualToString:@"景点"]) {
-        return [UIImage imageNamed:@"sight40.png"];
-    } else if([category isEqualToString:@"美食"]) {
-        return [UIImage imageNamed:@"food40.png"];
-    } else if([category isEqualToString:@"住宿"]) {
-        return [UIImage imageNamed:@"hotel40.png"];
-    } else if([category isEqualToString:@"交通"]) {
-        return [UIImage imageNamed:@"transport40.png"];
-    } else if([category isEqualToString:@"娱乐"]) {
-        return [UIImage imageNamed:@"entertainment40.png"];
-    } else {
-        return [UIImage imageNamed:@"more40.png"];
+    if ([category isEqualToString:@"景点"])
+    {
+        return [UIImage imageNamed:@"sight40"];
+    }
+    else if([category isEqualToString:@"美食"])
+    {
+        return [UIImage imageNamed:@"food40"];
+    }
+    else if([category isEqualToString:@"住宿"])
+    {
+        return [UIImage imageNamed:@"hotel40"];
+    }
+    else
+    {
+        return [UIImage imageNamed:@"more40"];
     }
 }
 
 + (UIImage *)getCategoryIconMedium:(NSString *)category
 {
-    if ([category isEqualToString:@"景点"]) {
-        return [UIImage imageNamed:@"sight60.png"];
-    } else if([category isEqualToString:@"美食"]) {
-        return [UIImage imageNamed:@"food60.png"];
-    } else if([category isEqualToString:@"住宿"]) {
-        return [UIImage imageNamed:@"hotel60.png"];
-    } else if([category isEqualToString:@"交通"]) {
-        return [UIImage imageNamed:@"transport60.png"];
-    } else if([category isEqualToString:@"娱乐"]) {
-        return [UIImage imageNamed:@"entertainment60.png"];
-    } else {
-        return [UIImage imageNamed:@"more60.png"];
+    if ([category isEqualToString:@"景点"])
+    {
+        return [UIImage imageNamed:@"sight60"];
+    }
+    else if([category isEqualToString:@"美食"])
+    {
+        return [UIImage imageNamed:@"food60"];
+    }
+    else if([category isEqualToString:@"住宿"])
+    {
+        return [UIImage imageNamed:@"hotel60"];
+    }
+    else
+    {
+        return [UIImage imageNamed:@"more60"];
     }
 }
 
 + (UIImage *)getCategoryIconLarge:(NSString *)category
 {
-    if ([category isEqualToString:@"景点"]) {
-        return [UIImage imageNamed:@"sight80.png"];
-    } else if([category isEqualToString:@"美食"]) {
-        return [UIImage imageNamed:@"food80.png"];
-    } else if([category isEqualToString:@"住宿"]) {
-        return [UIImage imageNamed:@"hotel80.png"];
-    } else if([category isEqualToString:@"交通"]) {
-        return [UIImage imageNamed:@"transport80.png"];
-    } else if([category isEqualToString:@"娱乐"]) {
-        return [UIImage imageNamed:@"entertainment80.png"];
-    } else {
-        return [UIImage imageNamed:@"more80.png"];
+    if ([category isEqualToString:@"景点"])
+    {
+        return [UIImage imageNamed:@"sight80"];
+    }
+    else if([category isEqualToString:@"美食"])
+    {
+        return [UIImage imageNamed:@"food80"];
+    }
+    else if([category isEqualToString:@"住宿"])
+    {
+        return [UIImage imageNamed:@"hotel80"];
+    }
+    else
+    {
+        return [UIImage imageNamed:@"more80"];
     }
 }
 
