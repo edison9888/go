@@ -268,7 +268,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
+    LocationTableViewCell *cell;
     UIImageView *bgColorView;
     if ([self.location numberOfSections] == 2 && indexPath.section == 0) {
         NSString *CellIdentifier = @"LocationInfoCell";
@@ -299,7 +299,7 @@
             NSString *CellIdentifier = @"ArriveTimeCell";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             if (!cell) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:13];
                 cell.imageView.image = [UIImage imageNamed:@"time.png"];
