@@ -54,7 +54,9 @@
     [self configureView];
     
     self.startInput.borderStyle = UITextBorderStyleNone;
-    self.startInput.background = [UIImage imageNamed:@"kuang.png"];
+    UIImage *sourceImage = [UIImage imageNamed:@"kuang.png"];
+    UIImage *cappedImage = [sourceImage stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+    self.startInput.background = cappedImage;
     self.startInput.font = [UIFont fontWithName:@"Heiti SC" size:16];
     
     UIView *sPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
