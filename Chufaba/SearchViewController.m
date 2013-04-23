@@ -219,8 +219,7 @@
     [self.view addSubview:topView];
     
     //tableview part
-    NSLog(@"hahaheight:%f", self.view.bounds.size.height);
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 85, 320, 330) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 85, 320, self.view.bounds.size.height-130) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -404,7 +403,15 @@
     }
     else
     {
-        return [allLocationList count] + 1;
+        if (self.total > [allLocationList count]) {
+            return [allLocationList count] + 1; //多显示一个loading cell
+        }else{
+            if (self.nameKeyword.length == 0) {
+                return [allLocationList count]; //不多显示
+            }else{
+                return [allLocationList count] + 1; //多显示一个新建cell
+            }
+        }
     }
 }
 

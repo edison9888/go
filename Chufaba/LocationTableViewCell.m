@@ -35,7 +35,7 @@
     [[self imageView] setFrame:imgFrame];
     
     CGRect labelFrame = [[self textLabel] frame];
-    labelFrame.origin = CGPointMake(47, labelFrame.origin.y);
+    labelFrame.origin = CGPointMake(36, labelFrame.origin.y);
     [[self textLabel] setFrame:labelFrame];
     
     //reposition the other labels accordingly
