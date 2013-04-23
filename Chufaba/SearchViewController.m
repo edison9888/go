@@ -402,7 +402,15 @@
     }
     else
     {
-        return [allLocationList count] + 1;
+        if (self.total > [allLocationList count]) {
+            return [allLocationList count] + 1; //多显示一个loading cell
+        }else{
+            if (self.nameKeyword.length == 0) {
+                return [allLocationList count]; //不多显示
+            }else{
+                return [allLocationList count] + 1; //多显示一个新建cell
+            }
+        }
     }
 }
 
