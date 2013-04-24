@@ -65,7 +65,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight80", @"景点", @"food80", @"美食", @"hotel80", @"住宿", @"more80", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
+    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight", @"景点", @"food", @"美食", @"hotel", @"住宿", @"more", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
