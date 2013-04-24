@@ -26,18 +26,9 @@
     
 }
 
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//
-//}
-
 @end
 
 @implementation SwipeableTableViewCellView
-- (void)drawRect:(CGRect)rect
-{
-    //[(SwipeableTableViewCell *)self.superview drawContentView:rect];
-}
 @end
 
 
@@ -61,9 +52,11 @@
 - (void)initialSetup
 {
     self.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     self.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     
     self.detailTextLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    self.detailTextLabel.highlightedTextColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     self.detailTextLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     
     self.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailinfo.png"]];
