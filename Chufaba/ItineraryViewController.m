@@ -239,6 +239,8 @@
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    self.tableView.rowHeight = 44.0f;
+    self.tableView.sectionHeaderHeight = 44.0f;
     
     oneDimensionLocationList = [self getOneDimensionLocationList];
 
@@ -943,51 +945,86 @@
     
     if (!cell)
     {
-        cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     
     NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    UIImageView *categoryIcon = (UIImageView *)[cell.contentView viewWithTag:1];
-    UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:2];
-    UILabel *timeLabel = (UILabel *)[cell.contentView viewWithTag:3];
     
     if ([object isEqual:DUMMY_CELL])
     {
-        titleLabel.text = @"";
+        cell.textLabel.text = @"";
         cell.contentView.backgroundColor = [UIColor clearColor];
-        categoryIcon.image = nil;
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     else
     {
         Location *locationAtIndex = (Location *)object;
         
-        titleLabel.text = locationAtIndex.name;
+        cell.textLabel.text = locationAtIndex.name;
         if (locationAtIndex.visitBegin)
         {
-            timeLabel.text = locationAtIndex.visitBegin;
+            cell.detailTextLabel.text = locationAtIndex.visitBegin;
         }
         else
         {
-            timeLabel.text = @"";
+            cell.detailTextLabel.text = @"";
         }
-        categoryIcon.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
+        cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
     }
-    cell.layer.opaque = YES;
-    cell.layer.shouldRasterize = YES;
-    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+//    cell.layer.opaque = YES;
+//    cell.layer.shouldRasterize = YES;
+//    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 44.0f;
-}
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSString *CellIdentifier = @"TravelLocationCell";
+//    
+//    ItineraryViewTableViewCell *cell = (ItineraryViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    
+//    if (!cell)
+//    {
+//        cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+//    }
+//    
+//    NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+//    UIImageView *categoryIcon = (UIImageView *)[cell.contentView viewWithTag:1];
+//    UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:2];
+//    UILabel *timeLabel = (UILabel *)[cell.contentView viewWithTag:3];
+//    
+//    if ([object isEqual:DUMMY_CELL])
+//    {
+//        titleLabel.text = @"";
+//        cell.contentView.backgroundColor = [UIColor clearColor];
+//        categoryIcon.image = nil;
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//    }
+//    else
+//    {
+//        Location *locationAtIndex = (Location *)object;
+//        
+//        titleLabel.text = locationAtIndex.name;
+//        if (locationAtIndex.visitBegin)
+//        {
+//            timeLabel.text = locationAtIndex.visitBegin;
+//        }
+//        else
+//        {
+//            timeLabel.text = @"";
+//        }
+//        categoryIcon.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
+//    }
+//    cell.layer.opaque = YES;
+//    cell.layer.shouldRasterize = YES;
+//    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+//    return cell;
+//}
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 44;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return 44;
+//}
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {

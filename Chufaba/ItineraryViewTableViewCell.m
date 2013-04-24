@@ -41,41 +41,19 @@
 
 - (void)initialSetup
 {
-    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    [contentView setClipsToBounds:YES];
-    [contentView setOpaque:YES];
-    contentView.tag = 30;
+    self.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    self.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     
-    UIImageView *categoryIcon = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12, 20, 20)];
-    categoryIcon.tag = 1;
-    [contentView addSubview:categoryIcon];
+    self.detailTextLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+    self.detailTextLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    self.detailTextLabel.highlightedTextColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(40, 12, 200, 20)];
-    title.tag = 2;
-    title.backgroundColor = [UIColor clearColor];
-    title.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-    title.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-    title.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-    [contentView addSubview:title];
-    
-    UILabel *time = [[UILabel alloc] initWithFrame:CGRectMake(235, 12, 60, 20)];
-    time.tag = 3;
-    time.backgroundColor = [UIColor clearColor];
-    time.textAlignment = NSTextAlignmentRight;
-    time.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-    time.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-    time.highlightedTextColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-    [contentView addSubview:time];
-    
-    UIImageView *accessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
-    accessoryView.image = [UIImage imageNamed:@"detailsmall.png"];
-    [contentView addSubview:accessoryView];
+    self.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall.png"]];
 	
 	UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cellWasSwiped:)];
     [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
-	[contentView addGestureRecognizer:swipeRecognizer];
-    
-    [self.contentView addSubview:contentView];
+	[self addGestureRecognizer:swipeRecognizer];
     
     UIView *bgColorView = [[UIView alloc] init];
     [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
@@ -89,8 +67,6 @@
     lineView.backgroundColor = [UIColor whiteColor];
     lineView.opaque = YES;
     [self.contentView addSubview:lineView];
-    self.contentView.opaque = YES;
-    self.contentView.layer.opaque = YES;
 }
 
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer
@@ -149,7 +125,8 @@
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.2];
-    [[self.contentView viewWithTag:30] setFrame:CGRectMake(-41, 0, 320, 44)];
+    [self.contentView setFrame:CGRectMake(-44, 0, 301, 44)];
+    [self.accessoryView setFrame:CGRectMake(257, 16, 9, 12)];
     if(swipedIndexPath.row == 0)
     {
         [deleteView setFrame:CGRectMake(279,yPosition+1,41,43)];
@@ -160,6 +137,7 @@
     }
     [UIView commitAnimations];
 }
+
 
 - (IBAction)notifyDeleteLocation:(id)sender
 {
@@ -177,7 +155,8 @@
 
 - (IBAction)maskViewTapped:(id)sender
 {
-    [[self.contentView viewWithTag:30] setFrame:CGRectMake(0, 0, 320, 44)];
+    [self.contentView setFrame:CGRectMake(0, 0, 301, 44)];
+    [self.accessoryView setFrame:CGRectMake(301, 16, 9, 12)];
     [[self.contentView viewWithTag:11] removeFromSuperview];
     UITableView * tableView = (UITableView *)self.superview;
     UIView *maskView = [tableView viewWithTag:10];

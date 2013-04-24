@@ -16,8 +16,5 @@
 @end
 
 @interface ItineraryViewTableViewCell : UITableViewCell <UIGestureRecognizerDelegate>
-//{
-//    UIView * contentView;
-//}
 
 @end
