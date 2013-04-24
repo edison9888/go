@@ -244,30 +244,6 @@
     return [self.travelPlans count];
 }
 
-//- (float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-//{
-//    return 0.01f;
-//}
-//
-//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-//{
-//    return [UIView new];
-//}
-
-
-//    NSArray *familyNames = [[NSArray alloc] initWithArray:[UIFont familyNames]];
-//    NSArray *fontNames;
-//    NSInteger indFamily, indFont;
-//    for(indFamily=0;indFamily<[familyNames count];++indFamily)
-//    {
-//        NSLog(@"Family name: %@", [familyNames objectAtIndex:indFamily]);
-//        fontNames =[[NSArray alloc]initWithArray:[UIFont fontNamesForFamilyName:[familyNames objectAtIndex:indFamily]]];
-//        for(indFont=0; indFont<[fontNames count]; ++indFont)
-//        {
-//            NSLog(@" Font name: %@",[fontNames objectAtIndex:indFont]);
-//        }
-//    }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"PlanCell";
@@ -281,58 +257,30 @@
     SwipeableTableViewCell *cell = (SwipeableTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (!cell)
-        cell = [[SwipeableTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[SwipeableTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     
     Plan *planAtIndex = [self.travelPlans objectAtIndex:indexPath.row];
-    
-    SwipeableTableViewCellView *contentView = (SwipeableTableViewCellView *)[cell viewWithTag:22];
-    
-    UIImageView *planCover = (UIImageView *)[contentView viewWithTag:1];
+
     NSString *coverName = [[planAtIndex.planId stringValue] stringByAppendingString:@"planCover"];
     
     if([self imageExists:coverName])
     {
-        planCover.image = [self loadImage: coverName];
+        cell.imageView.image = [self loadImage: coverName];
     }
     else
     {
-        planCover.image = [UIImage imageNamed:@"plan_cover"];
+        cell.imageView.image = [UIImage imageNamed:@"plan_cover"];
     }
     
-    UILabel *label;
-    label = (UILabel *)[contentView viewWithTag:2];
-    label.text = planAtIndex.name;
-    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    cell.textLabel.text = planAtIndex.name;
+    cell.detailTextLabel.text = [formatter stringFromDate:planAtIndex.date];
     
-    label = (UILabel *)[contentView viewWithTag:3];
-    label.text = [formatter stringFromDate:planAtIndex.date];
-    label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-    
-    label = (UILabel *)[contentView viewWithTag:4];
-    //label.text = [[planAtIndex.duration stringValue] stringByAppendingString:@"天"];
-    
+    UILabel *label = (UILabel *)[cell.contentView viewWithTag:4];
     label.text = [NSString stringWithFormat:@"%@天，%d个地点", [planAtIndex.duration stringValue], planAtIndex.locationCount];
-    label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-    
-    //add separator line
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 91, self.view.bounds.size.width, 1)];
-    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    [cell.contentView addSubview:lineView];
-
-    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-    lineView.backgroundColor = [UIColor whiteColor];
-    [cell.contentView addSubview:lineView];
-    
-    UIView *bgColorView = [[UIView alloc] init];
-    [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
-    [cell setSelectedBackgroundView:bgColorView];
     
     if(indexPath.row == [self.travelPlans count]-1)
     {
-        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 92, self.view.bounds.size.width, 1)];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 92, 320, 1)];
         lineView.backgroundColor = [UIColor whiteColor];
         [cell.contentView addSubview:lineView];
     }

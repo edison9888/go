@@ -89,7 +89,7 @@
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:longPressRecognizer];
     
-    UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,51,44)];
+    UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,46,44)];
     deleteView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
     
     CALayer *leftBorder = [CALayer layer];
@@ -105,7 +105,7 @@
     [deleteView.layer addSublayer:leftBorder];
 	
 	UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,46,44)];
-    [deleteButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
+    [deleteButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
     [deleteButton addTarget:self action:@selector(notifyDeleteLocation:) forControlEvents:UIControlEventTouchDown];
     
     [deleteView addSubview:deleteButton];
@@ -123,19 +123,18 @@
         [delegate tableView:tableView didSwipeCellAtIndexPath:myIndexPath];
     }
     
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.2];
-    [self.contentView setFrame:CGRectMake(-44, 0, 301, 44)];
-    [self.accessoryView setFrame:CGRectMake(257, 16, 9, 12)];
-    if(swipedIndexPath.row == 0)
-    {
-        [deleteView setFrame:CGRectMake(279,yPosition+1,41,43)];
-    }
-    else
-    {
-        [deleteView setFrame:CGRectMake(279,yPosition,41,44)];
-    }
-    [UIView commitAnimations];
+    [UIView animateWithDuration:0.2 animations:^{
+        if(swipedIndexPath.row == 0)
+        {
+            [deleteView setFrame:CGRectMake(274,yPosition+1,46,43)];
+        }
+        else
+        {
+            [deleteView setFrame:CGRectMake(274,yPosition,46,44)];
+        }
+        CGRect cellFrame = self.frame;
+        self.frame = CGRectMake(cellFrame.origin.x-44,cellFrame.origin.y,320,44);
+    } completion:NULL];
 }
 
 
@@ -150,13 +149,14 @@
     {
         [delegate deleteLocation];
     }
-    [[self.contentView viewWithTag:30] setFrame:CGRectMake(0, 0, 320, 44)];
+    CGRect cellFrame = self.frame;
+    self.frame = CGRectMake(0,cellFrame.origin.y,320,44);
 }
 
 - (IBAction)maskViewTapped:(id)sender
 {
-    [self.contentView setFrame:CGRectMake(0, 0, 301, 44)];
-    [self.accessoryView setFrame:CGRectMake(301, 16, 9, 12)];
+    CGRect cellFrame = self.frame;
+    self.frame = CGRectMake(0,cellFrame.origin.y,320,44);
     [[self.contentView viewWithTag:11] removeFromSuperview];
     UITableView * tableView = (UITableView *)self.superview;
     UIView *maskView = [tableView viewWithTag:10];

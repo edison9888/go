@@ -25,9 +25,6 @@
 @end
 
 @interface SwipeableTableViewCell : UITableViewCell <UIGestureRecognizerDelegate>
-{
-    UIView * contentView;
-}
 
 @property (nonatomic, strong) UIButton *editButton;
 @property (nonatomic, strong) UIButton *deleteButton;

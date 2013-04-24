@@ -60,41 +60,43 @@
 
 - (void)initialSetup
 {
-    contentView = [[SwipeableTableViewCellView alloc] initWithFrame:CGRectMake(0, 0, 320, 92)];
-	[contentView setClipsToBounds:YES];
-	[contentView setOpaque:NO];
-    contentView.tag = 22;
+    self.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     
-    UIImageView *planCover = [[UIImageView alloc] initWithFrame:CGRectMake(20, 16, 100, 60)];
-    planCover.image = [UIImage imageNamed:@"sydney.png"];
-    planCover.tag = 1;
-    [contentView addSubview:planCover];
+    self.detailTextLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    self.detailTextLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     
-    UILabel *planTitle = [[UILabel alloc] initWithFrame:CGRectMake(140, 20, 160, 20)];
-    planTitle.tag = 2;
-    planTitle.backgroundColor = [UIColor clearColor];
-    [contentView addSubview:planTitle];
-    
-    UILabel *planDate = [[UILabel alloc] initWithFrame:CGRectMake(140, 42, 120, 20)];
-    planDate.tag = 3;
-    planDate.backgroundColor = [UIColor clearColor];
-    [contentView addSubview:planDate];
+    self.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailinfo.png"]];
+    UIView *bgColorView = [[UIView alloc] init];
+    [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
+    [self setSelectedBackgroundView:bgColorView];
+	
+	UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cellWasSwiped:)];
+    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
+	[self addGestureRecognizer:swipeRecognizer];
     
     UILabel *planInfo = [[UILabel alloc] initWithFrame:CGRectMake(140, 56, 120, 20)];
     planInfo.tag = 4;
     planInfo.backgroundColor = [UIColor clearColor];
-    [contentView addSubview:planInfo];
+    planInfo.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    planInfo.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+    [self.contentView addSubview:planInfo];
     
-    UIImageView *accessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(300, 38, 12, 16)];
-    accessoryView.image = [UIImage imageNamed:@"detailinfo.png"];
-    [contentView addSubview:accessoryView];
-	
-	UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cellWasSwiped:)];
-    [swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
-	[contentView addGestureRecognizer:swipeRecognizer];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 91, 320, 1)];
+    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    [self.contentView addSubview:lineView];
     
-    [self addSubview:contentView];
-    //self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+    lineView.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:lineView];
+}
+
+- (void) layoutSubviews
+{
+    [super layoutSubviews];
+    self.textLabel.frame = CGRectMake(140, 20, 160, 20);
+    self.detailTextLabel.frame = CGRectMake(140, 42, 120, 20);
+    self.imageView.frame = CGRectMake(20, 16, 100, 60);
 }
 
 - (IBAction)editPlan:(id)sender
@@ -107,7 +109,8 @@
     if ([delegate respondsToSelector:@selector(didEditPlan)]){
         [delegate didEditPlan];
     }
-    [contentView setFrame:CGRectMake(0, 0, 320, 92)];
+    CGRect cellFrame = self.frame;
+    self.frame = CGRectMake(0,cellFrame.origin.y,320,92);
 }
 
 - (IBAction)deletePlan:(id)sender
@@ -120,21 +123,15 @@
     if ([delegate respondsToSelector:@selector(didDeletePlan)]){
         [delegate didDeletePlan];
     }
-    [contentView setFrame:CGRectMake(0, 0, 320, 92)];
+    CGRect cellFrame = self.frame;
+    self.frame = CGRectMake(0,cellFrame.origin.y,320,92);
 }
 
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer
-{	
+{
 	UITableView * tableView = (UITableView *)self.superview;
-    
-//    CGPoint location = [recognizer locationInView:tableView];
-//    NSIndexPath *swipedIndexPath = [tableView indexPathForRowAtPoint:location];
-    
-    //UITableViewCell *swipedCell  = [tableView cellForRowAtIndexPath:swipedIndexPath];
-    //NSInteger yPosition = 92*swipedIndexPath.row;
     NSInteger yPosition = self.frame.origin.y - tableView.bounds.origin.y;
     
-    //UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,480)];
     UIView *maskView = [[UIView alloc] initWithFrame:CGRectMake(0,tableView.bounds.origin.y,320,480)];
     maskView.backgroundColor = [UIColor clearColor];
     maskView.tag = 10;
@@ -154,14 +151,12 @@
     leftBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
     [editView.layer addSublayer:leftBorder];
     
-    //UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(20,35,21,21)];
     UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,51,92)];
-    [editButton setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+    [editButton setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
     [editButton addTarget:self action:@selector(editPlan:) forControlEvents:UIControlEventTouchDown];
 	
-	//UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(61,35,21,21)];
     UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(51,0,51,92)];
-    [deleteButton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
+    [deleteButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
     [deleteButton addTarget:self action:@selector(deletePlan:) forControlEvents:UIControlEventTouchDown];
     
     [editView addSubview:editButton];
@@ -170,7 +165,7 @@
     [maskView addSubview:editView];
     [tableView addSubview:maskView];
     
-	id delegate = tableView.nextResponder; 
+	id delegate = tableView.nextResponder;
 	
 	NSIndexPath * myIndexPath = [tableView indexPathForCell:self];
     
@@ -181,14 +176,16 @@
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.2];
-    [contentView setFrame:CGRectMake(-102, 0, 320, 92)];
+    CGRect cellFrame = self.frame;
+    self.frame = CGRectMake(cellFrame.origin.x-102,cellFrame.origin.y,320,92);
     [editView setFrame:CGRectMake(218,yPosition,102,92)];
     [UIView commitAnimations];
 }
 
 - (IBAction)maskViewTapped:(id)sender
 {
-    [contentView setFrame:CGRectMake(0, 0, 320, 92)];
+    CGRect cellFrame = self.frame;
+    self.frame = CGRectMake(0,cellFrame.origin.y,320,92);
     UITableView * tableView = (UITableView *)self.superview;
     UIView *maskView = [tableView viewWithTag:10];
     [maskView removeFromSuperview];
@@ -203,13 +200,6 @@
 - (void)resetViews:(BOOL)animated
 {
 
-}
-
-- (void)setNeedsDisplay
-{
-	[super setNeedsDisplay];
-	if (!contentView.hidden)
-        [contentView setNeedsDisplay];
 }
 
 - (void)setSelected:(BOOL)flag {

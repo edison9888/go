@@ -977,60 +977,10 @@
     return cell;
 }
 
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    static NSString *CellIdentifier = @"TravelLocationCell";
-//    
-//    ItineraryViewTableViewCell *cell = (ItineraryViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    
-//    if (!cell)
-//    {
-//        cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-//    }
-//    
-//    NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-//    UIImageView *categoryIcon = (UIImageView *)[cell.contentView viewWithTag:1];
-//    UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:2];
-//    UILabel *timeLabel = (UILabel *)[cell.contentView viewWithTag:3];
-//    
-//    if ([object isEqual:DUMMY_CELL])
-//    {
-//        titleLabel.text = @"";
-//        cell.contentView.backgroundColor = [UIColor clearColor];
-//        categoryIcon.image = nil;
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//    }
-//    else
-//    {
-//        Location *locationAtIndex = (Location *)object;
-//        
-//        titleLabel.text = locationAtIndex.name;
-//        if (locationAtIndex.visitBegin)
-//        {
-//            timeLabel.text = locationAtIndex.visitBegin;
-//        }
-//        else
-//        {
-//            timeLabel.text = @"";
-//        }
-//        categoryIcon.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
-//    }
-//    cell.layer.opaque = YES;
-//    cell.layer.shouldRasterize = YES;
-//    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
-//    return cell;
-//}
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    return 44;
-//}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSInteger dayValue = singleDayMode ? [self.daySelected intValue]-1 : section;
     
-    //NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *dayComponents = [self.gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:self.dataController.date];
     NSInteger theDay = [dayComponents day];
     NSInteger theMonth = [dayComponents month];
