@@ -65,7 +65,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight80", @"景点", @"food80", @"美食", @"hotel80", @"住宿", @"more80", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
+    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight", @"景点", @"food", @"美食", @"hotel", @"住宿", @"more", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
@@ -492,7 +492,7 @@
         [tableHeaderView addSubview:categoryImage];
     }
     categoryImage.image = [UIImage imageNamed:[self.categoryImage objectForKey: self.location.category]];
-    categoryImage.frame = CGRectMake(10, showMap? MAP_VIEW_HEIGHT + 8 : 8, NAME_SCROLL_HEIGHT, NAME_SCROLL_HEIGHT);
+    categoryImage.frame = CGRectMake(3, showMap? MAP_VIEW_HEIGHT + 8 : 8, NAME_SCROLL_HEIGHT, NAME_SCROLL_HEIGHT);
 
     FadeScrollView *nameScroll = (FadeScrollView *)[self.view viewWithTag:TAG_NAMESCROLL];
     if (!nameScroll) {
@@ -502,11 +502,11 @@
         nameScroll.showsVerticalScrollIndicator = FALSE;
         [tableHeaderView addSubview:nameScroll];
     }
-    NSInteger nameScrollWidth = self.view.frame.size.width - NAME_SCROLL_HEIGHT - 15;
+    NSInteger nameScrollWidth = self.view.frame.size.width - NAME_SCROLL_HEIGHT;
     if (self.location.useradd) {
         nameScrollWidth -= 31;
     }
-    nameScroll.frame = CGRectMake(10+NAME_SCROLL_HEIGHT+5, showMap? MAP_VIEW_HEIGHT + 5 : 5, nameScrollWidth, NAME_SCROLL_HEIGHT);
+    nameScroll.frame = CGRectMake(3 + NAME_SCROLL_HEIGHT, showMap? MAP_VIEW_HEIGHT + 5 : 5, nameScrollWidth, NAME_SCROLL_HEIGHT);
         
     UILabel *nameLabel = (UILabel *)[nameScroll viewWithTag:TAG_NAMELABEL];
     if (!nameLabel) {
