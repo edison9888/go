@@ -206,7 +206,7 @@
         infoView.layer.masksToBounds = NO;
         infoView.layer.shadowColor = [UIColor blackColor].CGColor;
         infoView.layer.shadowOffset = CGSizeMake(0, 1);
-        infoView.layer.shadowOpacity = 0.5;
+        infoView.layer.shadowOpacity = 0.3;
     }
     [self.view bringSubviewToFront:infoView];
     
