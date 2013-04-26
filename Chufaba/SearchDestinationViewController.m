@@ -7,6 +7,7 @@
 //
 
 #import "SearchDestinationViewController.h"
+#import "CfbSearchBar.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define TAG_UP_LINE 1
@@ -61,11 +62,11 @@
     
     [self setTitle:@"搜索目的地"];
     
-    self.searchBar.tintColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
     self.searchBar.placeholder = @"想去哪里旅行？";
     self.searchBar.barStyle = UIBarStyleBlack;
     self.searchBar.tintColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     self.searchBar.backgroundImage = [UIImage imageNamed:@"bgbar"];
+    
     [self.searchBar becomeFirstResponder];
     
     UIView *bottomBorder = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
@@ -143,7 +144,8 @@
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
-    [_searchBar resignFirstResponder];
+    theSearchBar.showsCancelButton = NO;
+    [theSearchBar resignFirstResponder];
     [self searchBar:theSearchBar textDidChange:theSearchBar.text];
 }
 
@@ -562,6 +564,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    self.searchBar.showsCancelButton = NO;
     [self.searchBar resignFirstResponder];
 }
 

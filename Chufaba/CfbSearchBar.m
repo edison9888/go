@@ -21,7 +21,7 @@
 
 - (void)layoutSubviews
 {
-    [self setShowsCancelButton:NO animated:NO];
+    //[self setShowsCancelButton:NO animated:NO];
     UITextField *searchField;
     NSUInteger numViews = [self.subviews count];
     for(int i = 0; i < numViews; i++) {
