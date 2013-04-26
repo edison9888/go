@@ -59,7 +59,7 @@
     self.detailTextLabel.highlightedTextColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     self.detailTextLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     
-    self.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailinfo.png"]];
+    self.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailinfo"]];
     UIView *bgColorView = [[UIView alloc] init];
     [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
     [self setSelectedBackgroundView:bgColorView];

@@ -58,7 +58,7 @@
     
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
     {
-        UIImage *image = [UIImage imageNamed:@"bar.png"];
+        UIImage *image = [UIImage imageNamed:@"bar"];
         UINavigationBar *navBar = self.navigationController.navigationBar;
         [navBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
         
@@ -70,13 +70,13 @@
     }
     
     UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [cancelBtn setImage:[UIImage imageNamed:@"cancel.png"] forState:UIControlStateNormal];
+    [cancelBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
     [cancelBtn addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *cBtn = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
     self.navigationItem.leftBarButtonItem = cBtn;
     
     UIButton *saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [saveBtn setImage:[UIImage imageNamed:@"done.png"] forState:UIControlStateNormal];
+    [saveBtn setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
     [saveBtn addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
     self.navigationItem.rightBarButtonItem = dBtn;
@@ -92,7 +92,7 @@
     }
     else
     {
-        defaultCover = [UIImage imageNamed:@"plan_cover.png"];
+        defaultCover = [UIImage imageNamed:@"plan_cover"];
         self.coverImageView.image = defaultCover;
     }
     

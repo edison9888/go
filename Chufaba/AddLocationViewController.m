@@ -72,20 +72,20 @@
     [super viewDidLoad];
     
     UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [cancelBtn setImage:[UIImage imageNamed:@"cancel.png"] forState:UIControlStateNormal];
+    [cancelBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
     [cancelBtn addTarget:self action:@selector(cancelAddLocation:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *cBtn = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
     self.navigationItem.leftBarButtonItem = cBtn;
     
     UIButton *saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [saveBtn setImage:[UIImage imageNamed:@"done.png"] forState:UIControlStateNormal];
+    [saveBtn setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
     [saveBtn addTarget:self action:@selector(confirmAddLocation:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
     self.navigationItem.rightBarButtonItem = dBtn;
     
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
     {
-        UIImage *image = [UIImage imageNamed:@"bar.png"];
+        UIImage *image = [UIImage imageNamed:@"bar"];
         [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     }
 
@@ -98,7 +98,7 @@
     searchBar.text = self.location.name;
     searchBar.barStyle = UIBarStyleBlack;
     searchBar.tintColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    searchBar.backgroundImage = [UIImage imageNamed:@"bgbar.png"];
+    //searchBar.backgroundImage = [UIImage imageNamed:@"bgbar.png"];
     [self.view addSubview:searchBar];
     
     self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 50, 320, 430)];

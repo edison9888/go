@@ -65,13 +65,13 @@
     self.searchBar.placeholder = @"想去哪里旅行？";
     self.searchBar.barStyle = UIBarStyleBlack;
     self.searchBar.tintColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    self.searchBar.backgroundImage = [UIImage imageNamed:@"bgbar"];
+    //self.searchBar.backgroundImage = [UIImage imageNamed:@"bgbar"];
     
     [self.searchBar becomeFirstResponder];
     
-    UIView *bottomBorder = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
-    bottomBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    [self.searchBar addSubview:bottomBorder];
+//    UIView *bottomBorder = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.view.bounds.size.width, 1)];
+//    bottomBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+//    [self.searchBar addSubview:bottomBorder];
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -80,6 +80,7 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
     headerView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     self.tableView.tableHeaderView = headerView;
+    //self.tableView.tableHeaderView = self.searchBar;
     
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
     footerView.backgroundColor = [UIColor whiteColor];

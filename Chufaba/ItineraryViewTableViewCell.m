@@ -58,15 +58,6 @@
     UIView *bgColorView = [[UIView alloc] init];
     [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
     [self setSelectedBackgroundView:bgColorView];
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
-    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    [self.contentView addSubview:lineView];
-    
-    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
-    lineView.backgroundColor = [UIColor whiteColor];
-    lineView.opaque = YES;
-    [self.contentView addSubview:lineView];
 }
 
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer

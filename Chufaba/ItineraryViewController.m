@@ -139,8 +139,6 @@
 #define NORMAL_CELL_FINISHING_HEIGHT 60
 #define DAY_FILTER_FONT_SIZE 20
 #define TAG_DAY_FILTER_ARROW 1
-#define TAG_IMPLY_IMAGE 10000
-#define TAG_IMPLY_LABEL 10001
 
 #pragma mark - Synchronize Model and View
 - (void)updateMapView
@@ -282,10 +280,6 @@
     [pullView addSubview:pullImgView];
     [self.tableView addSubview:pullView];
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-    headerView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    self.tableView.tableHeaderView = headerView;
-    
     [self.view addSubview:self.tableView];
     
     UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
@@ -296,7 +290,6 @@
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setFrame:CGRectMake(100,0,120,30)];
-    [button setBackgroundColor:[UIColor clearColor]];
     [button setTitle:@"全部" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0] forState:UIControlStateNormal];
     [button setTitleShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5] forState:UIControlStateNormal];
@@ -334,23 +327,6 @@
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
         footerView.backgroundColor = [UIColor whiteColor];
         self.tableView.tableFooterView = footerView;
-    }
-    
-    if(isEmptyItinerary)
-    {
-        UIImageView *implyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"t"]];
-        implyImage.frame = CGRectMake(205,42,94,58);
-        implyImage.tag = TAG_IMPLY_IMAGE;
-        [self.view addSubview:implyImage];
-        [self.view bringSubviewToFront:implyImage];
-        
-        UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 70, 220, 30)];
-        implyLabel.tag = TAG_IMPLY_LABEL;
-        implyLabel.backgroundColor = [UIColor clearColor];
-        implyLabel.text = @"第一步总是让人兴奋不已!";
-        implyLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-        implyLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-        [self.view addSubview:implyLabel];
     }
     
     //sync,edit,share menu part
@@ -918,6 +894,10 @@
         if (!cell)
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            UIImageView *implyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"t"]];
+            implyImage.frame = CGRectMake(60,0,240,58);
+            [cell.contentView addSubview:implyImage];
+            cell.userInteractionEnabled = NO;
         }
         return cell;
     }
@@ -954,6 +934,20 @@
                 cell.detailTextLabel.text = @"";
             }
             cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
+            
+            UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+            lineView.backgroundColor = [UIColor whiteColor];
+            lineView.opaque = YES;
+            [cell.contentView addSubview:lineView];
+            
+//            if(indexPath.section == [self.dataController.masterTravelDayList count] -1 || indexPath.row != [[self.dataController objectInListAtIndex:indexPath.section] count] -1)
+            if(indexPath.section == [self.dataController.masterTravelDayList count] -1 || indexPath.row != [[self.dataController objectInListAtIndex:indexPath.section] count] -1)
+            {
+                lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
+                lineView.opaque = YES;
+                lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+                [cell.contentView addSubview:lineView];
+            }
         }
         //    cell.layer.opaque = YES;
         //    cell.layer.shouldRasterize = YES;
@@ -981,19 +975,25 @@
     NSDate *sectionDate = [self.gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
     
     //Headerview
+//    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
+    UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0]];
+    myView.backgroundColor = background;
+//    UIImageView *myView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
+//    myView.image = [[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0];
+
     
     //HeaderLabel
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 6.0, 250.0, 20.0)] ;
     label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-    label.shadowColor = [UIColor whiteColor];
+    label.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     label.shadowOffset = CGSizeMake(0, 1);
     label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
     
     UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 24.0, 250.0, 20.0)] ;
     wLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-    wLabel.shadowColor = [UIColor whiteColor];
+    wLabel.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     wLabel.shadowOffset = CGSizeMake(0, 1);
     wLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     wLabel.backgroundColor = [UIColor clearColor];
@@ -1004,17 +1004,9 @@
     [button setImage:[UIImage imageNamed:@"addLocation"] forState:UIControlStateNormal];
     button.tag = dayValue;
     button.hidden = NO;
-    //[button setBackgroundColor:[UIColor clearColor]];
     [button addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchDown];
     
     label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
-    myView.backgroundColor = [UIColor colorWithRed:223/255.0 green:215/255.0 blue:198/255.0 alpha:1.0];
-    
-    CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
-    CGRect viewShadowFrame = CGRectMake(0, 0, 320, myView.frame.size.height);
-    viewShadow.frame = viewShadowFrame;
-    viewShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0].CGColor,(id)[UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor,nil];
-    [myView.layer addSublayer:viewShadow];
     
     myView.layer.masksToBounds = NO;
     myView.layer.shadowOffset = CGSizeMake(0, 1);
@@ -1028,6 +1020,71 @@
     //[myView bringSubviewToFront:button];
     return myView;
 }
+
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    NSInteger dayValue = singleDayMode ? [self.daySelected intValue]-1 : section;
+//    
+//    NSDateComponents *dayComponents = [self.gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:self.dataController.date];
+//    NSInteger theDay = [dayComponents day];
+//    NSInteger theMonth = [dayComponents month];
+//    NSInteger theYear = [dayComponents year];
+//    
+//    NSDateComponents *components = [[NSDateComponents alloc] init];
+//    [components setDay:theDay];
+//    [components setMonth:theMonth];
+//    [components setYear:theYear];
+//    NSDate *thisDate = [self.gregorian dateFromComponents:components];
+//    NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
+//    [offsetComponents setDay:dayValue];
+//    NSDate *sectionDate = [self.gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
+//    
+//    //Headerview
+//    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
+//    
+//    //HeaderLabel
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 6.0, 250.0, 20.0)] ;
+//    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+//    label.shadowColor = [UIColor whiteColor];
+//    label.shadowOffset = CGSizeMake(0, 1);
+//    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+//    label.backgroundColor = [UIColor clearColor];
+//    
+//    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 24.0, 250.0, 20.0)] ;
+//    wLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+//    wLabel.shadowColor = [UIColor whiteColor];
+//    wLabel.shadowOffset = CGSizeMake(0, 1);
+//    wLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+//    wLabel.backgroundColor = [UIColor clearColor];
+//    wLabel.text = [self.dateFormatter stringFromDate:sectionDate];;
+//    
+//    //AddParameterButton
+//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
+//    [button setImage:[UIImage imageNamed:@"addLocation"] forState:UIControlStateNormal];
+//    button.tag = dayValue;
+//    button.hidden = NO;
+//    [button addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchDown];
+//    
+//    label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
+//    myView.backgroundColor = [UIColor colorWithRed:223/255.0 green:215/255.0 blue:198/255.0 alpha:1.0];
+//    
+//    CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
+//    CGRect viewShadowFrame = CGRectMake(0, 0, 320, myView.frame.size.height);
+//    viewShadow.frame = viewShadowFrame;
+//    viewShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0].CGColor,(id)[UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor,nil];
+//    [myView.layer addSublayer:viewShadow];
+//    
+//    myView.layer.masksToBounds = NO;
+//    myView.layer.shadowOffset = CGSizeMake(0, 1);
+//    myView.layer.shadowRadius = 0.8;
+//    myView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
+//    myView.layer.shadowOpacity = 1;
+//    
+//    [myView addSubview:label];
+//    [myView addSubview:wLabel];
+//    [myView addSubview:button];
+//    return myView;
+//}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -1230,10 +1287,8 @@
 //SearchViewControllerDelegate implementation
 -(void) notifyItinerayToReload
 {
-    if([self.view viewWithTag:TAG_IMPLY_IMAGE])
+    if(isEmptyItinerary)
     {
-        [[self.view viewWithTag:TAG_IMPLY_IMAGE] removeFromSuperview];
-        [[self.view viewWithTag:TAG_IMPLY_LABEL] removeFromSuperview];
         isEmptyItinerary = FALSE;
         self.tableView.rowHeight = 44.0f;
     }
