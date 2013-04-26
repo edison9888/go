@@ -19,7 +19,7 @@
 @end
 
 @protocol AddLocationDelegate <NSObject>
-
+@optional
 -(void) didAddLocation:(Location *)location;
 -(void) didChangeLocation:(Location *)location;
 

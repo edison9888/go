@@ -18,8 +18,11 @@
 @interface ItineraryViewController () {
     NSNumber *lastLatitude;
     NSNumber *lastLongitude;
+    BOOL isEmptyItinerary;
 }
-- (NSMutableArray *) getOneDimensionLocationList;
+- (NSMutableArray *)getOneDimensionLocationList;
+
+- (void)setEmptyItinerary;
 @end
 
 @implementation ItineraryViewController
@@ -45,6 +48,19 @@
         _gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     }
     return _gregorian;
+}
+
+- (void)setEmptyItinerary
+{
+    isEmptyItinerary = TRUE;
+    for (NSMutableArray *array in self.dataController.masterTravelDayList)
+    {
+        if([array count] > 0)
+        {
+            isEmptyItinerary = FALSE;
+            break;
+        }
+    }
 }
 
 - (void)reloadDataController
@@ -123,6 +139,8 @@
 #define NORMAL_CELL_FINISHING_HEIGHT 60
 #define DAY_FILTER_FONT_SIZE 20
 #define TAG_DAY_FILTER_ARROW 1
+#define TAG_IMPLY_IMAGE 10000
+#define TAG_IMPLY_LABEL 10001
 
 #pragma mark - Synchronize Model and View
 - (void)updateMapView
@@ -229,6 +247,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setEmptyItinerary];
     self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight40", @"景点", @"food40", @"美食", @"hotel40", @"住宿", @"more40", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
@@ -239,7 +258,14 @@
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    self.tableView.rowHeight = 44.0f;
+    if(isEmptyItinerary)
+    {
+        self.tableView.rowHeight = 80.0f;
+    }
+    else
+    {
+        self.tableView.rowHeight = 44.0f;
+    }
     self.tableView.sectionHeaderHeight = 44.0f;
     
     oneDimensionLocationList = [self getOneDimensionLocationList];
@@ -308,6 +334,23 @@
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
         footerView.backgroundColor = [UIColor whiteColor];
         self.tableView.tableFooterView = footerView;
+    }
+    
+    if(isEmptyItinerary)
+    {
+        UIImageView *implyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"t"]];
+        implyImage.frame = CGRectMake(205,42,94,58);
+        implyImage.tag = TAG_IMPLY_IMAGE;
+        [self.view addSubview:implyImage];
+        [self.view bringSubviewToFront:implyImage];
+        
+        UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 70, 220, 30)];
+        implyLabel.tag = TAG_IMPLY_LABEL;
+        implyLabel.backgroundColor = [UIColor clearColor];
+        implyLabel.text = @"第一步总是让人兴奋不已!";
+        implyLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+        implyLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+        [self.view addSubview:implyLabel];
     }
     
     //sync,edit,share menu part
@@ -836,86 +879,10 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(void) didAddLocation:(Location *) location
-{
-    //add search location to database
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd,poi_id,opening,fee,website) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",self.plan.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude,[NSNumber numberWithBool:location.useradd],location.poiId,location.opening,location.fee,location.website];
-    FMResultSet *results = [db executeQuery:@"SELECT * FROM location order by id desc limit 1"];
-    if([results next])
-    {
-        location.locationId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
-    }
-    [db close];
-    
-    location.whichday = self.dayToAdd;
-    location.seqofday = self.seqToAdd;
-    
-    BOOL addFooterView = FALSE;
-    if(singleDayMode){
-        if([[self.dataController objectInListAtIndex:0] count] == 0)
-        {
-            addFooterView = TRUE;
-        } 
-        [[self.dataController objectInListAtIndex:0] addObject:location];
-    }
-    else{
-        if([[self.dataController.masterTravelDayList lastObject] count] == 0 && [location.whichday intValue] == [self.dataController.masterTravelDayList count])
-        {
-            addFooterView = TRUE;
-        }
-        [[self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1] addObject:location];
-    }
-    if(addFooterView)
-    {
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-        footerView.backgroundColor = [UIColor whiteColor];
-        self.tableView.tableFooterView = footerView;
-    }
-    
-    [self dismissViewControllerAnimated:NO completion:nil];
-    
-    //NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue]-2 inSection:[self.dayToAdd intValue]-1];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue]-1 inSection:[self.dayToAdd intValue]-1];
-    
-    NSLog(@"section:%d", indexPath.section);
-    NSLog(@"row:%d", indexPath.row);
-    
-    NSInteger indexToInsert = [self oneDimensionCountOfIndexPath:indexPath];
-    [oneDimensionLocationList insertObject:location atIndex:indexToInsert];
-    
-    NSIndexPath *scrollIndexPath = [NSIndexPath indexPathForRow:[self.seqToAdd intValue]-2 > 0? [self.seqToAdd intValue]-2:0 inSection:[self.dayToAdd intValue]-1];
-    if([self.tableView numberOfRowsInSection:scrollIndexPath.section] > 0)
-    {
-        [self.tableView scrollToRowAtIndexPath:scrollIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-    }
-    else
-    {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NSNotFound inSection:scrollIndexPath.section] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-    }
-
-    [self.tableView beginUpdates];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView endUpdates];
-    
-    if(location.latitude !=nil && location.longitude != nil)
-    {
-        lastLatitude = location.latitude;
-        lastLongitude = location.longitude;
-    }
-    
-    //add this to resolve the issue that map annotations doesn't update
-    //self.annotations = [self mapAnnotations];
-    [self.itineraryDelegate didAddLocationToPlan];
 }
 
 -(void) didChangeLocation:(Location *)location
 {
-    //int index = location.loca
     [[self.dataController objectInListAtIndex:[location.whichday intValue]-1] replaceObjectAtIndex:[location.seqofday intValue]-1 withObject:location];
     [self.tableView reloadData];
     
@@ -934,47 +901,65 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if(isEmptyItinerary && section == 0)
+    {
+        return  1;
+    }
     return [[self.dataController objectInListAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"TravelLocationCell";
-    
-    ItineraryViewTableViewCell *cell = (ItineraryViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (!cell)
+    if(isEmptyItinerary && indexPath.section ==0 && indexPath.row == 0)
     {
-        cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-    }
-    
-    NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    
-    if ([object isEqual:DUMMY_CELL])
-    {
-        cell.textLabel.text = @"";
-        cell.contentView.backgroundColor = [UIColor clearColor];
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        static NSString *CellIdentifier = @"EmptyCell";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (!cell)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        return cell;
     }
     else
     {
-        Location *locationAtIndex = (Location *)object;
+        static NSString *CellIdentifier = @"TravelLocationCell";
         
-        cell.textLabel.text = locationAtIndex.name;
-        if (locationAtIndex.visitBegin)
+        ItineraryViewTableViewCell *cell = (ItineraryViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (!cell)
         {
-            cell.detailTextLabel.text = locationAtIndex.visitBegin;
+            cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        }
+        
+        NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        
+        if ([object isEqual:DUMMY_CELL])
+        {
+            cell.textLabel.text = @"";
+            cell.contentView.backgroundColor = [UIColor clearColor];
+            cell.accessoryType = UITableViewCellAccessoryNone;
         }
         else
         {
-            cell.detailTextLabel.text = @"";
+            Location *locationAtIndex = (Location *)object;
+            
+            cell.textLabel.text = locationAtIndex.name;
+            if (locationAtIndex.visitBegin)
+            {
+                cell.detailTextLabel.text = locationAtIndex.visitBegin;
+            }
+            else
+            {
+                cell.detailTextLabel.text = @"";
+            }
+            cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
         }
-        cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
+        //    cell.layer.opaque = YES;
+        //    cell.layer.shouldRasterize = YES;
+        //    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+        return cell;
     }
-//    cell.layer.opaque = YES;
-//    cell.layer.shouldRasterize = YES;
-//    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    return cell;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -1245,6 +1230,13 @@
 //SearchViewControllerDelegate implementation
 -(void) notifyItinerayToReload
 {
+    if([self.view viewWithTag:TAG_IMPLY_IMAGE])
+    {
+        [[self.view viewWithTag:TAG_IMPLY_IMAGE] removeFromSuperview];
+        [[self.view viewWithTag:TAG_IMPLY_LABEL] removeFromSuperview];
+        isEmptyItinerary = FALSE;
+        self.tableView.rowHeight = 44.0f;
+    }
     [self reloadDataController];
     [self.tableView reloadData];
 }
