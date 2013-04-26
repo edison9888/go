@@ -77,7 +77,7 @@
     
     [self configureView];
     
-    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -MAP_VIEW_HEIGHT-60, 320, 60)];
+    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -MAP_VIEW_HEIGHT * 3-60, 320, 60)];
     UIImageView *pullImgView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 10, 72, 40)];
     pullImgView.image = [UIImage imageNamed:@"pull_bg.png"];
     [pullView addSubview:pullImgView];
@@ -431,14 +431,14 @@
             [tableHeaderView addSubview:button];
             [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
         }
-        mapView.frame = CGRectMake(0, -MAP_VIEW_HEIGHT, self.view.frame.size.width, MAP_VIEW_HEIGHT*2);
+        mapView.frame = CGRectMake(0, -MAP_VIEW_HEIGHT * 3, self.view.frame.size.width, MAP_VIEW_HEIGHT*4);
         if (!button) {
             button = (UIButton *)[self.view viewWithTag:TAG_MAPBTN];
         }
         [button setFrame:mapView.frame];
         
         //中心偏上，好让标记能显示在可视区域中间
-        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue] + 0.0025, [self.location.longitude doubleValue]);
+        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue] + 0.0035, [self.location.longitude doubleValue]);
         [mapView setCenterCoordinate:customLoc2D_5 animated:false];
         MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1000, 1000);
         MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
@@ -448,7 +448,7 @@
         //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
         
         CALayer *bottomBorder = [CALayer layer];
-        bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT * 2 - 1, self.view.frame.size.width, 2);
+        bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT * 4 - 1, self.view.frame.size.width, 2);
         bottomBorder.backgroundColor = [UIColor whiteColor].CGColor;
         [mapView.layer addSublayer:bottomBorder];
     }else{
