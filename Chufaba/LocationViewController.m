@@ -438,7 +438,7 @@
         [button setFrame:mapView.frame];
         
         //中心偏上，好让标记能显示在可视区域中间
-        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue] + 0.0035, [self.location.longitude doubleValue]);
+        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue] + 0.0033, [self.location.longitude doubleValue]);
         [mapView setCenterCoordinate:customLoc2D_5 animated:false];
         MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1000, 1000);
         MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
