@@ -184,17 +184,12 @@
     
     [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     
-    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] )
-    {
-        UINavigationBar *navBar = self.navigationController.navigationBar;
-        [navBar setBackgroundImage:[UIImage imageNamed:@"bar"] forBarMetrics:UIBarMetricsDefault];
-        
-        navBar.layer.masksToBounds = NO;
-        navBar.layer.shadowOffset = CGSizeMake(0, 1);
-        navBar.layer.shadowRadius = 2;
-        navBar.layer.shadowColor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3] CGColor];
-        navBar.layer.shadowOpacity = 1;
-    }
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    navBar.layer.masksToBounds = NO;
+    navBar.layer.shadowOffset = CGSizeMake(0, 1);
+    navBar.layer.shadowRadius = 2;
+    navBar.layer.shadowColor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3] CGColor];
+    navBar.layer.shadowOpacity = 1;
     
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_bar"]];
     [self populateTravelPlans];
@@ -351,14 +346,14 @@
         [(SwipeableTableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPathOfplanToEditOrDelete] maskViewTapped:NULL];
         UINavigationController *navigationController = segue.destinationViewController;
         AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
-        [addPlanViewController setTitle:@"添加旅行计划"];
+        addPlanViewController.navigationItem.title = @"添加旅行计划";
         addPlanViewController.delegate = self;
     }
     else if ([[segue identifier] isEqualToString:@"EditPlan"])
     {
         UINavigationController *navigationController = segue.destinationViewController;
         AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
-        [addPlanViewController setTitle:@"编辑旅行计划"];
+        addPlanViewController.navigationItem.title = @"编辑旅行计划";
         addPlanViewController.delegate = self;
         Plan *tempPlan = [self.travelPlans objectAtIndex:self.indexPathOfplanToEditOrDelete.row];
         addPlanViewController.plan = [[Plan alloc] initWithName:tempPlan.name destination:tempPlan.destination duration:tempPlan.duration date:tempPlan.date image:tempPlan.image];

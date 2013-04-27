@@ -68,6 +68,12 @@
     self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight", @"景点", @"food", @"美食", @"hotel", @"住宿", @"more", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    navBar.layer.masksToBounds = NO;
+    navBar.layer.shadowOffset = CGSizeMake(0, 1);
+    navBar.layer.shadowRadius = 2;
+    navBar.layer.shadowColor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3] CGColor];
+    navBar.layer.shadowOpacity = 1;
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
@@ -93,7 +99,7 @@
 - (void)configureView
 {
     if (self.location) {
-        [self setTitle:self.location.name];
+        self.navigationItem.title = self.location.name;
         [self configureSegment];
         [self configureTable];
         [self configureDate];
@@ -113,22 +119,6 @@
         UITableView *tableView = (UITableView *)[self.view viewWithTag:TAG_TABLEVIEW];
         [tableView setTableHeaderView: tableHeaderView];
     }
-}
-
-- (void)setTitle:(NSString *)title
-{
-    [super setTitle:title];
-    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
-    if (!titleView) {
-        titleView = [[UILabel alloc] initWithFrame:CGRectZero];
-        titleView.backgroundColor = [UIColor clearColor];
-        titleView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:20];
-        titleView.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
-        
-        self.navigationItem.titleView = titleView;
-    }
-    titleView.text = title;
-    [titleView sizeToFit];
 }
 
 - (void)configureSegment
@@ -375,7 +365,6 @@
             EditScheduleViewController *scheduleViewController = [storyboard instantiateViewControllerWithIdentifier:@"EditScheduleStoryBoard"];
             scheduleViewController.start = [self.location getArrivalTime];
             scheduleViewController.delegate = self;
-            [scheduleViewController setTitle:@"时间安排"];
             [self.navigationController pushViewController:scheduleViewController animated:YES];
         } else if (indexPath.row == 1) {
             EditDetailViewController *detailViewController = [[EditDetailViewController alloc] init];

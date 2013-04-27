@@ -27,6 +27,22 @@
     
     [self createAndCheckDatabase];
     
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"bar"] forBarMetrics:UIBarMetricsDefault];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0], UITextAttributeTextColor,
+      [UIColor colorWithWhite:0.0 alpha:0.5], UITextAttributeTextShadowColor,
+      [UIFont fontWithName:@"STHeitiSC-Medium" size:20], UITextAttributeFont,
+      nil]];
+    
+    //[[UIBarButtonItem appearance] setBackButtonBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    //[[UIBarButtonItem appearance] setWidth:40];
+//    [[UINavigationBar appearance] setShadowOffset:CGSizeMake(0, 1)];
+//    [[UINavigationBar appearance] setShadowRadius:2];
+//    [[UINavigationBar appearance] setShadowOpacity:1];
+//    [[UINavigationBar appearance] setShadowColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3]];
+    
     //self.sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:_viewController];
 //    self.sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:nil];
 //    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

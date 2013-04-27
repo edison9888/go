@@ -7,6 +7,7 @@
 //
 
 #import "LocationMapViewController.h"
+#import "QuartzCore/QuartzCore.h"
 
 @interface LocationMapViewController ()
 
@@ -47,6 +48,14 @@
     self.normalMapMode = YES;
     self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"pin_sight", @"景点", @"pin_food", @"美食", @"pin_hotel", @"住宿", @"pin_more", @"其它", nil];
     
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    navBar.layer.masksToBounds = NO;
+    navBar.layer.shadowOffset = CGSizeMake(0, 1);
+    navBar.layer.shadowRadius = 2;
+    navBar.layer.shadowColor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3] CGColor];
+    navBar.layer.shadowOpacity = 1;
+    self.navigationItem.title = @"地图详情";
+    
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
@@ -57,7 +66,6 @@
     mapView.delegate = self;
     mapView.tag = 20;
     
-    [self setTitle:@"地图详情"];
 	CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
     [mapView setCenterCoordinate:customLoc2D_5 animated:YES];
     

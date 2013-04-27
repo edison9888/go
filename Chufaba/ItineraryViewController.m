@@ -1132,7 +1132,6 @@
         
         UINavigationController *navigationController = segue.destinationViewController;
         SearchViewController *searchController = [[navigationController viewControllers] objectAtIndex:0];
-        [searchController setTitle:@"添加旅行地点"];
         
         searchController.searchDelegate = self;
         searchController.planId = self.plan.planId;

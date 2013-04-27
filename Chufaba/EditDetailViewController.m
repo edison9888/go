@@ -8,6 +8,7 @@
 
 #import "EditDetailViewController.h"
 #import "NoteView.h"
+#import "QuartzCore/QuartzCore.h"
 
 @interface EditDetailViewController ()
 {
@@ -20,29 +21,17 @@
 #define TAG_TEXTVIEW 1
 #define KEYBOARD_HEIGHT 216
 
-- (void)setTitle:(NSString *)title
-{
-    [super setTitle:title];
-    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
-    if (!titleView) {
-        titleView = [[UILabel alloc] initWithFrame:CGRectZero];
-        titleView.backgroundColor = [UIColor clearColor];
-        titleView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:20];
-        titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-        
-        titleView.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
-        
-        self.navigationItem.titleView = titleView;
-    }
-    titleView.text = title;
-    [titleView sizeToFit];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    [self setTitle:@"备注"];
+    
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    navBar.layer.masksToBounds = NO;
+    navBar.layer.shadowOffset = CGSizeMake(0, 1);
+    navBar.layer.shadowRadius = 2;
+    navBar.layer.shadowColor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3] CGColor];
+    navBar.layer.shadowOpacity = 1;
+    self.navigationItem.title = @"备注";
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
