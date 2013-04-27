@@ -328,14 +328,6 @@
         footerView.backgroundColor = [UIColor whiteColor];
         self.tableView.tableFooterView = footerView;
     }
-    
-    //sync,edit,share menu part
-//    if (pullDownMenuView == nil) {
-//		PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
-//		view.delegate = self;
-//		[self.tableView addSubview:view];
-//		pullDownMenuView = view;
-//	}
 }
 
 - (IBAction)backToPrevious:(id)sender
@@ -940,7 +932,6 @@
             lineView.opaque = YES;
             [cell.contentView addSubview:lineView];
             
-//            if(indexPath.section == [self.dataController.masterTravelDayList count] -1 || indexPath.row != [[self.dataController objectInListAtIndex:indexPath.section] count] -1)
             if(indexPath.section == [self.dataController.masterTravelDayList count] -1 || indexPath.row != [[self.dataController objectInListAtIndex:indexPath.section] count] -1)
             {
                 lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
@@ -949,9 +940,9 @@
                 [cell.contentView addSubview:lineView];
             }
         }
-        //    cell.layer.opaque = YES;
-        //    cell.layer.shouldRasterize = YES;
-        //    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+        cell.layer.opaque = YES;
+        cell.layer.shouldRasterize = YES;
+        cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
         return cell;
     }
 }
@@ -1102,29 +1093,10 @@
     [self.navigationController pushViewController:locationViewController animated:YES];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     dropDown = nil;
     self.tableView.contentInset = UIEdgeInsetsZero;
-//    if ([[segue identifier] isEqualToString:@"SelectCategory"])
-//    {
-//        UIButton *button = (UIButton*)sender;
-//        self.dayToAdd = [NSNumber numberWithInt:button.tag+1];
-//        if(singleDayMode){
-//            self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:0] count]+1];
-//        }
-//        else{
-//            self.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:button.tag] count]+1];
-//        }
-//        
-//        SelectCategoryViewController *selectController = segue.destinationViewController;
-//        selectController.delegate = self;
-//        if(lastLatitude){
-//            selectController.lastLatitude = lastLatitude;
-//        }
-//        if(lastLongitude){
-//            selectController.lastLongitude = lastLongitude;
-//        }
-//    }
     
     if ([[segue identifier] isEqualToString:@"ShowSearch"])
     {
@@ -1168,15 +1140,6 @@
         }
         searchController.poiArray = [array mutableCopy];
     }
-//    else if ([[segue identifier] isEqualToString:@"EditPlan"])
-//    {
-//        UINavigationController *navigationController = segue.destinationViewController;
-//        AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
-//        addPlanViewController.navigationItem.title = @"编辑旅行计划";
-//        addPlanViewController.delegate = self;
-//        addPlanViewController.plan = [[Plan alloc] initWithName:self.plan.name duration:self.plan.duration date:self.plan.date image:self.plan.image];
-//        addPlanViewController.plan.planId = self.plan.planId;
-//    }
 }
 
 - (IBAction)pushSearchViewController:(id)sender
@@ -1243,7 +1206,6 @@
     
 }
 
-//method to delete location
 - (void)tableView:(UITableView *)tableView didSwipeCellAtIndexPath:(NSIndexPath *)indexPath
 {
     self.indexPathOfLocationToDelete = indexPath;
@@ -1266,15 +1228,11 @@
     [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfLocationToDelete] withRowAnimation:UITableViewRowAnimationFade];
     [oneDimensionLocationList removeObjectAtIndex:deleteIndex];
     
-    if([[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] count] == 0 && [self.dataController.masterTravelDayList count]-1 == self.indexPathOfLocationToDelete.section)
+    if([self.dataController.masterTravelDayList count]-1 == self.indexPathOfLocationToDelete.section && [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] count] == 0)
     {
         self.tableView.tableFooterView = NULL;
     }
-    
-    //add this to resolve the issue that map annotations doesn't update
-    //self.annotations = [self mapAnnotations];
-    
-    //delete travel location in database and update seqofday of the location after the deleted location
+
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
     [db executeUpdate:@"DELETE FROM location WHERE id = ?", locationToDelete.locationId];
@@ -1293,6 +1251,12 @@
     }
     [self reloadDataController];
     [self.tableView reloadData];
+    if(self.tableView.tableFooterView == NULL && [[self.dataController.masterTravelDayList lastObject] count] > 0)
+    {
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+        footerView.backgroundColor = [UIColor whiteColor];
+        self.tableView.tableFooterView = footerView;
+    }
 }
 
 @end
