@@ -48,7 +48,7 @@
         searchField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
         [searchField setBorderStyle:UITextBorderStyleNone];
         [searchField setBackgroundColor:[UIColor clearColor]];
-        searchField.background = [[UIImage imageNamed:@"skuang.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
+        searchField.background = [[UIImage imageNamed:@"skuang"] stretchableImageWithLeftCapWidth:3 topCapHeight:0];
         searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
     }
     [super layoutSubviews];

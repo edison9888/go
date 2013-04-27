@@ -42,7 +42,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+
     }
     return self;
 }
@@ -130,34 +130,73 @@
     [otherBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:otherBtn];
     
-    //search bar part
-    self.nameInput = [[CfbSearchBar alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
+    self.nameInput = [[UISearchBar alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
     self.nameInput.placeholder = @"搜索景点";
     self.nameInput.delegate = self;
-    self.locationInput = [[CfbSearchBar alloc] initWithFrame:CGRectMake(200, 45, 110, 30)];
+    //self.nameInput.searchFieldBackgroundPositionAdjustment = UIOffsetMake(5, 10);
+    self.locationInput = [[UISearchBar alloc] initWithFrame:CGRectMake(200, 45, 110, 30)];
     self.locationInput.placeholder = @"市,省,国家";
     self.locationInput.delegate = self;
     self.locationInput.text = self.locationKeyword;
+    //self.locationInput.searchFieldBackgroundPositionAdjustment = UIOffsetMake(5, 10);
     for(id cc in [self.nameInput subviews])
     {
         if([cc isKindOfClass:[UITextField class]])
         {
-            UITextField *textField = (UITextField *)cc;
+            UITextField *searchField = (UITextField *)cc;
             UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Search"]];
-            textField.leftView = view;
-            //textField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+            searchField.leftView = view;
+            searchField.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+            searchField.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+            searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        }
+        if ([cc isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
+        {
+            [cc removeFromSuperview];
         }
     }
     for(id cc in [self.locationInput subviews])
     {
         if([cc isKindOfClass:[UITextField class]])
         {
-            UITextField *textField = (UITextField *)cc;
+            UITextField *searchField = (UITextField *)cc;
             UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin"]];
-            textField.leftView = view;
-            //textField.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+            searchField.leftView = view;
+            searchField.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+            searchField.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+            searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        }
+        if ([cc isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
+        {
+            [cc removeFromSuperview];
         }
     }
+    
+//    self.nameInput = [[CfbSearchBar alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
+//    self.nameInput.placeholder = @"搜索景点";
+//    self.nameInput.delegate = self;
+//    self.locationInput = [[CfbSearchBar alloc] initWithFrame:CGRectMake(200, 45, 110, 30)];
+//    self.locationInput.placeholder = @"市,省,国家";
+//    self.locationInput.delegate = self;
+//    self.locationInput.text = self.locationKeyword;
+//    for(id cc in [self.nameInput subviews])
+//    {
+//        if([cc isKindOfClass:[UITextField class]])
+//        {
+//            UITextField *textField = (UITextField *)cc;
+//            UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Search"]];
+//            textField.leftView = view;
+//        }
+//    }
+//    for(id cc in [self.locationInput subviews])
+//    {
+//        if([cc isKindOfClass:[UITextField class]])
+//        {
+//            UITextField *textField = (UITextField *)cc;
+//            UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin"]];
+//            textField.leftView = view;
+//        }
+//    }
 //    self.nameInput = [[CfbTextField alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
 //    self.nameInput.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
 //    self.nameInput.placeholder = @"搜索景点";
@@ -224,8 +263,6 @@
     [addLocationBtn addSubview:implyLabel];
     [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn"]forState:UIControlStateNormal];
     [addLocationBtn addTarget:self action:@selector(beginAddCustomLocation:) forControlEvents:UIControlEventTouchDown];
-    
-    //[self searchPoi];
 }
 
 - (void) viewDidAppear:(BOOL)animated
