@@ -337,7 +337,6 @@
         itineraryViewController.itineraryListBackup = tempList;
         itineraryViewController.daySelected = [NSNumber numberWithInt:0];
         itineraryViewController.plan = selectedPlan;
-        
         [db close];
         
     }

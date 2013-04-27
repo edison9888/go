@@ -245,6 +245,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self setEmptyItinerary];
     self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight40", @"景点", @"food40", @"美食", @"hotel40", @"住宿", @"more40", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
     
@@ -931,7 +932,6 @@
             lineView.backgroundColor = [UIColor whiteColor];
             lineView.opaque = YES;
             [cell.contentView addSubview:lineView];
-            
             if(indexPath.section == [self.dataController.masterTravelDayList count] -1 || indexPath.row != [[self.dataController objectInListAtIndex:indexPath.section] count] -1)
             {
                 lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
@@ -939,10 +939,11 @@
                 lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
                 [cell.contentView addSubview:lineView];
             }
+            
         }
-        cell.layer.opaque = YES;
-        cell.layer.shouldRasterize = YES;
-        cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+//        cell.layer.opaque = YES;
+//        cell.layer.shouldRasterize = YES;
+//        cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
         return cell;
     }
 }
@@ -999,11 +1000,9 @@
     
     label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
     
-    myView.layer.masksToBounds = NO;
-    myView.layer.shadowOffset = CGSizeMake(0, 1);
-    myView.layer.shadowRadius = 0.8;
+    myView.layer.shadowOffset = CGSizeMake(0, 2);
     myView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
-    myView.layer.shadowOpacity = 1;
+    //myView.layer.shadowOpacity = 1;
     
     [myView addSubview:label];
     [myView addSubview:wLabel];
