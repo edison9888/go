@@ -52,7 +52,4 @@
 - (NSString *)contentForRow:(NSInteger)row;
 - (NSString *)imageNameForRow:(NSInteger)row;
 
-- (NSDate *)getArrivalTime;
-- (void)setArrivalTime:(NSDate *)time;
-
 @end

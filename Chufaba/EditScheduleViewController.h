@@ -12,7 +12,7 @@
 
 @interface EditScheduleViewController : UITableViewController<UIPickerViewDelegate, UITextFieldDelegate>
 
-@property (nonatomic, copy) NSDate *start;
+@property (nonatomic, copy) NSString *start;
 
 @property (nonatomic,weak) id<EditLocationDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITextField *startInput;

@@ -360,7 +360,7 @@
         if (indexPath.row == 0) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
             EditScheduleViewController *scheduleViewController = [storyboard instantiateViewControllerWithIdentifier:@"EditScheduleStoryBoard"];
-            scheduleViewController.start = [self.location getArrivalTime];
+            scheduleViewController.start = self.location.visitBegin;
             scheduleViewController.delegate = self;
             [self.navigationController pushViewController:scheduleViewController animated:YES];
         } else if (indexPath.row == 1) {
@@ -379,9 +379,9 @@
     [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
 }
 
--(void) didEditScheduleWithStart:(NSDate *)start
+-(void) didEditScheduleWithStart:(NSString *)start
 {
-    [self.location setArrivalTime:start];
+    self.location.visitBegin = start;
     [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) reloadData];
     [self.delegate didChangeLocation:self.location];
 }

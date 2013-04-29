@@ -13,7 +13,7 @@
 
 @protocol EditLocationDelegate<NSObject>
 
--(void) didEditScheduleWithStart:(NSDate *)start;
+-(void) didEditScheduleWithStart:(NSString *)start;
 -(void) didEditDetail:(NSString *)detail;
 
 @end

@@ -118,26 +118,4 @@
     }
 }
 
-- (NSDate *)getArrivalTime
-{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"HH:mm"];
-    return [dateFormatter dateFromString:self.visitBegin];
-}
-
-//- (NSDate *)getArrivalTime
-//{
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat:@"'下午'HH:mm"];
-//    NSDate *date = [dateFormatter dateFromString:self.visitBegin];
-//    return date;
-//}
-
-- (void)setArrivalTime:(NSDate *)time
-{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"HH:mm"];
-    self.visitBegin = [dateFormatter stringFromDate:time];
-}
-
 @end

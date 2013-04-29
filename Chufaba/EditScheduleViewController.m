@@ -59,6 +59,7 @@
         [self.datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
     }
     self.startInput.inputView = self.datePicker;
+    [self.datePicker setDate:[self.dateFormatter dateFromString:self.start]];
     [self.startInput becomeFirstResponder];
 }
 
@@ -69,36 +70,16 @@
 
 - (void)configureView
 {
+    if(!self.dateFormatter)
+    {
+        self.dateFormatter = [[NSDateFormatter alloc] init];
+        [self.dateFormatter setDateFormat:@"HH:mm"];
+    }
     if (self.start)
     {
-        if(!self.dateFormatter)
-        {
-            self.dateFormatter = [[NSDateFormatter alloc] init];
-            [self.dateFormatter setDateFormat:@"HH:mm"];
-        }
-        self.startInput.text = [self.dateFormatter stringFromDate:self.start];
+        self.startInput.text = self.start;
     }
 }
-
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
-    if (self.start)
-    {
-        [self.datePicker setDate:self.start];
-    }
-    return YES;
-}
-
-//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-//{
-//    UIDatePicker *datePicker = (UIDatePicker *)textField.inputView;
-//    if(textField == self.startInput){
-//        if (self.start) {
-//            [datePicker setDate:self.start];
-//        }
-//    }
-//    return YES;
-//}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -121,8 +102,8 @@
         [components setMinute:minutes];
         picker.date = [calendar dateFromComponents:components];
     }
-    
-    self.start = picker.date;
+
+    self.start = [self.dateFormatter stringFromDate:picker.date];
     [self configureView];
 }
 
@@ -137,13 +118,6 @@
     [textField resignFirstResponder];
     return YES;
 }
-
-//- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-//    if (textField == self.startInput) {
-//        [textField resignFirstResponder];
-//    }
-//    return YES;
-//}
 
 - (void)didReceiveMemoryWarning
 {
