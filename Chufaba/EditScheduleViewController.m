@@ -44,18 +44,21 @@
     UIView *sPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 40)];
     self.startInput.leftView = sPaddingView;
     self.startInput.leftViewMode = UITextFieldViewModeAlways;
-   
-    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
-    datePicker.tag = 13;
-    datePicker.datePickerMode = UIDatePickerModeTime;
-    datePicker.minuteInterval = 15;
-    datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_GB"];
-    [self.view addSubview:datePicker];
-    datePicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
-    [datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
-    
-    self.startInput.inputView = datePicker;
-    
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    if(!self.datePicker)
+    {
+        self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
+        self.datePicker.datePickerMode = UIDatePickerModeTime;
+        self.datePicker.minuteInterval = 15;
+        //is locale necessary
+        self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_GB"];
+        [self.view addSubview:self.datePicker];
+        [self.datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
+    }
+    self.startInput.inputView = self.datePicker;
     [self.startInput becomeFirstResponder];
 }
 
@@ -66,24 +69,36 @@
 
 - (void)configureView
 {
-    if (self.start) {
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"HH:mm"];
-        self.startInput.text = [formatter stringFromDate:self.start];
+    if (self.start)
+    {
+        if(!self.dateFormatter)
+        {
+            self.dateFormatter = [[NSDateFormatter alloc] init];
+            [self.dateFormatter setDateFormat:@"HH:mm"];
+        }
+        self.startInput.text = [self.dateFormatter stringFromDate:self.start];
     }
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    UIDatePicker *datePicker = (UIDatePicker *)textField.inputView;
-    if(textField == self.startInput){
-        if (self.start) {
-            [datePicker setDate:self.start];
-        }
+    if (self.start)
+    {
+        [self.datePicker setDate:self.start];
     }
     return YES;
 }
+
+//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+//{
+//    UIDatePicker *datePicker = (UIDatePicker *)textField.inputView;
+//    if(textField == self.startInput){
+//        if (self.start) {
+//            [datePicker setDate:self.start];
+//        }
+//    }
+//    return YES;
+//}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -117,17 +132,22 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if (textField == self.startInput) {
-        [textField resignFirstResponder];
-    }
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
     return YES;
 }
+
+//- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+//    if (textField == self.startInput) {
+//        [textField resignFirstResponder];
+//    }
+//    return YES;
+//}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 

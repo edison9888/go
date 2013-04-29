@@ -187,10 +187,13 @@
         viewShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0].CGColor,(id)[UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor,nil];
         [infoView.layer addSublayer:viewShadow];
         
+        infoView.layer.shadowPath = [UIBezierPath bezierPathWithRect:infoView.bounds].CGPath;
         infoView.layer.masksToBounds = NO;
         infoView.layer.shadowColor = [UIColor blackColor].CGColor;
         infoView.layer.shadowOffset = CGSizeMake(0, 1);
         infoView.layer.shadowOpacity = 0.3;
+        infoView.layer.shouldRasterize = YES;
+        infoView.layer.rasterizationScale = [UIScreen mainScreen].scale;
     }
     [self.view bringSubviewToFront:infoView];
     

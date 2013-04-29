@@ -83,7 +83,6 @@
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 85)];
     topView.tag = TAG_TOPVIEW;
     topView.opaque = YES;
-    [topView.layer setShadowPath:[[UIBezierPath bezierPathWithRect:topView.bounds] CGPath]];
     
     CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
     CGRect viewShadowFrame = CGRectMake(0, 0, 320, topView.frame.size.height);
@@ -91,6 +90,7 @@
     viewShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0].CGColor,(id)[UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor,nil];
     [topView.layer addSublayer:viewShadow];
     
+    topView.layer.shadowPath = [UIBezierPath bezierPathWithRect:topView.bounds].CGPath;
     topView.layer.masksToBounds = NO;
     topView.layer.shadowOffset = CGSizeMake(0, 1);
     topView.layer.shadowRadius = 1;

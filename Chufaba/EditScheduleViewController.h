@@ -17,4 +17,7 @@
 @property (nonatomic,weak) id<EditLocationDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITextField *startInput;
 
+@property (nonatomic,strong) UIDatePicker *datePicker;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+
 @end
