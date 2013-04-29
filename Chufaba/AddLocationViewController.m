@@ -81,7 +81,6 @@
     searchBar.delegate = self;
     searchBar.tag = TAG_SEARCHBAR;
     searchBar.text = self.location.name;
-    searchBar.barStyle = UIBarStyleBlack;
     searchBar.tintColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     //searchBar.backgroundImage = [UIImage imageNamed:@"bgbar.png"];
     [self.view addSubview:searchBar];

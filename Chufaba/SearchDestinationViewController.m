@@ -30,27 +30,10 @@
     [self cancelCurrentSearch];
 }
 
-- (void)setTitle:(NSString *)title
-{
-    [super setTitle:title];
-    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
-    if (!titleView) {
-        titleView = [[UILabel alloc] initWithFrame:CGRectZero];
-        titleView.backgroundColor = [UIColor clearColor];
-        titleView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:20];
-        titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-        
-        titleView.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0];
-        
-        self.navigationItem.titleView = titleView;
-    }
-    titleView.text = title;
-    [titleView sizeToFit];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = @"搜索目的地";
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
@@ -60,12 +43,29 @@
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = btn;
     
-    [self setTitle:@"搜索目的地"];
-    
     self.searchBar.placeholder = @"想去哪里旅行？";
-    self.searchBar.barStyle = UIBarStyleBlack;
+    self.searchBar.text = self.destination;
     self.searchBar.tintColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    [self.searchBar becomeFirstResponder];
+    for(id cc in [self.searchBar subviews])
+    {
+        if([cc isKindOfClass:[UITextField class]])
+        {
+            UITextField *searchField = (UITextField *)cc;
+            UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Search"]];
+            searchField.leftView = view;
+            searchField.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+            searchField.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+            searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        }
+        if ([cc isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
+        {
+            [cc removeFromSuperview];
+        }
+    }
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(0, self.searchBar.frame.size.height+44, 320, 1);
+    bottomBorder.backgroundColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0].CGColor;
+    [self.searchBar.layer addSublayer:bottomBorder];
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -74,54 +74,23 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
     headerView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     self.tableView.tableHeaderView = headerView;
-    //self.tableView.tableHeaderView = self.searchBar;
     
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
     footerView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableFooterView = footerView;
-    
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
     if ([self.destination length] > 0) {
-        self.searchBar.text = self.destination;
         [self searchDestination:self.destination];
     }
+    [self.searchBar becomeFirstResponder];
 }
 
 -(IBAction)cancel:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
-    searchBar.showsCancelButton = YES;
-    
-    for (UIView *subView in searchBar.subviews) {
-        if([subView isKindOfClass:[UIButton class]])
-        {
-            UIButton *cancelButton = (UIButton *)subView;
-            [cancelButton setTitle:@"" forState:UIControlStateNormal];
-            
-            UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(2, 2, 40, 20)];
-            [overlay setBackgroundColor:[UIColor clearColor]];
-            [overlay setUserInteractionEnabled:NO];
-            [cancelButton addSubview:overlay];
-            
-            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 40, 20)];
-            newLabel.backgroundColor = [UIColor clearColor];
-            newLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-            newLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-            [newLabel setText:@"取消"];
-            [newLabel setTextAlignment:NSTextAlignmentCenter];
-            [newLabel setUserInteractionEnabled:NO];
-            [overlay addSubview:newLabel];
-        }
-    }
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    searchBar.showsCancelButton = NO;
-    [searchBar resignFirstResponder];
 }
 
 - (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText
@@ -433,16 +402,6 @@
     } else {
         return 0;
     }
-}
-
-- (float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    // This will create a "invisible" footer
-    return 0.01f;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    return [UIView new];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
