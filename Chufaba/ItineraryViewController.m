@@ -139,6 +139,7 @@
 #define NORMAL_CELL_FINISHING_HEIGHT 60
 #define DAY_FILTER_FONT_SIZE 20
 #define TAG_DAY_FILTER_ARROW 1
+#define TAG_LINE_VIEW 10000
 
 #pragma mark - Synchronize Model and View
 - (void)updateMapView
@@ -928,6 +929,11 @@
             }
             cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
             
+            if([cell.contentView viewWithTag:TAG_LINE_VIEW])
+            {
+                [[cell.contentView viewWithTag:TAG_LINE_VIEW] removeFromSuperview];
+            }
+            
             UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
             lineView.backgroundColor = [UIColor whiteColor];
             lineView.opaque = YES;
@@ -936,6 +942,7 @@
             {
                 lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
                 lineView.opaque = YES;
+                lineView.tag = TAG_LINE_VIEW;
                 lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
                 [cell.contentView addSubview:lineView];
             }
@@ -1153,6 +1160,17 @@
     NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:self.indexPathOfLocationToDelete];
     Location *locationToDelete = [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] objectAtIndex:self.indexPathOfLocationToDelete.row];
     
+    BOOL lastSection = [self.dataController.masterTravelDayList count]-1 == self.indexPathOfLocationToDelete.section ? TRUE:FALSE;
+    
+    if(!lastSection && [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] count]-1 == self.indexPathOfLocationToDelete.row)
+    {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.indexPathOfLocationToDelete.row-1 inSection:self.indexPathOfLocationToDelete.section]];
+        if(cell)
+        {
+            [[cell.contentView viewWithTag:TAG_LINE_VIEW] removeFromSuperview];
+        }
+    }
+    
     [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] removeObjectAtIndex:self.indexPathOfLocationToDelete.row];
     for (Location *location in [self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section])
     {
@@ -1165,7 +1183,7 @@
     [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfLocationToDelete] withRowAnimation:UITableViewRowAnimationFade];
     [oneDimensionLocationList removeObjectAtIndex:deleteIndex];
     
-    if([self.dataController.masterTravelDayList count]-1 == self.indexPathOfLocationToDelete.section && [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] count] == 0)
+    if(lastSection && [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] count] == 0)
     {
         self.tableView.tableFooterView = NULL;
     }

@@ -266,7 +266,6 @@
         if (!cell) {
             cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            //cell.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
             cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:13];
             cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
             cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -567,7 +566,7 @@
         if (!editLocationBtn) {
             editLocationBtn = [[UIButton alloc] init];
             editLocationBtn.tag = TAG_EDITBUTTON;
-            [editLocationBtn setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+            [editLocationBtn setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
             [editLocationBtn setAlpha:1];
             editLocationBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
             [editLocationBtn addTarget:self action:@selector(editLocationCoordinate:) forControlEvents:UIControlEventTouchDown];
