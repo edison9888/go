@@ -60,6 +60,18 @@
     [self setSelectedBackgroundView:bgColorView];
 }
 
+- (void) layoutSubviews
+{
+    [super layoutSubviews];
+    CGRect frame = self.textLabel.frame;
+    frame.size.width = 200;
+    self.textLabel.frame = frame;
+    [self.detailTextLabel sizeToFit];
+    CGRect dFrame = self.detailTextLabel.frame;
+    dFrame.origin.x = 265;
+    self.detailTextLabel.frame = dFrame;
+}
+
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer
 {
 	UITableView * tableView = (UITableView *)self.superview;

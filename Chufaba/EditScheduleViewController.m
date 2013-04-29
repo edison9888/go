@@ -59,7 +59,10 @@
         [self.datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
     }
     self.startInput.inputView = self.datePicker;
-    [self.datePicker setDate:[self.dateFormatter dateFromString:self.start]];
+    if(self.start)
+    {
+        [self.datePicker setDate:[self.dateFormatter dateFromString:self.start]];
+    }
     [self.startInput becomeFirstResponder];
 }
 
