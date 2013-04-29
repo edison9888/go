@@ -1000,81 +1000,19 @@
     
     label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
     
-    myView.layer.shadowOffset = CGSizeMake(0, 2);
+    myView.layer.shadowPath = [UIBezierPath bezierPathWithRect:myView.bounds].CGPath;
+    myView.layer.shadowOffset = CGSizeMake(0, 1);
+    myView.layer.shadowRadius = 0.8;
     myView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
-    //myView.layer.shadowOpacity = 1;
+    myView.layer.shadowOpacity = 1;
+    myView.layer.shouldRasterize = YES;
+    myView.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     [myView addSubview:label];
     [myView addSubview:wLabel];
     [myView addSubview:button];
-    //[myView bringSubviewToFront:button];
     return myView;
 }
-
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    NSInteger dayValue = singleDayMode ? [self.daySelected intValue]-1 : section;
-//    
-//    NSDateComponents *dayComponents = [self.gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:self.dataController.date];
-//    NSInteger theDay = [dayComponents day];
-//    NSInteger theMonth = [dayComponents month];
-//    NSInteger theYear = [dayComponents year];
-//    
-//    NSDateComponents *components = [[NSDateComponents alloc] init];
-//    [components setDay:theDay];
-//    [components setMonth:theMonth];
-//    [components setYear:theYear];
-//    NSDate *thisDate = [self.gregorian dateFromComponents:components];
-//    NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
-//    [offsetComponents setDay:dayValue];
-//    NSDate *sectionDate = [self.gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
-//    
-//    //Headerview
-//    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
-//    
-//    //HeaderLabel
-//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 6.0, 250.0, 20.0)] ;
-//    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-//    label.shadowColor = [UIColor whiteColor];
-//    label.shadowOffset = CGSizeMake(0, 1);
-//    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-//    label.backgroundColor = [UIColor clearColor];
-//    
-//    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 24.0, 250.0, 20.0)] ;
-//    wLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-//    wLabel.shadowColor = [UIColor whiteColor];
-//    wLabel.shadowOffset = CGSizeMake(0, 1);
-//    wLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-//    wLabel.backgroundColor = [UIColor clearColor];
-//    wLabel.text = [self.dateFormatter stringFromDate:sectionDate];;
-//    
-//    //AddParameterButton
-//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
-//    [button setImage:[UIImage imageNamed:@"addLocation"] forState:UIControlStateNormal];
-//    button.tag = dayValue;
-//    button.hidden = NO;
-//    [button addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchDown];
-//    
-//    label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
-//    myView.backgroundColor = [UIColor colorWithRed:223/255.0 green:215/255.0 blue:198/255.0 alpha:1.0];
-//    
-//    CAGradientLayer *viewShadow = [[CAGradientLayer alloc] init];
-//    CGRect viewShadowFrame = CGRectMake(0, 0, 320, myView.frame.size.height);
-//    viewShadow.frame = viewShadowFrame;
-//    viewShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:230/255.0 green:223/255.0 blue:209/255.0 alpha:1.0].CGColor,(id)[UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor,nil];
-//    [myView.layer addSublayer:viewShadow];
-//    
-//    myView.layer.masksToBounds = NO;
-//    myView.layer.shadowOffset = CGSizeMake(0, 1);
-//    myView.layer.shadowRadius = 0.8;
-//    myView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
-//    myView.layer.shadowOpacity = 1;
-//    
-//    [myView addSubview:label];
-//    [myView addSubview:wLabel];
-//    [myView addSubview:button];
-//    return myView;
-//}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {

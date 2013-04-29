@@ -48,12 +48,6 @@
     self.normalMapMode = YES;
     self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"pin_sight", @"景点", @"pin_food", @"美食", @"pin_hotel", @"住宿", @"pin_more", @"其它", nil];
     
-    UINavigationBar *navBar = self.navigationController.navigationBar;
-    navBar.layer.masksToBounds = NO;
-    navBar.layer.shadowOffset = CGSizeMake(0, 1);
-    navBar.layer.shadowRadius = 2;
-    navBar.layer.shadowColor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3] CGColor];
-    navBar.layer.shadowOpacity = 1;
     self.navigationItem.title = @"地图详情";
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];

@@ -11,7 +11,6 @@
 #import "ItineraryViewController.h"
 #import "ItineraryDataController.h"
 #import "SearchDestinationViewController.h"
-#import "CustomNavigationBar.h"
 
 @implementation UINavigationBar (CustomImage)
 - (void)drawRect:(CGRect)rect {
@@ -185,11 +184,14 @@
     [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     
     UINavigationBar *navBar = self.navigationController.navigationBar;
+    navBar.layer.shadowPath = [UIBezierPath bezierPathWithRect:navBar.bounds].CGPath;
     navBar.layer.masksToBounds = NO;
     navBar.layer.shadowOffset = CGSizeMake(0, 1);
     navBar.layer.shadowRadius = 2;
     navBar.layer.shadowColor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3] CGColor];
     navBar.layer.shadowOpacity = 1;
+    navBar.layer.shouldRasterize = YES;
+    navBar.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_bar"]];
     [self populateTravelPlans];

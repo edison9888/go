@@ -24,13 +24,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    UINavigationBar *navBar = self.navigationController.navigationBar;
-    navBar.layer.masksToBounds = NO;
-    navBar.layer.shadowOffset = CGSizeMake(0, 1);
-    navBar.layer.shadowRadius = 2;
-    navBar.layer.shadowColor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3] CGColor];
-    navBar.layer.shadowOpacity = 1;
     self.navigationItem.title = @"备注";
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];

@@ -18,13 +18,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    UINavigationBar *navBar = self.navigationController.navigationBar;
-    navBar.layer.masksToBounds = NO;
-    navBar.layer.shadowOffset = CGSizeMake(0, 1);
-    navBar.layer.shadowRadius = 2;
-    navBar.layer.shadowColor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3] CGColor];
-    navBar.layer.shadowOpacity = 1;
     self.navigationItem.title = @"时间安排";
 
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
@@ -38,8 +31,6 @@
     [saveBtn addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
     self.navigationItem.rightBarButtonItem = dBtn;
-    
-    //self.navigationItem.rightBarButtonItem.action = @selector(done);
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     [self configureView];
