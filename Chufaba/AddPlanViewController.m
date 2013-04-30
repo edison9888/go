@@ -91,7 +91,7 @@
         [_durationPick addObject:[NSNumber numberWithInt:i]];
     }
     
-    UIPickerView *durationPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
+    UIPickerView *durationPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 180)];
     durationPicker.tag = 10;
     durationPicker.showsSelectionIndicator = YES;
     [self.view addSubview:durationPicker];
@@ -102,8 +102,8 @@
     toolBar.tag = 11;
     toolBar.barStyle = UIBarStyleBlackTranslucent;
     UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissDurationPicker:)];
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissDurationPicker:)];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissDurationPicker:)];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(dismissDurationPicker:)];
     [toolBar setItems:[NSArray arrayWithObjects:cancelButton, spacer, doneButton, nil]];
     [self.view addSubview:toolBar];
     self.durationInput.inputAccessoryView = toolBar;
@@ -111,25 +111,17 @@
     self.durationInput.delegate = self;
     durationPicker.delegate = self;
     durationPicker.dataSource = self;
-    durationPicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
-    
-//    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
-//    self.datePicker.datePickerMode = UIDatePickerModeDate;
-//    [self.view addSubview:self.datePicker];
-//    self.dateInput.inputView = self.datePicker;
     
     UIToolbar *dateToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, 320, 44)];
     dateToolBar.tag = 14;
     dateToolBar.barStyle = UIBarStyleBlackTranslucent;
     UIBarButtonItem *dateSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *dateCancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissDatePicker:)];
-    UIBarButtonItem *dateDoneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissDatePicker:)];
+    UIBarButtonItem *dateCancelButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissDatePicker:)];
+    UIBarButtonItem *dateDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(dismissDatePicker:)];
     [dateToolBar setItems:[NSArray arrayWithObjects:dateCancelButton, dateSpacer, dateDoneButton, nil]];
     [self.view addSubview:dateToolBar];
     self.dateInput.inputAccessoryView = dateToolBar;
-    
     self.dateInput.delegate = self;
-    self.datePicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
     
     if(self.plan)
     {
@@ -160,7 +152,8 @@
 {
     if(!self.datePicker)
     {
-        self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
+        self.datePicker = [[UIDatePicker alloc] init];
+        self.datePicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 180);
         self.datePicker.datePickerMode = UIDatePickerModeDate;
         [self.view addSubview:self.datePicker];
         self.dateInput.inputView = self.datePicker;
@@ -292,7 +285,7 @@
 
 - (void)dismissDurationPicker:(id)sender {
     CGRect toolbarTargetFrame = CGRectMake(0, self.view.bounds.size.height, 320, 44);
-    CGRect durationPickerTargetFrame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
+    CGRect durationPickerTargetFrame = CGRectMake(0, self.view.bounds.size.height+44, 320, 180);
     [UIView beginAnimations:@"MoveOut" context:nil];
     [self.view viewWithTag:10].frame = durationPickerTargetFrame;
     [self.view viewWithTag:11].frame = toolbarTargetFrame;
@@ -324,7 +317,7 @@
 
 - (void)dismissDatePicker:(id)sender {
     CGRect toolbarTargetFrame = CGRectMake(0, self.view.bounds.size.height, 320, 44);
-    CGRect datePickerTargetFrame = CGRectMake(0, self.view.bounds.size.height+44, 320, 216);
+    CGRect datePickerTargetFrame = CGRectMake(0, self.view.bounds.size.height+44, 320, 180);
     [UIView beginAnimations:@"MoveOut" context:nil];
     self.datePicker.frame = datePickerTargetFrame;
     [self.view viewWithTag:14].frame = toolbarTargetFrame;
@@ -446,7 +439,7 @@
 
 - (void)saveImage:(UIImage *)image withName:(NSString*)imageName
 {
-    NSData *imageData = UIImagePNGRepresentation(image); 
+    NSData *imageData = UIImagePNGRepresentation(image);
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
