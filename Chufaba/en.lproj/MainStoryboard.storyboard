@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3103" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -262,9 +262,20 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ssv-1y-1BZ">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="kr6-Nc-3qX">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                    <scopeButtonTitles>
+                                        <string>Title</string>
+                                        <string>Title</string>
+                                    </scopeButtonTitles>
+                                    <connections>
+                                        <outlet property="delegate" destination="Fdk-B4-cgm" id="qgr-Ak-j7k"/>
+                                    </connections>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SearchDestinationCell" textLabel="Y5H-vC-2mQ" style="IBUITableViewCellStyleDefault" id="wrk-qn-Cjt">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -286,26 +297,13 @@
                                     <outlet property="delegate" destination="Fdk-B4-cgm" id="f7c-Xb-u9I"/>
                                 </connections>
                             </tableView>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="kr6-Nc-3qX">
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                <scopeButtonTitles>
-                                    <string>Title</string>
-                                    <string>Title</string>
-                                </scopeButtonTitles>
-                                <connections>
-                                    <outlet property="delegate" destination="Fdk-B4-cgm" id="qgr-Ak-j7k"/>
-                                </connections>
-                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ssv-1y-1BZ" firstAttribute="leading" secondItem="Jy3-74-a1v" secondAttribute="leading" type="default" id="1bP-yk-Hwq"/>
-                            <constraint firstItem="kr6-Nc-3qX" firstAttribute="leading" secondItem="Jy3-74-a1v" secondAttribute="leading" type="default" id="G3U-O1-rfH"/>
-                            <constraint firstItem="ssv-1y-1BZ" firstAttribute="top" secondItem="kr6-Nc-3qX" secondAttribute="bottom" type="default" id="Ldv-LI-84v"/>
+                            <constraint firstItem="ssv-1y-1BZ" firstAttribute="top" secondItem="Jy3-74-a1v" secondAttribute="top" type="default" id="7sI-xx-ime"/>
                             <constraint firstItem="ssv-1y-1BZ" firstAttribute="trailing" secondItem="Jy3-74-a1v" secondAttribute="trailing" type="default" id="O0Y-QF-1vV"/>
-                            <constraint firstItem="kr6-Nc-3qX" firstAttribute="trailing" secondItem="Jy3-74-a1v" secondAttribute="trailing" type="default" id="SWz-n7-bCG"/>
-                            <constraint firstItem="ssv-1y-1BZ" firstAttribute="bottom" secondItem="Jy3-74-a1v" secondAttribute="bottom" type="default" id="qbW-p0-X41"/>
-                            <constraint firstItem="kr6-Nc-3qX" firstAttribute="top" secondItem="Jy3-74-a1v" secondAttribute="top" type="default" id="umG-JI-3Ii"/>
+                            <constraint firstItem="ssv-1y-1BZ" firstAttribute="bottom" secondItem="Jy3-74-a1v" secondAttribute="bottom" type="default" id="vrz-Eu-pgC"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="GSM-5M-dUq"/>
@@ -774,9 +772,6 @@
     <classes>
         <class className="AboutViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="backToPrevious:"/>
-            </relationships>
         </class>
         <class className="AddPlanTableViewCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanTableViewCell.h"/>
@@ -796,15 +791,12 @@
         <class className="EditScheduleViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EditScheduleViewController.h"/>
             <relationships>
-                <relationship kind="action" name="backToPrevious:"/>
-                <relationship kind="action" name="done:"/>
                 <relationship kind="outlet" name="startInput" candidateClass="UITextField"/>
             </relationships>
         </class>
         <class className="FeedbackViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedbackViewController.h"/>
             <relationships>
-                <relationship kind="action" name="backToPrevious:"/>
                 <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="feedbackTextView" candidateClass="UITextView"/>
             </relationships>
@@ -824,10 +816,6 @@
         </class>
         <class className="PlanViewController" superclassName="SwipeableTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlanViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="AddPlan:"/>
-                <relationship kind="action" name="showSetting:"/>
-            </relationships>
         </class>
         <class className="SearchDestinationViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchDestinationViewController.h"/>

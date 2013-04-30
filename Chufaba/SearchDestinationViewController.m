@@ -17,6 +17,7 @@
 
 @property int total;
 @property BOOL disappearing;
+@property BOOL showNoResultHint;
 @property UIActivityIndicatorView *loadingView;
 
 @end
@@ -77,13 +78,14 @@
 //    bottomBorder.backgroundColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0].CGColor;
 //    [self.searchBar.layer addSublayer:bottomBorder];
     
+    CALayer *upBorder = [CALayer layer];
+    upBorder.frame = CGRectMake(0, 0, self.view.bounds.size.width, 1);
+    upBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
+    [self.searchBar.layer addSublayer:upBorder];
+    
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tableView.rowHeight = 40.0f;
-    
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-    headerView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    self.tableView.tableHeaderView = headerView;
     
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
     footerView.backgroundColor = [UIColor whiteColor];
@@ -113,7 +115,7 @@
         self.destination = nil;
         [self clearResults];
     }else if(![searchText isEqualToString:self.destination]){
-       [self searchDestination:searchText];
+        [self searchDestination:searchText];
     }
 }
 
@@ -160,6 +162,8 @@
 
 - (void)searchDestination:(NSString *)destination{
     [self cancelCurrentSearch];
+    self.showNoResultHint = NO;
+    [self clearResults];
     self.destination = destination;
     
     NSString *body = [self getPostBody:destination];
@@ -170,6 +174,7 @@
                action:@selector(receiveResponse:)];
     fetcher.showAlerts = NO;
     [fetcher start];
+    
     [self showLoading];
 }
 
@@ -318,6 +323,7 @@
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
     [self hideLoading];
+    self.showNoResultHint = YES;
     if (aFetcher.failureCode) {
         UIAlertView *alert =
         [[UIAlertView alloc]
@@ -403,8 +409,8 @@
 {
     if (self.destination.length > 0) {
         if ([allDestinationList count] < self.total) {
-            return [allDestinationList count] + 1;
-        } else if(self.total == 0) {
+            return [allDestinationList count] + 1; //获取剩下的结果
+        } else if(self.total == 0 && self.showNoResultHint) {
             return 1; //提示没有结果
         } else {
             return [allDestinationList count];
@@ -469,6 +475,15 @@
         [loadingView setFrame:CGRectMake(140, 0, 40, 40)];
         [loadingView startAnimating];
         [cell.contentView addSubview:loadingView];
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+        [cell.contentView addSubview:lineView];
+        
+        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        [cell.contentView addSubview:lineView];
+        
         [self fetchRestResult];
     } else {
         NSString *CellIdentifier = @"NoResultCell";
