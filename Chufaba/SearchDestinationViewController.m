@@ -62,10 +62,20 @@
             [cc removeFromSuperview];
         }
     }
-    CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.frame = CGRectMake(0, self.searchBar.frame.size.height+44, 320, 1);
-    bottomBorder.backgroundColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0].CGColor;
-    [self.searchBar.layer addSublayer:bottomBorder];
+    
+//    self.searchBar.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.searchBar.bounds].CGPath;
+//    self.searchBar.layer.masksToBounds = NO;
+//    self.searchBar.layer.shadowOffset = CGSizeMake(0, 2);
+//    self.searchBar.layer.shadowRadius = 2;
+//    self.searchBar.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
+//    self.searchBar.layer.shadowColor = [[UIColor redColor] CGColor];
+//    self.searchBar.layer.shadowOpacity = 1;
+//    self.searchBar.layer.shouldRasterize = YES;
+//    self.searchBar.layer.rasterizationScale = [UIScreen mainScreen].scale;
+//    CALayer *bottomBorder = [CALayer layer];
+//    bottomBorder.frame = CGRectMake(0, self.searchBar.frame.size.height+44, 320, 1);
+//    bottomBorder.backgroundColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0].CGColor;
+//    [self.searchBar.layer addSublayer:bottomBorder];
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];

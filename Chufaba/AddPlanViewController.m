@@ -60,6 +60,12 @@
     UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
     self.navigationItem.rightBarButtonItem = dBtn;
     
+    //self.destinationInput
+    UIImageView *accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall"]];
+    accessoryView.frame = CGRectMake(190, 16, 9, 12);
+    [self.destinationInput addSubview:accessoryView];
+    [self.destinationInput bringSubviewToFront:accessoryView];
+    
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
