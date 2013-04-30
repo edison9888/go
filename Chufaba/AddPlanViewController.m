@@ -374,11 +374,11 @@
     UIImage *selectedImg = [info valueForKey:UIImagePickerControllerOriginalImage];
     self.coverImageView.image = selectedImg;
     [self dismissViewControllerAnimated:YES completion:NULL];
-    //[self dismissModalViewControllerAnimated:YES];
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if (textField == self.destinationInput) {
+        [self.view endEditing:YES];
         [self showSearch];
         return NO;
     }
@@ -496,7 +496,6 @@
     SearchDestinationViewController *searchDestinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"SearchDestinationStoryBoard"];
     searchDestinationViewController.delegate = self;
     searchDestinationViewController.destination = self.destinationInput.text;
-    [searchDestinationViewController setTitle:@"搜索目的地"];
     [self.navigationController pushViewController:searchDestinationViewController animated:YES];
 }
 
