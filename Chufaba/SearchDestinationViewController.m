@@ -82,6 +82,8 @@
 {
     if ([self.destination length] > 0) {
         [self searchDestination:self.destination];
+    } else {
+        [self getHotDestinations];
     }
     [self.searchBar becomeFirstResponder];
 }
@@ -99,6 +101,7 @@
     searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if([searchText length] == 0){
         self.destination = nil;
+        self.showNoResultHint = NO;
         [self clearResults];
     }else if(![searchText isEqualToString:self.destination]){
         [self searchDestination:searchText];
@@ -378,6 +381,40 @@
     fetcher = nil;
 }
 
+- (void)getHotDestinations
+{
+    [self cancelCurrentSearch];
+    self.showNoResultHint = NO;
+    [self clearResults];
+    
+    fetcher = [[JSONFetcher alloc]
+               initWithURLString:@"http://chufaba.me:3000/hot_destinations.json"
+               receiver:self
+               action:@selector(receiveHotDestinations:)];
+    fetcher.showAlerts = NO;
+    [fetcher start];
+    
+    [self showLoading];
+}
+
+- (void)receiveHotDestinations:(JSONFetcher *)aFetcher
+{
+    [self hideLoading];
+    if (!aFetcher.failureCode) {
+        NSArray *destinations = (NSArray *)aFetcher.result;
+        if (destinations.count > 0) {
+            allDestinationList = [[NSMutableArray alloc] init];
+            self.total = destinations.count;
+            for (id object in destinations) {
+                NSDictionary *source = [[NSDictionary alloc] initWithObjectsAndKeys:[(NSDictionary *)object objectForKey:@"destination"], @"city", nil];
+                NSDictionary *dest = [[NSDictionary alloc] initWithObjectsAndKeys:source, @"_source", nil];
+                [allDestinationList addObject:dest];
+            }
+            [self.tableView reloadData];
+        }
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -393,14 +430,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.destination.length > 0) {
+    if (self.total > 0) {
         if ([allDestinationList count] < self.total) {
             return [allDestinationList count] + 1; //获取剩下的结果
-        } else if(self.total == 0 && self.showNoResultHint) {
-            return 1; //提示没有结果
         } else {
             return [allDestinationList count];
         }
+    } else if(self.showNoResultHint){
+        return 1; //无结果提示
     } else {
         return 0;
     }
@@ -512,17 +549,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row < self.total) {
-        NSDictionary *destAtIndex = [(NSDictionary *)[allDestinationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
-        NSString *country = [destAtIndex objectForKey: @"country"];
-        NSString *province = [destAtIndex objectForKey: @"province"];
-        NSString *city = [destAtIndex objectForKey: @"city"];
-        if (city.length > 0) {
-            [self.delegate updateDestination:city];
-        } else if (province.length > 0) {
-            [self.delegate updateDestination:province];
-        } else {
-            [self.delegate updateDestination:country];
+        NSString *dest = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
+        NSRange endRange = [dest rangeOfString:@"，"];
+        if (endRange.length > 0) {
+            dest = [dest substringToIndex:endRange.location];
         }
+        [self.delegate updateDestination:dest];
         [self cancel:self];
     }
 }
