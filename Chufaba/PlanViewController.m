@@ -181,7 +181,7 @@
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
-    [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleBlackOpaque];
+    //[[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     
     UINavigationBar *navBar = self.navigationController.navigationBar;
     navBar.layer.shadowPath = [UIBezierPath bezierPathWithRect:navBar.bounds].CGPath;

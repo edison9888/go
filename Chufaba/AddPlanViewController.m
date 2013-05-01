@@ -345,6 +345,35 @@
     }
 }
 
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if ([navigationController isKindOfClass:[UIImagePickerController class]] &&((UIImagePickerController *)navigationController).sourceType == UIImagePickerControllerSourceTypePhotoLibrary)
+    {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
+        [viewController.navigationItem setTitle:@"选择封面"];
+        
+        UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+        [closeBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+        [closeBtn addTarget:self action:@selector(imagePickerControllerDidCancel:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *cBtn = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
+        viewController.navigationItem.leftBarButtonItem = cBtn;
+        viewController.navigationItem.rightBarButtonItem = NULL;
+        
+        UIImage *image = [UIImage imageNamed:@"bar_Search"];
+        [navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    }
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+-(IBAction)closeImagePicker:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *selectedImg = [info valueForKey:UIImagePickerControllerOriginalImage];
@@ -398,7 +427,6 @@
             self.plan.name = [NSString stringWithFormat:@"%@之旅", self.plan.destination];
         }
         self.plan.duration = [f numberFromString:self.durationInput.text];
-        //NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:[(UIDatePicker *)self.dateInput.inputView date]];
         NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:self.datePicker.date];
         if(daysBetween)
         {
