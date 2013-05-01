@@ -50,6 +50,7 @@
 
 @property (nonatomic) UIImagePickerController *imgPickerController;
 @property (nonatomic,strong) UIDatePicker *datePicker;
+@property (nonatomic,strong) UIPickerView *durationPicker;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @end

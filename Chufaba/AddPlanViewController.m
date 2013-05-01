@@ -60,16 +60,13 @@
     UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
     self.navigationItem.rightBarButtonItem = dBtn;
     
-    //self.destinationInput
     UIImageView *accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall"]];
     accessoryView.frame = CGRectMake(190, 16, 9, 12);
     [self.destinationInput addSubview:accessoryView];
     [self.destinationInput bringSubviewToFront:accessoryView];
     
-    
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
-    //choose cover image part
     if(self.plan.image)
     {
         self.coverImageView.image = self.plan.image;
@@ -84,42 +81,38 @@
     imgTap.numberOfTapsRequired = 1;
     imgTap.numberOfTouchesRequired = 1;
     [self.coverImageView addGestureRecognizer:imgTap];
-
+    
     _durationPick = [[NSMutableArray alloc] initWithCapacity:100];
     for (int i = 1; i < 101; i++)
     {
         [_durationPick addObject:[NSNumber numberWithInt:i]];
     }
     
-    UIPickerView *durationPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 180)];
-    durationPicker.tag = 10;
-    durationPicker.showsSelectionIndicator = YES;
-    [self.view addSubview:durationPicker];
+    self.durationPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 180)];
+    self.durationPicker.tag = 10;
+    self.durationPicker.showsSelectionIndicator = YES;
+    self.durationInput.inputView = self.durationPicker;
     
-    self.durationInput.inputView = durationPicker;
-    
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, 320, 44)];
+    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     toolBar.tag = 11;
     toolBar.barStyle = UIBarStyleBlackTranslucent;
     UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissDurationPicker:)];
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(dismissDurationPicker:)];
     [toolBar setItems:[NSArray arrayWithObjects:cancelButton, spacer, doneButton, nil]];
-    [self.view addSubview:toolBar];
     self.durationInput.inputAccessoryView = toolBar;
     
     self.durationInput.delegate = self;
-    durationPicker.delegate = self;
-    durationPicker.dataSource = self;
+    self.durationPicker.delegate = self;
+    self.durationPicker.dataSource = self;
     
-    UIToolbar *dateToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, 320, 44)];
+    UIToolbar *dateToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     dateToolBar.tag = 14;
     dateToolBar.barStyle = UIBarStyleBlackTranslucent;
     UIBarButtonItem *dateSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *dateCancelButton = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissDatePicker:)];
     UIBarButtonItem *dateDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(dismissDatePicker:)];
     [dateToolBar setItems:[NSArray arrayWithObjects:dateCancelButton, dateSpacer, dateDoneButton, nil]];
-    [self.view addSubview:dateToolBar];
     self.dateInput.inputAccessoryView = dateToolBar;
     self.dateInput.delegate = self;
     
@@ -155,7 +148,6 @@
         self.datePicker = [[UIDatePicker alloc] init];
         self.datePicker.frame = CGRectMake(0, self.view.bounds.size.height+44, 320, 180);
         self.datePicker.datePickerMode = UIDatePickerModeDate;
-        [self.view addSubview:self.datePicker];
         self.dateInput.inputView = self.datePicker;
     }
     NSInteger defaultDuration;
@@ -168,7 +160,7 @@
     {
         defaultDuration = 2;
     }
-    [(UIPickerView *)[self.view viewWithTag:10] selectRow:defaultDuration inComponent:0 animated:NO];
+    [self.durationPicker selectRow:defaultDuration inComponent:0 animated:NO];
 }
 
 - (NSInteger) daysToDelete
@@ -287,10 +279,9 @@
     CGRect toolbarTargetFrame = CGRectMake(0, self.view.bounds.size.height, 320, 44);
     CGRect durationPickerTargetFrame = CGRectMake(0, self.view.bounds.size.height+44, 320, 180);
     [UIView beginAnimations:@"MoveOut" context:nil];
-    [self.view viewWithTag:10].frame = durationPickerTargetFrame;
+    self.durationPicker.frame = durationPickerTargetFrame;
     [self.view viewWithTag:11].frame = toolbarTargetFrame;
     [UIView setAnimationDelegate:self];
-    //[UIView setAnimationDuration:2.0];
     
     if([sender isKindOfClass:[UIBarButtonItem class]])
     {
@@ -303,16 +294,8 @@
             self.durationInput.text = [[_durationPick objectAtIndex:row] stringValue];
         }
     }
-    
-    [UIView setAnimationDidStopSelector:@selector(removeDurationPickerViews:)];
     [self.view endEditing:TRUE];
     [UIView commitAnimations];
-}
-
-- (void)removeDurationPickerViews:(id)object {
-    //[UIView beginAnimations:@"curldown" context:nil];
-    [self.durationInput.inputView removeFromSuperview];
-    [self.durationInput.inputAccessoryView removeFromSuperview];
 }
 
 - (void)dismissDatePicker:(id)sender {
@@ -332,15 +315,8 @@
             self.dateInput.text = [self.dateFormatter stringFromDate:self.datePicker.date];
         }
     }
-    
-    [UIView setAnimationDidStopSelector:@selector(removeViews:)];
     [self.view endEditing:TRUE];
     [UIView commitAnimations];
-}
-
-- (void)removeViews:(id)object {
-    [self.dateInput.inputView removeFromSuperview];
-    [self.dateInput.inputAccessoryView removeFromSuperview];
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
@@ -426,7 +402,6 @@
         NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:self.datePicker.date];
         if(daysBetween)
         {
-            //self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
             self.plan.date = self.datePicker.date;
         }
         self.plan.image = self.coverImageView.image;
@@ -487,7 +462,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)showSearch
