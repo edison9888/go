@@ -494,8 +494,7 @@
 
 - (void)showSearch
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
-    SearchDestinationViewController *searchDestinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"SearchDestinationStoryBoard"];
+    SearchDestinationViewController *searchDestinationViewController = [[SearchDestinationViewController alloc] init];
     searchDestinationViewController.delegate = self;
     searchDestinationViewController.destination = self.destinationInput.text;
     [self.navigationController pushViewController:searchDestinationViewController animated:YES];

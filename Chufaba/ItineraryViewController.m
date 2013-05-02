@@ -889,7 +889,7 @@
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             UIImageView *implyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"t"]];
-            implyImage.frame = CGRectMake(60,0,240,58);
+            implyImage.frame = CGRectMake(60,4,238,50);
             [cell.contentView addSubview:implyImage];
             cell.userInteractionEnabled = NO;
         }

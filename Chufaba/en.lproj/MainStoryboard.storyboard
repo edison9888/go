@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3103" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -251,70 +251,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g2P-Y9-zo2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-162" y="275"/>
-        </scene>
-        <!--Search Destination View Controller-->
-        <scene sceneID="5EN-T5-ESz">
-            <objects>
-                <viewController storyboardIdentifier="SearchDestinationStoryBoard" id="Fdk-B4-cgm" customClass="SearchDestinationViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Jy3-74-a1v">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ssv-1y-1BZ">
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" id="kr6-Nc-3qX">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                                    <scopeButtonTitles>
-                                        <string>Title</string>
-                                        <string>Title</string>
-                                    </scopeButtonTitles>
-                                    <connections>
-                                        <outlet property="delegate" destination="Fdk-B4-cgm" id="qgr-Ak-j7k"/>
-                                    </connections>
-                                </searchBar>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SearchDestinationCell" textLabel="Y5H-vC-2mQ" style="IBUITableViewCellStyleDefault" id="wrk-qn-Cjt">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Y5H-vC-2mQ">
-                                                    <rect key="frame" x="10" y="0.0" width="300" height="43"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="Fdk-B4-cgm" id="JO6-x1-uhM"/>
-                                    <outlet property="delegate" destination="Fdk-B4-cgm" id="f7c-Xb-u9I"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ssv-1y-1BZ" firstAttribute="leading" secondItem="Jy3-74-a1v" secondAttribute="leading" type="default" id="1bP-yk-Hwq"/>
-                            <constraint firstItem="ssv-1y-1BZ" firstAttribute="top" secondItem="Jy3-74-a1v" secondAttribute="top" type="default" id="7sI-xx-ime"/>
-                            <constraint firstItem="ssv-1y-1BZ" firstAttribute="trailing" secondItem="Jy3-74-a1v" secondAttribute="trailing" type="default" id="O0Y-QF-1vV"/>
-                            <constraint firstItem="ssv-1y-1BZ" firstAttribute="bottom" secondItem="Jy3-74-a1v" secondAttribute="bottom" type="default" id="vrz-Eu-pgC"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="GSM-5M-dUq"/>
-                    <connections>
-                        <outlet property="searchBar" destination="kr6-Nc-3qX" id="kd7-1S-fPt"/>
-                        <outlet property="tableView" destination="ssv-1y-1BZ" id="FEI-BS-EJ3"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x3c-ja-HoT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="314" y="275"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hk3-e9-eHg">
@@ -769,81 +705,6 @@
             <point key="canvasLocation" x="727" y="-413"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="AboutViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
-        </class>
-        <class className="AddPlanTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanTableViewCell.h"/>
-        </class>
-        <class className="AddPlanViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel:"/>
-                <relationship kind="action" name="done:"/>
-                <relationship kind="outlet" name="coverImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dateInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="destinationInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="durationInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="nameInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="EditScheduleViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditScheduleViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="startInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="FeedbackViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedbackViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="feedbackTextView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="GuideViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GuideViewController.h"/>
-        </class>
-        <class className="ItineraryViewController" superclassName="SwipeableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ItineraryViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PlanViewController" superclassName="SwipeableTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlanViewController.h"/>
-        </class>
-        <class className="SearchDestinationViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchDestinationViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SearchViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchViewController.h"/>
-        </class>
-        <class className="SettingViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="saveSetting:"/>
-                <relationship kind="outlet" name="aboutCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="feedbackCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="guideCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="reviewCell" candidateClass="UITableViewCell"/>
-            </relationships>
-        </class>
-        <class className="SwipeableTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SwipeableTableViewController.h"/>
-        </class>
-        <class className="SwipeableViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SwipeableViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

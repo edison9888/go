@@ -20,8 +20,9 @@
     NSMutableArray *allDestinationList;
 }
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property(nonatomic, strong) UITableView *tableView;
+@property(nonatomic, strong) UISearchBar *searchBar;
+
 @property (nonatomic, copy) NSString *destination;
 
 @property (nonatomic,weak) id<SearchDestinationViewControllerDelegate> delegate;
