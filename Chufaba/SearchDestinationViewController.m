@@ -52,7 +52,6 @@
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
 	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tableView.rowHeight = 40.0f;
-    //self.tableView.sectionHeaderHeight = 30.0f;
     [self.view addSubview:self.tableView];
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
@@ -87,6 +86,31 @@
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
     footerView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableFooterView = footerView;
+    
+//    if ([self.destination length] == 0)
+//    {
+//        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+//        UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0]];
+//        headerView.backgroundColor = background;
+//        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 5.0, 100.0, 20.0)];
+//        label.text = @"热门目的地";
+//        label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+//        label.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+//        label.shadowOffset = CGSizeMake(0, 1);
+//        label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+//        label.backgroundColor = [UIColor clearColor];
+//        [headerView addSubview:label];
+//        
+//        headerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:headerView.bounds].CGPath;
+//        headerView.layer.shadowOffset = CGSizeMake(0, 1);
+//        headerView.layer.shadowRadius = 0.8;
+//        headerView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
+//        headerView.layer.shadowOpacity = 1;
+//        headerView.layer.shouldRasterize = YES;
+//        headerView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+//        
+//        self.tableView.tableHeaderView = headerView;
+//    }
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -97,31 +121,6 @@
         [self getHotDestinations];
     }
 }
-
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
-//    UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0]];
-//    headerView.backgroundColor = background;
-//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 5.0, 100.0, 20.0)];
-//    label.text = @"热门目的地";
-//    label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-//    label.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
-//    label.shadowOffset = CGSizeMake(0, 1);
-//    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-//    label.backgroundColor = [UIColor clearColor];
-//    [headerView addSubview:label];
-//    
-//    headerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:headerView.bounds].CGPath;
-//    headerView.layer.shadowOffset = CGSizeMake(0, 1);
-//    headerView.layer.shadowRadius = 0.8;
-//    headerView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
-//    headerView.layer.shadowOpacity = 1;
-//    headerView.layer.shouldRasterize = YES;
-//    headerView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-//    
-//    return headerView;
-//}
 
 -(IBAction)cancel:(id)sender
 {
@@ -137,11 +136,26 @@
     if([searchText length] == 0){
         self.destination = nil;
         self.showNoResultHint = NO;
-        [self clearResults];
+        [self getHotDestinations];
     }else if(![searchText isEqualToString:self.destination]){
         [self searchDestination:searchText];
     }
 }
+
+//- (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText
+//{
+//    if (self.disappearing) {
+//        return;
+//    }
+//    searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//    if([searchText length] == 0){
+//        self.destination = nil;
+//        self.showNoResultHint = NO;
+//        [self clearResults];
+//    }else if(![searchText isEqualToString:self.destination]){
+//        [self searchDestination:searchText];
+//    }
+//}
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
     theSearchBar.showsCancelButton = NO;
@@ -365,6 +379,8 @@
             self.total = [[(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"total"] intValue];
             allDestinationList = [destinations mutableCopy];
             [self.tableView reloadData];
+            if(self.tableView.tableHeaderView)
+                self.tableView.tableHeaderView = NULL;
         }
     }
 }
@@ -410,6 +426,8 @@
         if (destinations.count > 0) {
             [allDestinationList addObjectsFromArray:destinations];
             [self.tableView reloadData];
+            if(self.tableView.tableHeaderView)
+                self.tableView.tableHeaderView = NULL;
         }
     }
     
@@ -446,6 +464,30 @@
                 [allDestinationList addObject:dest];
             }
             [self.tableView reloadData];
+            if(!self.tableView.tableHeaderView)
+            {
+                UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+                UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0]];
+                headerView.backgroundColor = background;
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 5.0, 100.0, 20.0)];
+                label.text = @"热门目的地";
+                label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+                label.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+                label.shadowOffset = CGSizeMake(0, 1);
+                label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+                label.backgroundColor = [UIColor clearColor];
+                [headerView addSubview:label];
+                
+                headerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:headerView.bounds].CGPath;
+                headerView.layer.shadowOffset = CGSizeMake(0, 1);
+                headerView.layer.shadowRadius = 0.8;
+                headerView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
+                headerView.layer.shadowOpacity = 1;
+                headerView.layer.shouldRasterize = YES;
+                headerView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+                
+                self.tableView.tableHeaderView = headerView;
+            }
         }
     }
 }
