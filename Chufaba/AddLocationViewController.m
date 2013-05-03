@@ -124,8 +124,8 @@
         MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
         pa.coordinate = customLoc2D_5;
         [self.mapView addAnnotation:pa];
-        
-        ((MKPinAnnotationView *)[self.mapView viewForAnnotation:pa]).pinColor = MKPinAnnotationColorGreen;
+
+        ((MKAnnotationView *)[self.mapView viewForAnnotation:pa]).image = [UIImage imageNamed:@"pin_more"];
     }
     else
     {
@@ -228,7 +228,8 @@
     pa.coordinate = touchMapCoordinate;
     [self.mapView addAnnotation:pa];
     
-    ((MKPinAnnotationView *)[self.mapView viewForAnnotation:pa]).pinColor = MKPinAnnotationColorGreen;
+    //((MKPinAnnotationView *)[self.mapView viewForAnnotation:pa]).pinColor = MKPinAnnotationColorGreen;
+    ((MKAnnotationView *)[self.mapView viewForAnnotation:pa]).image = [UIImage imageNamed:@"pin_more"];
 }
 
 - (IBAction)confirmAddLocation:(id)sender
@@ -490,8 +491,9 @@
     
 	if (!aView)
     {
-		aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:SEARCH_ANNOTATION_VIEWS];
+		aView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:SEARCH_ANNOTATION_VIEWS];
 	}
+    aView.image = [UIImage imageNamed:@"pin_empty"];
     aView.canShowCallout = YES;
 	aView.annotation = annotation;
 	return aView;
@@ -500,13 +502,12 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
     coordinateChanged = YES;
-    ((MKPinAnnotationView *)view).pinColor = MKPinAnnotationColorGreen;
+    view.image = [UIImage imageNamed:@"pin_more"];
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
 {
-    //coordinateChanged = NO;
-    ((MKPinAnnotationView *)view).pinColor = MKPinAnnotationColorRed;
+    view.image = [UIImage imageNamed:@"pin_empty"];
 }
 
 @end
