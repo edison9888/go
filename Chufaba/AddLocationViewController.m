@@ -26,10 +26,11 @@
 
 #define TAG_TOPVIEW 1
 #define TAG_NAME_TEXTFIELD 2
-#define TAG_POSITIONNOW_BUTTON 3
-#define TAG_IMPLY_LABEL 4
-#define TAG_SEARCHBAR 5
-#define TAG_LOADINGVIEW 6
+#define TAG_POSITION_VIEW 3
+#define TAG_POSITIONNOW_BUTTON 4
+#define TAG_POSITION_LABEL 5
+#define TAG_SEARCHBAR 6
+#define TAG_LOADINGVIEW 7
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -62,7 +63,7 @@
     navBar.layer.shadowOpacity = 1;
     navBar.layer.shouldRasterize = YES;
     navBar.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    self.navigationItem.title = @"编辑地点坐标";
+    self.navigationItem.title = @"设定地点坐标";
     
     UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [cancelBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
@@ -76,41 +77,39 @@
     UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
     self.navigationItem.rightBarButtonItem = dBtn;
     
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    searchBar.placeholder = @"地点名称或地址";
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    searchBar.placeholder = @"地点名称";
     searchBar.delegate = self;
     searchBar.tag = TAG_SEARCHBAR;
     searchBar.text = self.location.name;
     searchBar.tintColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    //searchBar.backgroundImage = [UIImage imageNamed:@"bgbar.png"];
+    searchBar.backgroundImage = [[UIImage imageNamed:@"bg_Search"] stretchableImageWithLeftCapWidth:2 topCapHeight:0];
     [self.view addSubview:searchBar];
     
-    self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 50, 320, 430)];
+    self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 44, 320, 430)];
     self.mapView.delegate = self;
-    
-    UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
-    implyLabel.tag = TAG_IMPLY_LABEL;
-    implyLabel.text = @"选一个靠近的地点来设定坐标";
-    implyLabel.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:0.8];
-    implyLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
-    implyLabel.textColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0];
-    implyLabel.textAlignment = NSTextAlignmentCenter;
-    
-    implyLabel.layer.masksToBounds = NO;
-    implyLabel.layer.shadowOffset = CGSizeMake(0, 2);
-    implyLabel.layer.shadowRadius = 4;
-    implyLabel.layer.shadowColor = [[UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0] CGColor];
-    implyLabel.layer.shadowOpacity = 0.3;
-    
-    [self.mapView addSubview:implyLabel];
-    
     [self.view addSubview:self.mapView];
     
     CLLocationCoordinate2D customLoc2D_5;
     if(self.hasCoordinate)
     {
+        if(![self.view viewWithTag:TAG_POSITION_VIEW])
+        {
+            UIView *positionByMyself = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-84, self.view.frame.size.width, 40)];
+            positionByMyself.backgroundColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:0.8];
+            positionByMyself.tag = TAG_POSITION_VIEW;
+            UILabel *positionLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 300, 30)];
+            positionLabel.tag = TAG_POSITION_LABEL;
+            positionLabel.backgroundColor = [UIColor clearColor];
+            positionLabel.textColor = [UIColor whiteColor];
+            positionLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:14];
+            [positionByMyself addSubview:positionLabel];
+            [self.view addSubview:positionByMyself];
+            [self.view bringSubviewToFront:positionByMyself];
+        }
+        
         selfEditMode = YES;
-        implyLabel.text = @"点击地图可以重设坐标";
+        ((UILabel *)[self.view viewWithTag:TAG_POSITION_LABEL]).text = @"点击地图可以重设坐标";
         
         UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
         [self.mapView addGestureRecognizer:tgr];
@@ -186,18 +185,28 @@
 {
 	searchBar.showsCancelButton = NO;
     [searchBar resignFirstResponder];
+    
+    UIActivityIndicatorView *loadingView=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    loadingView.tag = TAG_LOADINGVIEW;
+    [loadingView setFrame:CGRectMake(140, 160, 40, 40)];
+    
 	if (self.lastLatitude && self.lastLongitude)
     {
         [self searchJiepangForKeyword:searchBar.text AroundLocation:CGPointMake([self.lastLatitude floatValue], [self.lastLongitude floatValue])];
+        [loadingView startAnimating];
+        [self.mapView addSubview:loadingView];
     }
     else
     {
         [self searchJiepangForKeyword:searchBar.text];
+        [loadingView startAnimating];
+        [self.mapView addSubview:loadingView];
     }
 }
 
 - (IBAction)positionNow:(id)sender
 {
+    ((UILabel *)[self.view viewWithTag:TAG_POSITION_LABEL]).text = @"点击地图可以重设坐标";
     [self.mapView removeAnnotations:self.mapView.annotations];
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self.mapView addGestureRecognizer:tgr];
@@ -232,7 +241,8 @@
     {
         Location *addLocation = [[Location alloc] init];
         addLocation.useradd = YES;
-        addLocation.category = self.location.category;
+        //addLocation.category = self.location.category;
+        addLocation.category = @"其它";
         addLocation.name = self.location.name;
         
         if (!selfEditMode)
@@ -374,10 +384,25 @@
 
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
+    if(![self.view viewWithTag:TAG_POSITION_VIEW])
+    {
+        UIView *positionByMyself = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-40, self.view.frame.size.width, 40)];
+        positionByMyself.backgroundColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:0.8];
+        positionByMyself.tag = TAG_POSITION_VIEW;
+        UILabel *positionLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 300, 30)];
+        positionLabel.tag = TAG_POSITION_LABEL;
+        positionLabel.backgroundColor = [UIColor clearColor];
+        positionLabel.textColor = [UIColor whiteColor];
+        positionLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:14];
+        [positionByMyself addSubview:positionLabel];
+        [self.view addSubview:positionByMyself];
+        [self.view bringSubviewToFront:positionByMyself];
+    }
+    
     NSArray *items = [(NSDictionary *)aFetcher.result objectForKey:@"items"];
     if (items.count > 0)
     {
-        ((UILabel *)[self.mapView viewWithTag:TAG_IMPLY_LABEL]).text = @"选一个靠近的地点来设定坐标";
+        ((UILabel *)[self.view viewWithTag:TAG_POSITION_LABEL]).text = @"选一个准确的位置 或 清空自行设定";
         [self showAnnotations:items];
         
         if(self.mapView.gestureRecognizers.count)
@@ -385,23 +410,20 @@
             [self.mapView removeGestureRecognizer:[self.mapView.gestureRecognizers objectAtIndex:0]];
         }
         
-        UIButton *positionByMyself = [[UIButton alloc] initWithFrame:CGRectMake(0, 330, self.view.frame.size.width, 40)];
+        UIButton *positionByMyself = [[UIButton alloc] initWithFrame:CGRectMake(260, 5, 50, 30)];
         positionByMyself.tag = TAG_POSITIONNOW_BUTTON;
-        [positionByMyself setTitle:@"参考地点都不靠谱，点击地图自己设定" forState:UIControlStateNormal];
-        [positionByMyself setTitleColor:[UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0] forState:UIControlStateNormal];
-        positionByMyself.titleLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
-        positionByMyself.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:0.9];
+        [positionByMyself setImage:[UIImage imageNamed:@"btn_empty"] forState:UIControlStateNormal];
         [positionByMyself addTarget:self action:@selector(positionNow:) forControlEvents:UIControlEventTouchDown];
-        [self.mapView addSubview:positionByMyself];
+        [[self.view viewWithTag:TAG_POSITION_VIEW] addSubview:positionByMyself];
     }
     else
     {
-        UIButton *positionNowBtn = (UIButton *)[self.mapView viewWithTag:TAG_POSITIONNOW_BUTTON];
+        UIButton *positionNowBtn = (UIButton *)[self.view viewWithTag:TAG_POSITIONNOW_BUTTON];
         if(positionNowBtn)
         {
             [positionNowBtn removeFromSuperview];
         }
-        ((UILabel *)[self.mapView viewWithTag:TAG_IMPLY_LABEL]).text = @"没找到可参考的地点，换个词搜或者点击地图自己设定";
+        ((UILabel *)[self.view viewWithTag:TAG_POSITION_LABEL]).text = @"没找到相关地点，换个词搜或点击地图自己设定";
         
         UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
         [self.mapView addGestureRecognizer:tgr];

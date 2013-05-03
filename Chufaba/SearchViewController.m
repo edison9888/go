@@ -270,6 +270,7 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
+    self.disappearing = FALSE;
     [self searchPoi];
 }
 
@@ -356,7 +357,6 @@
     {
         return;
     }
-    
     if(searchBar == self.nameInput)
     {
         self.nameKeyword = [self.nameInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
