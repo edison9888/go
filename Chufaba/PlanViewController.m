@@ -234,10 +234,10 @@
         UIView *maskView = [[UIView alloc] init];
         maskView.tag = TAG_MASKVIEW;
         maskView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 180, 80, 30)];
+        UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 170, 80, 30)];
         implyLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
         implyLabel.text = @"这里空荡荡";
-        implyLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+        implyLabel.textColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0];
         implyLabel.backgroundColor = [UIColor clearColor];
         [maskView addSubview:implyLabel];
         [self.view addSubview:maskView];
@@ -468,10 +468,10 @@
                 UIView *maskView = [[UIView alloc] init];
                 maskView.tag = TAG_MASKVIEW;
                 maskView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-                UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 180, 80, 30)];
+                UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 170, 80, 30)];
                 implyLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
                 implyLabel.text = @"这里空荡荡";
-                implyLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+                implyLabel.textColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0];
                 implyLabel.backgroundColor = [UIColor clearColor];
                 [maskView addSubview:implyLabel];
                 [self.view addSubview:maskView];
