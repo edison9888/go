@@ -12,11 +12,11 @@
 #import "ItineraryDataController.h"
 #import "SearchDestinationViewController.h"
 
-@implementation UINavigationBar (CustomImage)
-- (void)drawRect:(CGRect)rect {
-    UIImage *image = [UIImage imageNamed:@"bar"];
-    [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+@interface PlanViewController ()
+{
+    BOOL isEmptyPlan;
 }
+
 @end
 
 @implementation PlanViewController
@@ -27,7 +27,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+
     }
     return self;
 }
@@ -39,6 +39,13 @@
 
 - (void) addPlanViewController:(AddPlanViewController *)controller didAddTravelPlan:(Plan *)plan
 {
+    if(!self.tableView.tableHeaderView)
+    {
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+        headerView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+        self.tableView.tableHeaderView = headerView;
+    }
+    
     FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
     
     [db insertTravelPlan:plan];
@@ -181,8 +188,6 @@
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
-    //[[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleBlackOpaque];
-    
     UINavigationBar *navBar = self.navigationController.navigationBar;
     navBar.layer.shadowPath = [UIBezierPath bezierPathWithRect:navBar.bounds].CGPath;
     navBar.layer.masksToBounds = NO;
@@ -204,25 +209,95 @@
     siteLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     siteLabel.textColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+    headerView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    self.tableView.tableHeaderView = headerView;
+    
     if([self.travelPlans count] > 4)
     {
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
         [siteLabel setFrame:CGRectMake(122, 20, 76, 20)];
         [footerView addSubview:siteLabel];
         self.tableView.tableFooterView = footerView;
+        isEmptyPlan = FALSE;
+    }
+    else if([self.travelPlans count] > 0)
+    {
+        [siteLabel setFrame:CGRectMake(122, self.view.bounds.size.height-80, 76, 30)];
+        siteLabel.tag = TAG_SITELABEL;
+        [self.view addSubview:siteLabel];
+        isEmptyPlan = FALSE;
     }
     else
     {
         [siteLabel setFrame:CGRectMake(122, self.view.bounds.size.height-80, 76, 30)];
         siteLabel.tag = TAG_SITELABEL;
         [self.view addSubview:siteLabel];
+        isEmptyPlan = TRUE;
+        self.tableView.tableHeaderView = NULL;
     }
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-    headerView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-    self.tableView.tableHeaderView = headerView;
     self.tableView.rowHeight = 92.0f;
 }
+
+//- (void)viewDidLoad
+//{
+//    [super viewDidLoad];
+//    
+//    UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+//    [addBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+//    [addBtn addTarget:self action:@selector(AddPlan:) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:addBtn];
+//    self.navigationItem.rightBarButtonItem = btn;
+//    
+//    UIButton *settingBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+//    [settingBtn setImage:[UIImage imageNamed:@"setting"] forState:UIControlStateNormal];
+//    [settingBtn addTarget:self action:@selector(showSetting:) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *setBtn = [[UIBarButtonItem alloc] initWithCustomView:settingBtn];
+//    self.navigationItem.leftBarButtonItem = setBtn;
+//    
+//    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+//    
+//    UINavigationBar *navBar = self.navigationController.navigationBar;
+//    navBar.layer.shadowPath = [UIBezierPath bezierPathWithRect:navBar.bounds].CGPath;
+//    navBar.layer.masksToBounds = NO;
+//    navBar.layer.shadowOffset = CGSizeMake(0, 1);
+//    navBar.layer.shadowRadius = 2;
+//    navBar.layer.shadowColor = [[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3] CGColor];
+//    navBar.layer.shadowOpacity = 1;
+//    navBar.layer.shouldRasterize = YES;
+//    navBar.layer.rasterizationScale = [UIScreen mainScreen].scale;
+//    
+//    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_bar"]];
+//    [self populateTravelPlans];
+//    
+//    self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+//    
+//    UILabel *siteLabel = [[UILabel alloc] init];
+//    siteLabel.backgroundColor = [UIColor clearColor];
+//    siteLabel.text = @"chufaba.me";
+//    siteLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+//    siteLabel.textColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+//    
+//    if([self.travelPlans count] > 4)
+//    {
+//        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
+//        [siteLabel setFrame:CGRectMake(122, 20, 76, 20)];
+//        [footerView addSubview:siteLabel];
+//        self.tableView.tableFooterView = footerView;
+//    }
+//    else
+//    {
+//        [siteLabel setFrame:CGRectMake(122, self.view.bounds.size.height-80, 76, 30)];
+//        siteLabel.tag = TAG_SITELABEL;
+//        [self.view addSubview:siteLabel];
+//    }
+//    
+//    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+//    headerView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+//    self.tableView.tableHeaderView = headerView;
+//    self.tableView.rowHeight = 92.0f;
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -437,7 +512,10 @@
         
         //[self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfplanToEditOrDelete] withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView reloadData];
-        
+        if([self.travelPlans count] == 0)
+        {
+            self.tableView.tableHeaderView = NULL;
+        }
         [self removeImage: [[planToDelete.planId stringValue] stringByAppendingString:@"planCover"]];
     }
 }
