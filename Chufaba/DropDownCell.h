@@ -10,7 +10,4 @@
 
 @interface DropDownCell : UITableViewCell
 
-- (void)showUpLine:(BOOL)show;
-- (void)showBottomLine:(BOOL)show;
-
 @end

@@ -44,8 +44,15 @@
         table.layer.cornerRadius = 5;
         table.backgroundColor = [UIColor colorWithRed:44/255.0 green:145/255.0 blue:144/255.0 alpha:1.0];
         table.separatorStyle = UITableViewCellSeparatorStyleNone;
-        
         table.scrollEnabled = YES;
+        
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, btn.size.width, 1)];
+        headerView.backgroundColor = [UIColor colorWithRed:26/255.0 green:128/255.0 blue:128/255.0 alpha:1.0];
+        table.tableHeaderView = headerView;
+        
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, btn.size.width, 1)];
+        footerView.backgroundColor = [UIColor colorWithRed:56/255.0 green:154/255.0 blue:154/255.0 alpha:1.0];
+        table.tableFooterView = footerView;
         
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
@@ -100,10 +107,6 @@
         cell = [[DropDownCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     cell.textLabel.text =[list objectAtIndex:indexPath.row];
-    
-    //add separator line
-    [cell showUpLine:(indexPath.row > 0)];
-    [cell showBottomLine:(indexPath.row < ([list count]-1))];
     return cell;
 }
 
