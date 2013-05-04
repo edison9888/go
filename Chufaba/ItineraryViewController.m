@@ -614,6 +614,7 @@
     oneDimensionLocationList = [self getOneDimensionLocationList];
     
     self.grabbedObject = nil;
+    [self updateFooterView];
 }
 
 //Implement NavigationLocation delegate
@@ -911,6 +912,9 @@
         if ([object isEqual:DUMMY_CELL])
         {
             cell.textLabel.text = @"";
+            cell.detailTextLabel.text = @"";
+            cell.imageView.image = NULL;
+            cell.accessoryView = NULL;
             cell.contentView.backgroundColor = [UIColor clearColor];
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
@@ -928,6 +932,7 @@
                 cell.detailTextLabel.text = @"";
             }
             cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
+            cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall"]];
             
             if([cell.contentView viewWithTag:TAG_LINE_VIEW])
             {
@@ -955,6 +960,26 @@
     }
 }
 
+-(void) updateFooterView
+{
+    if([[self.dataController.masterTravelDayList lastObject] count] > 0)
+    {
+        if(!self.tableView.tableFooterView)
+        {
+            UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+            footerView.backgroundColor = [UIColor whiteColor];
+            self.tableView.tableFooterView = footerView;
+        }
+    }
+    else
+    {
+        if(self.tableView.tableFooterView)
+        {
+            self.tableView.tableFooterView = NULL;
+        }
+    }
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSInteger dayValue = singleDayMode ? [self.daySelected intValue]-1 : section;
@@ -972,17 +997,11 @@
     NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
     [offsetComponents setDay:dayValue];
     NSDate *sectionDate = [self.gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
-    
-    //Headerview
-//    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
+
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
     UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0]];
     myView.backgroundColor = background;
-//    UIImageView *myView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
-//    myView.image = [[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0];
 
-    
-    //HeaderLabel
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 6.0, 250.0, 20.0)] ;
     label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     label.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
@@ -998,7 +1017,6 @@
     wLabel.backgroundColor = [UIColor clearColor];
     wLabel.text = [self.dateFormatter stringFromDate:sectionDate];;
     
-    //AddParameterButton
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
     [button setImage:[UIImage imageNamed:@"addLocation"] forState:UIControlStateNormal];
     button.tag = dayValue;
@@ -1206,12 +1224,7 @@
     }
     [self reloadDataController];
     [self.tableView reloadData];
-    if(self.tableView.tableFooterView == NULL && [[self.dataController.masterTravelDayList lastObject] count] > 0)
-    {
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-        footerView.backgroundColor = [UIColor whiteColor];
-        self.tableView.tableFooterView = footerView;
-    }
+    [self updateFooterView];
 }
 
 @end
