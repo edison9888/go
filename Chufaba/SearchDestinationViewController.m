@@ -17,7 +17,7 @@
 
 @property int total;
 @property BOOL disappearing;
-@property BOOL showNoResultHint;
+//@property BOOL showNoResultHint;
 @property UIActivityIndicatorView *loadingView;
 
 @end
@@ -82,35 +82,6 @@
     upBorder.frame = CGRectMake(0, 0, self.view.bounds.size.width, 1);
     upBorder.backgroundColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0].CGColor;
     [self.searchBar.layer addSublayer:upBorder];
-    
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-    footerView.backgroundColor = [UIColor whiteColor];
-    self.tableView.tableFooterView = footerView;
-    
-//    if ([self.destination length] == 0)
-//    {
-//        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
-//        UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0]];
-//        headerView.backgroundColor = background;
-//        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 5.0, 100.0, 20.0)];
-//        label.text = @"热门目的地";
-//        label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-//        label.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
-//        label.shadowOffset = CGSizeMake(0, 1);
-//        label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-//        label.backgroundColor = [UIColor clearColor];
-//        [headerView addSubview:label];
-//        
-//        headerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:headerView.bounds].CGPath;
-//        headerView.layer.shadowOffset = CGSizeMake(0, 1);
-//        headerView.layer.shadowRadius = 0.8;
-//        headerView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
-//        headerView.layer.shadowOpacity = 1;
-//        headerView.layer.shouldRasterize = YES;
-//        headerView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-//        
-//        self.tableView.tableHeaderView = headerView;
-//    }
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -135,27 +106,12 @@
     searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if([searchText length] == 0){
         self.destination = nil;
-        self.showNoResultHint = NO;
+        //self.showNoResultHint = NO;
         [self getHotDestinations];
     }else if(![searchText isEqualToString:self.destination]){
         [self searchDestination:searchText];
     }
 }
-
-//- (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText
-//{
-//    if (self.disappearing) {
-//        return;
-//    }
-//    searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//    if([searchText length] == 0){
-//        self.destination = nil;
-//        self.showNoResultHint = NO;
-//        [self clearResults];
-//    }else if(![searchText isEqualToString:self.destination]){
-//        [self searchDestination:searchText];
-//    }
-//}
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
     theSearchBar.showsCancelButton = NO;
@@ -200,7 +156,7 @@
 
 - (void)searchDestination:(NSString *)destination{
     [self cancelCurrentSearch];
-    self.showNoResultHint = NO;
+    //self.showNoResultHint = NO;
     [self clearResults];
     self.destination = destination;
     
@@ -361,7 +317,7 @@
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
     [self hideLoading];
-    self.showNoResultHint = YES;
+    //self.showNoResultHint = YES;
     if (aFetcher.failureCode) {
         UIAlertView *alert =
         [[UIAlertView alloc]
@@ -437,7 +393,7 @@
 - (void)getHotDestinations
 {
     [self cancelCurrentSearch];
-    self.showNoResultHint = NO;
+    //self.showNoResultHint = NO;
     [self clearResults];
     
     fetcher = [[JSONFetcher alloc]
@@ -466,25 +422,22 @@
             [self.tableView reloadData];
             if(!self.tableView.tableHeaderView)
             {
-                UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
-                UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0]];
-                headerView.backgroundColor = background;
-                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 5.0, 100.0, 20.0)];
+                UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+                headerView.backgroundColor = [UIColor colorWithRed:253/255.0 green:249/255.0 blue:242/255.0 alpha:1.0];
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 0, 100.0, 20.0)];
                 label.text = @"热门目的地";
-                label.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-                label.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
-                label.shadowOffset = CGSizeMake(0, 1);
+                label.textColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0];
                 label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
                 label.backgroundColor = [UIColor clearColor];
                 [headerView addSubview:label];
                 
-                headerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:headerView.bounds].CGPath;
-                headerView.layer.shadowOffset = CGSizeMake(0, 1);
-                headerView.layer.shadowRadius = 0.8;
-                headerView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
-                headerView.layer.shadowOpacity = 1;
-                headerView.layer.shouldRasterize = YES;
-                headerView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+                lineView.backgroundColor = [UIColor whiteColor];
+                [headerView addSubview:lineView];
+                
+                lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 19, 320, 1)];
+                lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+                [headerView addSubview:lineView];
                 
                 self.tableView.tableHeaderView = headerView;
             }
@@ -507,15 +460,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.total > 0) {
+    if (self.total > 0)
+    {
         if ([allDestinationList count] < self.total) {
             return [allDestinationList count] + 1; //获取剩下的结果
-        } else {
+        }
+        else
+        {
             return [allDestinationList count];
         }
-    } else if(self.showNoResultHint){
-        return 1; //无结果提示
-    } else {
+    }
+//    else if(self.showNoResultHint)
+//    {
+//        return 1; //无结果提示
+//    }
+    else
+    {
         return 0;
     }
 }
@@ -559,11 +519,10 @@
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, self.view.bounds.size.width, 1)];
         lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
         [cell.contentView addSubview:lineView];
-        
-        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-        lineView.backgroundColor = [UIColor whiteColor];
-        [cell.contentView addSubview:lineView];
-    } else if (self.total > 0){
+
+    }
+    else if (self.total > 0)
+    {
         NSString *CellIdentifier = @"LoadingCell";
         
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -580,36 +539,34 @@
         lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
         [cell.contentView addSubview:lineView];
         
-        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-        lineView.backgroundColor = [UIColor whiteColor];
-        [cell.contentView addSubview:lineView];
-        
         [self fetchRestResult];
-    } else {
-        NSString *CellIdentifier = @"NoResultCell";
-        
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        if (!cell){
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        }
-        cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-        cell.textLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-        cell.textLabel.text = @"火星地址？";
-        
-        UIView *bgColorView = [[UIView alloc] init];
-        [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
-        [cell setSelectedBackgroundView:bgColorView];
-        
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, self.view.bounds.size.width, 1)];
-        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-        [cell.contentView addSubview:lineView];
-        
-        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-        lineView.backgroundColor = [UIColor whiteColor];
-        [cell.contentView addSubview:lineView];
     }
+//    else
+//    {
+//        NSString *CellIdentifier = @"NoResultCell";
+//        
+//        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//        
+//        if (!cell){
+//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//        }
+//        cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+//        cell.textLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+//        cell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+//        cell.textLabel.text = @"火星地址？";
+//        
+//        UIView *bgColorView = [[UIView alloc] init];
+//        [bgColorView setBackgroundColor:[UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0]];
+//        [cell setSelectedBackgroundView:bgColorView];
+//        
+//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, self.view.bounds.size.width, 1)];
+//        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+//        [cell.contentView addSubview:lineView];
+//        
+//        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+//        lineView.backgroundColor = [UIColor whiteColor];
+//        [cell.contentView addSubview:lineView];
+//    }
     return cell;
 }
 
