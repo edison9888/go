@@ -148,6 +148,7 @@
             [self performSegueWithIdentifier:@"ShowUserGuide" sender:nil];
             break;
         case 1:
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/app/id611640407"]];
             break;
         case 2:
             [self performSegueWithIdentifier:@"ShowFeedback" sender:nil];
