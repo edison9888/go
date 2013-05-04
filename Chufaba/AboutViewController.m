@@ -37,14 +37,17 @@
     self.navigationItem.title = @"关于出发吧";
     
     UITextView *aboutView = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, 300, self.view.bounds.size.height-65)];
-//    UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"kuang"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
-//    aboutView.backgroundColor = background;
-    
     aboutView.editable = FALSE;
-    aboutView.backgroundColor = [UIColor whiteColor];
+    aboutView.backgroundColor = [UIColor clearColor];
     aboutView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     aboutView.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
     aboutView.text = @"出发吧团队荣誉出品";
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:[aboutView bounds]];
+    imageView.image = [[UIImage imageNamed:@"kuang"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+    [aboutView addSubview:imageView];
+    [aboutView sendSubviewToBack:imageView];
+    
     [self.view addSubview:aboutView];
 }
 
