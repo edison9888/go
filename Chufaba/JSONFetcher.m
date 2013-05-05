@@ -56,7 +56,8 @@
 	//
 	// Parse the JSON
 	//
-	SBJsonParser *json = [SBJsonParser new]; 
+	//SBJsonParser *json = [SBJsonParser new];
+    SBJsonParser *json = [[SBJsonParser new] autorelease];
 	result = [[json objectWithData:data] retain];
 
 #if TARGET_OS_IPHONE		
