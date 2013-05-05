@@ -67,12 +67,14 @@
     
     UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [cancelBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+    [cancelBtn setImage:[UIImage imageNamed:@"cancel_click"] forState:UIControlStateHighlighted];
     [cancelBtn addTarget:self action:@selector(cancelAddLocation:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *cBtn = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
     self.navigationItem.leftBarButtonItem = cBtn;
     
     UIButton *saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [saveBtn setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
+    [saveBtn setImage:[UIImage imageNamed:@"done_click"] forState:UIControlStateHighlighted];
     [saveBtn addTarget:self action:@selector(confirmAddLocation:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
     self.navigationItem.rightBarButtonItem = dBtn;

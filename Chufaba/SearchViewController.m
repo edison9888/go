@@ -73,6 +73,7 @@
     
     UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [closeBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+    [closeBtn setImage:[UIImage imageNamed:@"cancel_click"] forState:UIControlStateHighlighted];
     [closeBtn addTarget:self action:@selector(close:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *cBtn = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
     self.navigationItem.leftBarButtonItem = cBtn;

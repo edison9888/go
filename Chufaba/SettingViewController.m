@@ -43,7 +43,8 @@
     navBar.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [closeBtn setImage:[UIImage imageNamed:@"cancel.png"] forState:UIControlStateNormal];
+    [closeBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+    [closeBtn setImage:[UIImage imageNamed:@"cancel_click"] forState:UIControlStateHighlighted];
     [closeBtn addTarget:self action:@selector(saveSetting:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
     self.navigationItem.leftBarButtonItem = btn;

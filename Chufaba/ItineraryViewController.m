@@ -246,12 +246,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor yellowColor];
     
     [self setEmptyItinerary];
     self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight40", @"景点", @"food40", @"美食", @"hotel40", @"住宿", @"more40", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"back_click"] forState:UIControlStateHighlighted];
     [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = btn;
@@ -286,6 +288,7 @@
     
     UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [modeBtn setImage:[UIImage imageNamed:@"map"] forState:UIControlStateNormal];
+    [modeBtn setImage:[UIImage imageNamed:@"map_click"] forState:UIControlStateHighlighted];
     [modeBtn addTarget:self action:@selector(toggleMap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:modeBtn];
     self.navigationItem.rightBarButtonItem = rightBtn;
@@ -508,9 +511,9 @@
                         animations:^{ self.tableView.hidden = YES; self.mapView.hidden = NO; }
                         completion:NULL];
         
-		//self.navigationItem.rightBarButtonItem.title = LIST_BUTTON_TITLE;
         UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
         [modeBtn setImage:[UIImage imageNamed:@"list"] forState:UIControlStateNormal];
+        [modeBtn setImage:[UIImage imageNamed:@"list_click"] forState:UIControlStateHighlighted];
         [modeBtn addTarget:self action:@selector(toggleMap) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:modeBtn];
         self.navigationItem.rightBarButtonItem = rightBtn;
@@ -525,10 +528,9 @@
                         animations:^{ self.mapView.hidden = YES; self.tableView.hidden = NO; }
                         completion:NULL];
         
-		//self.navigationItem.rightBarButtonItem.title = MAP_BUTTON_TITLE;
-        
         UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
         [modeBtn setImage:[UIImage imageNamed:@"map"] forState:UIControlStateNormal];
+        [modeBtn setImage:[UIImage imageNamed:@"map_click"] forState:UIControlStateHighlighted];
         [modeBtn addTarget:self action:@selector(toggleMap) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:modeBtn];
         self.navigationItem.rightBarButtonItem = rightBtn;
@@ -756,8 +758,8 @@
     {
         [arr addObject:[NSString stringWithFormat:@"第%d天", i+1]];
     }
-    if(dropDown == nil) {
-        //add the dark view part
+    if(dropDown == nil)
+    {
         UIView *darkView = [[UIView alloc] initWithFrame:self.view.bounds];
         darkView.backgroundColor = [UIColor clearColor];
         darkView.tag = 55;
@@ -771,11 +773,11 @@
         dropDown = [[NIDropDown alloc] showDropDown:sender withHeight:&f withDays:arr];
         dropDown.delegate = self;
     }
-    else {
+    else
+    {
         [dropDown hideDropDown:sender];
         dropDown = nil;
         [[self.view viewWithTag:55] removeFromSuperview];
-        //[self.view viewWithTag:22] = nil;
     }
 }
 

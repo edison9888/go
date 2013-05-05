@@ -27,7 +27,8 @@
     self.navigationItem.title = @"备注";
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"back_click"] forState:UIControlStateHighlighted];
     [backBtn addTarget:self action:@selector(backToPrevious) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = btn;
@@ -45,7 +46,8 @@
 	textView.text = self.detail;
     
     UIButton *editBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [editBtn setImage:[UIImage imageNamed:@"edittext.png"] forState:UIControlStateNormal];
+    [editBtn setImage:[UIImage imageNamed:@"edittext"] forState:UIControlStateNormal];
+    [editBtn setImage:[UIImage imageNamed:@"edittext_click"] forState:UIControlStateHighlighted];
     [editBtn addTarget:self action:@selector(editDetail) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *eBtn = [[UIBarButtonItem alloc] initWithCustomView:editBtn];
     self.navigationItem.rightBarButtonItem = eBtn;
@@ -100,6 +102,7 @@
 {
     UIButton *doneBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [doneBtn setImage:[UIImage imageNamed:@"done.png"] forState:UIControlStateNormal];
+    [doneBtn setImage:[UIImage imageNamed:@"done_click"] forState:UIControlStateHighlighted];
     [doneBtn addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:doneBtn];
     self.navigationItem.rightBarButtonItem = dBtn;

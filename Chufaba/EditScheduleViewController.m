@@ -21,13 +21,15 @@
     self.navigationItem.title = @"到达时间";
 
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"back_click"] forState:UIControlStateHighlighted];
     [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = btn;
     
     UIButton *saveBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [saveBtn setImage:[UIImage imageNamed:@"done.png"] forState:UIControlStateNormal];
+    [saveBtn setImage:[UIImage imageNamed:@"done"] forState:UIControlStateNormal];
+    [saveBtn setImage:[UIImage imageNamed:@"done_click"] forState:UIControlStateHighlighted];
     [saveBtn addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *dBtn = [[UIBarButtonItem alloc] initWithCustomView:saveBtn];
     self.navigationItem.rightBarButtonItem = dBtn;
@@ -36,7 +38,7 @@
     [self configureView];
     
     self.startInput.borderStyle = UITextBorderStyleNone;
-    UIImage *sourceImage = [UIImage imageNamed:@"kuang.png"];
+    UIImage *sourceImage = [UIImage imageNamed:@"kuang"];
     UIImage *cappedImage = [sourceImage stretchableImageWithLeftCapWidth:8 topCapHeight:8];
     self.startInput.background = cappedImage;
     self.startInput.font = [UIFont fontWithName:@"Heiti SC" size:16];

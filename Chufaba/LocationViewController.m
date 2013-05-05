@@ -70,7 +70,8 @@
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"back_click"] forState:UIControlStateHighlighted];
     [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = btn;
@@ -79,7 +80,7 @@
     
     UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -MAP_VIEW_HEIGHT * 3-60, 320, 60)];
     UIImageView *pullImgView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 10, 72, 40)];
-    pullImgView.image = [UIImage imageNamed:@"pull_bg.png"];
+    pullImgView.image = [UIImage imageNamed:@"pull_bg"];
     [pullView addSubview:pullImgView];
     UITableView *tableView = (UITableView *)[self.view viewWithTag:TAG_TABLEVIEW];
     [tableView addSubview:pullView];

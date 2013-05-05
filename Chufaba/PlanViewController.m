@@ -174,12 +174,14 @@
     
     UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [addBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+    [addBtn setImage:[UIImage imageNamed:@"add_click"] forState:UIControlStateHighlighted];
     [addBtn addTarget:self action:@selector(AddPlan:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:addBtn];
     self.navigationItem.rightBarButtonItem = btn;
     
     UIButton *settingBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [settingBtn setImage:[UIImage imageNamed:@"setting"] forState:UIControlStateNormal];
+    [settingBtn setImage:[UIImage imageNamed:@"setting_click"] forState:UIControlStateHighlighted];
     [settingBtn addTarget:self action:@selector(showSetting:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *setBtn = [[UIBarButtonItem alloc] initWithCustomView:settingBtn];
     self.navigationItem.leftBarButtonItem = setBtn;
