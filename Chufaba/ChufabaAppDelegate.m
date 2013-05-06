@@ -49,8 +49,8 @@
 //        self.sinaweibo.userID = [sinaweiboInfo objectForKey:@"UserIDKey"];
 //    }
 //    
-//    //weixin part
-//    [WXApi registerApp:@"wx9a0654e1d41f2482"];
+    //weixin part
+    [WXApi registerApp:@"wx9a0654e1d41f2482"];
     
     return YES;
 }
@@ -118,7 +118,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [self.sinaweibo applicationDidBecomeActive];
+    //[self.sinaweibo applicationDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -128,32 +128,50 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    if ([[url scheme] isEqualToString:@"sinaweibosso.3237810134"])
-    {
-        return [self.sinaweibo handleOpenURL:url];
-    }
-    else if ([[url scheme] isEqualToString:@"tencent100379396"])
-    {
-        return [TencentOAuth HandleOpenURL:url];
-    }
-    else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+    if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
     {
         return [WXApi handleOpenURL:url delegate:self];
     }
     return NO;
 }
 
+//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+//{
+//    if ([[url scheme] isEqualToString:@"sinaweibosso.3237810134"])
+//    {
+//        return [self.sinaweibo handleOpenURL:url];
+//    }
+//    else if ([[url scheme] isEqualToString:@"tencent100379396"])
+//    {
+//        return [TencentOAuth HandleOpenURL:url];
+//    }
+//    else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+//    {
+//        return [WXApi handleOpenURL:url delegate:self];
+//    }
+//    return NO;
+//}
+
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+//{
+//    if ([[url scheme] isEqualToString:@"sinaweibosso.3237810134"])
+//    {
+//        return [self.sinaweibo handleOpenURL:url];
+//    }
+//    else if ([[url scheme] isEqualToString:@"tencent100379396"])
+//    {
+//        return [TencentOAuth HandleOpenURL:url];
+//    }
+//    else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+//    {
+//        return [WXApi handleOpenURL:url delegate:self];
+//    }
+//    return NO;
+//}
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([[url scheme] isEqualToString:@"sinaweibosso.3237810134"])
-    {
-        return [self.sinaweibo handleOpenURL:url];
-    }
-    else if ([[url scheme] isEqualToString:@"tencent100379396"])
-    {
-        return [TencentOAuth HandleOpenURL:url];
-    }
-    else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+    if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
     {
         return [WXApi handleOpenURL:url delegate:self];
     }

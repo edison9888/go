@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SocialAccountManager.h"
+//#import "SocialAccountManager.h"
 
 //@interface SettingViewController : UITableViewController <SocialAccountManagerDelegate, UIActionSheetDelegate>
 @interface SettingViewController : UITableViewController

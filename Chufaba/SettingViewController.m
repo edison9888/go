@@ -7,7 +7,7 @@
 //
 
 #import "SettingViewController.h"
-#import "LoginViewController.h"
+//#import "LoginViewController.h"
 
 #import "ChufabaAppDelegate.h"
 #import "QuartzCore/QuartzCore.h"
