@@ -68,7 +68,7 @@
     self.textLabel.frame = frame;
     [self.detailTextLabel sizeToFit];
     CGRect dFrame = self.detailTextLabel.frame;
-    dFrame.origin.x = 265;
+    dFrame.origin.x = 295 - dFrame.size.width;
     self.detailTextLabel.frame = dFrame;
 }
 
