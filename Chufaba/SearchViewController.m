@@ -57,7 +57,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight60", @"景点", @"food60", @"美食", @"hotel60", @"住宿", @"more60", @"其它", nil];
+    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight80", @"景点", @"food80", @"美食", @"hotel80", @"住宿", @"more80", @"其它", nil];
     self.category = @"景点";
     
     UINavigationBar *navBar = self.navigationController.navigationBar;
@@ -151,7 +151,7 @@
             UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Search"]];
             searchField.leftView = view;
             searchField.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-            searchField.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+            searchField.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:14];
             searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
         }
         if ([cc isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
@@ -167,7 +167,7 @@
             UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin"]];
             searchField.leftView = view;
             searchField.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-            searchField.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+            searchField.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:14];
             searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
         }
         if ([cc isKindOfClass:NSClassFromString(@"UISearchBarBackground")])
