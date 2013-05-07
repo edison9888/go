@@ -8,7 +8,7 @@
 
 #import "ChufabaAppDelegate.h"
 #import "ItineraryViewController.h"
-#import "SocialAccountManager.h"
+//#import "SocialAccountManager.h"
 #import "MobClick.h"
 #import <Crashlytics/Crashlytics.h>
 
@@ -50,7 +50,7 @@
 //    }
 //    
     //weixin part
-    [WXApi registerApp:@"wx9a0654e1d41f2482"];
+    //[WXApi registerApp:@"wx9a0654e1d41f2482"];
     
     return YES;
 }
@@ -128,10 +128,10 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
-    {
-        return [WXApi handleOpenURL:url delegate:self];
-    }
+//    if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+//    {
+//        return [WXApi handleOpenURL:url delegate:self];
+//    }
     return NO;
 }
 
@@ -171,10 +171,10 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
-    {
-        return [WXApi handleOpenURL:url delegate:self];
-    }
+//    if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+//    {
+//        return [WXApi handleOpenURL:url delegate:self];
+//    }
     return NO;
 }
 

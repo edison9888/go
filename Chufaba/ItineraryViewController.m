@@ -13,7 +13,7 @@
 #import "ItineraryDataController.h"
 #import "SearchLocationViewController.h"
 #import "LocationAnnotation.h"
-#import "ShareViewController.h"
+//#import "ShareViewController.h"
 
 @interface ItineraryViewController () {
     NSNumber *lastLatitude;
@@ -789,25 +789,25 @@
 }
 
 //Implement UIActionSheetDeleg
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    self.tableView.contentInset = UIEdgeInsetsZero;
-    if(buttonIndex == 0)
-    {        
-        ShareViewController *shareController = [[ShareViewController alloc] init];
-        shareController.accountManager.delegate = shareController;
-        
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareController];
-        [self presentViewController:navigationController animated:YES completion: nil];
-    }
-    else if(buttonIndex == 1)
-    {
-
-    }
-    else if(buttonIndex == 2)
-    {
-
-    }
-}
+//-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    self.tableView.contentInset = UIEdgeInsetsZero;
+//    if(buttonIndex == 0)
+//    {        
+//        ShareViewController *shareController = [[ShareViewController alloc] init];
+//        shareController.accountManager.delegate = shareController;
+//        
+//        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareController];
+//        [self presentViewController:navigationController animated:YES completion: nil];
+//    }
+//    else if(buttonIndex == 1)
+//    {
+//
+//    }
+//    else if(buttonIndex == 2)
+//    {
+//
+//    }
+//}
 
 //DropDownDelegate
 - (void) niDropDownDelegateMethod: (NIDropDown *) sender selectRow:(NSInteger)rowIndex
@@ -1133,21 +1133,21 @@
 }
 
 //Implement SocialAccountManager delegate
--(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
--(void) socialAccountManager:(SocialAccountManager *) manager openShareMenu:(NSInteger) loginType
-{
-    if(loginForShare)
-    {
-        self.tableView.contentInset = UIEdgeInsetsZero;
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到社交网络", @"分享给微信好友", @"分享到微信朋友圈", nil];
-        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-        [actionSheet showInView:self.view];
-    }
-}
+//-(void) socialAccountManager:(SocialAccountManager *) manager dismissLoginView:(BOOL) show
+//{
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
+//
+//-(void) socialAccountManager:(SocialAccountManager *) manager openShareMenu:(NSInteger) loginType
+//{
+//    if(loginForShare)
+//    {
+//        self.tableView.contentInset = UIEdgeInsetsZero;
+//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到社交网络", @"分享给微信好友", @"分享到微信朋友圈", nil];
+//        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+//        [actionSheet showInView:self.view];
+//    }
+//}
 
 -(NSInteger) daySequence:(NSDate *) date
 {

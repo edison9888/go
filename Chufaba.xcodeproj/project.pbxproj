@@ -152,14 +152,7 @@
 		13570359172425810076FD4F /* cell_bgb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13570357172425810076FD4F /* cell_bgb@2x.png */; };
 		1357035C172425BD0076FD4F /* cell_bgm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1357035A172425BD0076FD4F /* cell_bgm.png */; };
 		1357035D172425BD0076FD4F /* cell_bgm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1357035B172425BD0076FD4F /* cell_bgm@2x.png */; };
-		1359810916D9E70A00CCDE0E /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 135980FC16D9E70A00CCDE0E /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1359810A16D9E70A00CCDE0E /* GTDouban.m in Sources */ = {isa = PBXBuildFile; fileRef = 135980FF16D9E70A00CCDE0E /* GTDouban.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1359810B16D9E70A00CCDE0E /* GTDoubanAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1359810116D9E70A00CCDE0E /* GTDoubanAuthor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1359810C16D9E70A00CCDE0E /* GTDoubanLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1359810416D9E70A00CCDE0E /* GTDoubanLoginView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1359810D16D9E70A00CCDE0E /* GTDoubanRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1359810616D9E70A00CCDE0E /* GTDoubanRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1359810E16D9E70A00CCDE0E /* WBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 1359810816D9E70A00CCDE0E /* WBUtil.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1359811216D9EA3D00CCDE0E /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 1359811116D9EA3D00CCDE0E /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1359812916DA645100CCDE0E /* GTDoubanLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1359812816DA645100CCDE0E /* GTDoubanLoginViewController.m */; };
 		13628A1D16D3B0120032743B /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 13628A1C16D3B0120032743B /* FMDatabaseAdditions.m */; };
 		1366E71216EC384100844634 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 1366E71116EC384100844634 /* background.png */; };
 		1368693517256FBD00968855 /* kuang.png in Resources */ = {isa = PBXBuildFile; fileRef = 1368693317256FBD00968855 /* kuang.png */; };
@@ -238,7 +231,6 @@
 		1C1FBE5E16CB59BE00FF3FBC /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C1FBE5D16CB59BE00FF3FBC /* user.png */; };
 		1C1FBE6216CB5AD000FF3FBC /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1FBE6116CB5AD000FF3FBC /* SettingViewController.m */; };
 		1C38053516C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C38053216C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a */; };
-		1C38054816C920C200D3CDDD /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C38054716C920C200D3CDDD /* ShareViewController.m */; };
 		1C70A1BB16B02BC90031A1D0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C70A1BA16B02BC90031A1D0 /* QuartzCore.framework */; };
 		1CE918C416C8B7A000AA5987 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE918BA16C8B7A000AA5987 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1CE918C516C8B7A000AA5987 /* SinaWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1CE918BC16C8B7A000AA5987 /* SinaWeibo.bundle */; };
@@ -285,8 +277,6 @@
 		C2C769AF16D8C7E5007E20AB /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */; };
 		C2E1BF5916B3D03400E9750A /* HTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2E1BF5A16B3D03400E9750A /* JSONFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5816B3D03400E9750A /* JSONFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		D22806AD16D2254E00CA2158 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D22806AC16D2254E00CA2158 /* LoginViewController.m */; };
-		D22806B116D2354500CA2158 /* SocialAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D22806B016D2354500CA2158 /* SocialAccountManager.m */; };
 		D2579A0F16B7CD9400462094 /* PullDownMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2579A0E16B7CD9400462094 /* PullDownMenuView.m */; };
 		D25F6FE816A6332D00ED7AF5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25F6FE716A6332D00ED7AF5 /* UIKit.framework */; };
 		D25F6FEA16A6332D00ED7AF5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25F6FE916A6332D00ED7AF5 /* Foundation.framework */; };
@@ -458,25 +448,9 @@
 		13570357172425810076FD4F /* cell_bgb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell_bgb@2x.png"; sourceTree = "<group>"; };
 		1357035A172425BD0076FD4F /* cell_bgm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cell_bgm.png; sourceTree = "<group>"; };
 		1357035B172425BD0076FD4F /* cell_bgm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell_bgm@2x.png"; sourceTree = "<group>"; };
-		135980FB16D9E70A00CCDE0E /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
-		135980FC16D9E70A00CCDE0E /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
-		135980FD16D9E70A00CCDE0E /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
-		135980FE16D9E70A00CCDE0E /* GTDouban.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDouban.h; sourceTree = "<group>"; };
-		135980FF16D9E70A00CCDE0E /* GTDouban.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDouban.m; sourceTree = "<group>"; };
-		1359810016D9E70A00CCDE0E /* GTDoubanAuthor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDoubanAuthor.h; sourceTree = "<group>"; };
-		1359810116D9E70A00CCDE0E /* GTDoubanAuthor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDoubanAuthor.m; sourceTree = "<group>"; };
-		1359810216D9E70A00CCDE0E /* GTDoubanHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDoubanHeader.h; sourceTree = "<group>"; };
-		1359810316D9E70A00CCDE0E /* GTDoubanLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDoubanLoginView.h; sourceTree = "<group>"; };
-		1359810416D9E70A00CCDE0E /* GTDoubanLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDoubanLoginView.m; sourceTree = "<group>"; };
-		1359810516D9E70A00CCDE0E /* GTDoubanRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDoubanRequest.h; sourceTree = "<group>"; };
-		1359810616D9E70A00CCDE0E /* GTDoubanRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDoubanRequest.m; sourceTree = "<group>"; };
-		1359810716D9E70A00CCDE0E /* WBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBUtil.h; sourceTree = "<group>"; };
-		1359810816D9E70A00CCDE0E /* WBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBUtil.m; sourceTree = "<group>"; };
 		1359810F16D9E9B300CCDE0E /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		1359811016D9EA3D00CCDE0E /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
 		1359811116D9EA3D00CCDE0E /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
-		1359812716DA645000CCDE0E /* GTDoubanLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDoubanLoginViewController.h; sourceTree = "<group>"; };
-		1359812816DA645100CCDE0E /* GTDoubanLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDoubanLoginViewController.m; sourceTree = "<group>"; };
 		13628A1B16D3B0120032743B /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
 		13628A1C16D3B0120032743B /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
 		1366E71116EC384100844634 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
@@ -574,8 +548,6 @@
 		1C38053216C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK_armv7_armv7s.a; sourceTree = "<group>"; };
 		1C38053316C903F600D3CDDD /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		1C38053416C903F600D3CDDD /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
-		1C38054616C920C200D3CDDD /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
-		1C38054716C920C200D3CDDD /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		1C70A1BA16B02BC90031A1D0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1CE918B916C8B7A000AA5987 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		1CE918BA16C8B7A000AA5987 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
@@ -653,10 +625,6 @@
 		C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPFetcher.m; sourceTree = "<group>"; };
 		C2E1BF5716B3D03400E9750A /* JSONFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONFetcher.h; sourceTree = "<group>"; };
 		C2E1BF5816B3D03400E9750A /* JSONFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONFetcher.m; sourceTree = "<group>"; };
-		D22806AB16D2254E00CA2158 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		D22806AC16D2254E00CA2158 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		D22806AF16D2354500CA2158 /* SocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialAccountManager.h; sourceTree = "<group>"; };
-		D22806B016D2354500CA2158 /* SocialAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialAccountManager.m; sourceTree = "<group>"; };
 		D2579A0D16B7CD9400462094 /* PullDownMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullDownMenuView.h; sourceTree = "<group>"; };
 		D2579A0E16B7CD9400462094 /* PullDownMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullDownMenuView.m; sourceTree = "<group>"; };
 		D25F6FE316A6332D00ED7AF5 /* 出发吧.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "出发吧.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -884,45 +852,6 @@
 			name = control;
 			sourceTree = "<group>";
 		};
-		135980F816D9E70A00CCDE0E /* Douban */ = {
-			isa = PBXGroup;
-			children = (
-				135980F916D9E70A00CCDE0E /* GTDouban */,
-			);
-			path = Douban;
-			sourceTree = "<group>";
-		};
-		135980F916D9E70A00CCDE0E /* GTDouban */ = {
-			isa = PBXGroup;
-			children = (
-				135980FA16D9E70A00CCDE0E /* CTMBase64 */,
-				135980FE16D9E70A00CCDE0E /* GTDouban.h */,
-				135980FF16D9E70A00CCDE0E /* GTDouban.m */,
-				1359810216D9E70A00CCDE0E /* GTDoubanHeader.h */,
-				1359810016D9E70A00CCDE0E /* GTDoubanAuthor.h */,
-				1359810116D9E70A00CCDE0E /* GTDoubanAuthor.m */,
-				1359810316D9E70A00CCDE0E /* GTDoubanLoginView.h */,
-				1359810416D9E70A00CCDE0E /* GTDoubanLoginView.m */,
-				1359810516D9E70A00CCDE0E /* GTDoubanRequest.h */,
-				1359810616D9E70A00CCDE0E /* GTDoubanRequest.m */,
-				1359810716D9E70A00CCDE0E /* WBUtil.h */,
-				1359810816D9E70A00CCDE0E /* WBUtil.m */,
-				1359812716DA645000CCDE0E /* GTDoubanLoginViewController.h */,
-				1359812816DA645100CCDE0E /* GTDoubanLoginViewController.m */,
-			);
-			path = GTDouban;
-			sourceTree = "<group>";
-		};
-		135980FA16D9E70A00CCDE0E /* CTMBase64 */ = {
-			isa = PBXGroup;
-			children = (
-				135980FB16D9E70A00CCDE0E /* GTMBase64.h */,
-				135980FC16D9E70A00CCDE0E /* GTMBase64.m */,
-				135980FD16D9E70A00CCDE0E /* GTMDefines.h */,
-			);
-			path = CTMBase64;
-			sourceTree = "<group>";
-		};
 		1372FE4816FEFC550091A933 /* categorysmall */ = {
 			isa = PBXGroup;
 			children = (
@@ -1067,10 +996,6 @@
 			children = (
 				1C1FBE6016CB5AD000FF3FBC /* SettingViewController.h */,
 				1C1FBE6116CB5AD000FF3FBC /* SettingViewController.m */,
-				D22806AB16D2254E00CA2158 /* LoginViewController.h */,
-				D22806AC16D2254E00CA2158 /* LoginViewController.m */,
-				D22806AF16D2354500CA2158 /* SocialAccountManager.h */,
-				D22806B016D2354500CA2158 /* SocialAccountManager.m */,
 				139601911716EF1400C1E090 /* AboutViewController.h */,
 				139601921716EF1400C1E090 /* AboutViewController.m */,
 				139601941716EF2F00C1E090 /* FeedbackViewController.h */,
@@ -1096,8 +1021,6 @@
 			children = (
 				1CE918B816C8B7A000AA5987 /* JSONKit */,
 				1CE918BB16C8B7A000AA5987 /* SinaWeibo */,
-				1C38054616C920C200D3CDDD /* ShareViewController.h */,
-				1C38054716C920C200D3CDDD /* ShareViewController.m */,
 			);
 			name = SinaWeibo;
 			sourceTree = "<group>";
@@ -1315,7 +1238,6 @@
 			isa = PBXGroup;
 			children = (
 				C2C3A82D16F5EC08000DB182 /* UMAnalytics */,
-				135980F816D9E70A00CCDE0E /* Douban */,
 				1C1FBE5F16CB5AA800FF3FBC /* Settings */,
 				1C38053016C903C900D3CDDD /* weixin */,
 				1CE918B616C8B77900AA5987 /* SinaWeibo */,
@@ -1701,21 +1623,11 @@
 				1CE918C616C8B7A000AA5987 /* SinaWeibo.m in Sources */,
 				1CE918C716C8B7A000AA5987 /* SinaWeiboAuthorizeView.m in Sources */,
 				1CE918C816C8B7A000AA5987 /* SinaWeiboRequest.m in Sources */,
-				1C38054816C920C200D3CDDD /* ShareViewController.m in Sources */,
 				1C1FBE6216CB5AD000FF3FBC /* SettingViewController.m in Sources */,
-				D22806AD16D2254E00CA2158 /* LoginViewController.m in Sources */,
-				D22806B116D2354500CA2158 /* SocialAccountManager.m in Sources */,
 				13628A1D16D3B0120032743B /* FMDatabaseAdditions.m in Sources */,
 				C2126AED16D64D29005B0353 /* LocationMapViewController.m in Sources */,
 				C2C769AF16D8C7E5007E20AB /* LocationTableViewCell.m in Sources */,
-				1359810916D9E70A00CCDE0E /* GTMBase64.m in Sources */,
-				1359810A16D9E70A00CCDE0E /* GTDouban.m in Sources */,
-				1359810B16D9E70A00CCDE0E /* GTDoubanAuthor.m in Sources */,
-				1359810C16D9E70A00CCDE0E /* GTDoubanLoginView.m in Sources */,
-				1359810D16D9E70A00CCDE0E /* GTDoubanRequest.m in Sources */,
-				1359810E16D9E70A00CCDE0E /* WBUtil.m in Sources */,
 				1359811216D9EA3D00CCDE0E /* NSString+SBJSON.m in Sources */,
-				1359812916DA645100CCDE0E /* GTDoubanLoginViewController.m in Sources */,
 				C26B248E16DD0C850038111D /* SearchTableViewCell.m in Sources */,
 				132D205216DF9307004921DD /* AddLocationViewController.m in Sources */,
 				1318DCFF16E8C0FE00A1E34C /* SwipeableTableViewCell.m in Sources */,
