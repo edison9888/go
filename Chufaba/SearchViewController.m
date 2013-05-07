@@ -134,11 +134,11 @@
     [otherBtn addTarget:self action:@selector(changeCategory:) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:otherBtn];
     
-    self.nameInput = [[UISearchBar alloc] initWithFrame:CGRectMake(10, 45, 180, 30)];
+    self.nameInput = [[UISearchBar alloc] initWithFrame:CGRectMake(5, 45, 195, 30)];
     self.nameInput.placeholder = @"搜索景点";
     self.nameInput.delegate = self;
     //self.nameInput.searchFieldBackgroundPositionAdjustment = UIOffsetMake(5, 10);
-    self.locationInput = [[UISearchBar alloc] initWithFrame:CGRectMake(200, 45, 110, 30)];
+    self.locationInput = [[UISearchBar alloc] initWithFrame:CGRectMake(200, 45, 115, 30)];
     self.locationInput.placeholder = @"市,省,国家";
     self.locationInput.delegate = self;
     self.locationInput.text = self.locationKeyword;
@@ -298,28 +298,28 @@
 {
     if(searchBar == self.nameInput)
     {
-        if(self.nameInput.frame.size.width != 180)
+        if(self.nameInput.frame.size.width != 195)
         {
             [UIView animateWithDuration:0.3
                                   delay:0
                                 options:UIViewAnimationOptionLayoutSubviews
                              animations:^{
-                                 [self.nameInput setFrame:CGRectMake(10, 45, 180, 30)];
-                                 [self.locationInput setFrame:CGRectMake(200, 45, 110, 30)];
+                                 [self.nameInput setFrame:CGRectMake(5, 45, 195, 30)];
+                                 [self.locationInput setFrame:CGRectMake(200, 45, 115, 30)];
                              }
                              completion:NULL];
         }
     }
     else
     {
-        if(self.locationInput.frame.size.width == 110)
+        if(self.locationInput.frame.size.width == 115)
         {    
             [UIView animateWithDuration:0.3
                                   delay:0
                                 options:UIViewAnimationOptionLayoutSubviews
                              animations:^{
-                                 [self.nameInput setFrame:CGRectMake(10, 45, 110, 30)];
-                                 [self.locationInput setFrame:CGRectMake(130, 45, 180, 30)];
+                                 [self.nameInput setFrame:CGRectMake(5, 45, 115, 30)];
+                                 [self.locationInput setFrame:CGRectMake(120, 45, 195, 30)];
                              }
                              completion:NULL];
         }

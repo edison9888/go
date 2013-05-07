@@ -75,6 +75,9 @@
     planInfo.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     [self.contentView addSubview:planInfo];
     
+    self.imageView.layer.cornerRadius = 3.0;
+    self.imageView.layer.masksToBounds = YES;
+    
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 91, 320, 1)];
     lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
     [self.contentView addSubview:lineView];
