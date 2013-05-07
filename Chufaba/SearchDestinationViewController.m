@@ -14,6 +14,9 @@
 #define TAG_BOTTOM_LINE 2
 
 @interface SearchDestinationViewController ()
+{
+    BOOL isLineHeader;
+}
 
 @property int total;
 @property BOOL disappearing;
@@ -55,7 +58,7 @@
     self.tableView.rowHeight = 40.0f;
     [self.view addSubview:self.tableView];
     
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     self.searchBar.delegate = self;
     self.searchBar.placeholder = @"想去哪里旅行？";
     self.searchBar.text = self.destination;
@@ -73,23 +76,106 @@
             searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
         }
     }
-    [self.searchBar sizeToFit];
-    
-    [self.tableView addSubview:self.searchBar];
+    [self.view addSubview:self.searchBar];
+
     self.tableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
     
-    CALayer *upBorder = [CALayer layer];
-    upBorder.frame = CGRectMake(0, 0, self.view.bounds.size.width, 1);
-    upBorder.backgroundColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0].CGColor;
-    [self.searchBar.layer addSublayer:upBorder];
+    if ([self.destination length] > 0)
+    {
+        isLineHeader = TRUE;
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+        headerView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+        self.tableView.tableHeaderView = headerView;
+        [self searchDestination:self.destination];
+    }
+    else
+    {
+        isLineHeader = FALSE;
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+        headerView.backgroundColor = [UIColor colorWithRed:253/255.0 green:249/255.0 blue:242/255.0 alpha:1.0];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 0, 100.0, 20.0)];
+        label.text = @"热门目的地";
+        label.textColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0];
+        label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+        label.backgroundColor = [UIColor clearColor];
+        [headerView addSubview:label];
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        [headerView addSubview:lineView];
+        
+        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 19, 320, 1)];
+        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+        [headerView addSubview:lineView];
+        
+        self.tableView.tableHeaderView = headerView;
+        [self getHotDestinations];
+    }
 }
+
+//- (void)viewDidLoad
+//{
+//    [super viewDidLoad];
+//    self.navigationItem.title = @"搜索目的地";
+//
+//    self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+//    
+//    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+//    [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+//    [backBtn setImage:[UIImage imageNamed:@"back_click"] forState:UIControlStateHighlighted];
+//    [backBtn addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+//    self.navigationItem.leftBarButtonItem = btn;
+//    
+//    CGRect tableFrame = self.view.bounds;
+//    tableFrame.size.height -=44;
+//    self.tableView = [[UITableView alloc] initWithFrame:tableFrame];
+//    self.tableView.dataSource = self;
+//    self.tableView.delegate = self;
+//    self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+//	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+//    self.tableView.rowHeight = 40.0f;
+//    [self.view addSubview:self.tableView];
+//    
+//    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
+//    self.searchBar.delegate = self;
+//    self.searchBar.placeholder = @"想去哪里旅行？";
+//    self.searchBar.text = self.destination;
+//    self.searchBar.tintColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+//    self.searchBar.backgroundImage = [[UIImage imageNamed:@"bg_Search"] stretchableImageWithLeftCapWidth:2 topCapHeight:0];
+//    for(id cc in [self.searchBar subviews])
+//    {
+//        if([cc isKindOfClass:[UITextField class]])
+//        {
+//            UITextField *searchField = (UITextField *)cc;
+//            UIImageView *view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Search"]];
+//            searchField.leftView = view;
+//            searchField.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+//            searchField.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+//            searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
+//        }
+//    }
+//    [self.searchBar sizeToFit];
+//    
+//    [self.tableView addSubview:self.searchBar];
+//    self.tableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
+//    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
+//    
+//    CALayer *upBorder = [CALayer layer];
+//    upBorder.frame = CGRectMake(0, 0, self.view.bounds.size.width, 1);
+//    upBorder.backgroundColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0].CGColor;
+//    [self.searchBar.layer addSublayer:upBorder];
+//}
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    if ([self.destination length] > 0) {
+    if ([self.destination length] > 0)
+    {
         [self searchDestination:self.destination];
-    } else {
+    }
+    else
+    {
         [self getHotDestinations];
     }
 }
@@ -336,8 +422,13 @@
             self.total = [[(NSDictionary *)[(NSDictionary *)aFetcher.result objectForKey:@"hits"] objectForKey:@"total"] intValue];
             allDestinationList = [destinations mutableCopy];
             [self.tableView reloadData];
-            if(self.tableView.tableHeaderView)
-                self.tableView.tableHeaderView = NULL;
+            if(!isLineHeader)
+            {
+                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+                lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+                self.tableView.tableHeaderView = lineView;
+                isLineHeader = TRUE;
+            }
         }
     }
 }
@@ -383,8 +474,13 @@
         if (destinations.count > 0) {
             [allDestinationList addObjectsFromArray:destinations];
             [self.tableView reloadData];
-            if(self.tableView.tableHeaderView)
-                self.tableView.tableHeaderView = NULL;
+            if(!isLineHeader)
+            {
+                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
+                lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+                self.tableView.tableHeaderView = lineView;
+                isLineHeader = TRUE;
+            }
         }
     }
     
@@ -421,7 +517,7 @@
                 [allDestinationList addObject:dest];
             }
             [self.tableView reloadData];
-            if(!self.tableView.tableHeaderView)
+            if(isLineHeader)
             {
                 UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
                 headerView.backgroundColor = [UIColor colorWithRed:253/255.0 green:249/255.0 blue:242/255.0 alpha:1.0];
@@ -441,6 +537,7 @@
                 [headerView addSubview:lineView];
                 
                 self.tableView.tableHeaderView = headerView;
+                isLineHeader = FALSE;
             }
         }
     }
@@ -520,7 +617,6 @@
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, self.view.bounds.size.width, 1)];
         lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
         [cell.contentView addSubview:lineView];
-
     }
     else if (self.total > 0)
     {
@@ -535,10 +631,6 @@
         [loadingView setFrame:CGRectMake(140, 0, 40, 40)];
         [loadingView startAnimating];
         [cell.contentView addSubview:loadingView];
-        
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, self.view.bounds.size.width, 1)];
-        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-        [cell.contentView addSubview:lineView];
         
         [self fetchRestResult];
     }
@@ -597,19 +689,25 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.searchBar resignFirstResponder];
-    if (scrollView == self.tableView)
-    {
-        if (scrollView.contentOffset.y < -CGRectGetHeight(self.searchBar.bounds)) {
-            self.searchBar.layer.zPosition = 0; // Make sure the search bar is below the section index titles control when scrolling up
-        } else {
-            self.searchBar.layer.zPosition = 1; // Make sure the search bar is above the section headers when scrolling down
-        }
-        
-        CGRect searchBarFrame = self.searchBar.frame;
-        searchBarFrame.origin.y = MAX(scrollView.contentOffset.y, -CGRectGetHeight(searchBarFrame));
-        
-        self.searchBar.frame = searchBarFrame;
-    }
 }
+
+
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    [self.searchBar resignFirstResponder];
+//    if (scrollView == self.tableView)
+//    {
+//        if (scrollView.contentOffset.y < -CGRectGetHeight(self.searchBar.bounds)) {
+//            self.searchBar.layer.zPosition = 0; // Make sure the search bar is below the section index titles control when scrolling up
+//        } else {
+//            self.searchBar.layer.zPosition = 1; // Make sure the search bar is above the section headers when scrolling down
+//        }
+//        
+//        CGRect searchBarFrame = self.searchBar.frame;
+//        searchBarFrame.origin.y = MAX(scrollView.contentOffset.y, -CGRectGetHeight(searchBarFrame));
+//        
+//        self.searchBar.frame = searchBarFrame;
+//    }
+//}
 
 @end
