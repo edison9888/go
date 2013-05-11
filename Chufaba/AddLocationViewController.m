@@ -416,6 +416,7 @@
         UIButton *positionByMyself = [[UIButton alloc] initWithFrame:CGRectMake(260, 5, 50, 30)];
         positionByMyself.tag = TAG_POSITIONNOW_BUTTON;
         [positionByMyself setImage:[UIImage imageNamed:@"btn_empty"] forState:UIControlStateNormal];
+        [positionByMyself setImage:[UIImage imageNamed:@"btn_empty_click"] forState:UIControlStateHighlighted];
         [positionByMyself addTarget:self action:@selector(positionNow:) forControlEvents:UIControlEventTouchDown];
         [[self.view viewWithTag:TAG_POSITION_VIEW] addSubview:positionByMyself];
     }

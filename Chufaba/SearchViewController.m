@@ -261,11 +261,12 @@
     UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 6.0f, 240.0f, 32.0f)];
     implyLabel.backgroundColor = [UIColor clearColor];
     implyLabel.text = @"创建旅行地点";
-    implyLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    implyLabel.textColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0];
     implyLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     implyLabel.tag = TAG_IMPLYLABEL;
     [addLocationBtn addSubview:implyLabel];
     [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn"]forState:UIControlStateNormal];
+    [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn_click"]forState:UIControlStateHighlighted];
     [addLocationBtn addTarget:self action:@selector(beginAddCustomLocation:) forControlEvents:UIControlEventTouchDown];
 }
 
