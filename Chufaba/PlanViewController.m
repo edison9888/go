@@ -312,7 +312,15 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"ShowItinerary"]) {
+    if ([[segue identifier] isEqualToString:@"ShowItinerary"])
+    {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        if ([userDefaults objectForKey:@"preferDestination"])
+        {
+            [userDefaults removeObjectForKey:@"preferDestination"];
+            [userDefaults synchronize];
+        }
+        
         ItineraryViewController *itineraryViewController = [segue destinationViewController];
         itineraryViewController.itineraryDelegate = self;
         Plan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
@@ -333,7 +341,6 @@
         while([results next])
         {
             int dayID = [results intForColumn:@"whichday"]-1;
-            
             Location *location = [[Location alloc] init];
             //location.locationId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
             location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];

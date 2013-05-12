@@ -137,12 +137,20 @@
     self.nameInput = [[UISearchBar alloc] initWithFrame:CGRectMake(5, 45, 195, 30)];
     self.nameInput.placeholder = @"搜索景点";
     self.nameInput.delegate = self;
-    //self.nameInput.searchFieldBackgroundPositionAdjustment = UIOffsetMake(5, 10);
     self.locationInput = [[UISearchBar alloc] initWithFrame:CGRectMake(200, 45, 115, 30)];
     self.locationInput.placeholder = @"市,省,国家";
     self.locationInput.delegate = self;
-    self.locationInput.text = self.locationKeyword;
-    //self.locationInput.searchFieldBackgroundPositionAdjustment = UIOffsetMake(5, 10);
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults objectForKey:@"preferDestination"])
+    {
+        self.locationInput.text = [userDefaults objectForKey:@"preferDestination"];
+    }
+    else
+    {
+        self.locationInput.text = self.locationKeyword;
+    }
+
     for(id cc in [self.nameInput subviews])
     {
         if([cc isKindOfClass:[UITextField class]])
@@ -359,6 +367,7 @@
     {
         return;
     }
+    
     if(searchBar == self.nameInput)
     {
         self.nameKeyword = [self.nameInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -781,7 +790,13 @@
 {
     if([self.locationKeyword length] > 0)
     {
-        //[self cancelCurrentSearch];
+       if(self.locationInput.text != self.locationKeyword)
+       {
+           NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+           [userDefaults setObject:self.locationInput.text forKey:@"preferDestination"];
+           [userDefaults synchronize];
+       }
+        
         [self clearResults];
         
         NSString *body = [self getSearchPostBody];
@@ -801,7 +816,8 @@
 - (NSString *)getSearchPostBody {
     NSString *keyword = [self.nameKeyword stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
     keyword = [keyword stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-    NSString *location = [self.locationKeyword stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    //NSString *location = [self.locationKeyword stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    NSString *location = [self.locationInput.text stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
     location = [location stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
     location = [location capitalizedString];
     if (location.length == 0) {

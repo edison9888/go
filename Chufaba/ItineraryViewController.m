@@ -1065,7 +1065,6 @@
     if ([[segue identifier] isEqualToString:@"ShowSearch"])
     {
         UIButton *button = (UIButton*)sender;
-        
         UINavigationController *navigationController = segue.destinationViewController;
         SearchViewController *searchController = [[navigationController viewControllers] objectAtIndex:0];
         
