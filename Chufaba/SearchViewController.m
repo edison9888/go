@@ -660,12 +660,11 @@
     if ([location.longitude intValue] == 10000) {
         location.longitude = nil;
     }
-    if ([[locationAtIndex objectForKey:@"status"] intValue] == 1) {
-        location.transportation = [locationAtIndex objectForKey:@"transport"];
-        location.opening = [locationAtIndex objectForKey:@"opening"];
-        location.fee = [locationAtIndex objectForKey:@"fee"];
-        location.website = [locationAtIndex objectForKey:@"website"];
-    }
+    
+    location.transportation = [locationAtIndex objectForKey:@"transport"];
+    location.opening = [locationAtIndex objectForKey:@"opening"];
+    location.fee = [locationAtIndex objectForKey:@"fee"];
+    location.website = [locationAtIndex objectForKey:@"website"];
     
     location.whichday = self.dayToAdd;
     location.seqofday = self.seqToAdd;
