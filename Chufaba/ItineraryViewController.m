@@ -246,7 +246,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor yellowColor];
     
     [self setEmptyItinerary];
     self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight40", @"景点", @"food40", @"美食", @"hotel40", @"住宿", @"more40", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
