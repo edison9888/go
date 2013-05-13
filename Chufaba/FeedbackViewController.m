@@ -48,6 +48,9 @@
     self.emailTextField.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     self.emailTextField.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
     
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.emailTextField.text = [userDefaults objectForKey:@"feedback_email"];
+    
     [self.feedbackTextView becomeFirstResponder];
     self.navigationItem.title = @"建议反馈";
 }
@@ -76,6 +79,11 @@
                action:nil];
     fetcher.showAlerts = NO;
     [fetcher start];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:self.emailTextField.text forKey:@"feedback_email"];
+    [userDefaults synchronize];
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
