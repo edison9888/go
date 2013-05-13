@@ -277,8 +277,8 @@
     
     self.tableViewRecognizer = [self.tableView enableGestureTableViewWithDelegate:self];
     
-    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -80.0f, self.view.frame.size.width, 60)];
-    UIImageView *pullImgView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 20, 72, 40)];
+    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -80.0f, self.view.frame.size.width, 80)];
+    UIImageView *pullImgView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 10, 72, 40)];
     pullImgView.image = [UIImage imageNamed:@"pull_bg"];
     [pullView addSubview:pullImgView];
     [self.tableView addSubview:pullView];
