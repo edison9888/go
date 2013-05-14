@@ -232,6 +232,7 @@
         tableView.delegate = self;
         tableView.dataSource = self;
         tableView.backgroundView = nil;
+        tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
         tableView.separatorColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         [self.view addSubview:tableView];
