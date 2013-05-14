@@ -74,10 +74,12 @@
     UIButton *mapModeButton = [[UIButton alloc] initWithFrame:CGRectMake(270,mapView.frame.size.height-80,40,30)];
     mapModeButton.tag = 21;
     [mapModeButton setImage:[UIImage imageNamed:@"satelitemap"] forState:UIControlStateNormal];
+    [mapModeButton setImage:[UIImage imageNamed:@"satelitemap_click"] forState:UIControlStateHighlighted];
     [mapModeButton addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(10,mapView.frame.size.height-80,40,30)];
     [positionButton setImage:[UIImage imageNamed:@"position"] forState:UIControlStateNormal];
+    [positionButton setImage:[UIImage imageNamed:@"position_click"] forState:UIControlStateHighlighted];
     [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchUpInside];
     
     [mapView addSubview:mapModeButton];
@@ -105,6 +107,7 @@
     
     UIButton *mapModeBtn = (UIButton *)[mapView viewWithTag:21];
     [mapModeBtn setImage:[UIImage imageNamed:@"satelitemap"] forState:UIControlStateNormal];
+    [mapModeBtn setImage:[UIImage imageNamed:@"satelitemap_click"] forState:UIControlStateHighlighted];
     [mapModeBtn removeTarget:self action:@selector(selectNormalMap:) forControlEvents:UIControlEventTouchUpInside];
     [mapModeBtn addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -118,6 +121,7 @@
     
     UIButton *mapModeBtn = (UIButton *)[mapView viewWithTag:21];
     [mapModeBtn setImage:[UIImage imageNamed:@"normalmap"] forState:UIControlStateNormal];
+    [mapModeBtn setImage:[UIImage imageNamed:@"normalmap_click"] forState:UIControlStateHighlighted];
     [mapModeBtn removeTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchUpInside];
     [mapModeBtn addTarget:self action:@selector(selectNormalMap:) forControlEvents:UIControlEventTouchUpInside];
     

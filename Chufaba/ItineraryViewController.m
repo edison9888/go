@@ -445,11 +445,13 @@
         UIButton *mapPreviousButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
         mapPreviousButton.tag = 22;
         [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap"] forState:UIControlStateNormal];
+        [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap_click"] forState:UIControlStateHighlighted];
         [mapPreviousButton addTarget:self action:@selector(previousMapLocation:) forControlEvents:UIControlEventTouchDown];
         
         UIButton *mapNextButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,30)];
         mapNextButton.tag = 23;
         [mapNextButton setImage:[UIImage imageNamed:@"nextmap"] forState:UIControlStateNormal];
+        [mapNextButton setImage:[UIImage imageNamed:@"nextmap_click"] forState:UIControlStateHighlighted];
         [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchDown];
         
         UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-40, 40, 30)];
@@ -458,6 +460,7 @@
         
         UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
         [positionButton setImage:[UIImage imageNamed:@"position"] forState:UIControlStateNormal];
+        [positionButton setImage:[UIImage imageNamed:@"position_click"] forState:UIControlStateHighlighted];
         [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchDown];
         
         [mapNavView addSubview:mapPreviousButton];
