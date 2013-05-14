@@ -438,6 +438,16 @@
         self.mapView.frame = self.view.bounds;
         self.mapView.hidden = YES;
         self.mapView.delegate = self;
+        
+        for (UIGestureRecognizer *gesture in self.mapView.gestureRecognizers)
+        {
+            if([gesture isKindOfClass:[UITapGestureRecognizer class]])
+            {
+                gesture.delegate = self;
+                break;
+            }
+        }
+        
         UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-40, 80, 30)];
         mapNavView.backgroundColor = [UIColor clearColor];
         mapNavView.tag = 21;
@@ -446,13 +456,13 @@
         mapPreviousButton.tag = 22;
         [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap"] forState:UIControlStateNormal];
         [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap_click"] forState:UIControlStateHighlighted];
-        [mapPreviousButton addTarget:self action:@selector(previousMapLocation:) forControlEvents:UIControlEventTouchDown];
+        [mapPreviousButton addTarget:self action:@selector(previousMapLocation:) forControlEvents:UIControlEventTouchUpInside];
         
         UIButton *mapNextButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,30)];
         mapNextButton.tag = 23;
         [mapNextButton setImage:[UIImage imageNamed:@"nextmap"] forState:UIControlStateNormal];
         [mapNextButton setImage:[UIImage imageNamed:@"nextmap_click"] forState:UIControlStateHighlighted];
-        [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchDown];
+        [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchUpInside];
         
         UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-40, 40, 30)];
         mapPositionView.backgroundColor = [UIColor clearColor];
@@ -461,7 +471,7 @@
         UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
         [positionButton setImage:[UIImage imageNamed:@"position"] forState:UIControlStateNormal];
         [positionButton setImage:[UIImage imageNamed:@"position_click"] forState:UIControlStateHighlighted];
-        [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchDown];
+        [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchUpInside];
         
         [mapNavView addSubview:mapPreviousButton];
         [mapNavView addSubview:mapNextButton];
@@ -540,6 +550,18 @@
         UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:modeBtn];
         self.navigationItem.rightBarButtonItem = rightBtn;
 	}
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if (self.mapView)
+    {
+        if ([touch.view isDescendantOfView:self.mapView])
+        {
+            return NO; 
+        }
+    }
+    return YES; 
 }
 
 #pragma mark JTTableViewGestureMoveRowDelegate
