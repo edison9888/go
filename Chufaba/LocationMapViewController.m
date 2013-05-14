@@ -73,11 +73,11 @@
     
     UIButton *mapModeButton = [[UIButton alloc] initWithFrame:CGRectMake(270,mapView.frame.size.height-80,40,30)];
     mapModeButton.tag = 21;
-    [mapModeButton setImage:[UIImage imageNamed:@"satelitemap.png"] forState:UIControlStateNormal];
+    [mapModeButton setImage:[UIImage imageNamed:@"satelitemap"] forState:UIControlStateNormal];
     [mapModeButton addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(10,mapView.frame.size.height-80,40,30)];
-    [positionButton setImage:[UIImage imageNamed:@"position.png"] forState:UIControlStateNormal];
+    [positionButton setImage:[UIImage imageNamed:@"position"] forState:UIControlStateNormal];
     [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchUpInside];
     
     [mapView addSubview:mapModeButton];
@@ -104,7 +104,7 @@
     MKMapView *mapView = (MKMapView *)[self.view viewWithTag:20];
     
     UIButton *mapModeBtn = (UIButton *)[mapView viewWithTag:21];
-    [mapModeBtn setImage:[UIImage imageNamed:@"satelitemap.png"] forState:UIControlStateNormal];
+    [mapModeBtn setImage:[UIImage imageNamed:@"satelitemap"] forState:UIControlStateNormal];
     [mapModeBtn removeTarget:self action:@selector(selectNormalMap:) forControlEvents:UIControlEventTouchUpInside];
     [mapModeBtn addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -117,7 +117,7 @@
     MKMapView *mapView = (MKMapView *)[self.view viewWithTag:20];
     
     UIButton *mapModeBtn = (UIButton *)[mapView viewWithTag:21];
-    [mapModeBtn setImage:[UIImage imageNamed:@"normalmap.png"] forState:UIControlStateNormal];
+    [mapModeBtn setImage:[UIImage imageNamed:@"normalmap"] forState:UIControlStateNormal];
     [mapModeBtn removeTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchUpInside];
     [mapModeBtn addTarget:self action:@selector(selectNormalMap:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -142,9 +142,9 @@
         aView.image = [UIImage imageNamed:[self.categoryImage objectForKey:self.location.category]];
         
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(0, 0, 20, 20);
+        button.frame = CGRectMake(0, 0, 28, 28);
         button.tag = 1;
-        [button setImage:[UIImage imageNamed:@"navigation.png"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"navigation"] forState:UIControlStateNormal];
         aView.rightCalloutAccessoryView = button;
         
         aView.annotation = annotation;

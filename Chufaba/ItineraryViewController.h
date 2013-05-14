@@ -81,6 +81,8 @@
 
 @property (nonatomic,strong) NSIndexPath *indexPathOfLocationToDelete;
 
+@property (nonatomic, assign) NSInteger indexOfCurSelected;
+
 //@property (strong, nonatomic) SocialAccountManager *accountManager;
 
 @end

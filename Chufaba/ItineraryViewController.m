@@ -19,6 +19,7 @@
     NSNumber *lastLatitude;
     NSNumber *lastLongitude;
     BOOL isEmptyItinerary;
+    BOOL changeSelect;
 }
 - (NSMutableArray *)getOneDimensionLocationList;
 
@@ -246,6 +247,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    changeSelect = FALSE;
     
     [self setEmptyItinerary];
     self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight40", @"景点", @"food40", @"美食", @"hotel40", @"住宿", @"more40", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
@@ -345,7 +347,7 @@
     if([self.mapView.selectedAnnotations count] == 1)
     {
         LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
-        NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
+        self.indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
         
         Location *previousLocation;
         NSInteger curSelectedInAll;
@@ -376,7 +378,8 @@
         CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([previousLocation.latitude doubleValue], [previousLocation.longitude doubleValue]);
         
         [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
-        [self.mapView selectAnnotation:[self.annotations objectAtIndex:indexOfCurSelected-1] animated:YES];
+        self.indexOfCurSelected -=1;
+        changeSelect = TRUE;
     }
 }
 
@@ -386,7 +389,7 @@
     if([self.mapView.selectedAnnotations count] == 1)
     {
         LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
-        NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
+        self.indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
         
         Location *nextLocation;
         NSInteger curSelectedInAll;
@@ -399,7 +402,7 @@
                 if(!([nextLocation.latitude doubleValue] == 0 && [nextLocation.longitude doubleValue] == 0))
                 {
                     break;
-                } 
+                }
             }
         }
         else
@@ -416,10 +419,10 @@
         }
         CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([nextLocation.latitude doubleValue], [nextLocation.longitude doubleValue]);
         [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
-        [self.mapView selectAnnotation:[self.annotations objectAtIndex:indexOfCurSelected+1] animated:YES];
+        self.indexOfCurSelected +=1;
+        changeSelect = TRUE;
     }
 }
-
 
 - (IBAction)positionMe:(id)sender
 {
@@ -500,7 +503,7 @@
                 MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
                 
                 [self.mapView setRegion:adjustedRegion animated:TRUE];
-                [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
+                [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:NO];
             }
         }
         
@@ -664,6 +667,15 @@
 	aView.annotation = annotation;
     
 	return aView;
+}
+
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    if(changeSelect)
+    {
+        [self.mapView selectAnnotation:[self.annotations objectAtIndex:self.indexOfCurSelected] animated:YES];
+        changeSelect = FALSE;
+    }
 }
 
 - (void)mapView:(MKMapView *)sender didSelectAnnotationView:(MKAnnotationView *)aView
@@ -844,6 +856,7 @@
             
             [self.mapView setRegion:adjustedRegion animated:TRUE];
             [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
+            //[self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:NO];
         }
     }
 }
