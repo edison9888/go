@@ -50,7 +50,7 @@
 #define TAG_NEXTBTN 19
 #define TAG_TABLEHEADER 20
 
-#define MAP_VIEW_HEIGHT 75
+#define MAP_VIEW_HEIGHT 80
 #define INFO_VIEW_HEIGHT 20
 #define DAY_LABEL_HEIGHT 20
 #define NAME_SCROLL_HEIGHT 55
@@ -425,9 +425,14 @@
         [button setFrame:mapView.frame];
         
         //中心偏上，好让标记能显示在可视区域中间
-        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue] + 0.0035, [self.location.longitude doubleValue]);
-        [mapView setCenterCoordinate:customLoc2D_5 animated:false];
-        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1000, 1000);
+        CLLocationDistance mapWidth = 5000;
+        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
+        MKMapPoint point = MKMapPointForCoordinate(customLoc2D_5);
+        double pointsPerMeter = MKMapPointsPerMeterAtLatitude(customLoc2D_5.latitude);
+        MKMapPoint center = MKMapPointMake(point.x, point.y - pointsPerMeter * mapWidth * 0.375);
+        CLLocationCoordinate2D centerCoor = MKCoordinateForMapPoint(center);
+        
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(centerCoor, mapWidth, mapWidth);
         MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
         [mapView setRegion:adjustedRegion animated:false];
         [mapView removeAnnotations:mapView.annotations];
