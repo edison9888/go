@@ -516,7 +516,16 @@
                 MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
                 
                 [self.mapView setRegion:adjustedRegion animated:TRUE];
-                [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:NO];
+                
+                NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+                if ([currSysVer compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)
+                {
+                    [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
+                }
+                else
+                {
+                    [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:NO];
+                }
             }
         }
         
