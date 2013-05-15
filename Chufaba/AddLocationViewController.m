@@ -229,9 +229,6 @@
     MKPointAnnotation *pa = [[MKPointAnnotation alloc] init];
     pa.coordinate = touchMapCoordinate;
     [self.mapView addAnnotation:pa];
-    
-    //((MKPinAnnotationView *)[self.mapView viewForAnnotation:pa]).pinColor = MKPinAnnotationColorGreen;
-    ((MKAnnotationView *)[self.mapView viewForAnnotation:pa]).image = [UIImage imageNamed:@"pin_more"];
 }
 
 - (IBAction)confirmAddLocation:(id)sender
@@ -496,7 +493,14 @@
     {
 		aView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:SEARCH_ANNOTATION_VIEWS];
 	}
-    aView.image = [UIImage imageNamed:@"pin_empty"];
+    if(selfEditMode)
+    {
+        aView.image = [UIImage imageNamed:@"pin_more"];
+    }
+    else
+    {
+        aView.image = [UIImage imageNamed:@"pin_empty"];
+    }
     aView.canShowCallout = YES;
 	aView.annotation = annotation;
 	return aView;
