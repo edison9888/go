@@ -123,6 +123,15 @@
     self.frame = CGRectMake(0,cellFrame.origin.y,320,92);
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([touch.view isKindOfClass:[UIButton class]])
+    {
+        return NO;
+    }
+    return YES;
+}
+
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer
 {
 	UITableView * tableView = (UITableView *)self.superview;
@@ -133,6 +142,7 @@
     maskView.tag = 10;
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
+    tapRecognizer.delegate = self;
     [maskView addGestureRecognizer:tapRecognizer];
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:panRecognizer];
