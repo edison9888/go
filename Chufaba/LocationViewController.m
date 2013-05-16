@@ -78,7 +78,7 @@
     
     [self configureView];
     
-    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -DAY_LABEL_HEIGHT-60, 320, 60)];
+    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -DAY_LABEL_HEIGHT-80, 320, 80)];
     UIImageView *pullImgView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 10, 72, 40)];
     pullImgView.image = [UIImage imageNamed:@"pull_bg"];
     [pullView addSubview:pullImgView];
