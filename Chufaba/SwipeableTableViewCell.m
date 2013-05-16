@@ -123,15 +123,6 @@
     self.frame = CGRectMake(0,cellFrame.origin.y,320,92);
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    if ([touch.view isKindOfClass:[UIButton class]])
-    {
-        return NO;
-    }
-    return YES;
-}
-
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer
 {
 	UITableView * tableView = (UITableView *)self.superview;
@@ -142,33 +133,39 @@
     maskView.tag = 10;
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
-    tapRecognizer.delegate = self;
     [maskView addGestureRecognizer:tapRecognizer];
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:panRecognizer];
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:longPressRecognizer];
     
-    UIView *editView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,102,92)];
+    UIView *editView = [[UIView alloc] initWithFrame:CGRectMake(0,0,51,92)];
     editView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
+    UITapGestureRecognizer *editTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editPlan:)];
+    [editView addGestureRecognizer:editTapRecognizer];
+    UIImageView *editImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15,35,21,21)];
+    editImgView.image = [UIImage imageNamed:@"edit"];
+    [editView addSubview:editImgView];
     
+    UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(51,0,51,92)];
+    deleteView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
+    UITapGestureRecognizer *delTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deletePlan:)];
+    [deleteView addGestureRecognizer:delTapRecognizer];
+    UIImageView *deleteImgView = [[UIImageView alloc] initWithFrame:CGRectMake(15,35,21,21)];
+    deleteImgView.image = [UIImage imageNamed:@"delete"];
+    [deleteView addSubview:deleteImgView];
+    
+    UIView *allView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,102,92)];
+    allView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
     CALayer *leftBorder = [CALayer layer];
     leftBorder.frame = CGRectMake(0, 0, 1, 92);
     leftBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
-    [editView.layer addSublayer:leftBorder];
+    [allView.layer addSublayer:leftBorder];
     
-    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,51,92)];
-    [editButton setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
-    [editButton addTarget:self action:@selector(editPlan:) forControlEvents:UIControlEventTouchDown];
-	
-    UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(51,0,51,92)];
-    [deleteButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
-    [deleteButton addTarget:self action:@selector(deletePlan:) forControlEvents:UIControlEventTouchDown];
+    [allView addSubview:editView];
+    [allView addSubview:deleteView];
     
-    [editView addSubview:editButton];
-    [editView addSubview:deleteButton];
-    
-    [maskView addSubview:editView];
+    [maskView addSubview:allView];
     [tableView addSubview:maskView];
     
 	id delegate = tableView.nextResponder;
@@ -184,7 +181,7 @@
     [UIView setAnimationDuration:0.2];
     CGRect cellFrame = self.frame;
     self.frame = CGRectMake(cellFrame.origin.x-102,cellFrame.origin.y,320,92);
-    [editView setFrame:CGRectMake(218,yPosition,102,92)];
+    [allView setFrame:CGRectMake(218,yPosition,102,92)];
     [UIView commitAnimations];
 }
 

@@ -72,14 +72,14 @@
     self.detailTextLabel.frame = dFrame;
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    if ([touch.view isKindOfClass:[UIButton class]])
-    {
-        return NO;
-    }
-    return YES;
-}
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+//{
+//    if ([touch.view isKindOfClass:[UIButton class]])
+//    {
+//        return NO;
+//    }
+//    return YES;
+//}
 
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer
 {
@@ -95,7 +95,6 @@
     maskView.tag = 10;
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
-    tapRecognizer.delegate = self;
     [maskView addGestureRecognizer:tapRecognizer];
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTapped:)];
     [maskView addGestureRecognizer:panRecognizer];
@@ -104,6 +103,9 @@
     
     UIView *deleteView = [[UIView alloc] initWithFrame:CGRectMake(320,yPosition,46,44)];
     deleteView.backgroundColor = [UIColor colorWithRed:233/255.0 green:227/255.0 blue:214/255.0 alpha:1.0];
+    
+    UITapGestureRecognizer *delTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(notifyDeleteLocation:)];
+    [deleteView addGestureRecognizer:delTapRecognizer];
     
     CALayer *leftBorder = [CALayer layer];
     if(swipedIndexPath.row == 0)
@@ -117,11 +119,9 @@
     leftBorder.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0].CGColor;
     [deleteView.layer addSublayer:leftBorder];
 	
-	UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,46,44)];
-    [deleteButton setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
-    [deleteButton addTarget:self action:@selector(notifyDeleteLocation:) forControlEvents:UIControlEventTouchDown];
-    
-    [deleteView addSubview:deleteButton];
+	UIImageView *deleteImgView = [[UIImageView alloc] initWithFrame:CGRectMake(12,11,21,21)];
+    deleteImgView.image = [UIImage imageNamed:@"delete"];
+    [deleteView addSubview:deleteImgView];
     
     [maskView addSubview:deleteView];
     deleteView.tag = 11;
@@ -149,7 +149,6 @@
         self.frame = CGRectMake(cellFrame.origin.x-44,cellFrame.origin.y,320,44);
     } completion:NULL];
 }
-
 
 - (IBAction)notifyDeleteLocation:(id)sender
 {
