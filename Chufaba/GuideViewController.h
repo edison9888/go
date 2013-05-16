@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PageControl.h"
 
-@interface GuideViewController : UIViewController
+@interface GuideViewController : UIViewController <UIScrollViewDelegate, PageControlDelegate>
+
+@property (nonatomic, strong) UIScrollView *scrollview;
+@property (nonatomic, strong) PageControl *pageControl;
 
 @end
