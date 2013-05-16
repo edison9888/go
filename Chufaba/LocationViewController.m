@@ -50,7 +50,7 @@
 #define TAG_NEXTBTN 19
 #define TAG_TABLEHEADER 20
 
-#define MAP_VIEW_HEIGHT 80
+#define MAP_VIEW_HEIGHT 75
 #define INFO_VIEW_HEIGHT 20
 #define DAY_LABEL_HEIGHT 20
 #define NAME_SCROLL_HEIGHT 55
@@ -78,7 +78,7 @@
     
     [self configureView];
     
-    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -MAP_VIEW_HEIGHT * 3-60, 320, 60)];
+    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -DAY_LABEL_HEIGHT-60, 320, 60)];
     UIImageView *pullImgView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 10, 72, 40)];
     pullImgView.image = [UIImage imageNamed:@"pull_bg"];
     [pullView addSubview:pullImgView];
@@ -418,25 +418,13 @@
             [tableHeaderView addSubview:button];
             [button addTarget:self action:@selector(showLargeMap) forControlEvents:UIControlEventTouchUpInside];
         }
-        mapView.frame = CGRectMake(0, -MAP_VIEW_HEIGHT * 3, self.view.frame.size.width, MAP_VIEW_HEIGHT*4);
+        mapView.frame = CGRectMake(0, -DAY_LABEL_HEIGHT, self.view.frame.size.width, MAP_VIEW_HEIGHT + DAY_LABEL_HEIGHT);
         if (!button) {
             button = (UIButton *)[self.view viewWithTag:TAG_MAPBTN];
         }
         [button setFrame:mapView.frame];
         
-        //中心偏上，好让标记能显示在可视区域中间
-        CLLocationDistance mapWidth = 1000;
-        CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
-        double latRad = customLoc2D_5.latitude * M_PI / 180;
-        int radiusMax = 6384400;
-        int radiusMin = 6352800;
-        int radius = sqrt((pow(pow(radiusMax, 2)*cos(latRad), 2)+pow(pow(radiusMin,2)*sin(latRad), 2))/(pow(radiusMax*cos(latRad), 2) + pow(radiusMin*sin(latRad), 2)));
-        double dist = mapWidth * 0.48 / radius;
-        double destLatRad = asin(sin(latRad)*cos(dist) + cos(latRad)*sin(dist)*cos(0));
-        double destLat = destLatRad * 180 / M_PI;
-        CLLocationCoordinate2D centerCoor = CLLocationCoordinate2DMake(destLat, [self.location.longitude doubleValue]);
-        
-        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(centerCoor, mapWidth, mapWidth);
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]), 1000, 1000);
         MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
         [mapView setRegion:adjustedRegion animated:false];
         [mapView removeAnnotations:mapView.annotations];
@@ -444,7 +432,7 @@
         //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
         
         CALayer *bottomBorder = [CALayer layer];
-        bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT * 4 - 1, self.view.frame.size.width, 2);
+        bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT + DAY_LABEL_HEIGHT, self.view.frame.size.width, 2);
         bottomBorder.backgroundColor = [UIColor whiteColor].CGColor;
         [mapView.layer addSublayer:bottomBorder];
     }else{
