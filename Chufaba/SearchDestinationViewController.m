@@ -10,12 +10,15 @@
 #import "CfbSearchBar.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define SEARCH_TIMEOUT 10
+
 #define TAG_UP_LINE 1
 #define TAG_BOTTOM_LINE 2
 
 @interface SearchDestinationViewController ()
 {
     BOOL isLineHeader;
+    NSTimer *timer;
 }
 
 @property int total;
@@ -202,6 +205,7 @@
     [fetcher start];
     
     [self showLoading];
+    timer = [NSTimer scheduledTimerWithTimeInterval:SEARCH_TIMEOUT target:self selector:@selector(searchTimeout) userInfo:nil repeats:NO];
 }
 
 - (NSString *)getPostBody:(NSString *)keyword {
@@ -349,6 +353,10 @@
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
     [self hideLoading];
+    if (timer) {
+        [timer invalidate];
+        timer = nil;
+    }
     //self.showNoResultHint = YES;
     if (aFetcher.failureCode) {
         UIAlertView *alert =
@@ -378,6 +386,19 @@
     }
 }
 
+- (void)searchTimeout
+{
+    [self cancelCurrentSearch];
+    UIAlertView *alert =
+    [[UIAlertView alloc]
+     initWithTitle:nil
+     message:@"网速太慢了，请稍后重试"
+     delegate:nil
+     cancelButtonTitle:@"确定"
+     otherButtonTitles:nil];
+    [alert show];
+}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [self clearResults];
@@ -400,11 +421,16 @@
                    action:@selector(receiveRestResult:)];
         fetcher.showAlerts = NO;
         [fetcher start];
+        timer = [NSTimer scheduledTimerWithTimeInterval:SEARCH_TIMEOUT target:self selector:@selector(searchTimeout) userInfo:nil repeats:NO];
     }
 }
 
 - (void)receiveRestResult:(JSONFetcher *)aFetcher
 {
+    if (timer) {
+        [timer invalidate];
+        timer = nil;
+    }
     if (aFetcher.failureCode) {
         UIAlertView *alert =
         [[UIAlertView alloc]
@@ -446,11 +472,16 @@
     [fetcher start];
     
     [self showLoading];
+    timer = [NSTimer scheduledTimerWithTimeInterval:SEARCH_TIMEOUT target:self selector:@selector(searchTimeout) userInfo:nil repeats:NO];
 }
 
 - (void)receiveHotDestinations:(JSONFetcher *)aFetcher
 {
     [self hideLoading];
+    if (timer) {
+        [timer invalidate];
+        timer = nil;
+    }
     if (!aFetcher.failureCode) {
         NSArray *destinations = (NSArray *)aFetcher.result;
         if (destinations.count > 0) {

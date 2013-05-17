@@ -16,6 +16,9 @@
 
 
 @interface SearchViewController ()
+{
+    NSTimer *timer;
+}
 
 @property int total;
 @property BOOL disappearing;
@@ -24,6 +27,8 @@
 @end
 
 @implementation SearchViewController
+
+#define SEARCH_TIMEOUT 10
 
 #define TAG_TOPVIEW 10000
 #define TAG_SIGHTBTN 2
@@ -808,6 +813,7 @@
             fetcher.showAlerts = NO;
             [fetcher start];
             [self showLoading];
+            timer = [NSTimer scheduledTimerWithTimeInterval:SEARCH_TIMEOUT target:self selector:@selector(searchTimeout) userInfo:nil repeats:NO];
         }
     }
 }
@@ -917,6 +923,10 @@
 - (void)receiveResponse:(JSONFetcher *)aFetcher
 {
     [self hideLoading];
+    if (timer) {
+        [timer invalidate];
+        timer = nil;
+    }
     if (aFetcher.failureCode)
     {
         UIAlertView *alert =
@@ -943,6 +953,19 @@
     }
 }
 
+- (void)searchTimeout
+{
+    [self cancelCurrentSearch];
+    UIAlertView *alert =
+    [[UIAlertView alloc]
+     initWithTitle:nil
+     message:@"网速太慢了，请稍后重试"
+     delegate:nil
+     cancelButtonTitle:@"确定"
+     otherButtonTitles:nil];
+    [alert show];
+}
+
 - (void)fetchRestResult
 {
     if([self.locationKeyword length] > 0)
@@ -963,12 +986,17 @@
                        action:@selector(receiveRestResult:)];
             fetcher.showAlerts = NO;
             [fetcher start];
+            timer = [NSTimer scheduledTimerWithTimeInterval:SEARCH_TIMEOUT target:self selector:@selector(searchTimeout) userInfo:nil repeats:NO];
         }
     }
 }
 
 - (void)receiveRestResult:(JSONFetcher *)aFetcher
 {
+    if (timer) {
+        [timer invalidate];
+        timer = nil;
+    }
     if (aFetcher.failureCode) {
         UIAlertView *alert =
         [[UIAlertView alloc]
