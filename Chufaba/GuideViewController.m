@@ -14,6 +14,8 @@
 
 @implementation GuideViewController
 
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -26,6 +28,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSInteger scrollYPosition = 35;
+    NSInteger pageYposition = 385;
 	
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
@@ -44,7 +48,13 @@
     [picArray addObject:[UIImage imageNamed:@"Guide4"]];
     [picArray addObject:[UIImage imageNamed:@"Guide5"]];
     
-    self.scrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 35, 320, 320)];
+    if(IS_IPHONE_5)
+    {
+        scrollYPosition = 60;
+        pageYposition = 430;
+    }
+    
+    self.scrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, scrollYPosition, 320, 320)];
     self.scrollview.contentSize = CGSizeMake(1600, 320);
     self.scrollview.showsVerticalScrollIndicator = NO;
     self.scrollview.showsHorizontalScrollIndicator = NO;
@@ -61,7 +71,7 @@
 		[self.scrollview addSubview:imageView];
 	}
     
-    self.pageControl = [[PageControl alloc] initWithFrame:CGRectMake(120, 385, 80, 10)];
+    self.pageControl = [[PageControl alloc] initWithFrame:CGRectMake(120, pageYposition, 80, 10)];
     self.pageControl.numberOfPages = 5;
     self.pageControl.currentPage = 0;
     self.pageControl.delegate = self;
