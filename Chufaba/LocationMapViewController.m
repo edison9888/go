@@ -172,6 +172,10 @@
             MKMapItem *currentLocationMapItem = [MKMapItem mapItemForCurrentLocation];
             
             [MKMapItem openMapsWithItems:@[currentLocationMapItem, mapItem] launchOptions:launchOptions];
+        }else{
+            //using iOS 5 which has the Google Maps application
+            NSString* url = [NSString stringWithFormat: @"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f", sender.userLocation.coordinate.latitude, sender.userLocation.coordinate.longitude, aView.annotation.coordinate.latitude, aView.annotation.coordinate.longitude];
+            [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
         }
     }
 }
