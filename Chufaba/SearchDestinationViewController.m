@@ -160,6 +160,10 @@
         fetcher = nil;
     }
     [self hideLoading];
+    if (timer) {
+        [timer invalidate];
+        timer = nil;
+    }
 }
 
 - (void)clearResults
