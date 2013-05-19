@@ -85,6 +85,7 @@
     [userDefaults synchronize];
 
     [self.navigationController popViewControllerAnimated:YES];
+    [Utility showAlert:nil message:@"您的宝贵意见已收到，感谢^_^"];
 }
 
 @end
