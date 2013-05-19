@@ -728,15 +728,19 @@
     {
         case TAG_SIGHTBTN:
             self.category = @"景点";
+            self.nameInput.placeholder = @"搜索景点";
             break;
         case TAG_FOODBTN:
             self.category = @"美食";
+            self.nameInput.placeholder = @"搜索美食";
             break;
         case TAG_HOTELBTN:
             self.category = @"住宿";
+            self.nameInput.placeholder = @"搜索住宿";
             break;
         case TAG_OTHERBTN:
             self.category = @"其它";
+            self.nameInput.placeholder = @"搜索其它";
             break;
             
         default:

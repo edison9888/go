@@ -178,7 +178,7 @@
 {
     if (!self.loadingView) {
         self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [self.loadingView setFrame:CGRectMake(120, 80, 60, 60)];
+        [self.loadingView setFrame:CGRectMake(140, 180, 40, 40)];
         [self.view addSubview:self.loadingView];
     }
     [self.view bringSubviewToFront:self.loadingView];
