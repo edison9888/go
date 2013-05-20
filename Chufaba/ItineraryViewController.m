@@ -161,6 +161,27 @@
     [self updateMapView];
 }
 
+- (NSIndexPath *)scrollWhenToggle
+{
+    NSInteger temp = -1;
+    int i,j;
+    for(i=0;i<[self.dataController.masterTravelDayList count];i++)
+    {
+        for(j=0;j<[[self.dataController.masterTravelDayList objectAtIndex:i] count];j++)
+        {
+            if([[[self.dataController.masterTravelDayList objectAtIndex:i] objectAtIndex:j] hasCoordinate])
+            {
+                temp++;
+            }
+            if(temp == self.indexOfCurSelected)
+                break;
+        }
+        if(temp == self.indexOfCurSelected)
+            break;
+    }
+    return [NSIndexPath indexPathForRow:j inSection:i];
+}
+
 - (NSArray *)mapAnnotations
 {
     //NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[self.photos count]];
@@ -310,23 +331,22 @@
     [button addSubview:arrowView];
     self.navigationItem.titleView = button;
     
-    NSInteger scrollSection = [self daySequence:[NSDate date]];
-    if(scrollSection >= 0)
-    {
-        [self.tableView reloadData];
-        if([self.tableView numberOfRowsInSection:scrollSection] > 0)
-        {
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:scrollSection] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-        }
-        else
-        {
-            //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NSNotFound inSection:scrollSection] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-            CGRect sectionRect = [self.tableView rectForSection:scrollSection];
-            sectionRect.origin.y = sectionRect.origin.y;
-            sectionRect.size.height = self.tableView.frame.size.height;
-            [self.tableView scrollRectToVisible:sectionRect animated:YES];
-        }
-    }
+//    NSInteger scrollSection = [self daySequence:[NSDate date]];
+//    if(scrollSection >= 0)
+//    {
+//        [self.tableView reloadData];
+//        if([self.tableView numberOfRowsInSection:scrollSection] > 0)
+//        {
+//            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:scrollSection] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+//        }
+//        else
+//        {
+//            CGRect sectionRect = [self.tableView rectForSection:scrollSection];
+//            sectionRect.origin.y = sectionRect.origin.y;
+//            sectionRect.size.height = self.tableView.frame.size.height;
+//            [self.tableView scrollRectToVisible:sectionRect animated:YES];
+//        }
+//    }
     
     if([[self.dataController.masterTravelDayList lastObject] count] > 0)
     {
@@ -549,7 +569,11 @@
         [UIView transitionWithView:self.view
                           duration:.8
                            options:UIViewAnimationOptionTransitionFlipFromLeft
-                        animations:^{ self.mapView.hidden = YES; self.tableView.hidden = NO; }
+                        animations:^{
+                            self.mapView.hidden = YES;
+                            self.tableView.hidden = NO;
+                            [self.tableView scrollToRowAtIndexPath:[self scrollWhenToggle] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                        }
                         completion:NULL];
         
         UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];

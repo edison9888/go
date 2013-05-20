@@ -43,9 +43,9 @@
     UITextView *aboutView = [[UITextView alloc] initWithFrame:CGRectMake(10, 140, 300, self.view.bounds.size.height-200)];
     aboutView.editable = FALSE;
     aboutView.backgroundColor = [UIColor clearColor];
-    aboutView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    aboutView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:14];
     aboutView.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
-    aboutView.text = @"“出发吧”是为热爱自助游的朋友们打造的一款自助游计划工具。\n热爱自助游的朋友或多或少都有过这样的经历：\n在各个网站上收集景点信息，再东拼西凑到一块，最后打印成十几页的行程单，旅途中查阅既不方便又容易丢失；\n旅行时，即使知道目的地在哪，也还是要不停问路，因为当地地图要看明白实在不容易；\n有本攻略写的确实不错，但当拿着半斤重的它站在十字路口翻看时，这本身就是一种负担。";
+    aboutView.text = @"出发吧，是同样喜欢旅行的我们为您精心打造的一款自助游计划工具，希望它能帮你解决旅行期间的诸多不便，让你轻松享受旅行。\n\n您的意见和鼓励，是我们不断前行的动力。\n\n有些景，如果不站在高处，你永远不知道它有多美丽；\n\n有些路，如果不启程，你永远不知道它有多激动人心；\n\n出发吧，去看看这个世界！";
     
     [self.view addSubview:imageView];
     [self.view addSubview:aboutView];
