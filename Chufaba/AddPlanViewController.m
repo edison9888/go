@@ -141,6 +141,9 @@
     self.destinationInput.borderStyle = UITextBorderStyleNone;
     self.destinationInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     self.destinationInput.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
+    
+    self.coverImply.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    self.coverImply.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -510,4 +513,8 @@
     }
 }
 
+- (void)viewDidUnload {
+    [self setCoverImply:nil];
+    [super viewDidUnload];
+}
 @end

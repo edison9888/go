@@ -35,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *dateInput;
 @property (weak, nonatomic) IBOutlet UITextField *durationInput;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
+@property (weak, nonatomic) IBOutlet UILabel *coverImply;
 
 @property (assign, nonatomic) BOOL coverChanged;
 

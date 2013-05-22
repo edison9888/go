@@ -1099,7 +1099,7 @@
     
     myView.layer.shadowPath = [UIBezierPath bezierPathWithRect:myView.bounds].CGPath;
     myView.layer.shadowOffset = CGSizeMake(0, 1);
-    myView.layer.shadowRadius = 0.8;
+    myView.layer.shadowRadius = 0.4;
     myView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
     myView.layer.shadowOpacity = 1;
     myView.layer.shouldRasterize = YES;

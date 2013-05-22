@@ -178,6 +178,7 @@
 		1366E71216EC384100844634 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 1366E71116EC384100844634 /* background.png */; };
 		1368693517256FBD00968855 /* kuang.png in Resources */ = {isa = PBXBuildFile; fileRef = 1368693317256FBD00968855 /* kuang.png */; };
 		1368693617256FBD00968855 /* kuang@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1368693417256FBD00968855 /* kuang@2x.png */; };
+		1370A845174BCBC900DDB710 /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1370A844174BCBC900DDB710 /* UIPlaceHolderTextView.m */; };
 		1372FE0E16FEDC070091A933 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 1372FE0C16FEDC070091A933 /* back.png */; };
 		1372FE0F16FEDC070091A933 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1372FE0D16FEDC070091A933 /* back@2x.png */; };
 		1372FE1E16FEE27C0091A933 /* food.png in Resources */ = {isa = PBXBuildFile; fileRef = 1372FE1216FEE27C0091A933 /* food.png */; };
@@ -505,6 +506,8 @@
 		1366E71116EC384100844634 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		1368693317256FBD00968855 /* kuang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kuang.png; sourceTree = "<group>"; };
 		1368693417256FBD00968855 /* kuang@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kuang@2x.png"; sourceTree = "<group>"; };
+		1370A843174BCBC800DDB710 /* UIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceHolderTextView.h; sourceTree = "<group>"; };
+		1370A844174BCBC900DDB710 /* UIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceHolderTextView.m; sourceTree = "<group>"; };
 		1372FE0C16FEDC070091A933 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		1372FE0D16FEDC070091A933 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 		1372FE1216FEE27C0091A933 /* food.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = food.png; sourceTree = "<group>"; };
@@ -1092,6 +1095,8 @@
 				139601981716EF4100C1E090 /* GuideViewController.m */,
 				135E309F174514CE00649AF6 /* PageControl.h */,
 				135E30A0174514CE00649AF6 /* PageControl.m */,
+				1370A843174BCBC800DDB710 /* UIPlaceHolderTextView.h */,
+				1370A844174BCBC900DDB710 /* UIPlaceHolderTextView.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1763,6 +1768,7 @@
 				131D774517201631001094A2 /* CfbSearchBar.m in Sources */,
 				13A92409173514C8003A0C8E /* AFKReviewTroller.m in Sources */,
 				135E30A1174514CE00649AF6 /* PageControl.m in Sources */,
+				1370A845174BCBC900DDB710 /* UIPlaceHolderTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

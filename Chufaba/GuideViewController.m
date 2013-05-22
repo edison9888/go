@@ -50,7 +50,7 @@
     
     if(IS_IPHONE_5)
     {
-        scrollYPosition = 60;
+        scrollYPosition = 80;
         pageYposition = 430;
     }
     
