@@ -145,6 +145,10 @@
 		13397E4F16EF64190071F2B2 /* logo_bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13397E4D16EF64190071F2B2 /* logo_bar@2x.png */; };
 		13397E5016EF64190071F2B2 /* logo_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 13397E4E16EF64190071F2B2 /* logo_bar.png */; };
 		133A73FC174D097E009EE1E7 /* AddPlanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 133A73FB174D097D009EE1E7 /* AddPlanTableViewCell.m */; };
+		133A7401174D0C97009EE1E7 /* prevmapDis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 133A73FD174D0C97009EE1E7 /* prevmapDis@2x.png */; };
+		133A7402174D0C97009EE1E7 /* nextmapDis.png in Resources */ = {isa = PBXBuildFile; fileRef = 133A73FE174D0C97009EE1E7 /* nextmapDis.png */; };
+		133A7403174D0C97009EE1E7 /* nextmapDis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 133A73FF174D0C97009EE1E7 /* nextmapDis@2x.png */; };
+		133A7404174D0C97009EE1E7 /* prevmapDis.png in Resources */ = {isa = PBXBuildFile; fileRef = 133A7400174D0C97009EE1E7 /* prevmapDis.png */; };
 		133CE8AA16D87B5C009E0481 /* wlogogray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 133CE8A816D87B5C009E0481 /* wlogogray.jpg */; };
 		133CE8AB16D87B5C009E0481 /* wlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 133CE8A916D87B5C009E0481 /* wlogo.png */; };
 		133CE8AF16D87C00009E0481 /* tlogogray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 133CE8AD16D87C00009E0481 /* tlogogray.jpg */; };
@@ -470,6 +474,10 @@
 		13397E4E16EF64190071F2B2 /* logo_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_bar.png; sourceTree = "<group>"; };
 		133A73FA174D097D009EE1E7 /* AddPlanTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPlanTableViewCell.h; sourceTree = "<group>"; };
 		133A73FB174D097D009EE1E7 /* AddPlanTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPlanTableViewCell.m; sourceTree = "<group>"; };
+		133A73FD174D0C97009EE1E7 /* prevmapDis@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prevmapDis@2x.png"; sourceTree = "<group>"; };
+		133A73FE174D0C97009EE1E7 /* nextmapDis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nextmapDis.png; sourceTree = "<group>"; };
+		133A73FF174D0C97009EE1E7 /* nextmapDis@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nextmapDis@2x.png"; sourceTree = "<group>"; };
+		133A7400174D0C97009EE1E7 /* prevmapDis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prevmapDis.png; sourceTree = "<group>"; };
 		133CE8A816D87B5C009E0481 /* wlogogray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wlogogray.jpg; sourceTree = "<group>"; };
 		133CE8A916D87B5C009E0481 /* wlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wlogo.png; sourceTree = "<group>"; };
 		133CE8AD16D87C00009E0481 /* tlogogray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tlogogray.jpg; sourceTree = "<group>"; };
@@ -839,6 +847,10 @@
 				13C594FD173EA829004BC022 /* add_btn_click.png */,
 				13C594FE173EA829004BC022 /* add_btn_click@2x.png */,
 				13C594FF173EA829004BC022 /* add_btn@2x.png */,
+				133A73FD174D0C97009EE1E7 /* prevmapDis@2x.png */,
+				133A73FE174D0C97009EE1E7 /* nextmapDis.png */,
+				133A73FF174D0C97009EE1E7 /* nextmapDis@2x.png */,
+				133A7400174D0C97009EE1E7 /* prevmapDis.png */,
 				13C59500173EA829004BC022 /* add_btn.png */,
 				13484F4A1732C64500F5871D /* btn_empty.png */,
 				13484F4B1732C64500F5871D /* btn_empty@2x.png */,
@@ -1679,6 +1691,10 @@
 				132CD66817491D6E00DBF170 /* Default-568h@2x.png in Resources */,
 				132CD66917491D6E00DBF170 /* Default.png in Resources */,
 				132CD66A17491D6E00DBF170 /* Default@2x.png in Resources */,
+				133A7401174D0C97009EE1E7 /* prevmapDis@2x.png in Resources */,
+				133A7402174D0C97009EE1E7 /* nextmapDis.png in Resources */,
+				133A7403174D0C97009EE1E7 /* nextmapDis@2x.png in Resources */,
+				133A7404174D0C97009EE1E7 /* prevmapDis.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

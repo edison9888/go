@@ -363,7 +363,7 @@
 
 - (IBAction)previousMapLocation:(id)sender
 {
-    [(UIButton *)[self.mapView viewWithTag:23] setEnabled:YES];
+    //[(UIButton *)[self.mapView viewWithTag:23] setEnabled:YES];
     if([self.mapView.selectedAnnotations count] == 1)
     {
         LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
@@ -405,7 +405,7 @@
 
 - (IBAction)nextMapLocation:(id)sender
 {
-    [(UIButton *)[self.mapView viewWithTag:22] setEnabled:YES];
+    //[(UIButton *)[self.mapView viewWithTag:22] setEnabled:YES];
     if([self.mapView.selectedAnnotations count] == 1)
     {
         LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
@@ -476,12 +476,14 @@
         mapPreviousButton.tag = 22;
         [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap"] forState:UIControlStateNormal];
         [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap_click"] forState:UIControlStateHighlighted];
+        [mapPreviousButton setImage:[UIImage imageNamed:@"prevmapDis"] forState:UIControlStateDisabled];
         [mapPreviousButton addTarget:self action:@selector(previousMapLocation:) forControlEvents:UIControlEventTouchUpInside];
         
         UIButton *mapNextButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,30)];
         mapNextButton.tag = 23;
         [mapNextButton setImage:[UIImage imageNamed:@"nextmap"] forState:UIControlStateNormal];
         [mapNextButton setImage:[UIImage imageNamed:@"nextmap_click"] forState:UIControlStateHighlighted];
+        [mapNextButton setImage:[UIImage imageNamed:@"nextmapDis"] forState:UIControlStateDisabled];
         [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchUpInside];
         
         UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-40, 40, 30)];

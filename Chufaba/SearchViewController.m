@@ -270,7 +270,7 @@
     [self.view addSubview:self.tableView];
     [self.view bringSubviewToFront:topView];
     
-    addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 5.0f, 300.0f, 44.0f)];
+    addLocationBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 9.0f, 300.0f, 44.0f)];
     UILabel *implyLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 6.0f, 240.0f, 32.0f)];
     implyLabel.backgroundColor = [UIColor clearColor];
     implyLabel.text = @"创建旅行地点";
@@ -280,7 +280,7 @@
     [addLocationBtn addSubview:implyLabel];
     [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn"]forState:UIControlStateNormal];
     [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn_click"]forState:UIControlStateHighlighted];
-    [addLocationBtn addTarget:self action:@selector(beginAddCustomLocation:) forControlEvents:UIControlEventTouchDown];
+    [addLocationBtn addTarget:self action:@selector(beginAddCustomLocation:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void) viewDidAppear:(BOOL)animated

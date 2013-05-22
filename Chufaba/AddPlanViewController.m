@@ -78,6 +78,8 @@
         defaultCover = [UIImage imageNamed:@"plan_cover"];
         self.coverImageView.image = defaultCover;
     }
+    self.coverImageView.layer.cornerRadius = 3.0;
+    self.coverImageView.layer.masksToBounds = YES;
     
     UITapGestureRecognizer *imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageTap:)];
     imgTap.numberOfTapsRequired = 1;
