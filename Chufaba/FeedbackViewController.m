@@ -42,16 +42,36 @@
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
+    self.feedbackTextView = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(10, 10, 300, 100)];
     self.feedbackTextView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     self.feedbackTextView.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
     
+    self.feedbackTextView.backgroundColor = [UIColor clearColor];
+    UIImageView *borderView = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, 300, 100)];
+    borderView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    UIImage *textViewImage = [[UIImage imageNamed:@"kuang"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+    borderView.image = textViewImage;
+    [self.feedbackTextView addSubview: borderView];
+    [self.feedbackTextView sendSubviewToBack: borderView];
+    
+    self.emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 120, 300, 40)];
+    self.emailTextField.background = [[UIImage imageNamed:@"kuang"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
     self.emailTextField.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     self.emailTextField.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
+    self.emailTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    self.emailTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)];
+    leftView.backgroundColor = [UIColor clearColor];
+    self.emailTextField.leftView = leftView;
+    self.emailTextField.leftViewMode = UITextFieldViewModeAlways;
+    self.emailTextField.placeholder = @"Email";
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.emailTextField.text = [userDefaults objectForKey:@"feedback_email"];
     
     [self.feedbackTextView becomeFirstResponder];
+    [self.view addSubview:self.feedbackTextView];
+    [self.view addSubview:self.emailTextField];
     self.navigationItem.title = @"建议反馈";
 }
 

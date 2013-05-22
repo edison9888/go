@@ -25,7 +25,7 @@
 {
     if( (self = [super initWithFrame:frame]) )
     {
-        [self setPlaceholder:@""];
+        [self setPlaceholder:@"您的意见和鼓励，是我们前进的动力！"];
         [self setPlaceholderColor:[UIColor lightGrayColor]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:nil];
     }
@@ -66,6 +66,7 @@
             _placeHolderLabel.font = self.font;
             _placeHolderLabel.backgroundColor = [UIColor clearColor];
             _placeHolderLabel.textColor = self.placeholderColor;
+            _placeHolderLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
             _placeHolderLabel.alpha = 0;
             _placeHolderLabel.tag = 999;
             [self addSubview:_placeHolderLabel];
@@ -73,7 +74,7 @@
         
         _placeHolderLabel.text = self.placeholder;
         [_placeHolderLabel sizeToFit];
-        [self sendSubviewToBack:_placeHolderLabel];
+        //[self sendSubviewToBack:_placeHolderLabel];
     }
     
     if( [[self text] length] == 0 && [[self placeholder] length] > 0 )

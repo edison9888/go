@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIPlaceHolderTextView.h"
 
-@interface FeedbackViewController : UITableViewController
+@interface FeedbackViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UITextView *feedbackTextView;
-@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+//@property (weak, nonatomic) IBOutlet UITextView *feedbackTextView;
+//@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+
+@property (strong, nonatomic) UIPlaceHolderTextView *feedbackTextView;
+@property (strong, nonatomic) UITextField *emailTextField;
 
 @end

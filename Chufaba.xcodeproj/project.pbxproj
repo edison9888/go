@@ -144,6 +144,7 @@
 		1337E51A16BBEC070039F257 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51916BBEC070039F257 /* CoreLocation.framework */; };
 		13397E4F16EF64190071F2B2 /* logo_bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13397E4D16EF64190071F2B2 /* logo_bar@2x.png */; };
 		13397E5016EF64190071F2B2 /* logo_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 13397E4E16EF64190071F2B2 /* logo_bar.png */; };
+		133A73FC174D097E009EE1E7 /* AddPlanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 133A73FB174D097D009EE1E7 /* AddPlanTableViewCell.m */; };
 		133CE8AA16D87B5C009E0481 /* wlogogray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 133CE8A816D87B5C009E0481 /* wlogogray.jpg */; };
 		133CE8AB16D87B5C009E0481 /* wlogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 133CE8A916D87B5C009E0481 /* wlogo.png */; };
 		133CE8AF16D87C00009E0481 /* tlogogray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 133CE8AD16D87C00009E0481 /* tlogogray.jpg */; };
@@ -283,7 +284,6 @@
 		C220389216BD3B5C00173D29 /* EditScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C220389116BD3B5C00173D29 /* EditScheduleViewController.m */; };
 		C2354EF11716ECC000403541 /* DropDownCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2354EF01716ECC000403541 /* DropDownCell.m */; };
 		C2354EF4171AA38300403541 /* SearchDestinationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2354EF3171AA38300403541 /* SearchDestinationViewController.m */; };
-		C2354EFA171AED0200403541 /* AddPlanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2354EF9171AED0200403541 /* AddPlanTableViewCell.m */; };
 		C252AA8C16F9FA5B0048FEFA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C252AA8A16F9FA110048FEFA /* SystemConfiguration.framework */; };
 		C26B248E16DD0C850038111D /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C26B248D16DD0C850038111D /* SearchTableViewCell.m */; };
 		C28C4D2817034763009F510E /* opentime.png in Resources */ = {isa = PBXBuildFile; fileRef = C28C4D1C17034763009F510E /* opentime.png */; };
@@ -468,6 +468,8 @@
 		1337E51916BBEC070039F257 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		13397E4D16EF64190071F2B2 /* logo_bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_bar@2x.png"; sourceTree = "<group>"; };
 		13397E4E16EF64190071F2B2 /* logo_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_bar.png; sourceTree = "<group>"; };
+		133A73FA174D097D009EE1E7 /* AddPlanTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPlanTableViewCell.h; sourceTree = "<group>"; };
+		133A73FB174D097D009EE1E7 /* AddPlanTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPlanTableViewCell.m; sourceTree = "<group>"; };
 		133CE8A816D87B5C009E0481 /* wlogogray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wlogogray.jpg; sourceTree = "<group>"; };
 		133CE8A916D87B5C009E0481 /* wlogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wlogo.png; sourceTree = "<group>"; };
 		133CE8AD16D87C00009E0481 /* tlogogray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tlogogray.jpg; sourceTree = "<group>"; };
@@ -653,8 +655,6 @@
 		C2354EF01716ECC000403541 /* DropDownCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownCell.m; sourceTree = "<group>"; };
 		C2354EF2171AA38300403541 /* SearchDestinationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchDestinationViewController.h; sourceTree = "<group>"; };
 		C2354EF3171AA38300403541 /* SearchDestinationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchDestinationViewController.m; sourceTree = "<group>"; };
-		C2354EF8171AED0100403541 /* AddPlanTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPlanTableViewCell.h; sourceTree = "<group>"; };
-		C2354EF9171AED0200403541 /* AddPlanTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPlanTableViewCell.m; sourceTree = "<group>"; };
 		C252AA8A16F9FA110048FEFA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C26B248C16DD0C850038111D /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		C26B248D16DD0C850038111D /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
@@ -1192,8 +1192,8 @@
 				1318DCFE16E8C0FE00A1E34C /* SwipeableTableViewCell.m */,
 				C2354EF2171AA38300403541 /* SearchDestinationViewController.h */,
 				C2354EF3171AA38300403541 /* SearchDestinationViewController.m */,
-				C2354EF8171AED0100403541 /* AddPlanTableViewCell.h */,
-				C2354EF9171AED0200403541 /* AddPlanTableViewCell.m */,
+				133A73FA174D097D009EE1E7 /* AddPlanTableViewCell.h */,
+				133A73FB174D097D009EE1E7 /* AddPlanTableViewCell.m */,
 			);
 			name = Plan;
 			sourceTree = "<group>";
@@ -1764,11 +1764,11 @@
 				1381A52A1719B5010089F7DF /* iToast.m in Sources */,
 				13140280171AF85F009A7AC3 /* CfbTextField.m in Sources */,
 				C2354EF4171AA38300403541 /* SearchDestinationViewController.m in Sources */,
-				C2354EFA171AED0200403541 /* AddPlanTableViewCell.m in Sources */,
 				131D774517201631001094A2 /* CfbSearchBar.m in Sources */,
 				13A92409173514C8003A0C8E /* AFKReviewTroller.m in Sources */,
 				135E30A1174514CE00649AF6 /* PageControl.m in Sources */,
 				1370A845174BCBC900DDB710 /* UIPlaceHolderTextView.m in Sources */,
+				133A73FC174D097E009EE1E7 /* AddPlanTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

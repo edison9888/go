@@ -271,67 +271,6 @@
             </objects>
             <point key="canvasLocation" x="1253" y="-413"/>
         </scene>
-        <!--Feedback View Controller-->
-        <scene sceneID="YbK-Qq-HQw">
-            <objects>
-                <tableViewController id="WV0-UF-spA" customClass="FeedbackViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="wBD-ze-dO5">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <sections>
-                            <tableViewSection id="aaE-N1-Tpm">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="130" id="UZW-32-MNd" customClass="AddPlanTableViewCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="130"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="129"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="kGS-Q8-8od">
-                                                    <rect key="frame" x="10" y="10" width="300" height="110"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="nKF-Lg-4CU" customClass="AddPlanTableViewCell">
-                                        <rect key="frame" x="0.0" y="130" width="320" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" id="WiO-Ah-P1M">
-                                                    <rect key="frame" x="18" y="10" width="290" height="40"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="WV0-UF-spA" id="Rcx-HP-TsM"/>
-                            <outlet property="delegate" destination="WV0-UF-spA" id="8lV-N5-Els"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="AE2-7k-mxa"/>
-                    <connections>
-                        <outlet property="emailTextField" destination="WiO-Ah-P1M" id="zhe-4Z-uXp"/>
-                        <outlet property="feedbackTextView" destination="kGS-Q8-8od" id="hXV-tj-K5I"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="m0t-qo-a6s" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="493" y="-1265"/>
-        </scene>
         <!--Edit Cost View Controller - 预算开销-->
         <scene sceneID="hx7-sG-hrp">
             <objects>
@@ -552,7 +491,7 @@
                         <outlet property="reviewCell" destination="AVF-2S-fck" id="WXS-jz-OUO"/>
                         <segue destination="uKV-8h-ywb" kind="push" identifier="ShowUserGuide" id="VTj-Nq-13h"/>
                         <segue destination="wlN-O9-TQh" kind="push" identifier="ShowAbout" id="Qx4-ZF-JBc"/>
-                        <segue destination="WV0-UF-spA" kind="push" identifier="ShowFeedback" id="X1j-cZ-sK6"/>
+                        <segue destination="34u-e2-iW1" kind="push" identifier="ShowFeedback" id="apH-Ul-oCV"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gun-rd-yWd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -588,6 +527,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l1i-at-Egq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="139" y="-961"/>
+        </scene>
+        <!--Feedback View Controller-->
+        <scene sceneID="27k-7K-Ygb">
+            <objects>
+                <viewController id="34u-e2-iW1" customClass="FeedbackViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lJ3-vT-Akr">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="5Gc-ba-7ye"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t2d-qc-nvx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="529" y="-1289"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="WU4-op-5dl">
@@ -626,74 +580,6 @@
             <point key="canvasLocation" x="727" y="-413"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="AboutViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
-        </class>
-        <class className="AddPlanTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanTableViewCell.h"/>
-        </class>
-        <class className="AddPlanViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddPlanViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel:"/>
-                <relationship kind="action" name="closeImagePicker:"/>
-                <relationship kind="action" name="done:"/>
-                <relationship kind="outlet" name="coverImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="coverImply" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="dateInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="destinationInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="durationInput" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="nameInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="EditScheduleViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditScheduleViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="startInput" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="FeedbackViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedbackViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="backToPrevious:"/>
-                <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="feedbackTextView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="GuideViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GuideViewController.h"/>
-        </class>
-        <class className="ItineraryViewController" superclassName="SwipeableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ItineraryViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="itineraryNavItem" candidateClass="UINavigationItem"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="PlanViewController" superclassName="SwipeableTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlanViewController.h"/>
-        </class>
-        <class className="SearchViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchViewController.h"/>
-        </class>
-        <class className="SettingViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="saveSetting:"/>
-                <relationship kind="outlet" name="aboutCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="feedbackCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="guideCell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="reviewCell" candidateClass="UITableViewCell"/>
-            </relationships>
-        </class>
-        <class className="SwipeableTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SwipeableTableViewController.h"/>
-        </class>
-        <class className="SwipeableViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SwipeableViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
