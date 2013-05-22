@@ -766,6 +766,10 @@
         fetcher = nil;
     }
     [self hideLoading];
+    if (timer) {
+        [timer invalidate];
+        timer = nil;
+    }
 }
 
 - (void)clearResults
@@ -774,10 +778,6 @@
     self.total = 0;
     allLocationList = nil;
     [self.tableView reloadData];
-    if (timer) {
-        [timer invalidate];
-        timer = nil;
-    }
 }
 
 - (void)showLoading
