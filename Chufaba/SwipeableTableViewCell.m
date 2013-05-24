@@ -98,29 +98,21 @@
 - (IBAction)editPlan:(id)sender
 {
     UITableView * tableView = (UITableView *)self.superview;
-    UIView *maskView = [tableView viewWithTag:10];
-    [maskView removeFromSuperview];
-    
     id delegate = tableView.nextResponder;
-    if ([delegate respondsToSelector:@selector(didEditPlan)]){
+    if ([delegate respondsToSelector:@selector(didEditPlan)])
+    {
         [delegate didEditPlan];
     }
-    CGRect cellFrame = self.frame;
-    self.frame = CGRectMake(0,cellFrame.origin.y,320,92);
 }
 
 - (IBAction)deletePlan:(id)sender
 {
     UITableView * tableView = (UITableView *)self.superview;
-    UIView *maskView = [tableView viewWithTag:10];
-    [maskView removeFromSuperview];
     
     id delegate = tableView.nextResponder;
     if ([delegate respondsToSelector:@selector(didDeletePlan)]){
         [delegate didDeletePlan];
     }
-    CGRect cellFrame = self.frame;
-    self.frame = CGRectMake(0,cellFrame.origin.y,320,92);
 }
 
 - (void)cellWasSwiped:(UISwipeGestureRecognizer *)recognizer

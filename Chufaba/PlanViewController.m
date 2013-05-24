@@ -29,6 +29,13 @@
 - (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    UIView *maskView = [self.tableView viewWithTag:10];
+    [maskView removeFromSuperview];
+    
+    UITableViewCell *cellToEdit = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPathOfplanToEditOrDelete];
+    CGRect cellFrame = cellToEdit.frame;
+    cellToEdit.frame = CGRectMake(0,cellFrame.origin.y,320,92);
 }
 
 - (void) addPlanViewController:(AddPlanViewController *)controller didAddTravelPlan:(Plan *)plan
@@ -146,6 +153,13 @@
     [self.tableView reloadData];
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    UIView *maskView = [self.tableView viewWithTag:10];
+    [maskView removeFromSuperview];
+    
+    UITableViewCell *cellToEdit = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPathOfplanToEditOrDelete];
+    CGRect cellFrame = cellToEdit.frame;
+    cellToEdit.frame = CGRectMake(0,cellFrame.origin.y,320,92);
 }
 
 
@@ -489,6 +503,13 @@
         }
         [self removeImage: [[planToDelete.planId stringValue] stringByAppendingString:@"planCover"]];
     }
+    
+    UIView *maskView = [self.tableView viewWithTag:10];
+    [maskView removeFromSuperview];
+    
+    UITableViewCell *cellToEdit = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPathOfplanToEditOrDelete];
+    CGRect cellFrame = cellToEdit.frame;
+    cellToEdit.frame = CGRectMake(0,cellFrame.origin.y,320,92);
 }
 
 - (void)saveImage:(UIImage *)image withName:(NSString*)imageName
