@@ -11,6 +11,7 @@
 #import "ItineraryViewController.h"
 #import "ItineraryDataController.h"
 #import "SearchDestinationViewController.h"
+#import "Utility.h"
 
 @implementation PlanViewController
 
@@ -81,7 +82,10 @@
         {
             plan.planId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
         }
-        [self saveImage:plan.image withName:[[plan.planId stringValue] stringByAppendingString:@"planCover"]];
+        
+        UIImage *compressedImg = [Utility imageWithImageSimple:plan.image scaledToSize:CGSizeMake(100.0, 60.0)];
+        [self saveImage:compressedImg withName:[[plan.planId stringValue] stringByAppendingString:@"planCover"]];
+        //[self saveImage:plan.image withName:[[plan.planId stringValue] stringByAppendingString:@"planCover"]];
     }
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -160,6 +164,8 @@
     UITableViewCell *cellToEdit = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPathOfplanToEditOrDelete];
     CGRect cellFrame = cellToEdit.frame;
     cellToEdit.frame = CGRectMake(0,cellFrame.origin.y,320,92);
+    
+    //[self saveImage:plan.image withName:[[plan.planId stringValue] stringByAppendingString:@"planCover"]];
 }
 
 
@@ -285,7 +291,8 @@
     static NSString *CellIdentifier = @"PlanCell";
     
     static NSDateFormatter *formatter = nil;
-    if (formatter == nil) {
+    if (formatter == nil)
+    {
         formatter = [[NSDateFormatter alloc] init];
         [formatter setDateStyle:NSDateFormatterMediumStyle];
     }
@@ -293,7 +300,9 @@
     SwipeableTableViewCell *cell = (SwipeableTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (!cell)
+    {
         cell = [[SwipeableTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
     
     Plan *planAtIndex = [self.travelPlans objectAtIndex:indexPath.row];
 

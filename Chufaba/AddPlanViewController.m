@@ -9,6 +9,7 @@
 #import "AddPlanViewController.h"
 #import "Plan.h"
 #import "QuartzCore/QuartzCore.h"
+#import "Utility.h"
 
 @interface AddPlanViewController ()
 
@@ -405,7 +406,8 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *selectedImg = [info valueForKey:UIImagePickerControllerOriginalImage];
-    self.coverImageView.image = selectedImg;
+    UIImage *compressedImg = [Utility imageWithImageSimple:selectedImg scaledToSize:CGSizeMake(120.0, 120.0)];
+    self.coverImageView.image = compressedImg;
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
