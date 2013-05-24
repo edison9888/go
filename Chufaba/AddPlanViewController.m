@@ -357,18 +357,39 @@
     if ([navigationController isKindOfClass:[UIImagePickerController class]] &&((UIImagePickerController *)navigationController).sourceType == UIImagePickerControllerSourceTypePhotoLibrary)
     {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
-        [viewController.navigationItem setTitle:@"选择封面"];
+        if([viewController.title isEqualToString:@"Saved Photos"])
+        {
+            [viewController.navigationItem setTitle:@"选择封面"];
+            UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+            [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+            [backBtn setImage:[UIImage imageNamed:@"back_click"] forState:UIControlStateHighlighted];
+            [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
+            UIBarButtonItem *bBtn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+            viewController.navigationItem.leftBarButtonItem = bBtn;
+        }
+        else
+        {
+            [viewController.navigationItem setTitle:@"选择相簿"];
+            UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+            [closeBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+            [closeBtn setImage:[UIImage imageNamed:@"cancel_click"] forState:UIControlStateHighlighted];
+            [closeBtn addTarget:self action:@selector(imagePickerControllerDidCancel:) forControlEvents:UIControlEventTouchUpInside];
+            UIBarButtonItem *cBtn = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
+            viewController.navigationItem.leftBarButtonItem = cBtn;
+        }
         
-        UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-        [closeBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
-        [closeBtn addTarget:self action:@selector(imagePickerControllerDidCancel:) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *cBtn = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
-        viewController.navigationItem.leftBarButtonItem = cBtn;
-        viewController.navigationItem.rightBarButtonItem = NULL;
+        UIView *custom = [[UIView alloc] initWithFrame:CGRectMake(0,0,0,0)];
+        UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:custom];
+        [viewController.navigationItem setRightBarButtonItem:btn animated:NO];
         
         UIImage *image = [UIImage imageNamed:@"bar_Search"];
         [navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     }
+}
+
+- (IBAction)backToPrevious:(id)sender
+{
+    [self.imgPickerController popToRootViewControllerAnimated:YES];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
