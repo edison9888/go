@@ -92,6 +92,13 @@
         [Utility showAlert:nil message:@"您还没有提任何意见哦..."];
         return;
     }
+    
+    if(self.emailTextField.text.length != 0 && ![self validateEmailWithString:self.emailTextField.text])
+    {
+        [Utility showAlert:nil message:@"Email格式不对哦..."];
+        return;
+    }
+    
     JSONFetcher *fetcher = [[JSONFetcher alloc]
                initWithURLString:@"http://chufaba.me:3000/feedbacks" 
                body:[NSString stringWithFormat:@"feedback%%5Bcontent%%5D=%@&feedback%%5Bemail%%5D=%@", self.feedbackTextView.text, self.emailTextField.text]
@@ -106,6 +113,13 @@
 
     [self.navigationController popViewControllerAnimated:YES];
     [Utility showAlert:nil message:@"您的宝贵意见已收到，感谢^_^"];
+}
+
+- (BOOL)validateEmailWithString:(NSString*)email
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:email];
 }
 
 @end
