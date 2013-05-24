@@ -294,7 +294,7 @@
     
     oneDimensionLocationList = [self getOneDimensionLocationList];
 
-    self.tableView.frame = self.view.bounds;
+    self.tableView.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height-44);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
