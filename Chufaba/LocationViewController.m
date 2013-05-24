@@ -190,9 +190,10 @@
         
         infoView.layer.shadowPath = [UIBezierPath bezierPathWithRect:infoView.bounds].CGPath;
         infoView.layer.masksToBounds = NO;
-        infoView.layer.shadowColor = [UIColor blackColor].CGColor;
+        infoView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
         infoView.layer.shadowOffset = CGSizeMake(0, 1);
-        infoView.layer.shadowOpacity = 0.3;
+        infoView.layer.shadowRadius = 0.4;
+        infoView.layer.shadowOpacity = 1;
         infoView.layer.shouldRasterize = YES;
         infoView.layer.rasterizationScale = [UIScreen mainScreen].scale;
     }
@@ -431,10 +432,16 @@
         [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
         //[mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:false] animated:false];
         
-        CALayer *bottomBorder = [CALayer layer];
-        bottomBorder.frame = CGRectMake(0, MAP_VIEW_HEIGHT + DAY_LABEL_HEIGHT, self.view.frame.size.width, 2);
-        bottomBorder.backgroundColor = [UIColor whiteColor].CGColor;
-        [mapView.layer addSublayer:bottomBorder];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, mapView.frame.size.height-2, 320, 1)];
+        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+        lineView.opaque = YES;
+        [mapView addSubview:lineView];
+        
+        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, mapView.frame.size.height-1, 320, 1)];
+        lineView.opaque = YES;
+        lineView.backgroundColor = [UIColor whiteColor];
+        [mapView addSubview:lineView];
+        
     }else{
         showMap = NO;
         MKMapView *mapView = (MKMapView *)[self.view viewWithTag:TAG_MAPVIEW];
