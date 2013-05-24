@@ -1287,7 +1287,6 @@
     [self.itineraryDelegate didDeleteLocationFromPlan];
 }
 
-//SearchViewControllerDelegate implementation
 -(void) notifyItinerayToReload
 {
     if(isEmptyItinerary)
@@ -1297,6 +1296,21 @@
     }
     [self reloadDataController];
     [self.tableView reloadData];
+    
+    NSInteger section;
+    NSInteger row;
+    if(singleDayMode)
+    {
+        section = 0;
+        row = [[self.dataController objectInListAtIndex:0] count]-1;
+    }
+    else
+    {
+        section = [self.dayToAdd integerValue]-1;
+        row = [[self.dataController objectInListAtIndex:section] count]-1;
+    }
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    
     [self updateFooterView];
 }
 

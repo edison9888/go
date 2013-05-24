@@ -752,11 +752,11 @@
 
 -(IBAction)close:(id)sender
 {
+    [self dismissViewControllerAnimated:YES completion:nil];
     if(shouldUpdateItinerary)
     {
         [self.searchDelegate notifyItinerayToReload];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)cancelCurrentSearch
