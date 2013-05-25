@@ -32,6 +32,7 @@
         self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+18, btn.size.width, 0);
         self.list = [NSArray arrayWithArray:arr];
         
+        self.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.bounds].CGPath;
         self.layer.masksToBounds = NO;
         self.layer.cornerRadius = 8;
         self.layer.shadowOffset = CGSizeMake(0, 10);
@@ -59,7 +60,7 @@
         [UIView setAnimationDuration:0.2];
         self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+18, btn.size.width, *height);
         
-        table.frame = CGRectMake(0, 0, btn.size.width, *height>240 ? 240:*height);
+        table.frame = CGRectMake(0, 0, btn.size.width, *height>320 ? 320:*height);
 
         [UIView commitAnimations];
         
