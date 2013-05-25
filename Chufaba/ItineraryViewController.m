@@ -444,24 +444,23 @@
     }
 }
 
-- (IBAction)positionMe:(id)sender
+- (BOOL)showPositionAlert
 {
     if(![CLLocationManager locationServicesEnabled])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                        message:@"定位服务已关闭，请至系统设置页面重新开启"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"我知道了"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
+        return TRUE;
     if([CLLocationManager locationServicesEnabled] && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied)
+        return TRUE;
+    return FALSE;
+}
+
+- (IBAction)positionMe:(id)sender
+{
+    if([self showPositionAlert])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                        message:@"定位服务已禁止，请至系统设置页面给出发吧授权"
+                                                        message:@"请在系统设置中打开“定位服务”来允许“出发吧”确定您的位置"
                                                        delegate:nil
-                                              cancelButtonTitle:@"我知道了"
+                                              cancelButtonTitle:@"知道了"
                                               otherButtonTitles:nil];
         [alert show];
         return;
