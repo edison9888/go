@@ -506,10 +506,6 @@
     if (self.mapView.isHidden)
     {
         self.annotations = [self mapAnnotations];
-        if(self.mapView.showsUserLocation == NO)
-        {
-            self.mapView.showsUserLocation = YES;
-        }
         
         if(!self.locationManager)
         {
@@ -518,6 +514,11 @@
             self.locationManager.delegate = self;
             self.curLocation = nil;
             [self.locationManager startUpdatingLocation];
+        }
+        
+        if(self.mapView.showsUserLocation == NO)
+        {
+            self.mapView.showsUserLocation = YES;
         }
         
         if(dropDown)
@@ -788,14 +789,6 @@
     locationViewController.navDelegate = self;
     [self.navigationController pushViewController:locationViewController animated:YES];
 }
-
-//CLLocationManagerDelegate part
-- (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
-{
-//    CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake(31.27006030476515, 120.70549774169922);
-//    [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
-}
-
 
 //Add 4 methods to make UIViewCtroller behave like UITableViewController
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated

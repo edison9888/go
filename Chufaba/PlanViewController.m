@@ -85,13 +85,10 @@
         
         UIImage *compressedImg = [Utility imageWithImageSimple:plan.image scaledToSize:CGSizeMake(100.0, 60.0)];
         [self saveImage:compressedImg withName:[[plan.planId stringValue] stringByAppendingString:@"planCover"]];
-        //[self saveImage:plan.image withName:[[plan.planId stringValue] stringByAppendingString:@"planCover"]];
     }
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    //[self.tableView reloadData];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }

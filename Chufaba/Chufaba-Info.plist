@@ -79,7 +79,7 @@
 		<string>armv7</string>
 	</array>
 	<key>AFKReviewTrollerRunCount</key>
-	<integer>3</integer>
+	<integer>6</integer>
 	<key>AFKReviewTrollerMessage</key>
 	<string>给个评价呗~</string>
 	<key>UIStatusBarHidden</key>
