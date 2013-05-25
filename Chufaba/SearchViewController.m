@@ -468,17 +468,26 @@
         NSString *name = [locationAtIndex objectForKey: @"name"];
         NSString *name_en = [locationAtIndex objectForKey: @"name_en"];
         NSString *city = [locationAtIndex objectForKey: @"city"];
+        NSString *city_en = [locationAtIndex objectForKey: @"city_en"];
         NSString *province = [locationAtIndex objectForKey: @"province"];
+        NSString *province_en = [locationAtIndex objectForKey: @"province_en"];
         NSString *country = [locationAtIndex objectForKey: @"country"];
+        NSString *country_en = [locationAtIndex objectForKey: @"country_en"];
         NSMutableArray *dests = [[NSMutableArray alloc] init];
         if (city.length > 0) {
             [dests addObject:city];
+        } else if (city_en.length > 0) {
+            [dests addObject:city_en];
         }
         if (province.length > 0) {
             [dests addObject:province];
+        } else if (province_en.length > 0) {
+            [dests addObject:province_en];
         }
         if ([country length] > 0) {
             [dests addObject:country];
+        } else if (country_en.length > 0) {
+            [dests addObject:country_en];
         }
         
         NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
@@ -506,14 +515,14 @@
         CGPoint eNameLabelOrigin = CGPointMake(60, 29);
         CGPoint locationLabelOrigin = CGPointMake(60, 42);
         
-        if (name_en.length == 0 && city.length == 0) {
+        if (name_en.length == 0 && [dests count] == 0) {
             nameLabelOrigin = CGPointMake(60, 19);
             eNameLabel.hidden = YES;
         } else if (name_en.length == 0) {
             nameLabelOrigin = CGPointMake(60, 12);
             locationLabelOrigin = CGPointMake(60, 35);
             eNameLabel.hidden = YES;
-        } else if (city.length == 0) {
+        } else if ([dests count] == 0) {
             nameLabelOrigin = CGPointMake(60, 12);
             eNameLabelOrigin = CGPointMake(60, 35);
         }
