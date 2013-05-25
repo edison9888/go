@@ -85,8 +85,30 @@
     [mapView addSubview:mapModeButton];
     [mapView addSubview:positionButton];
     mapView.showsUserLocation = YES;
+
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:@"6.0" options:NSNumericSearch] == NSOrderedAscending)
+    {
+        for (UIGestureRecognizer *gesture in mapView.gestureRecognizers)
+        {
+            if([gesture isKindOfClass:[UITapGestureRecognizer class]])
+            {
+                gesture.delegate = self;
+                break;
+            }
+        }
+    }
     
     [self.view addSubview:mapView];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([touch.view isKindOfClass:[UIButton class]])
+    {
+        return NO;
+    }
+    return YES;
 }
 
 - (IBAction)positionMe:(id)sender

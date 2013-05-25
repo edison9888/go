@@ -28,7 +28,6 @@
 
 @implementation LocationViewController
 
-
 #define TAG_MAPVIEW 1
 #define TAG_NAMESCROLL 2
 #define TAG_NAMELABEL 3
