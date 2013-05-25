@@ -91,6 +91,27 @@
 
 - (IBAction)positionMe:(id)sender
 {
+    if(![CLLocationManager locationServicesEnabled])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"定位服务已关闭，请至系统设置页面重新开启"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"我知道了"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    if([CLLocationManager locationServicesEnabled] && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"定位服务已禁止，请至系统设置页面给出发吧授权"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"我知道了"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
     MKMapView *mapView = (MKMapView *)[self.view viewWithTag:20];
     [mapView setCenterCoordinate:mapView.userLocation.coordinate animated:YES];
     [mapView selectAnnotation:mapView.userLocation animated:YES];
