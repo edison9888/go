@@ -11,7 +11,7 @@
 #import "Location.h"
 #import "LocationAnnotation.h"
 
-@interface LocationMapViewController : UIViewController<MKMapViewDelegate, UIGestureRecognizerDelegate>
+@interface LocationMapViewController : UIViewController<MKMapViewDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
 
 @property (strong, nonatomic) Location *location;
 @property int index;

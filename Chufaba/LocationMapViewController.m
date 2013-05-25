@@ -202,30 +202,60 @@
 
 - (void)mapView:(MKMapView *)sender annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
 {
-    if (control.tag == 1) {
-        Class mapItemClass = [MKMapItem class];
-        if (mapItemClass && [mapItemClass respondsToSelector:@selector(openMapsWithItems:launchOptions:)])
+    if (control.tag == 1)
+    {
+        NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+        if ([currSysVer compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)
         {
-            MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:aView.annotation.coordinate addressDictionary:nil];
-            MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
-            [mapItem setName:aView.annotation.title];
-            
-            NSDictionary *launchOptions = @{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving};
-            
-            MKMapItem *currentLocationMapItem = [MKMapItem mapItemForCurrentLocation];
-            
-            [MKMapItem openMapsWithItems:@[currentLocationMapItem, mapItem] launchOptions:launchOptions];
-        }else{
-            //using iOS 5 which has the Google Maps application
-            if ([[UIApplication sharedApplication] canOpenURL:
-                 [NSURL URLWithString:@"comgooglemaps://"]]) {
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]])
+            {
+                UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"使用苹果自带地图导航", @"使用Googel Maps导航", nil];
+                actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+                [actionSheet showInView:self.view];
+            }
+            else
+            {
+                MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:aView.annotation.coordinate addressDictionary:nil];
+                MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
+                [mapItem setName:aView.annotation.title];
+                NSDictionary *launchOptions = @{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving};
+                MKMapItem *currentLocationMapItem = [MKMapItem mapItemForCurrentLocation];
+                [MKMapItem openMapsWithItems:@[currentLocationMapItem, mapItem] launchOptions:launchOptions];
+            }
+        }
+        else
+        {
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]])
+            {
                 NSString* url = [NSString stringWithFormat: @"comgooglemaps://?saddr=%f,%f&daddr=%f,%f&directionsmode=transit", sender.userLocation.coordinate.latitude, sender.userLocation.coordinate.longitude, aView.annotation.coordinate.latitude, aView.annotation.coordinate.longitude];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
-            }else{
+            }
+            else
+            {
                 NSString* url = [NSString stringWithFormat: @"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&dirflg=r", sender.userLocation.coordinate.latitude, sender.userLocation.coordinate.longitude, aView.annotation.coordinate.latitude, aView.annotation.coordinate.longitude];
                 [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
             }
         }
+    }
+}
+
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    MKMapView *mapView = (MKMapView *)[self.view viewWithTag:20];
+    id <MKAnnotation> annotation = [mapView.selectedAnnotations objectAtIndex:0];
+    if(buttonIndex == 0)
+    {
+        MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:annotation.coordinate addressDictionary:nil];
+        MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
+        [mapItem setName:annotation.title];
+        NSDictionary *launchOptions = @{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving};
+        MKMapItem *currentLocationMapItem = [MKMapItem mapItemForCurrentLocation];
+        [MKMapItem openMapsWithItems:@[currentLocationMapItem, mapItem] launchOptions:launchOptions];
+    }
+    else if(buttonIndex == 1)
+    {
+        NSString* url = [NSString stringWithFormat: @"comgooglemaps://?saddr=%f,%f&daddr=%f,%f&directionsmode=transit", mapView.userLocation.coordinate.latitude, mapView.userLocation.coordinate.longitude, annotation.coordinate.latitude, annotation.coordinate.longitude];
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
     }
 }
 
