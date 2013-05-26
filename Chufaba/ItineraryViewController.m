@@ -594,10 +594,12 @@
                         animations:^{
                             self.mapView.hidden = YES;
                             self.tableView.hidden = NO;
-                            [self.tableView scrollToRowAtIndexPath:[self scrollWhenToggle] atScrollPosition:UITableViewScrollPositionTop animated:NO];
                         }
                         completion:NULL];
-        
+        if([oneDimensionLocationList count] > 0)
+        {
+            [self.tableView scrollToRowAtIndexPath:[self scrollWhenToggle] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        }
         UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
         [modeBtn setImage:[UIImage imageNamed:@"map"] forState:UIControlStateNormal];
         [modeBtn setImage:[UIImage imageNamed:@"map_click"] forState:UIControlStateHighlighted];

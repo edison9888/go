@@ -168,6 +168,10 @@
 		1357035C172425BD0076FD4F /* cell_bgm.png in Resources */ = {isa = PBXBuildFile; fileRef = 1357035A172425BD0076FD4F /* cell_bgm.png */; };
 		1357035D172425BD0076FD4F /* cell_bgm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1357035B172425BD0076FD4F /* cell_bgm@2x.png */; };
 		1359811216D9EA3D00CCDE0E /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 1359811116D9EA3D00CCDE0E /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		135D7F721751BD81005224A6 /* add_btn_click.png in Resources */ = {isa = PBXBuildFile; fileRef = 135D7F6E1751BD81005224A6 /* add_btn_click.png */; };
+		135D7F731751BD81005224A6 /* add_btn_click@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 135D7F6F1751BD81005224A6 /* add_btn_click@2x.png */; };
+		135D7F741751BD81005224A6 /* add_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 135D7F701751BD81005224A6 /* add_btn.png */; };
+		135D7F751751BD81005224A6 /* add_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 135D7F711751BD81005224A6 /* add_btn@2x.png */; };
 		135E30A1174514CE00649AF6 /* PageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 135E30A0174514CE00649AF6 /* PageControl.m */; };
 		135E30AD1745181A00649AF6 /* Guide4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 135E30A31745181A00649AF6 /* Guide4@2x.png */; };
 		135E30AE1745181A00649AF6 /* Guide4.png in Resources */ = {isa = PBXBuildFile; fileRef = 135E30A41745181A00649AF6 /* Guide4.png */; };
@@ -247,10 +251,6 @@
 		13A92409173514C8003A0C8E /* AFKReviewTroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A92408173514C8003A0C8E /* AFKReviewTroller.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		13C594FB173EA77A004BC022 /* btn_empty_click.png in Resources */ = {isa = PBXBuildFile; fileRef = 13C594F9173EA77A004BC022 /* btn_empty_click.png */; };
 		13C594FC173EA77A004BC022 /* btn_empty_click@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13C594FA173EA77A004BC022 /* btn_empty_click@2x.png */; };
-		13C59501173EA829004BC022 /* add_btn_click.png in Resources */ = {isa = PBXBuildFile; fileRef = 13C594FD173EA829004BC022 /* add_btn_click.png */; };
-		13C59502173EA829004BC022 /* add_btn_click@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13C594FE173EA829004BC022 /* add_btn_click@2x.png */; };
-		13C59503173EA829004BC022 /* add_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13C594FF173EA829004BC022 /* add_btn@2x.png */; };
-		13C59504173EA829004BC022 /* add_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 13C59500173EA829004BC022 /* add_btn.png */; };
 		1C02971916B0D994003F676A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C02971816B0D994003F676A /* libsqlite3.dylib */; };
 		1C02971E16B0DC86003F676A /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C02971B16B0DC86003F676A /* FMDatabase.m */; };
 		1C02971F16B0DC86003F676A /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C02971D16B0DC86003F676A /* FMResultSet.m */; };
@@ -499,6 +499,10 @@
 		1359810F16D9E9B300CCDE0E /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		1359811016D9EA3D00CCDE0E /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
 		1359811116D9EA3D00CCDE0E /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		135D7F6E1751BD81005224A6 /* add_btn_click.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_btn_click.png; sourceTree = "<group>"; };
+		135D7F6F1751BD81005224A6 /* add_btn_click@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_btn_click@2x.png"; sourceTree = "<group>"; };
+		135D7F701751BD81005224A6 /* add_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_btn.png; sourceTree = "<group>"; };
+		135D7F711751BD81005224A6 /* add_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_btn@2x.png"; sourceTree = "<group>"; };
 		135E309F174514CE00649AF6 /* PageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControl.h; sourceTree = "<group>"; };
 		135E30A0174514CE00649AF6 /* PageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageControl.m; sourceTree = "<group>"; };
 		135E30A31745181A00649AF6 /* Guide4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Guide4@2x.png"; sourceTree = "<group>"; };
@@ -588,10 +592,6 @@
 		13A92408173514C8003A0C8E /* AFKReviewTroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFKReviewTroller.m; sourceTree = "<group>"; };
 		13C594F9173EA77A004BC022 /* btn_empty_click.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_empty_click.png; sourceTree = "<group>"; };
 		13C594FA173EA77A004BC022 /* btn_empty_click@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_empty_click@2x.png"; sourceTree = "<group>"; };
-		13C594FD173EA829004BC022 /* add_btn_click.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_btn_click.png; sourceTree = "<group>"; };
-		13C594FE173EA829004BC022 /* add_btn_click@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_btn_click@2x.png"; sourceTree = "<group>"; };
-		13C594FF173EA829004BC022 /* add_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_btn@2x.png"; sourceTree = "<group>"; };
-		13C59500173EA829004BC022 /* add_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_btn.png; sourceTree = "<group>"; };
 		1C02971816B0D994003F676A /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		1C02971A16B0DC86003F676A /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		1C02971B16B0DC86003F676A /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
@@ -842,16 +842,16 @@
 				132CD6611749183400DBF170 /* aboutlogo.png */,
 				132CD6621749183400DBF170 /* aboutlogo@2x.png */,
 				13C594FA173EA77A004BC022 /* btn_empty_click@2x.png */,
+				135D7F6E1751BD81005224A6 /* add_btn_click.png */,
+				135D7F6F1751BD81005224A6 /* add_btn_click@2x.png */,
+				135D7F701751BD81005224A6 /* add_btn.png */,
+				135D7F711751BD81005224A6 /* add_btn@2x.png */,
 				13A924031734F827003A0C8E /* bg_Search.png */,
 				13A924041734F827003A0C8E /* bg_Search@2x.png */,
-				13C594FD173EA829004BC022 /* add_btn_click.png */,
-				13C594FE173EA829004BC022 /* add_btn_click@2x.png */,
-				13C594FF173EA829004BC022 /* add_btn@2x.png */,
 				133A73FD174D0C97009EE1E7 /* prevmapDis@2x.png */,
 				133A73FE174D0C97009EE1E7 /* nextmapDis.png */,
 				133A73FF174D0C97009EE1E7 /* nextmapDis@2x.png */,
 				133A7400174D0C97009EE1E7 /* prevmapDis.png */,
-				13C59500173EA829004BC022 /* add_btn.png */,
 				13484F4A1732C64500F5871D /* btn_empty.png */,
 				13484F4B1732C64500F5871D /* btn_empty@2x.png */,
 				1316E38A1736B7DA009D49C3 /* prevLoc.png */,
@@ -1658,10 +1658,6 @@
 				1316E3991736B8D2009D49C3 /* edittext_click.png in Resources */,
 				13C594FB173EA77A004BC022 /* btn_empty_click.png in Resources */,
 				13C594FC173EA77A004BC022 /* btn_empty_click@2x.png in Resources */,
-				13C59501173EA829004BC022 /* add_btn_click.png in Resources */,
-				13C59502173EA829004BC022 /* add_btn_click@2x.png in Resources */,
-				13C59503173EA829004BC022 /* add_btn@2x.png in Resources */,
-				13C59504173EA829004BC022 /* add_btn.png in Resources */,
 				13321A8217426B15003936AE /* normalmap_click.png in Resources */,
 				13321A8317426B15003936AE /* normalmap_click@2x.png in Resources */,
 				13321A8617426C32003936AE /* normalmap.png in Resources */,
@@ -1695,6 +1691,10 @@
 				133A7402174D0C97009EE1E7 /* nextmapDis.png in Resources */,
 				133A7403174D0C97009EE1E7 /* nextmapDis@2x.png in Resources */,
 				133A7404174D0C97009EE1E7 /* prevmapDis.png in Resources */,
+				135D7F721751BD81005224A6 /* add_btn_click.png in Resources */,
+				135D7F731751BD81005224A6 /* add_btn_click@2x.png in Resources */,
+				135D7F741751BD81005224A6 /* add_btn.png in Resources */,
+				135D7F751751BD81005224A6 /* add_btn@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
