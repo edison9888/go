@@ -382,6 +382,8 @@
     if([self.mapView.selectedAnnotations count] == 1)
     {
         LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
+        NSNumber *latitude = selectedAnnotation.location.latitude;
+        NSNumber *longitude = selectedAnnotation.location.longitude;
         self.indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
         
         Location *previousLocation;
@@ -394,6 +396,10 @@
                 previousLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:curSelectedInAll-i];
                 if(!([previousLocation.latitude doubleValue] == 0 && [previousLocation.longitude doubleValue] == 0))
                 {
+                    if([previousLocation.latitude compare:latitude] == NSOrderedSame && [previousLocation.longitude compare:longitude] == NSOrderedSame)
+                    {
+                        [self.mapView selectAnnotation:[self.annotations objectAtIndex:self.indexOfCurSelected-1] animated:YES];
+                    }
                     break;
                 }
             }
@@ -406,6 +412,10 @@
                 previousLocation = [oneDimensionLocationList objectAtIndex:curSelectedInAll-i];
                 if(!([previousLocation.latitude doubleValue] == 0 && [previousLocation.longitude doubleValue] == 0))
                 {
+                    if([previousLocation.latitude compare:latitude] == NSOrderedSame && [previousLocation.longitude compare:longitude] == NSOrderedSame)
+                    {
+                        [self.mapView selectAnnotation:[self.annotations objectAtIndex:self.indexOfCurSelected-1] animated:YES];
+                    }
                     break;
                 }
             }
@@ -420,10 +430,11 @@
 
 - (IBAction)nextMapLocation:(id)sender
 {
-    //[(UIButton *)[self.mapView viewWithTag:22] setEnabled:YES];
     if([self.mapView.selectedAnnotations count] == 1)
     {
         LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
+        NSNumber *latitude = selectedAnnotation.location.latitude;
+        NSNumber *longitude = selectedAnnotation.location.longitude;
         self.indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
         
         Location *nextLocation;
@@ -436,6 +447,10 @@
                 nextLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:curSelectedInAll+i];
                 if(!([nextLocation.latitude doubleValue] == 0 && [nextLocation.longitude doubleValue] == 0))
                 {
+                    if([nextLocation.latitude compare:latitude] == NSOrderedSame && [nextLocation.longitude compare:longitude] == NSOrderedSame)
+                    {
+                        [self.mapView selectAnnotation:[self.annotations objectAtIndex:self.indexOfCurSelected+1] animated:YES];
+                    }
                     break;
                 }
             }
@@ -448,6 +463,10 @@
                 nextLocation = [oneDimensionLocationList objectAtIndex:curSelectedInAll+i];
                 if(!([nextLocation.latitude doubleValue] == 0 && [nextLocation.longitude doubleValue] == 0))
                 {
+                    if([nextLocation.latitude compare:latitude] == NSOrderedSame && [nextLocation.longitude compare:longitude] == NSOrderedSame)
+                    {
+                        [self.mapView selectAnnotation:[self.annotations objectAtIndex:self.indexOfCurSelected+1] animated:YES];
+                    }
                     break;
                 }
             }
@@ -714,8 +733,18 @@
     [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:self.grabbedObject];
     ((Location *)[[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]).whichday = [NSNumber numberWithInt:indexPath.section+1];
     
-    self.itineraryListBackup = [self.dataController.masterTravelDayList mutableCopy];
+    if(singleDayMode)
+    {
+        NSMutableArray *array = [[self.dataController.masterTravelDayList objectAtIndex:0] mutableCopy];
+        [self.itineraryListBackup replaceObjectAtIndex:[self.daySelected intValue]-1 withObject:array];
+    }
+    else
+    {
+        self.itineraryListBackup = [self.dataController.masterTravelDayList mutableCopy];
+    }
+    
     oneDimensionLocationList = [self getOneDimensionLocationList];
+    self.annotations = [self mapAnnotations];
     
     self.grabbedObject = nil;
     [self updateFooterView];
@@ -924,7 +953,7 @@
     [[self.view viewWithTag:55] removeFromSuperview];
     self.daySelected = [NSNumber numberWithInt:rowIndex];
     if(rowIndex == 0){
-        self.dataController.masterTravelDayList = self.itineraryListBackup;
+        self.dataController.masterTravelDayList = [self.itineraryListBackup mutableCopy];
         singleDayMode = false;
     }
     else{
@@ -1287,7 +1316,7 @@
 
 - (void) deleteLocation
 {
-    NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:self.indexPathOfLocationToDelete];
+    //NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:self.indexPathOfLocationToDelete];
     Location *locationToDelete = [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] objectAtIndex:self.indexPathOfLocationToDelete.row];
     
     BOOL lastSection = [self.dataController.masterTravelDayList count]-1 == self.indexPathOfLocationToDelete.section ? TRUE:FALSE;
@@ -1302,6 +1331,7 @@
     }
     
     [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] removeObjectAtIndex:self.indexPathOfLocationToDelete.row];
+    
     for (Location *location in [self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section])
     {
         if([location.seqofday intValue] > [locationToDelete.seqofday intValue])
@@ -1311,12 +1341,26 @@
     }
     
     [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfLocationToDelete] withRowAnimation:UITableViewRowAnimationFade];
-    [oneDimensionLocationList removeObjectAtIndex:deleteIndex];
+    //[oneDimensionLocationList removeObjectAtIndex:deleteIndex];
     
     if(lastSection && [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] count] == 0)
     {
         self.tableView.tableFooterView = NULL;
     }
+    
+    if(singleDayMode)
+    {
+        NSMutableArray *array = [[self.dataController.masterTravelDayList objectAtIndex:0] mutableCopy];
+        [self.itineraryListBackup replaceObjectAtIndex:[self.daySelected intValue]-1 withObject:array];
+    }
+    else
+    {
+        NSMutableArray *array = [[self.dataController.masterTravelDayList objectAtIndex:self.indexPathOfLocationToDelete.section] mutableCopy];
+        [self.itineraryListBackup replaceObjectAtIndex:self.indexPathOfLocationToDelete.section withObject:array];
+    }
+    
+    oneDimensionLocationList = [self getOneDimensionLocationList];
+    self.annotations = [self mapAnnotations];
 
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];

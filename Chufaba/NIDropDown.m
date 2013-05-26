@@ -32,7 +32,6 @@
         self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+18, btn.size.width, 0);
         self.list = [NSArray arrayWithArray:arr];
         
-        self.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.bounds].CGPath;
         self.layer.masksToBounds = NO;
         self.layer.cornerRadius = 8;
         self.layer.shadowOffset = CGSizeMake(0, 10);
