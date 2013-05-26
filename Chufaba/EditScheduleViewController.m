@@ -55,15 +55,13 @@
         self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height+44, 320, 216)];
         self.datePicker.datePickerMode = UIDatePickerModeTime;
         self.datePicker.minuteInterval = 15;
-        //is locale necessary
-        self.datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_GB"];
         [self.view addSubview:self.datePicker];
         [self.datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
     }
     self.startInput.inputView = self.datePicker;
-    if(self.start)
+    if(self.startInput.text)
     {
-        [self.datePicker setDate:[self.dateFormatter dateFromString:self.start]];
+        [self.datePicker setDate:[self.dateFormatter dateFromString:self.startInput.text]];
     }
     [self.startInput becomeFirstResponder];
 }
@@ -83,6 +81,22 @@
     if (self.start)
     {
         self.startInput.text = self.start;
+    } else {
+        NSDate *now = [NSDate date];
+        NSCalendar* calendar = [NSCalendar currentCalendar];
+        NSDateComponents* components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:now];
+        NSInteger minutes = [components minute];
+        
+        // check if the minutes should be rounded
+        NSInteger remainder = minutes % 15;
+        if(remainder)
+        {
+            minutes += 15 - remainder;
+            [components setMinute:minutes];
+            now = [calendar dateFromComponents:components];
+        }
+
+        self.startInput.text = [self.dateFormatter stringFromDate:now];
     }
 }
 
@@ -94,20 +108,6 @@
 - (void)timeChanged:(id)sender
 {
     UIDatePicker *picker = sender;
-    
-    NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDateComponents* components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:picker.date];
-    NSInteger minutes = [components minute];
-    
-    // check if the minutes should be rounded
-    NSInteger remainder = minutes % 15;
-    if(remainder)
-    {
-        minutes += 15 - remainder;
-        [components setMinute:minutes];
-        picker.date = [calendar dateFromComponents:components];
-    }
-
     self.start = [self.dateFormatter stringFromDate:picker.date];
     [self configureView];
 }

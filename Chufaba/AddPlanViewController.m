@@ -406,8 +406,7 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *selectedImg = [info valueForKey:UIImagePickerControllerOriginalImage];
-    UIImage *compressedImg = [Utility imageWithImageSimple:selectedImg scaledToSize:CGSizeMake(120.0, 120.0)];
-    self.coverImageView.image = compressedImg;
+    self.coverImageView.image = selectedImg;
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -472,7 +471,7 @@
 
 - (void)saveImage:(UIImage *)image withName:(NSString*)imageName
 {
-    NSData *imageData = UIImagePNGRepresentation(image);
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
@@ -480,12 +479,9 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
     
     [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
-    
-    NSLog(@"image saved");
-    
 }
 
 - (void)removeImage:(NSString*)fileName {
@@ -496,7 +492,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", fileName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileName]];
     
     [fileManager removeItemAtPath: fullPath error:NULL];
     
@@ -511,7 +507,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
     
     return [UIImage imageWithContentsOfFile:fullPath];
     
