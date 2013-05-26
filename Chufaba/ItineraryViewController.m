@@ -21,6 +21,7 @@
     BOOL isEmptyItinerary;
     BOOL changeSelect;
     BOOL ios6OrAbove;
+    int firstLocationSection;
 }
 - (NSMutableArray *)getOneDimensionLocationList;
 
@@ -207,7 +208,7 @@
         if([[self.dataController.masterTravelDayList objectAtIndex:0] count])
         {
             flag = TRUE;
-        }    
+        }
     }
     else
     {
@@ -216,6 +217,8 @@
             if([[self.dataController.masterTravelDayList objectAtIndex:i] count])
             {
                 flag = TRUE;
+                firstLocationSection = i;
+                break;
             }       
         }
     }
@@ -270,6 +273,7 @@
 {
     [super viewDidLoad];
     changeSelect = FALSE;
+    firstLocationSection = 0;
     
     [self setEmptyItinerary];
     self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight40", @"景点", @"food40", @"美食", @"hotel40", @"住宿", @"more40", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
@@ -563,7 +567,7 @@
         [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
         if([self hasOneLocation])
         {
-            Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
+            Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:firstLocationSection] objectAtIndex:0];
             if ([firstLocation hasCoordinate]) {
                 CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
                 [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
@@ -934,7 +938,7 @@
     
     if(!self.mapView.isHidden && [self hasOneLocation])
     {
-        Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:0];
+        Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:firstLocationSection] objectAtIndex:0];
         if ([firstLocation hasCoordinate]) {
             CLLocationCoordinate2D firstLocationCoordinate = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
             [self.mapView setCenterCoordinate:firstLocationCoordinate animated:YES];
