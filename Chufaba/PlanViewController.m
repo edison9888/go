@@ -83,8 +83,7 @@
             plan.planId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
         }
         
-        UIImage *compressedImg = [Utility imageWithImageSimple:plan.image scaledToSize:CGSizeMake(100.0, 60.0)];
-        [self saveImage:compressedImg withName:[[plan.planId stringValue] stringByAppendingString:@"planCover"]];
+        [self saveImage:plan.image withName:[[plan.planId stringValue] stringByAppendingString:@"planCover"]];
     }
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -305,6 +304,7 @@
 
     NSString *coverName = [[planAtIndex.planId stringValue] stringByAppendingString:@"planCover"];
     
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
     if([self imageExists:coverName])
     {
         cell.imageView.image = [self loadImage: coverName];
@@ -521,7 +521,7 @@
 - (void)saveImage:(UIImage *)image withName:(NSString*)imageName
 {
     
-    NSData *imageData = UIImagePNGRepresentation(image);
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
@@ -529,7 +529,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
     
     [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
     
@@ -545,7 +545,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", fileName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileName]];
     
     [fileManager removeItemAtPath: fullPath error:NULL];
     
@@ -559,7 +559,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
     
     return [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
 }
@@ -571,7 +571,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
     
     return [UIImage imageWithContentsOfFile:fullPath];
     
