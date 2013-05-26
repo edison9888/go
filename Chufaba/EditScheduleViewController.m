@@ -59,9 +59,9 @@
         [self.datePicker addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
     }
     self.startInput.inputView = self.datePicker;
-    if(self.start)
+    if(self.startInput.text)
     {
-        [self.datePicker setDate:[self.dateFormatter dateFromString:self.start]];
+        [self.datePicker setDate:[self.dateFormatter dateFromString:self.startInput.text]];
     }
     [self.startInput becomeFirstResponder];
 }
@@ -91,7 +91,7 @@
         NSInteger remainder = minutes % 15;
         if(remainder)
         {
-            minutes -= remainder;
+            minutes += 15 - remainder;
             [components setMinute:minutes];
             now = [calendar dateFromComponents:components];
         }
