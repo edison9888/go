@@ -411,11 +411,11 @@
     UIImage *compressedImg;
     if(selectedImg.size.width < selectedImg.size.height)
     {
-        compressedImg = [Utility imageWithImageSimple:selectedImg scaledToSize:CGSizeMake(100.0, 150.0)];
+        compressedImg = [Utility imageWithImageSimple:selectedImg scaledToSize:CGSizeMake(100.0, 133.6)];
     }
     else
     {
-        compressedImg = [Utility imageWithImageSimple:selectedImg scaledToSize:CGSizeMake(100.0, 66.7)];
+        compressedImg = [Utility imageWithImageSimple:selectedImg scaledToSize:CGSizeMake(100.0, 75.0)];
     }
     self.coverImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.coverImageView.image = compressedImg;
@@ -484,18 +484,11 @@
 
 - (void)saveImage:(UIImage *)image withName:(NSString*)imageName
 {
-    //NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
     NSData *imageData = UIImagePNGRepresentation(image);
-    
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    
-    //NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
     NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
-    
     [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
 }
 
