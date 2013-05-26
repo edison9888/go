@@ -382,7 +382,14 @@
 
 -(void) didEditScheduleWithStart:(NSString *)start
 {
-    self.location.visitBegin = start;
+    if(start.length > 0)
+    {
+        self.location.visitBegin = start;
+    }
+    else
+    {
+        self.location.visitBegin = nil;
+    }
     [((UITableView *)[self.view viewWithTag:TAG_TABLEVIEW]) reloadData];
     [self.delegate didChangeLocation:self.location];
 }

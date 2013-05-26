@@ -38,6 +38,7 @@
     [self configureView];
     
     self.startInput.borderStyle = UITextBorderStyleNone;
+    self.startInput.clearButtonMode = UITextFieldViewModeAlways;
     UIImage *sourceImage = [UIImage imageNamed:@"kuang"];
     UIImage *cappedImage = [sourceImage stretchableImageWithLeftCapWidth:8 topCapHeight:8];
     self.startInput.background = cappedImage;
@@ -119,7 +120,6 @@
 
 -(IBAction)done:(id) sender
 {
-    //[self.delegate didEditScheduleWithStart:self.start];
     [self.delegate didEditScheduleWithStart:self.startInput.text];
     [self.navigationController popViewControllerAnimated:YES];
 }
