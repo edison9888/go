@@ -10,6 +10,9 @@
 #import "QuartzCore/QuartzCore.h"
 
 @interface LocationMapViewController ()
+{
+    BOOL ios6OrAbove;
+}
 
 @end
 
@@ -85,9 +88,18 @@
     [mapView addSubview:mapModeButton];
     [mapView addSubview:positionButton];
     mapView.showsUserLocation = YES;
-
+    
     NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:@"6.0" options:NSNumericSearch] == NSOrderedAscending)
+    if ([currSysVer compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)
+    {
+        ios6OrAbove = TRUE;
+    }
+    else
+    {
+        ios6OrAbove = FALSE;
+    }
+
+    if (!ios6OrAbove)
     {
         for (UIGestureRecognizer *gesture in mapView.gestureRecognizers)
         {
@@ -203,8 +215,7 @@
 {
     if (control.tag == 1)
     {
-        NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-        if ([currSysVer compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)
+        if (ios6OrAbove)
         {
             if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]])
             {

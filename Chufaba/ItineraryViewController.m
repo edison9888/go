@@ -20,6 +20,7 @@
     NSNumber *lastLongitude;
     BOOL isEmptyItinerary;
     BOOL changeSelect;
+    BOOL ios6OrAbove;
 }
 - (NSMutableArray *)getOneDimensionLocationList;
 
@@ -354,6 +355,16 @@
         footerView.backgroundColor = [UIColor whiteColor];
         self.tableView.tableFooterView = footerView;
     }
+    
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)
+    {
+        ios6OrAbove = TRUE;
+    }
+    else
+    {
+        ios6OrAbove = FALSE;
+    }
 }
 
 - (IBAction)backToPrevious:(id)sender
@@ -478,12 +489,15 @@
         self.mapView.hidden = YES;
         self.mapView.delegate = self;
         
-        for (UIGestureRecognizer *gesture in self.mapView.gestureRecognizers)
+        if (!ios6OrAbove)
         {
-            if([gesture isKindOfClass:[UITapGestureRecognizer class]])
+            for (UIGestureRecognizer *gesture in self.mapView.gestureRecognizers)
             {
-                gesture.delegate = self;
-                break;
+                if([gesture isKindOfClass:[UITapGestureRecognizer class]])
+                {
+                    gesture.delegate = self;
+                    break;
+                }
             }
         }
         
@@ -558,9 +572,8 @@
                 MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
                 
                 [self.mapView setRegion:adjustedRegion animated:TRUE];
-                
-                NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-                if ([currSysVer compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)
+
+                if (ios6OrAbove)
                 {
                     [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
                 }
@@ -613,7 +626,8 @@
 {
     if (self.mapView)
     {
-        if ([touch.view isDescendantOfView:self.mapView])
+        //if ([touch.view isDescendantOfView:self.mapView])
+        if ([touch.view isKindOfClass:[UIButton class]])
         {
             return NO; 
         }
@@ -929,8 +943,15 @@
             MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
             
             [self.mapView setRegion:adjustedRegion animated:TRUE];
-            [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
-            //[self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:NO];
+
+            if (ios6OrAbove)
+            {
+                [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
+            }
+            else
+            {
+                [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:NO];
+            }
         }
     }
 }
