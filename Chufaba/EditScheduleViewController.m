@@ -71,6 +71,13 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (NSCalendar *)gregorian {
+    if (! _gregorian) {
+        _gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    }
+    return _gregorian;
+}
+
 - (void)configureView
 {
     if(!self.dateFormatter)
@@ -83,17 +90,15 @@
         self.startInput.text = self.start;
     } else {
         NSDate *now = [NSDate date];
-        NSCalendar* calendar = [NSCalendar currentCalendar];
-        NSDateComponents* components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:now];
+        NSDateComponents* components = [self.gregorian components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:now];
         NSInteger minutes = [components minute];
         
-        // check if the minutes should be rounded
         NSInteger remainder = minutes % 15;
         if(remainder)
         {
             minutes += 15 - remainder;
             [components setMinute:minutes];
-            now = [calendar dateFromComponents:components];
+            now = [self.gregorian dateFromComponents:components];
         }
 
         self.startInput.text = [self.dateFormatter stringFromDate:now];
@@ -114,7 +119,8 @@
 
 -(IBAction)done:(id) sender
 {
-    [self.delegate didEditScheduleWithStart:self.start];
+    //[self.delegate didEditScheduleWithStart:self.start];
+    [self.delegate didEditScheduleWithStart:self.startInput.text];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
