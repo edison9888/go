@@ -254,8 +254,10 @@
             {
                 self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
             }
+            
             self.plan.image = self.coverImageView.image;
             [self saveImage:self.plan.image withName:[[self.plan.planId stringValue] stringByAppendingString:@"planCover"]];
+            
             [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
         }
     }
@@ -406,7 +408,18 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *selectedImg = [info valueForKey:UIImagePickerControllerOriginalImage];
-    self.coverImageView.image = selectedImg;
+    UIImage *compressedImg;
+    if(selectedImg.size.width < selectedImg.size.height)
+    {
+        compressedImg = [Utility imageWithImageSimple:selectedImg scaledToSize:CGSizeMake(100.0, 150.0)];
+    }
+    else
+    {
+        compressedImg = [Utility imageWithImageSimple:selectedImg scaledToSize:CGSizeMake(100.0, 66.7)];
+    }
+    self.coverImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.coverImageView.image = compressedImg;
+    
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -471,7 +484,8 @@
 
 - (void)saveImage:(UIImage *)image withName:(NSString*)imageName
 {
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+    //NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+    NSData *imageData = UIImagePNGRepresentation(image);
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
@@ -479,7 +493,8 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
+    //NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
     
     [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
 }
@@ -492,7 +507,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", fileName]];
     
     [fileManager removeItemAtPath: fullPath error:NULL];
     
@@ -507,7 +522,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
     
     return [UIImage imageWithContentsOfFile:fullPath];
     

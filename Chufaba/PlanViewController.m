@@ -521,7 +521,7 @@
 - (void)saveImage:(UIImage *)image withName:(NSString*)imageName
 {
     
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+    NSData *imageData = UIImagePNGRepresentation(image);
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
@@ -529,7 +529,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
     
     [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
     
@@ -545,7 +545,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", fileName]];
     
     [fileManager removeItemAtPath: fullPath error:NULL];
     
@@ -559,7 +559,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
     
     return [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
 }
@@ -571,7 +571,7 @@
     
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", imageName]];
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
     
     return [UIImage imageWithContentsOfFile:fullPath];
     
