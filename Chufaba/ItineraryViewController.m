@@ -695,7 +695,15 @@
         }
     }
     
-    locationToMove.whichday = [NSNumber numberWithInt:destinationIndexPath.section+1];
+    if(singleDayMode)
+    {
+        locationToMove.whichday = [NSNumber numberWithInt:[self.daySelected intValue]];
+    }
+    else
+    {
+        locationToMove.whichday = [NSNumber numberWithInt:destinationIndexPath.section+1];
+    }
+    
     locationToMove.seqofday = [NSNumber numberWithInt:destinationIndexPath.row+1];
     
     for (NSObject *object in [self.dataController objectInListAtIndex:destinationIndexPath.section])
@@ -717,13 +725,26 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
     
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",sourceIndexPath.row+1, sourceIndexPath.section+1]];
-    
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",sourceIndexPath.section+1, 0, idOfLocationToMove]];
-    
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday > %d and whichday = %d",destinationIndexPath.row, destinationIndexPath.section+1]];
-    
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",destinationIndexPath.section+1, destinationIndexPath.row+1, idOfLocationToMove]];
+    if(singleDayMode)
+    {
+        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",sourceIndexPath.row+1, [self.daySelected intValue]]];
+        
+        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",[self.daySelected intValue], 0, idOfLocationToMove]];
+        
+        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday > %d and whichday = %d",destinationIndexPath.row, [self.daySelected intValue]]];
+        
+        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",[self.daySelected intValue], destinationIndexPath.row+1, idOfLocationToMove]];
+    }
+    else
+    {
+        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",sourceIndexPath.row+1, sourceIndexPath.section+1]];
+        
+        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",sourceIndexPath.section+1, 0, idOfLocationToMove]];
+        
+        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday > %d and whichday = %d",destinationIndexPath.row, destinationIndexPath.section+1]];
+        
+        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",destinationIndexPath.section+1, destinationIndexPath.row+1, idOfLocationToMove]];
+    }
     
     [db close];
 }
@@ -731,15 +752,16 @@
 - (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsReplacePlaceholderForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:self.grabbedObject];
-    ((Location *)[[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]).whichday = [NSNumber numberWithInt:indexPath.section+1];
     
     if(singleDayMode)
     {
+        ((Location *)[[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]).whichday = [NSNumber numberWithInt:[self.daySelected intValue]];
         NSMutableArray *array = [[self.dataController.masterTravelDayList objectAtIndex:0] mutableCopy];
         [self.itineraryListBackup replaceObjectAtIndex:[self.daySelected intValue]-1 withObject:array];
     }
     else
     {
+        ((Location *)[[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]).whichday = [NSNumber numberWithInt:indexPath.section+1];
         self.itineraryListBackup = [self.dataController.masterTravelDayList mutableCopy];
     }
     
