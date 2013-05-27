@@ -305,13 +305,25 @@
     NSString *coverName = [[planAtIndex.planId stringValue] stringByAppendingString:@"planCover"];
     
     cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    if([self imageExists:coverName])
+    
+    if([planAtIndex.planId intValue] == 12)
     {
-        cell.imageView.image = [self loadImage: coverName];
+        cell.imageView.image = [UIImage imageNamed:@"taiguo.jpg"];
+    }
+    else if([planAtIndex.planId intValue] == 13)
+    {
+        cell.imageView.image = [UIImage imageNamed:@"yunnan.jpg"];
     }
     else
     {
-        cell.imageView.image = [UIImage imageNamed:@"plan_cover"];
+        if([self imageExists:coverName])
+        {
+            cell.imageView.image = [self loadImage: coverName];
+        }
+        else
+        {
+            cell.imageView.image = [UIImage imageNamed:@"plan_cover"];
+        }
     }
     
     cell.textLabel.text = planAtIndex.name;
