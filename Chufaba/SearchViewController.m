@@ -613,17 +613,16 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
     
-    FMResultSet *results = [db executeQuery:@"SELECT * FROM location WHERE poi_id = ? AND whichday = ?", poiId, self.dayToAdd];
+    FMResultSet *results = [db executeQuery:@"SELECT * FROM location WHERE poi_id = ? AND whichday = ? AND plan_id = ?", poiId, self.dayToAdd, self.planId];
     if([results next])
     {
         seqToDelete = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
     }
     
-    [db executeUpdate:@"DELETE FROM location WHERE poi_id = ? AND whichday = ?", poiId, self.dayToAdd];
-    [db executeUpdate:@"UPDATE location SET seqofday = seqofday-1 where seqofday > ? and whichday = ?",seqToDelete,self.dayToAdd];
+    [db executeUpdate:@"DELETE FROM location WHERE poi_id = ? AND whichday = ? AND plan_id = ?", poiId, self.dayToAdd, self.planId];
+    [db executeUpdate:@"UPDATE location SET seqofday = seqofday-1 where seqofday > ? and whichday = ? AND plan_id = ?",seqToDelete,self.dayToAdd, self.planId];
     [db close];
     
-    //update poi array
     for(NSNumber *poi in self.poiArray)
     {
         if([poi intValue] == [poiId intValue])
