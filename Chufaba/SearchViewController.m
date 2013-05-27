@@ -666,13 +666,8 @@
     location.address = [locationAtIndex objectForKey:@"address"];
     NSDictionary *point = [locationAtIndex objectForKey:@"location"];
     location.latitude = [point objectForKey:@"lat"];
-    if ([location.latitude intValue] == 10000) {
-        location.latitude = nil;
-    }
     location.longitude = [point objectForKey:@"lon"];
-    if ([location.longitude intValue] == 10000) {
-        location.longitude = nil;
-    }
+
     if ([[locationAtIndex objectForKey:@"status"] intValue] == 1) {
         location.transportation = [locationAtIndex objectForKey:@"transport"];
         location.opening = [locationAtIndex objectForKey:@"opening"];
@@ -847,7 +842,7 @@
         return nil;
     }
     NSString *sort = nil;
-    if (self.lastLatitude && [self.lastLatitude intValue] != 10000) {
+    if (self.lastLatitude && [self.lastLatitude doubleValue] != 0) {
         sort = [NSString stringWithFormat:@"\"sort\" : ["
                 "{ \"_geo_distance\" : {"
                 "   \"location\" : { \"lat\" : %f, \"lon\" : %f }, "
