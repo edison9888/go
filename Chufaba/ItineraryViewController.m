@@ -1018,7 +1018,14 @@
 
 -(void) didChangeLocation:(Location *)location
 {
-    [[self.dataController objectInListAtIndex:[location.whichday intValue]-1] replaceObjectAtIndex:[location.seqofday intValue]-1 withObject:location];
+    if(singleDayMode)
+    {
+        [[self.dataController objectInListAtIndex:0] replaceObjectAtIndex:[location.seqofday intValue]-1 withObject:location];
+    }
+    else
+    {
+        [[self.dataController objectInListAtIndex:[location.whichday intValue]-1] replaceObjectAtIndex:[location.seqofday intValue]-1 withObject:location];
+    }
     [self.tableView reloadData];
     
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
