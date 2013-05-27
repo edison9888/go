@@ -409,14 +409,9 @@
 {
     UIImage *selectedImg = [info valueForKey:UIImagePickerControllerOriginalImage];
     UIImage *compressedImg;
-    if(selectedImg.size.width < selectedImg.size.height)
-    {
-        compressedImg = [Utility imageWithImageSimple:selectedImg scaledToSize:CGSizeMake(100.0, 133.6)];
-    }
-    else
-    {
-        compressedImg = [Utility imageWithImageSimple:selectedImg scaledToSize:CGSizeMake(100.0, 75.0)];
-    }
+    CGFloat ratio = 160.0/selectedImg.size.width;
+    CGFloat height = ratio * selectedImg.size.height;
+    compressedImg = [Utility imageWithImageSimple:selectedImg scaledToSize:CGSizeMake(160.0, height)];
     self.coverImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.coverImageView.image = compressedImg;
     

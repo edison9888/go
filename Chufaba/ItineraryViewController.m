@@ -1190,9 +1190,10 @@
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
     [button setImage:[UIImage imageNamed:@"addLocation"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"addLocation_click"] forState:UIControlStateHighlighted];
     button.tag = dayValue;
     button.hidden = NO;
-    [button addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchDown];
+    [button addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchUpInside];
     
     label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
     
