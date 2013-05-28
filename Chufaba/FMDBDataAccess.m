@@ -49,7 +49,7 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     
     [db open];    
-    FMResultSet *results = [db executeQuery:@"SELECT * FROM plan order by id asc"];    
+    FMResultSet *results = [db executeQuery:@"SELECT * FROM plan order by id desc"];
     while([results next])
     {
         Plan *plan = [[Plan alloc] init];
@@ -67,7 +67,7 @@
         [travelPlans addObject:plan];
     }
     [db close];
-    return travelPlans;    
+    return travelPlans;
 }
 
 -(BOOL) userExist:(NSString *) service_uid logintype:(NSInteger) type
