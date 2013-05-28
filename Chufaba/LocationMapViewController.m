@@ -12,6 +12,7 @@
 @interface LocationMapViewController ()
 {
     BOOL ios6OrAbove;
+    NSInteger btnOffset;
 }
 
 @end
@@ -64,6 +65,18 @@
     mapView.delegate = self;
     mapView.tag = 20;
     
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    if ([currSysVer compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)
+    {
+        ios6OrAbove = TRUE;
+        btnOffset = 90;
+    }
+    else
+    {
+        ios6OrAbove = FALSE;
+        btnOffset = 96;
+    }
+    
 	CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
     [mapView setCenterCoordinate:customLoc2D_5 animated:YES];
     
@@ -74,13 +87,13 @@
     [mapView addAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true]];
     [mapView selectAnnotation:[LocationAnnotation annotationForLocation:self.location ShowTitle:true] animated:false];
     
-    UIButton *mapModeButton = [[UIButton alloc] initWithFrame:CGRectMake(270,mapView.frame.size.height-80,40,30)];
+    UIButton *mapModeButton = [[UIButton alloc] initWithFrame:CGRectMake(270,mapView.frame.size.height-btnOffset,40,30)];
     mapModeButton.tag = 21;
     [mapModeButton setImage:[UIImage imageNamed:@"satelitemap"] forState:UIControlStateNormal];
     [mapModeButton setImage:[UIImage imageNamed:@"satelitemap_click"] forState:UIControlStateHighlighted];
     [mapModeButton addTarget:self action:@selector(selectSateliteMap:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(10,mapView.frame.size.height-80,40,30)];
+    UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(10,mapView.frame.size.height-btnOffset,40,30)];
     [positionButton setImage:[UIImage imageNamed:@"position"] forState:UIControlStateNormal];
     [positionButton setImage:[UIImage imageNamed:@"position_click"] forState:UIControlStateHighlighted];
     [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchUpInside];
@@ -88,16 +101,6 @@
     [mapView addSubview:mapModeButton];
     [mapView addSubview:positionButton];
     mapView.showsUserLocation = YES;
-    
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)
-    {
-        ios6OrAbove = TRUE;
-    }
-    else
-    {
-        ios6OrAbove = FALSE;
-    }
 
     if (!ios6OrAbove)
     {

@@ -22,6 +22,7 @@
     BOOL changeSelect;
     BOOL ios6OrAbove;
     int firstLocationSection;
+    NSInteger btnOffset;
 }
 - (NSMutableArray *)getOneDimensionLocationList;
 
@@ -364,10 +365,12 @@
     if ([currSysVer compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)
     {
         ios6OrAbove = TRUE;
+        btnOffset = 50;
     }
     else
     {
         ios6OrAbove = FALSE;
+        btnOffset = 56;
     }
 }
 
@@ -524,7 +527,7 @@
             }
         }
         
-        UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-40, 80, 30)];
+        UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-btnOffset, 80, 30)];
         mapNavView.backgroundColor = [UIColor clearColor];
         mapNavView.tag = 21;
         
@@ -542,7 +545,7 @@
         [mapNextButton setImage:[UIImage imageNamed:@"nextmapDis"] forState:UIControlStateDisabled];
         [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchUpInside];
         
-        UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-40, 40, 30)];
+        UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-btnOffset, 40, 30)];
         mapPositionView.backgroundColor = [UIColor clearColor];
         mapPositionView.tag = 24;
         
