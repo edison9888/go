@@ -49,7 +49,7 @@
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     
     [db open];    
-    FMResultSet *results = [db executeQuery:@"SELECT * FROM plan"];    
+    FMResultSet *results = [db executeQuery:@"SELECT * FROM plan order by id asc"];    
     while([results next])
     {
         Plan *plan = [[Plan alloc] init];
@@ -65,8 +65,7 @@
             plan.locationCount = [locationResults intForColumn:@"count"];
         
         [travelPlans addObject:plan];
-    }    
-    travelPlans = [[[travelPlans reverseObjectEnumerator] allObjects] mutableCopy];
+    }
     [db close];
     return travelPlans;    
 }

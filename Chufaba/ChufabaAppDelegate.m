@@ -77,11 +77,11 @@
     NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentDir = [documentPaths objectAtIndex:0];
     
-    NSString *thailandPlanImgName = @"12planCover.png";
+    NSString *thailandPlanImgName = @"2planCover.png";
     NSString *thailandPlanImgResourcePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:thailandPlanImgName];
     NSString *thailandPlanImgPath = [documentDir stringByAppendingPathComponent:thailandPlanImgName];
     
-    NSString *yunnanPlanImgName = @"13planCover.png";
+    NSString *yunnanPlanImgName = @"1planCover.png";
     NSString *yunnanPlanImgResourcePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:yunnanPlanImgName];
     NSString *yunnanPlanImgPath = [documentDir stringByAppendingPathComponent:yunnanPlanImgName];
     
