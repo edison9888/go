@@ -68,6 +68,26 @@
     
     NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:self.databaseName];
     [fileManager copyItemAtPath:databasePathFromApp toPath:self.databasePath error:nil];
+    
+    [self copySamplePlanImage];
+}
+
+-(void) copySamplePlanImage
+{
+    NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDir = [documentPaths objectAtIndex:0];
+    
+    NSString *thailandPlanImgName = @"12planCover.png";
+    NSString *thailandPlanImgResourcePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:thailandPlanImgName];
+    NSString *thailandPlanImgPath = [documentDir stringByAppendingPathComponent:thailandPlanImgName];
+    
+    NSString *yunnanPlanImgName = @"13planCover.png";
+    NSString *yunnanPlanImgResourcePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:yunnanPlanImgName];
+    NSString *yunnanPlanImgPath = [documentDir stringByAppendingPathComponent:yunnanPlanImgName];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager copyItemAtPath:thailandPlanImgResourcePath toPath:thailandPlanImgPath error:nil];
+    [fileManager copyItemAtPath:yunnanPlanImgResourcePath toPath:yunnanPlanImgPath error:nil];
 }
 
 -(void) alterDB{
