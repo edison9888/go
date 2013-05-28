@@ -611,13 +611,14 @@
     [db open];
     
     FMResultSet *results = [db executeQuery:@"SELECT * FROM location WHERE poi_id = ? AND whichday = ? AND plan_id = ?", poiId, self.dayToAdd, self.planId];
-    if([results next])
+    while([results next])
     {
         seqToDelete = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
+        [db executeUpdate:@"UPDATE location SET seqofday = seqofday-1 where seqofday > ? and whichday = ? AND plan_id = ?",seqToDelete,self.dayToAdd, self.planId];
+        self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]-1];
     }
     
     [db executeUpdate:@"DELETE FROM location WHERE poi_id = ? AND whichday = ? AND plan_id = ?", poiId, self.dayToAdd, self.planId];
-    [db executeUpdate:@"UPDATE location SET seqofday = seqofday-1 where seqofday > ? and whichday = ? AND plan_id = ?",seqToDelete,self.dayToAdd, self.planId];
     [db close];
     
     for(NSNumber *poi in self.poiArray)
@@ -629,8 +630,6 @@
         }
     }
     
-    self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]-1];
-    
     [button setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
     [button removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
@@ -641,6 +640,52 @@
     theSettings.duration = 3000;
     [[[[iToast makeText:NSLocalizedString(@"已从计划中移除", @"")] setGravity:iToastGravityCenter offsetLeft:0 offsetTop:-20] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
+
+//- (IBAction)removeLocation:(id)sender
+//{
+//    shouldUpdateItinerary = YES;
+//    
+//    UIButton *button = (UIButton*)sender;
+//    UITableViewCell *cell = (UITableViewCell *)button.superview.superview;
+//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+//    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
+//    NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
+//    
+//    NSNumber *seqToDelete;
+//    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+//    [db open];
+//    
+//    FMResultSet *results = [db executeQuery:@"SELECT * FROM location WHERE poi_id = ? AND whichday = ? AND plan_id = ?", poiId, self.dayToAdd, self.planId];
+//    if([results next])
+//    {
+//        seqToDelete = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
+//    }
+//    
+//    [db executeUpdate:@"DELETE FROM location WHERE poi_id = ? AND whichday = ? AND plan_id = ?", poiId, self.dayToAdd, self.planId];
+//    [db executeUpdate:@"UPDATE location SET seqofday = seqofday-1 where seqofday > ? and whichday = ? AND plan_id = ?",seqToDelete,self.dayToAdd, self.planId];
+//    [db close];
+//    
+//    for(NSNumber *poi in self.poiArray)
+//    {
+//        if([poi intValue] == [poiId intValue])
+//        {
+//            [self.poiArray removeObject:poi];
+//            break;
+//        }
+//    }
+//    
+//    self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]-1];
+//    
+//    [button setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
+//    [button setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
+//    [button removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
+//    [button addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    iToastSettings *theSettings = [iToastSettings getSharedSettings];
+//    [theSettings setImage:[UIImage imageNamed:@"prompt_no"] forType:iToastTypeNotice];
+//    theSettings.duration = 3000;
+//    [[[[iToast makeText:NSLocalizedString(@"已从计划中移除", @"")] setGravity:iToastGravityCenter offsetLeft:0 offsetTop:-20] setDuration:iToastDurationShort] show:iToastTypeNotice];
+//}
 
 - (IBAction)addLocation:(id)sender
 {

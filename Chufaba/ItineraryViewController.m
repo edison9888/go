@@ -1125,7 +1125,6 @@
                 lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
                 [cell.contentView addSubview:lineView];
             }
-            
         }
 //        cell.layer.opaque = YES;
 //        cell.layer.shouldRasterize = YES;
