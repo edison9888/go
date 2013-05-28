@@ -600,9 +600,6 @@
 {
     shouldUpdateItinerary = YES;
     
-    [self.nameInput resignFirstResponder];
-    [self.locationInput resignFirstResponder];
-    
     UIButton *button = (UIButton*)sender;
     UITableViewCell *cell = (UITableViewCell *)button.superview.superview;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
@@ -642,15 +639,12 @@
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_no"] forType:iToastTypeNotice];
     theSettings.duration = 3000;
-    [[[[iToast makeText:NSLocalizedString(@"已从计划中移除", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show:iToastTypeNotice];
+    [[[[iToast makeText:NSLocalizedString(@"已从计划中移除", @"")] setGravity:iToastGravityCenter offsetLeft:0 offsetTop:-20] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
 
 - (IBAction)addLocation:(id)sender
 {
     shouldUpdateItinerary = YES;
-    
-    [self.nameInput resignFirstResponder];
-    [self.locationInput resignFirstResponder];
     
     UIButton *button = (UIButton*)sender;
     UITableViewCell *cell = (UITableViewCell *)button.superview.superview;
@@ -696,7 +690,7 @@
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_yes"] forType:iToastTypeNotice];
     theSettings.duration = 3000;
-    [[[[iToast makeText:NSLocalizedString(@"已添加到计划", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show:iToastTypeNotice];
+    [[[[iToast makeText:NSLocalizedString(@"已添加到计划", @"")] setGravity:iToastGravityCenter offsetLeft:0 offsetTop:-20] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
 
 - (void)addCustomLocation:(Location *)location
@@ -712,7 +706,7 @@
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_yes"] forType:iToastTypeNotice];
     theSettings.duration = 3000;
-    [[[[iToast makeText:NSLocalizedString(@"已添加到计划", @"")] setGravity:iToastGravityCenter] setDuration:iToastDurationShort] show:iToastTypeNotice];
+    [[[[iToast makeText:NSLocalizedString(@"已添加到计划", @"")] setGravity:iToastGravityCenter offsetLeft:0 offsetTop:-20] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
 
 - (IBAction)changeCategory:(id)sender
