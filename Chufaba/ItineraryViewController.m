@@ -594,7 +594,7 @@
                 CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
                 [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
                 
-                MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
+                MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 2000, 2000);
                 MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
                 
                 [self.mapView setRegion:adjustedRegion animated:TRUE];
@@ -997,7 +997,7 @@
             CLLocationCoordinate2D firstLocationCoordinate = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
             [self.mapView setCenterCoordinate:firstLocationCoordinate animated:YES];
             
-            MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(firstLocationCoordinate, 1500, 1500);
+            MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(firstLocationCoordinate, 2000, 2000);
             MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
             
             [self.mapView setRegion:adjustedRegion animated:TRUE];

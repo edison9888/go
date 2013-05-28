@@ -80,7 +80,7 @@
 	CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([self.location.latitude doubleValue], [self.location.longitude doubleValue]);
     [mapView setCenterCoordinate:customLoc2D_5 animated:YES];
     
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 1500, 1500);
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 600, 600);
     MKCoordinateRegion adjustedRegion = [mapView regionThatFits:region];
     
     [mapView setRegion:adjustedRegion animated:false];
