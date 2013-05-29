@@ -305,9 +305,9 @@
 		C2BEDA241754F7BD0049553C /* 2planCover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C2BEDA221754F7BD0049553C /* 2planCover@2x.png */; };
 		C2BEDA271754F8C70049553C /* 1planCover.png in Resources */ = {isa = PBXBuildFile; fileRef = C2BEDA251754F8C70049553C /* 1planCover.png */; };
 		C2BEDA281754F8C70049553C /* 1planCover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C2BEDA261754F8C70049553C /* 1planCover@2x.png */; };
-		C2C3A83016F5EC26000DB182 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C3A82E16F5EC26000DB182 /* libMobClickLibrary.a */; };
 		C2C3A83216F5EC62000DB182 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C3A83116F5EC62000DB182 /* libz.dylib */; };
 		C2C769AF16D8C7E5007E20AB /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */; };
+		C2D281E51756444A0093C226 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D281E31756444A0093C226 /* libMobClickLibrary.a */; };
 		C2E1BF5916B3D03400E9750A /* HTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2E1BF5A16B3D03400E9750A /* JSONFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E1BF5816B3D03400E9750A /* JSONFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D2579A0F16B7CD9400462094 /* PullDownMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2579A0E16B7CD9400462094 /* PullDownMenuView.m */; };
@@ -684,11 +684,11 @@
 		C2BEDA221754F7BD0049553C /* 2planCover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2planCover@2x.png"; sourceTree = "<group>"; };
 		C2BEDA251754F8C70049553C /* 1planCover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1planCover.png; sourceTree = "<group>"; };
 		C2BEDA261754F8C70049553C /* 1planCover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1planCover@2x.png"; sourceTree = "<group>"; };
-		C2C3A82E16F5EC26000DB182 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
-		C2C3A82F16F5EC26000DB182 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		C2C3A83116F5EC62000DB182 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		C2C769AD16D8C7E5007E20AB /* LocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTableViewCell.h; sourceTree = "<group>"; };
 		C2C769AE16D8C7E5007E20AB /* LocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewCell.m; sourceTree = "<group>"; };
+		C2D281E31756444A0093C226 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
+		C2D281E41756444A0093C226 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		C2E1BF5516B3D03400E9750A /* HTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPFetcher.h; sourceTree = "<group>"; };
 		C2E1BF5616B3D03400E9750A /* HTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPFetcher.m; sourceTree = "<group>"; };
 		C2E1BF5716B3D03400E9750A /* JSONFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONFetcher.h; sourceTree = "<group>"; };
@@ -741,7 +741,7 @@
 				1C70A1BB16B02BC90031A1D0 /* QuartzCore.framework in Frameworks */,
 				1C38053516C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a in Frameworks */,
 				131BF67916D64337001D4422 /* TencentOpenAPI.framework in Frameworks */,
-				C2C3A83016F5EC26000DB182 /* libMobClickLibrary.a in Frameworks */,
+				C2D281E51756444A0093C226 /* libMobClickLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1286,13 +1286,13 @@
 			name = location;
 			sourceTree = "<group>";
 		};
-		C2C3A82D16F5EC08000DB182 /* UMAnalytics */ = {
+		C2D281E21756444A0093C226 /* UMAnalytics_Sdk_2.2.0.OpenUDID */ = {
 			isa = PBXGroup;
 			children = (
-				C2C3A82E16F5EC26000DB182 /* libMobClickLibrary.a */,
-				C2C3A82F16F5EC26000DB182 /* MobClick.h */,
+				C2D281E31756444A0093C226 /* libMobClickLibrary.a */,
+				C2D281E41756444A0093C226 /* MobClick.h */,
 			);
-			name = UMAnalytics;
+			path = UMAnalytics_Sdk_2.2.0.OpenUDID;
 			sourceTree = "<group>";
 		};
 		C2E1BF5416B3D00400E9750A /* HTTPFetcher */ = {
@@ -1327,6 +1327,7 @@
 		D25F6FE616A6332D00ED7AF5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2D281E21756444A0093C226 /* UMAnalytics_Sdk_2.2.0.OpenUDID */,
 				C252AA8A16F9FA110048FEFA /* SystemConfiguration.framework */,
 				C2C3A83116F5EC62000DB182 /* libz.dylib */,
 				131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */,
@@ -1346,7 +1347,6 @@
 		D25F6FED16A6332D00ED7AF5 /* Chufaba */ = {
 			isa = PBXGroup;
 			children = (
-				C2C3A82D16F5EC08000DB182 /* UMAnalytics */,
 				1C1FBE5F16CB5AA800FF3FBC /* Settings */,
 				1C38053016C903C900D3CDDD /* weixin */,
 				1CE918B616C8B77900AA5987 /* SinaWeibo */,
@@ -1857,7 +1857,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Chufaba\"",
 					"\"$(SRCROOT)/../../../../Downloads\"",
-					"\"$(SRCROOT)/../../Downloads\"",
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1867,7 +1866,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Chufaba\"",
-					"\"$(SRCROOT)/../../../../Downloads/Analytics_iOS_SDK_2.1.3.OpenUDID/UMAnalytics_Sdk_2.1.3.OpenUDID\"",
+					"\"$(SRCROOT)/UMAnalytics_Sdk_2.2.0.OpenUDID\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "出发吧";
@@ -1884,7 +1883,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Chufaba\"",
 					"\"$(SRCROOT)/../../../../Downloads\"",
-					"\"$(SRCROOT)/../../Downloads\"",
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1894,7 +1892,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Chufaba\"",
-					"\"$(SRCROOT)/../../../../Downloads/Analytics_iOS_SDK_2.1.3.OpenUDID/UMAnalytics_Sdk_2.1.3.OpenUDID\"",
+					"\"$(SRCROOT)/UMAnalytics_Sdk_2.2.0.OpenUDID\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "出发吧";
