@@ -59,12 +59,14 @@
         [UIView setAnimationDuration:0.2];
         self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height+18, btn.size.width, *height);
         
-        table.frame = CGRectMake(0, 0, btn.size.width, *height>320 ? 320:*height);
+        table.frame = CGRectMake(0, 0, btn.size.width, *height>240 ? 240:*height);
 
         [UIView commitAnimations];
         
         [b.superview.superview addSubview:self];
         [self addSubview:table];
+        if(*height>240)
+            [table flashScrollIndicators];
     }
     return self;
 }
