@@ -280,7 +280,6 @@
 		C207026916B4269C0087B6D7 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025B16B4269C0087B6D7 /* SBJsonTokeniser.m */; };
 		C207026A16B4269C0087B6D7 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025D16B4269C0087B6D7 /* SBJsonUTF8Stream.m */; };
 		C207026B16B4269C0087B6D7 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C207025F16B4269C0087B6D7 /* SBJsonWriter.m */; };
-		C210FFBE16F9F858003F2060 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C210FFBD16F9F858003F2060 /* Crashlytics.framework */; };
 		C2126AED16D64D29005B0353 /* LocationMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2126AEC16D64D29005B0353 /* LocationMapViewController.m */; };
 		C220388F16BD371A00173D29 /* EditDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C220388E16BD371A00173D29 /* EditDetailViewController.m */; };
 		C220389216BD3B5C00173D29 /* EditScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C220389116BD3B5C00173D29 /* EditScheduleViewController.m */; };
@@ -652,7 +651,6 @@
 		C207025D16B4269C0087B6D7 /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
 		C207025E16B4269C0087B6D7 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		C207025F16B4269C0087B6D7 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		C210FFBD16F9F858003F2060 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		C2126AEB16D64D29005B0353 /* LocationMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationMapViewController.h; sourceTree = "<group>"; };
 		C2126AEC16D64D29005B0353 /* LocationMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationMapViewController.m; sourceTree = "<group>"; };
 		C220388D16BD371A00173D29 /* EditDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDetailViewController.h; sourceTree = "<group>"; };
@@ -744,7 +742,6 @@
 				1C38053516C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a in Frameworks */,
 				131BF67916D64337001D4422 /* TencentOpenAPI.framework in Frameworks */,
 				C2C3A83016F5EC26000DB182 /* libMobClickLibrary.a in Frameworks */,
-				C210FFBE16F9F858003F2060 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1331,7 +1328,6 @@
 			isa = PBXGroup;
 			children = (
 				C252AA8A16F9FA110048FEFA /* SystemConfiguration.framework */,
-				C210FFBD16F9F858003F2060 /* Crashlytics.framework */,
 				C2C3A83116F5EC62000DB182 /* libz.dylib */,
 				131BF67F16D64419001D4422 /* TencentOpenApi_IOS_Bundle.bundle */,
 				131BF67D16D6439A001D4422 /* libiconv.dylib */,
@@ -1417,7 +1413,6 @@
 				D25F6FDF16A6332D00ED7AF5 /* Sources */,
 				D25F6FE016A6332D00ED7AF5 /* Frameworks */,
 				D25F6FE116A6332D00ED7AF5 /* Resources */,
-				C210FFBC16F9F7CF003F2060 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1707,22 +1702,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		C210FFBC16F9F7CF003F2060 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run d4b5462f05904e8fff0d76b490b16edb5d201b70";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D25F6FDF16A6332D00ED7AF5 /* Sources */ = {
