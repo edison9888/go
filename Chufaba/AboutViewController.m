@@ -45,7 +45,7 @@
     aboutView.backgroundColor = [UIColor clearColor];
     aboutView.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:14];
     aboutView.textColor = [UIColor colorWithRed:77/255.0 green:73/255.0 blue:69/255.0 alpha:1.0];
-    aboutView.text = @"出发吧，是同样喜欢旅行的我们为您精心打造的一款自助游计划工具，希望它能帮你解决旅行期间的诸多不便，让你轻松享受旅行。\n\n您的意见和鼓励，是我们不断前行的动力。\n\n有些景，如果不站在高处，你永远不知道它有多美丽；\n\n有些路，如果不启程，你永远不知道它有多激动人心；\n\n出发吧，去看看这个世界！";
+    aboutView.text = @"出发吧，是同样喜欢旅行的我们为你精心打造的一款自助游计划工具，希望它能帮你解决旅行期间的诸多不便，让你轻松享受旅行。\n\n有些景，如果不站在高处，你永远不知道它有多美丽；\n\n有些路，如果不启程，你永远不知道它有多激动人心；\n\n出发吧，去看看这个世界！";
     
     [self.view addSubview:imageView];
     [self.view addSubview:aboutView];
