@@ -26,7 +26,6 @@
     [self createAndCheckDatabase];
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"bar"] forBarMetrics:UIBarMetricsDefault];
-    
     [[UINavigationBar appearance] setTitleTextAttributes:
      [NSDictionary dictionaryWithObjectsAndKeys:
       [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0], UITextAttributeTextColor,
