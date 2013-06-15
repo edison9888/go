@@ -8,7 +8,7 @@
 
 #import "ChufabaAppDelegate.h"
 #import "ItineraryViewController.h"
-//#import "SocialAccountManager.h"
+#import "SocialAccountManager.h"
 #import "MobClick.h"
 
 @implementation ChufabaAppDelegate
@@ -36,18 +36,18 @@
     [[UISearchBar appearance] setSearchFieldBackgroundImage:[[UIImage imageNamed:@"skuang"] stretchableImageWithLeftCapWidth:3 topCapHeight:0] forState:UIControlStateNormal];
     
     //self.sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:_viewController];
-//    self.sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:nil];
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    NSDictionary *sinaweiboInfo = [defaults objectForKey:@"SinaWeiboAuthData"];
-//    if ([sinaweiboInfo objectForKey:@"AccessTokenKey"] && [sinaweiboInfo objectForKey:@"ExpirationDateKey"] && [sinaweiboInfo objectForKey:@"UserIDKey"])
-//    {
-//        self.sinaweibo.accessToken = [sinaweiboInfo objectForKey:@"AccessTokenKey"];
-//        self.sinaweibo.expirationDate = [sinaweiboInfo objectForKey:@"ExpirationDateKey"];
-//        self.sinaweibo.userID = [sinaweiboInfo objectForKey:@"UserIDKey"];
-//    }
-//    
+    self.sinaweibo = [[SinaWeibo alloc] initWithAppKey:kAppKey appSecret:kAppSecret appRedirectURI:kAppRedirectURI andDelegate:nil];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *sinaweiboInfo = [defaults objectForKey:@"SinaWeiboAuthData"];
+    if ([sinaweiboInfo objectForKey:@"AccessTokenKey"] && [sinaweiboInfo objectForKey:@"ExpirationDateKey"] && [sinaweiboInfo objectForKey:@"UserIDKey"])
+    {
+        self.sinaweibo.accessToken = [sinaweiboInfo objectForKey:@"AccessTokenKey"];
+        self.sinaweibo.expirationDate = [sinaweiboInfo objectForKey:@"ExpirationDateKey"];
+        self.sinaweibo.userID = [sinaweiboInfo objectForKey:@"UserIDKey"];
+    }
+
     //weixin part
-    //[WXApi registerApp:@"wx9a0654e1d41f2482"];
+    [WXApi registerApp:@"wx9a0654e1d41f2482"];
     
     return YES;
 }
@@ -135,7 +135,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    //[self.sinaweibo applicationDidBecomeActive];
+    [self.sinaweibo applicationDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -143,56 +143,56 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
-{
-//    if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
-//    {
-//        return [WXApi handleOpenURL:url delegate:self];
-//    }
-    return NO;
-}
-
 //- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 //{
-//    if ([[url scheme] isEqualToString:@"sinaweibosso.3237810134"])
-//    {
-//        return [self.sinaweibo handleOpenURL:url];
-//    }
-//    else if ([[url scheme] isEqualToString:@"tencent100379396"])
-//    {
-//        return [TencentOAuth HandleOpenURL:url];
-//    }
-//    else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
-//    {
-//        return [WXApi handleOpenURL:url delegate:self];
-//    }
+////    if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+////    {
+////        return [WXApi handleOpenURL:url delegate:self];
+////    }
 //    return NO;
 //}
 
-//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-//{
-//    if ([[url scheme] isEqualToString:@"sinaweibosso.3237810134"])
-//    {
-//        return [self.sinaweibo handleOpenURL:url];
-//    }
-//    else if ([[url scheme] isEqualToString:@"tencent100379396"])
-//    {
-//        return [TencentOAuth HandleOpenURL:url];
-//    }
-//    else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
-//    {
-//        return [WXApi handleOpenURL:url delegate:self];
-//    }
-//    return NO;
-//}
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    if ([[url scheme] isEqualToString:@"sinaweibosso.3237810134"])
+    {
+        return [self.sinaweibo handleOpenURL:url];
+    }
+    else if ([[url scheme] isEqualToString:@"tencent100379396"])
+    {
+        return [TencentOAuth HandleOpenURL:url];
+    }
+    else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+    {
+        return [WXApi handleOpenURL:url delegate:self];
+    }
+    return NO;
+}
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-//    if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
-//    {
-//        return [WXApi handleOpenURL:url delegate:self];
-//    }
+    if ([[url scheme] isEqualToString:@"sinaweibosso.3237810134"])
+    {
+        return [self.sinaweibo handleOpenURL:url];
+    }
+    else if ([[url scheme] isEqualToString:@"tencent100379396"])
+    {
+        return [TencentOAuth HandleOpenURL:url];
+    }
+    else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+    {
+        return [WXApi handleOpenURL:url delegate:self];
+    }
     return NO;
 }
+
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+//{
+////    if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+////    {
+////        return [WXApi handleOpenURL:url delegate:self];
+////    }
+//    return NO;
+//}
 
 @end

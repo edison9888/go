@@ -35,7 +35,13 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = @"豆瓣登录";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonItemStyleBordered target:self action:@selector(cancelDouban:)];
+    
+    UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [closeBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+    [closeBtn setImage:[UIImage imageNamed:@"cancel_click"] forState:UIControlStateHighlighted];
+    [closeBtn addTarget:self action:@selector(cancelDouban:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
+    self.navigationItem.leftBarButtonItem = btn;
 	
     webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 435)];
     [webView setDelegate:self];
@@ -77,6 +83,7 @@
 - (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     //    NSString *urlStrig = request.URL.absoluteString;
     //    NSLog(@"urlStrig:%@", urlStrig);
+    
     NSURL *urlObj =  [request URL];
     NSString *url = [urlObj absoluteString];
     if ([url hasPrefix:kGTRedirectURI]) {

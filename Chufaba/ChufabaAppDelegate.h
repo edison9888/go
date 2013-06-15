@@ -7,24 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "WXApi.h"
+#import "WXApi.h"
 
-//#import "LoginViewController.h"
-//
-//#define kAppKey             @"3237810134"
-//#define kAppSecret          @"4567ec20cedfb0a482c287a0e66f5590"
-//#define kAppRedirectURI     @"http://chufaba.me"
-//
-//@class SinaWeibo;
-//@class LoginViewController;
+#import "LoginViewController.h"
 
-//@interface ChufabaAppDelegate : UIResponder <UIApplicationDelegate, WXApiDelegate>
-@interface ChufabaAppDelegate : UIResponder <UIApplicationDelegate>
+#define kAppKey             @"3237810134"
+#define kAppSecret          @"4567ec20cedfb0a482c287a0e66f5590"
+#define kAppRedirectURI     @"http://chufaba.me"
 
-//@property (strong, nonatomic) SinaWeibo *sinaweibo;
+@class SinaWeibo;
+@class LoginViewController;
+
+@interface ChufabaAppDelegate : UIResponder <UIApplicationDelegate, WXApiDelegate>
+//@interface ChufabaAppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) SinaWeibo *sinaweibo;
 
 @property (strong, nonatomic) UIWindow *window;
-//@property (strong, nonatomic) LoginViewController *loginViewController;
+@property (strong, nonatomic) LoginViewController *loginViewController;
 
 @property (nonatomic, strong) NSString *databaseName;
 @property (nonatomic, strong) NSString *databasePath;

@@ -262,13 +262,27 @@
                    httpHeaderFields:nil];
 }
 
+//- (void)getUserInfo {
+//    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.userID, @"uid", nil];
+//    [self loadRequestWithMethodName:@"v2/user/~me"
+//                         httpMethod:@"GET"
+//                             params:params
+//                       postDataType:kGTRequestPostDataTypeNone
+//                   httpHeaderFields:nil];
+//}
+
 - (void)getUserInfo {
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.userID, @"uid", nil];
+    NSMutableDictionary *mutableDictionary = [[[NSMutableDictionary alloc] init] autorelease];
+    //将获取到的access_token设置在http请求头中
+    NSString *tokenString = [NSString stringWithFormat: @"Bearer %@", self.accessToken];
+    //[mutableDictionary setObject:@"Bearer 493d918a0931b91adbb8b49e1b952b4e" forKey:@"Authorization"];
+    [mutableDictionary setObject:tokenString forKey:@"Authorization"];
     [self loadRequestWithMethodName:@"v2/user/~me"
                          httpMethod:@"GET"
                              params:params
                        postDataType:kGTRequestPostDataTypeNone
-                   httpHeaderFields:nil];
+                   httpHeaderFields:mutableDictionary];
 }
 
 #pragma mark - GTDoubanRequestDelegate Methods
