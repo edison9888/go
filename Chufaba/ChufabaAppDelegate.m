@@ -10,6 +10,15 @@
 #import "ItineraryViewController.h"
 #import "SocialAccountManager.h"
 #import "MobClick.h"
+#import "JsonFetcher.h"
+#import "SBJSON.h"
+
+@interface ChufabaAppDelegate()
+{
+    JSONFetcher *fetcher;
+    NSTimer *timer;
+}
+@end
 
 @implementation ChufabaAppDelegate
 
@@ -24,6 +33,8 @@
     self.databasePath = [documentDir stringByAppendingPathComponent:self.databaseName];
     
     [self createAndCheckDatabase];
+    
+    [self updatePois];
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"bar"] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTitleTextAttributes:
@@ -113,6 +124,60 @@
         // Release the compiled statement from memory
         sqlite3_finalize(statement);
         sqlite3_close(database);
+    }
+}
+
+-(void) updatePois
+{
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    NSMutableArray *pois = [NSMutableArray array];
+    FMResultSet *results = [db executeQuery:@"SELECT poi_id FROM location WHERE useradd = 0"];
+    while([results next])
+    {
+        [pois addObject:[results objectForKeyedSubscript:@"poi_id"]];
+    }
+    [db close];
+    
+    NSString *body = [NSString stringWithFormat:@"{\"ids\" : %@}", [pois JSONRepresentation]];
+    fetcher = [[JSONFetcher alloc]
+               initWithURLString: @"http://chufaba.me:9200/cfb/poi/_mget"
+               body: body
+               timeout: 3
+               receiver:self
+               action:@selector(receiveUpdates:)];
+    fetcher.showAlerts = NO;
+    [fetcher start];
+    timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(updateTimeout) userInfo:nil repeats:NO];
+}
+
+- (void)receiveUpdates:(JSONFetcher *)aFetcher
+{
+    if (timer) {
+        [timer invalidate];
+        timer = nil;
+    }
+    NSArray *docs = [(NSDictionary *)aFetcher.result objectForKey:@"docs"];
+    if ([docs count] > 0) {
+        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+        [db open];
+        for (NSDictionary *doc in docs) {
+            BOOL exists = [doc objectForKey:@"exists"];
+            if (exists) {
+                NSDictionary *poi = [doc objectForKey:@"_source"];
+                NSDictionary *location = [poi objectForKey:@"location"];
+                [db executeUpdate:@"UPDATE location set latitude = ?, longitude = ?, address = ?, transportation = ?, opening = ?, fee = ?, website = ? WHERE poi_id = ?", [location objectForKey:@"lat"], [location objectForKey:@"lon"], [poi objectForKey:@"address"], [poi objectForKey:@"transport"], [poi objectForKey:@"opening"], [poi objectForKey:@"fee"], [poi objectForKey:@"website"], [poi objectForKey:@"id"]];
+            }
+        }
+        [db close];
+    }
+    fetcher = nil;
+}
+
+- (void)updateTimeout
+{
+    if (fetcher) {
+        [fetcher cancel];
     }
 }
 

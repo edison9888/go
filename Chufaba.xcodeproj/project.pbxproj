@@ -1944,7 +1944,7 @@
 		D25F700B16A6332E00ED7AF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Xinxin Zhang";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1963,7 +1963,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "出发吧";
-				PROVISIONING_PROFILE = "10487B57-976F-4454-95F7-42474CA9DC29";
+				PROVISIONING_PROFILE = "";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1972,7 +1972,7 @@
 		D25F700C16A6332E00ED7AF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Xinxin Zhang";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1991,7 +1991,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "出发吧";
-				PROVISIONING_PROFILE = "10487B57-976F-4454-95F7-42474CA9DC29";
+				PROVISIONING_PROFILE = "";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
