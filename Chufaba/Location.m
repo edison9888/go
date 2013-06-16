@@ -7,6 +7,7 @@
 //
 
 #import "Location.h"
+#import "FMDBDataAccess.h"
 
 @interface Location()
 {
@@ -116,6 +117,56 @@
     }else{
         return (NSString *)[imageArray objectAtIndex:row];
     }
+}
+
+- (void)setPoiData:(NSDictionary *)poi
+{
+    self.poiId = [poi objectForKey: @"id"];
+    self.name = [poi objectForKey: @"name"];
+    self.nameEn = [poi objectForKey: @"name_en"];
+    self.country = [poi objectForKey: @"country"];
+    self.city = [poi objectForKey: @"city"];
+    self.category = [poi objectForKey:@"category"];
+    self.address = [poi objectForKey:@"address"];
+    
+    NSDictionary *point = [poi objectForKey:@"location"];
+    self.latitude = [point objectForKey:@"lat"];
+    self.longitude = [point objectForKey:@"lon"];
+    
+    if ([[poi objectForKey:@"status"] intValue] == 1) {
+        self.transportation = [poi objectForKey:@"transport"];
+        self.opening = [poi objectForKey:@"opening"];
+        self.fee = [poi objectForKey:@"fee"];
+        self.website = [poi objectForKey:@"website"];
+    } else {
+        self.transportation = nil;
+        self.opening = nil;
+        self.fee = nil;
+        self.website = nil;
+    }
+}
+
+- (Boolean)save
+{
+    Boolean result = NO;
+    if (self.locationId == nil) {
+        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+        [db open];
+        result = [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd,poi_id,opening,fee,website) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",self.planId,self.whichday,self.seqofday,self.name, self.nameEn,self.country,self.city,self.address,self.transportation,self.category,self.latitude,self.longitude,[NSNumber numberWithBool:self.useradd],self.poiId,self.opening,self.fee,self.website];
+        if (!result) {
+            NSLog([db lastErrorMessage]);
+        }
+        [db close];
+    }else{
+        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+        [db open];
+        result = [db executeUpdate:@"UPDATE location set plan_id = ?, whichday = ?, seqofday = ?, name = ?, name_en = ?, country = ?, city = ?, address = ?, transportation = ?, category = ?, latitude = ?, longitude = ?, useradd = ?, poi_id = ?, opening = ?, fee = ?, website = ? WHERE id = ?", self.planId, self.whichday, self.seqofday, self.name, self.nameEn, self.country, self.city, self.address, self.transportation, self.category, self.latitude, self.longitude, self.useradd, self.poiId, self.opening, self.fee, self.website, self.locationId];
+        if (!result) {
+            NSLog([db lastErrorMessage]);
+        }
+        [db close];
+    }
+    return result;
 }
 
 @end

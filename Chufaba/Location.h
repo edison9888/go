@@ -11,6 +11,7 @@
 @interface Location : NSObject
 
 @property (nonatomic, copy) NSNumber *locationId;
+@property (nonatomic, copy) NSNumber *planId;
 @property (nonatomic, copy) NSNumber *whichday;
 @property (nonatomic, copy) NSNumber *seqofday;
 
@@ -51,5 +52,8 @@
 - (NSUInteger)numberOfRowsInInfoSection;
 - (NSString *)contentForRow:(NSInteger)row;
 - (NSString *)imageNameForRow:(NSInteger)row;
+
+- (void)setPoiData:(NSDictionary *)poi;
+- (Boolean)save;
 
 @end
