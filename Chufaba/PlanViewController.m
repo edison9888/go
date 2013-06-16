@@ -345,6 +345,7 @@
         itineraryViewController.itineraryDelegate = self;
         Plan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
         itineraryViewController.dataController.date = selectedPlan.date;
+        [itineraryViewController updatePois:selectedPlan.planId];
         NSMutableArray *tempList = [[NSMutableArray alloc] init];
         for (int i = 0; i < [selectedPlan.duration intValue]; i++)
         {

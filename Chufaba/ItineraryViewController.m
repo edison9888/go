@@ -13,6 +13,7 @@
 #import "ItineraryDataController.h"
 #import "SearchLocationViewController.h"
 #import "LocationAnnotation.h"
+#import "AFHTTPClient.h"
 //#import "ShareViewController.h"
 
 @interface ItineraryViewController () {
@@ -1429,4 +1430,68 @@
     [self updateFooterView];
 }
 
+-(void) updatePois:(NSNumber *)planId
+{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *defaultsKey = [NSString stringWithFormat:@"update_plan_%d", planId.intValue];
+    NSNumber *lastUpdate = (NSNumber *)[userDefaults objectForKey:defaultsKey];
+    int now = (int)[[NSDate date] timeIntervalSince1970];
+    if(now < ([lastUpdate intValue] + 86400)){
+        return;
+    }
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+                                             (unsigned long)NULL), ^(void) {
+        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+        [db open];
+        NSMutableArray *pois = [NSMutableArray array];
+        FMResultSet *results = [db executeQuery:@"SELECT poi_id FROM location WHERE useradd = 0 and plan_id = ?", planId];
+        while([results next])
+        {
+            [pois addObject:[results objectForKeyedSubscript:@"poi_id"]];
+        }
+        [db close];
+        
+        if (pois.count == 0) {
+            return;
+        }
+        
+        NSURL *url = [NSURL URLWithString:@"http://chufaba.me:9200"];
+        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+        httpClient.parameterEncoding = AFJSONParameterEncoding;
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                pois, @"ids",
+                                nil];
+        [httpClient postPath:@"/cfb/poi/_mget" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSError *error = nil;
+            NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:&error];
+            if (error) {
+                NSLog(@"Error serializing %@", error);
+            } else {
+                NSArray *docs = [responseJSON objectForKey:@"docs"];
+                if ([docs count] > 0) {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+                                                             (unsigned long)NULL), ^(void) {
+                        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+                        [db open];
+                        for (NSDictionary *doc in docs) {
+                            BOOL exists = [doc objectForKey:@"exists"];
+                            if (exists) {
+                                NSDictionary *poi = [doc objectForKey:@"_source"];
+                                NSDictionary *location = [poi objectForKey:@"location"];
+                                [db executeUpdate:@"UPDATE location set latitude = ?, longitude = ?, address = ?, transportation = ?, opening = ?, fee = ?, website = ? WHERE poi_id = ?", [location objectForKey:@"lat"], [location objectForKey:@"lon"], [poi objectForKey:@"address"], [poi objectForKey:@"transport"], [poi objectForKey:@"opening"], [poi objectForKey:@"fee"], [poi objectForKey:@"website"], [poi objectForKey:@"id"]];
+                            }
+                        }
+                        [db close];
+                        [userDefaults setObject:[NSNumber numberWithInt:now] forKey:defaultsKey];
+                        [userDefaults synchronize];
+                    });
+                }
+            }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
+        }];
+    });
+}
 @end
