@@ -14,7 +14,7 @@
 {
     UIWebView *webView;
     UIButton *closeButton;
-    UIView *modalBackgroundView;
+    //UIView *modalBackgroundView;
     UIActivityIndicatorView *indicatorView;
     UIInterfaceOrientation previousOrientation;
     

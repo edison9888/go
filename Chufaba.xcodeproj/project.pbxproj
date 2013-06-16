@@ -138,6 +138,7 @@
 		13321A9B17426E3E003936AE /* prevmap_click@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13321A9717426E3E003936AE /* prevmap_click@2x.png */; };
 		1337E51716BBEBFE0039F257 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51616BBEBFE0039F257 /* MapKit.framework */; };
 		1337E51A16BBEC070039F257 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337E51916BBEC070039F257 /* CoreLocation.framework */; };
+		13397787176D8BCB009E1512 /* SinaWeiboAuthorizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13397786176D8BCB009E1512 /* SinaWeiboAuthorizeViewController.m */; };
 		13397E4F16EF64190071F2B2 /* logo_bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13397E4D16EF64190071F2B2 /* logo_bar@2x.png */; };
 		13397E5016EF64190071F2B2 /* logo_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 13397E4E16EF64190071F2B2 /* logo_bar.png */; };
 		133A73FC174D097E009EE1E7 /* AddPlanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 133A73FB174D097D009EE1E7 /* AddPlanTableViewCell.m */; };
@@ -478,6 +479,8 @@
 		13321A9717426E3E003936AE /* prevmap_click@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prevmap_click@2x.png"; sourceTree = "<group>"; };
 		1337E51616BBEBFE0039F257 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1337E51916BBEC070039F257 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		13397785176D8BCB009E1512 /* SinaWeiboAuthorizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinaWeiboAuthorizeViewController.h; sourceTree = "<group>"; };
+		13397786176D8BCB009E1512 /* SinaWeiboAuthorizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinaWeiboAuthorizeViewController.m; sourceTree = "<group>"; };
 		13397E4D16EF64190071F2B2 /* logo_bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_bar@2x.png"; sourceTree = "<group>"; };
 		13397E4E16EF64190071F2B2 /* logo_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_bar.png; sourceTree = "<group>"; };
 		133A73FA174D097D009EE1E7 /* AddPlanTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPlanTableViewCell.h; sourceTree = "<group>"; };
@@ -1236,6 +1239,8 @@
 				1CE918C116C8B7A000AA5987 /* SinaWeiboConstants.h */,
 				1CE918C216C8B7A000AA5987 /* SinaWeiboRequest.h */,
 				1CE918C316C8B7A000AA5987 /* SinaWeiboRequest.m */,
+				13397785176D8BCB009E1512 /* SinaWeiboAuthorizeViewController.h */,
+				13397786176D8BCB009E1512 /* SinaWeiboAuthorizeViewController.m */,
 			);
 			path = SinaWeibo;
 			sourceTree = "<group>";
@@ -1864,6 +1869,7 @@
 				1360B382176C1663009734DE /* WBUtil.m in Sources */,
 				1360B385176C16F2009734DE /* SocialAccountManager.m in Sources */,
 				1360B388176C1813009734DE /* ShareViewController.m in Sources */,
+				13397787176D8BCB009E1512 /* SinaWeiboAuthorizeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1949,7 +1955,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Chufaba\"",
-					"\"$(SRCROOT)/../../../../Downloads\"",
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1977,7 +1982,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Chufaba\"",
-					"\"$(SRCROOT)/../../../../Downloads\"",
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

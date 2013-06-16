@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SinaWeiboAuthorizeView.h"
+//#import "SinaWeiboAuthorizeView.h"
+#import "SinaWeiboAuthorizeViewController.h"
 #import "SinaWeiboRequest.h"
 
 @protocol SinaWeiboDelegate;

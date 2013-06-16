@@ -11,6 +11,8 @@
 #import "SinaWeiboAuthorizeView.h"
 #import "SinaWeiboConstants.h"
 
+#import "ChufabaAppDelegate.h"
+
 @interface SinaWeibo ()
 
 @property (nonatomic, copy) NSString *appKey;
@@ -277,6 +279,68 @@
 /**
  * @description 登录入口，当初始化SinaWeibo对象完成后直接调用此方法完成登录
  */
+//- (void)logIn
+//{
+//    if ([self isAuthValid])
+//    {
+//        if ([delegate respondsToSelector:@selector(sinaweiboDidLogIn:)])
+//        {
+//            [delegate sinaweiboDidLogIn:self];
+//        }
+//    }
+//    else
+//    {
+//        [self removeAuthData];
+//        
+//        ssoLoggingIn = NO;
+//        
+//        // open sina weibo app
+//        UIDevice *device = [UIDevice currentDevice];
+//        if ([device respondsToSelector:@selector(isMultitaskingSupported)] &&
+//            [device isMultitaskingSupported])
+//        {
+//            NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+//                                    self.appKey, @"client_id",
+//                                    self.appRedirectURI, @"redirect_uri",
+//                                    self.ssoCallbackScheme, @"callback_uri", nil];
+//            
+//            // 先用iPad微博打开
+//            NSString *appAuthBaseURL = kSinaWeiboAppAuthURL_iPad;
+//            if (SinaWeiboIsDeviceIPad())
+//            {
+//                NSString *appAuthURL = [SinaWeiboRequest serializeURL:appAuthBaseURL
+//                                                               params:params httpMethod:@"GET"];
+//                ssoLoggingIn = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appAuthURL]];
+//            }
+//            
+//            // 在用iPhone微博打开
+//            if (!ssoLoggingIn)
+//            {
+//                appAuthBaseURL = kSinaWeiboAppAuthURL_iPhone;
+//                NSString *appAuthURL = [SinaWeiboRequest serializeURL:appAuthBaseURL
+//                                                               params:params httpMethod:@"GET"];
+//                ssoLoggingIn = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appAuthURL]];
+//            }
+//        }
+//        
+//        if (!ssoLoggingIn)
+//        {
+//            // open authorize view
+//            
+//            NSDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+//                                    self.appKey, @"client_id",
+//                                    @"code", @"response_type",
+//                                    self.appRedirectURI, @"redirect_uri",
+//                                    @"mobile", @"display", nil];
+//            
+//            //SinaWeiboAuthorizeView *authorizeView = [[SinaWeiboAuthorizeView alloc] initWithAuthParams:params delegate:self];
+//            SinaWeiboAuthorizeView *authorizeView = [[SinaWeiboAuthorizeView alloc] initWithAuthParams:params delegate:self];
+//            [authorizeView show];
+//            [authorizeView release];
+//        }
+//    }
+//}
+
 - (void)logIn
 {
     if ([self isAuthValid])
@@ -333,8 +397,15 @@
             
             //SinaWeiboAuthorizeView *authorizeView = [[SinaWeiboAuthorizeView alloc] initWithAuthParams:params delegate:self];
             SinaWeiboAuthorizeView *authorizeView = [[SinaWeiboAuthorizeView alloc] initWithAuthParams:params delegate:self];
-            [authorizeView show];
-            [authorizeView release];
+            //[authorizeView show];
+            //[authorizeView release];
+            
+            SinaWeiboAuthorizeViewController *sinaWeiboViewController = [[SinaWeiboAuthorizeViewController alloc] init];
+            [sinaWeiboViewController initWithSinaAuthorizeView:authorizeView];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:sinaWeiboViewController];
+            
+            ChufabaAppDelegate *chufabaDelegate = (ChufabaAppDelegate *)[UIApplication sharedApplication].delegate;
+            [chufabaDelegate.loginViewController presentViewController:navController animated:YES completion:NULL];
         }
     }
 }
