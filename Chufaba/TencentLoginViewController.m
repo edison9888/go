@@ -1,18 +1,18 @@
 //
-//  SinaWeiboAuthorizeViewController.m
+//  TencentLoginViewController.m
 //  Chufaba
 //
 //  Created by 张辛欣 on 13-6-16.
 //  Copyright (c) 2013年 ChufabaAPP团队. All rights reserved.
 //
 
-#import "SinaWeiboAuthorizeViewController.h"
+#import "TencentLoginViewController.h"
 
-@interface SinaWeiboAuthorizeViewController ()
+@interface TencentLoginViewController ()
 
 @end
 
-@implementation SinaWeiboAuthorizeViewController
+@implementation TencentLoginViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,27 +26,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"微博登录";
+    self.navigationItem.title = @"QQ登录";
     
     UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [closeBtn setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
     [closeBtn setImage:[UIImage imageNamed:@"cancel_click"] forState:UIControlStateHighlighted];
-    [closeBtn addTarget:self action:@selector(cancelWeibo:) forControlEvents:UIControlEventTouchUpInside];
+    [closeBtn addTarget:self action:@selector(cancelQq:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
     self.navigationItem.leftBarButtonItem = btn;
     
-    [self.view addSubview:self.authorizeView];
-    [self.authorizeView show];
+    [self.view addSubview:self.loginView];
+    [self.loginView show];
 }
 
-- (void)cancelWeibo:(id)sender
+- (void)initWithTencentLoginView:(TencentLoginView *)view
+{
+    self.loginView = view;
+}
+
+- (void)cancelQq:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (void)initWithSinaAuthorizeView:(SinaWeiboAuthorizeView *)view;
-{
-    self.authorizeView = view;
 }
 
 - (void)didReceiveMemoryWarning

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SinaWeibo.h"
 #import "SinaWeiboRequest.h"
-#import <TencentOpenAPI/TencentOAuth.h>
+#import "TencentOAuth.h"
 #import "GTDouban.h"
 
 @class SocialAccountManager;

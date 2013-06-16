@@ -159,7 +159,7 @@
     }
     else if(self.tableView.indexPathForSelectedRow.section == 2)
     {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"你确定登出账户吗？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"确定", nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"退出后行程修改不能同步到云端" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil, nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
         [actionSheet showInView:self.view];
     }

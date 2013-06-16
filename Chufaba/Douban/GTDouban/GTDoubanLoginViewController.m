@@ -46,6 +46,9 @@
     webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 435)];
     [webView setDelegate:self];
     
+    webView.scrollView.scrollEnabled = NO;
+    webView.scrollView.bounces = NO;
+    
     [self loadRequestWithURL:[NSURL URLWithString:requestURL]];
     [self.view addSubview:webView];
     

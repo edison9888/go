@@ -223,10 +223,10 @@
     {
         return [self.sinaweibo handleOpenURL:url];
     }
-    else if ([[url scheme] isEqualToString:@"tencent100379396"])
-    {
-        return [TencentOAuth HandleOpenURL:url];
-    }
+//    else if ([[url scheme] isEqualToString:@"tencent100379396"])
+//    {
+//        return [TencentOAuth HandleOpenURL:url];
+//    }
     else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
     {
         return [WXApi handleOpenURL:url delegate:self];
@@ -240,10 +240,10 @@
     {
         return [self.sinaweibo handleOpenURL:url];
     }
-    else if ([[url scheme] isEqualToString:@"tencent100379396"])
-    {
-        return [TencentOAuth HandleOpenURL:url];
-    }
+//    else if ([[url scheme] isEqualToString:@"tencent100379396"])
+//    {
+//        return [TencentOAuth HandleOpenURL:url];
+//    }
     else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
     {
         return [WXApi handleOpenURL:url delegate:self];

@@ -15,11 +15,8 @@
 - (id) init
 {
     if (self = [super init]) {
-        permissions = [NSArray arrayWithObjects:
-                        kOPEN_PERMISSION_GET_USER_INFO,
-                        kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,
-                        kOPEN_PERMISSION_ADD_SHARE,
-                        nil];
+        //permissions = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_SHARE, nil];
+        permissions =  [NSArray arrayWithObjects:@"get_user_info", @"add_share", nil];
         tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"100379396" andDelegate:self];
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
