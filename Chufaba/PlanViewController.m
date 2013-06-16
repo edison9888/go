@@ -363,8 +363,8 @@
         {
             int dayID = [results intForColumn:@"whichday"]-1;
             Location *location = [[Location alloc] init];
-            location.planId = [NSNumber numberWithInt:[results intForColumn:@"plan_id"]];
             location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
+            location.planId = [NSNumber numberWithInt:[results intForColumn:@"plan_id"]];
             location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
             location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
             location.name = [results stringForColumn:@"name"];

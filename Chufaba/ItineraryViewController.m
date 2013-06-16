@@ -83,6 +83,7 @@
     {
         Location *location = [[Location alloc] init];
         location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
+        location.planId = self.plan.planId;
         location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
         location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
         location.name = [results stringForColumn:@"name"];
@@ -1115,11 +1116,7 @@
         [[self.dataController objectInListAtIndex:[location.whichday intValue]-1] replaceObjectAtIndex:[location.seqofday intValue]-1 withObject:location];
     }
     [self.tableView reloadData];
-    
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    [db executeUpdate:@"UPDATE location set name = ?, visit_begin = ?, detail = ?, latitude = ?, longitude = ? WHERE id = ?", location.name, location.visitBegin, location.detail, location.latitude, location.longitude, location.locationId];
-    [db close];
+    [location save];
 }
 
 #pragma mark - Table View
@@ -1181,7 +1178,7 @@
         {
             Location *locationAtIndex = (Location *)object;
             
-            cell.textLabel.text = locationAtIndex.name;
+            cell.textLabel.text = [locationAtIndex getTitle];
             if (locationAtIndex.visitBegin)
             {
                 cell.detailTextLabel.text = locationAtIndex.visitBegin;

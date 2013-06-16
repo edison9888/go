@@ -43,10 +43,9 @@
 + (NSString *)getLocationCategoryByJiepangCategoryId:(NSString *)category;
 
 - (BOOL)hasCoordinate;
-
-- (NSString *)getNameAndCity;
-- (NSString *)getRealName;
-- (NSString *)getRealNameEn;
+- (NSString *)getTitle;
+- (NSString *)getTitleWithCity;
+- (NSString *)getSubtitle;
 
 - (NSUInteger)numberOfSections;
 - (NSUInteger)numberOfRowsInInfoSection;
@@ -54,6 +53,7 @@
 - (NSString *)imageNameForRow:(NSInteger)row;
 
 - (void)setPoiData:(NSDictionary *)poi;
+- (void)updatePoiData:(NSDictionary *)poi;
 - (Boolean)save;
 
 @end

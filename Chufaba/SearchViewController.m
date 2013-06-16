@@ -719,11 +719,10 @@
 - (void)addCustomLocation:(Location *)location
 {
     shouldUpdateItinerary = YES;
-    
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd,poi_id,opening,fee,website) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",self.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude,[NSNumber numberWithBool:location.useradd],location.poiId,location.opening,location.fee,location.website];
-    [db close];
+    location.planId = self.planId;
+    location.whichday = self.dayToAdd;
+    location.seqofday = self.seqToAdd;
+    [location save];
     
     self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
     iToastSettings *theSettings = [iToastSettings getSharedSettings];

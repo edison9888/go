@@ -58,7 +58,9 @@
         {
             for (Location *location in dayLocations)
             {
-                [pois addObject:location.poiId];
+                if (!location.useradd) {
+                    [pois addObject:location.poiId];
+                }
             }
         }
         if (pois.count == 0) {
@@ -84,9 +86,8 @@
                         //两次循环，先用poi_id做key保存一个dict，再遍历所有location，复杂度为O(N)，空间换时间
                         NSMutableDictionary *updatedPois = [[NSMutableDictionary alloc] initWithCapacity:docs.count];
                         for (NSDictionary *doc in docs) {
-                            BOOL exists = [doc objectForKey:@"exists"];
-                            if (exists) {
-                                NSDictionary *poi = [doc objectForKey:@"_source"];
+                            NSDictionary *poi = [doc objectForKey:@"_source"];
+                            if (poi) {
                                 [updatedPois setObject:poi forKey:[poi objectForKey:@"id"]];
                             }
                         }
@@ -95,8 +96,9 @@
                         {
                             for (Location *location in dayLocations)
                             {
-                                [location setPoiData:[updatedPois objectForKey:location.poiId]];
-                                [location save];
+                                if (!location.useradd) {
+                                    [location updatePoiData:[updatedPois objectForKey:location.poiId]];
+                                }
                             }
                         }
                         [userDefaults setObject:[NSNumber numberWithInt:now] forKey:defaultsKey];
