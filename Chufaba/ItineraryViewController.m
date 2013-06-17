@@ -147,6 +147,7 @@
 #define DAY_FILTER_FONT_SIZE 20
 #define TAG_DAY_FILTER_ARROW 1
 #define TAG_LINE_VIEW 10000
+#define TAG_DETAIL_INDICATOR 10001
 
 #pragma mark - Synchronize Model and View
 - (void)updateMapView
@@ -1204,6 +1205,21 @@
             }
             cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
             cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall"]];
+            
+            if([cell.contentView viewWithTag:TAG_DETAIL_INDICATOR])
+            {
+                [[cell.contentView viewWithTag:TAG_DETAIL_INDICATOR] removeFromSuperview];
+            }
+            
+            if(locationAtIndex.detail.length)
+            {
+                CGSize expectedLabelSize = [cell.textLabel.text sizeWithFont:cell.textLabel.font constrainedToSize:CGSizeMake(200,18) lineBreakMode:cell.textLabel.lineBreakMode];
+                
+                UIImageView *detailIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(expectedLabelSize.width+44, 8, 12, 12)];
+                detailIndicator.image = [UIImage imageNamed:@"detail_indi"];
+                detailIndicator.tag = TAG_DETAIL_INDICATOR;
+                [cell.contentView addSubview:detailIndicator];
+            }
             
             if([cell.contentView viewWithTag:TAG_LINE_VIEW])
             {
