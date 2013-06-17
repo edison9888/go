@@ -51,7 +51,6 @@
 - (BOOL) hasOneLocation;
 - (NSIndexPath *) indexPathForTappedAnnotation;
 - (NSInteger) oneDimensionCountOfIndexPath:(NSIndexPath *)indexPath;
-- (void) updatePois:(NSNumber *)planId;
 
 //JTGesture code
 @property (nonatomic, strong) JTTableViewGestureRecognizer *tableViewRecognizer;

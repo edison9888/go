@@ -93,7 +93,7 @@
 - (void)configureView
 {
     if (self.location) {
-        self.navigationItem.title = self.location.name;
+        self.navigationItem.title = [self.location getTitle];
         [self configureSegment];
         [self configureTable];
         [self configureDate];
@@ -535,34 +535,32 @@
         addressLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
         [nameScroll addSubview:addressLabel];
     }
+    
+    nameLabel.text = [self.location getTitleWithCity];
+    eNameLabel.text = [self.location getSubtitle];
+    addressLabel.text = self.location.address;
 
     CGPoint nameLabelOrigin = CGPointMake(0, 5);
     CGPoint nameEnLabelOrigin = CGPointMake(0, 26);
     CGPoint addressLabelOrigin = CGPointMake(0, 42);
-    if (self.location.nameEn.length == 0 && self.location.address.length == 0) {
+    
+    if (eNameLabel.text.length == 0 && addressLabel.text.length == 0) {
         nameLabelOrigin = CGPointMake(0, 22);
-    } else if (self.location.nameEn.length == 0) {
+    } else if (eNameLabel.text.length == 0) {
         nameLabelOrigin = CGPointMake(0, 13);
         addressLabelOrigin = CGPointMake(0, 37);
-    } else if (self.location.address.length == 0) {
+    } else if (addressLabel.text.length == 0) {
         nameLabelOrigin = CGPointMake(0, 13);
         nameEnLabelOrigin = CGPointMake(0, 37);
     }
     
     nameLabel.frame = CGRectMake(nameLabelOrigin.x, nameLabelOrigin.y, self.view.frame.size.width, NAME_LABEL_HEIGHT);
-    nameLabel.text = [self.location getNameAndCity];
-    [nameLabel sizeToFit];
-    
-    
     eNameLabel.frame = CGRectMake(nameEnLabelOrigin.x, nameEnLabelOrigin.y, self.view.frame.size.width, NAME_LABEL_HEIGHT);
-    eNameLabel.text = self.location.nameEn;
-    [eNameLabel sizeToFit];
-    
-    
     addressLabel.frame = CGRectMake(addressLabelOrigin.x, addressLabelOrigin.y, self.view.frame.size.width, ADDRESS_LABEL_HEIGHT);
-    addressLabel.text = self.location.address;
-    [addressLabel sizeToFit];
     
+    [nameLabel sizeToFit];
+    [eNameLabel sizeToFit];
+    [addressLabel sizeToFit];
     CGFloat nameWidth = nameLabel.frame.size.width;
     CGFloat eNameWidth = eNameLabel.frame.size.width;
     CGFloat addressWidth = addressLabel.frame.size.width;

@@ -694,35 +694,13 @@
     UIButton *button = (UIButton*)sender;
     UITableViewCell *cell = (UITableViewCell *)button.superview.superview;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
     Location *location = [[Location alloc] init];
-    location.poiId = [locationAtIndex objectForKey: @"id"];
-    location.name = [locationAtIndex objectForKey: @"name"];
-    location.nameEn = [locationAtIndex objectForKey: @"name_en"];
-    location.country = [locationAtIndex objectForKey: @"country"];
-    location.city = [locationAtIndex objectForKey: @"city"];
-    location.category = [locationAtIndex objectForKey:@"category"];
-    location.address = [locationAtIndex objectForKey:@"address"];
-    NSDictionary *point = [locationAtIndex objectForKey:@"location"];
-    location.latitude = [point objectForKey:@"lat"];
-    location.longitude = [point objectForKey:@"lon"];
-
-    if ([[locationAtIndex objectForKey:@"status"] intValue] == 1) {
-        location.transportation = [locationAtIndex objectForKey:@"transport"];
-        location.opening = [locationAtIndex objectForKey:@"opening"];
-        location.fee = [locationAtIndex objectForKey:@"fee"];
-        location.website = [locationAtIndex objectForKey:@"website"];
-    }
-    
+    [location setPoiData:[(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"]];
+    location.planId = self.planId;
     location.whichday = self.dayToAdd;
     location.seqofday = self.seqToAdd;
-    
     [self.poiArray addObject:location.poiId];
-    
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd,poi_id,opening,fee,website) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",self.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude,[NSNumber numberWithBool:location.useradd],location.poiId,location.opening,location.fee,location.website];
-    [db close];
+    [location save];
     
     //increase seqToAdd
     self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
@@ -741,11 +719,10 @@
 - (void)addCustomLocation:(Location *)location
 {
     shouldUpdateItinerary = YES;
-    
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    [db executeUpdate:@"INSERT INTO location (plan_id,whichday,seqofday,name,name_en,country,city,address,transportation,category,latitude,longitude,useradd,poi_id,opening,fee,website) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",self.planId,self.dayToAdd,self.seqToAdd,[location getRealName],[location getRealNameEn],location.country,location.city,location.address,location.transportation,location.category,location.latitude,location.longitude,[NSNumber numberWithBool:location.useradd],location.poiId,location.opening,location.fee,location.website];
-    [db close];
+    location.planId = self.planId;
+    location.whichday = self.dayToAdd;
+    location.seqofday = self.seqToAdd;
+    [location save];
     
     self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
     iToastSettings *theSettings = [iToastSettings getSharedSettings];

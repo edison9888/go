@@ -345,7 +345,7 @@
         itineraryViewController.itineraryDelegate = self;
         Plan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
         itineraryViewController.dataController.date = selectedPlan.date;
-        [itineraryViewController updatePois:selectedPlan.planId];
+        
         NSMutableArray *tempList = [[NSMutableArray alloc] init];
         for (int i = 0; i < [selectedPlan.duration intValue]; i++)
         {
@@ -363,8 +363,8 @@
         {
             int dayID = [results intForColumn:@"whichday"]-1;
             Location *location = [[Location alloc] init];
-            //location.locationId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
             location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
+            location.planId = [NSNumber numberWithInt:[results intForColumn:@"plan_id"]];
             location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
             location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
             location.name = [results stringForColumn:@"name"];
@@ -387,13 +387,14 @@
             location.website = [results stringForColumn:@"website"];
             [[tempList objectAtIndex:dayID] addObject:location];
         }
+        [db close];
         itineraryViewController.dataController.masterTravelDayList = tempList;
         itineraryViewController.dataController.itineraryDuration = selectedPlan.duration;
         itineraryViewController.itineraryListBackup = tempList;
         itineraryViewController.daySelected = [NSNumber numberWithInt:0];
         itineraryViewController.plan = selectedPlan;
-        [db close];
-        
+        itineraryViewController.dataController.plan = selectedPlan;
+        [itineraryViewController.dataController updatePois];
     }
     else if ([[segue identifier] isEqualToString:@"AddPlan"])
     {

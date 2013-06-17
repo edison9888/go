@@ -13,7 +13,6 @@
 #import "ItineraryDataController.h"
 #import "SearchLocationViewController.h"
 #import "LocationAnnotation.h"
-#import "AFHTTPClient.h"
 //#import "ShareViewController.h"
 
 #import "WXApi.h"
@@ -84,6 +83,7 @@
     {
         Location *location = [[Location alloc] init];
         location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
+        location.planId = self.plan.planId;
         location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
         location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
         location.name = [results stringForColumn:@"name"];
@@ -1131,11 +1131,7 @@
         [[self.dataController objectInListAtIndex:[location.whichday intValue]-1] replaceObjectAtIndex:[location.seqofday intValue]-1 withObject:location];
     }
     [self.tableView reloadData];
-    
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    [db executeUpdate:@"UPDATE location set name = ?, visit_begin = ?, detail = ?, latitude = ?, longitude = ? WHERE id = ?", location.name, location.visitBegin, location.detail, location.latitude, location.longitude, location.locationId];
-    [db close];
+    [location save];
 }
 
 #pragma mark - Table View
@@ -1197,7 +1193,7 @@
         {
             Location *locationAtIndex = (Location *)object;
             
-            cell.textLabel.text = locationAtIndex.name;
+            cell.textLabel.text = [locationAtIndex getTitle];
             if (locationAtIndex.visitBegin)
             {
                 cell.detailTextLabel.text = locationAtIndex.visitBegin;
@@ -1528,70 +1524,5 @@
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     
     [self updateFooterView];
-}
-
--(void) updatePois:(NSNumber *)planId
-{
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *defaultsKey = [NSString stringWithFormat:@"update_plan_%d", planId.intValue];
-    NSNumber *lastUpdate = (NSNumber *)[userDefaults objectForKey:defaultsKey];
-    int now = (int)[[NSDate date] timeIntervalSince1970];
-    if(now < ([lastUpdate intValue] + 86400)){
-        return;
-    }
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
-                                             (unsigned long)NULL), ^(void) {
-        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-        [db open];
-        NSMutableArray *pois = [NSMutableArray array];
-        FMResultSet *results = [db executeQuery:@"SELECT poi_id FROM location WHERE useradd = 0 and plan_id = ?", planId];
-        while([results next])
-        {
-            [pois addObject:[results objectForKeyedSubscript:@"poi_id"]];
-        }
-        [db close];
-        
-        if (pois.count == 0) {
-            return;
-        }
-        
-        NSURL *url = [NSURL URLWithString:@"http://chufaba.me:9200"];
-        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
-        httpClient.parameterEncoding = AFJSONParameterEncoding;
-        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                                pois, @"ids",
-                                nil];
-        [httpClient postPath:@"/cfb/poi/_mget" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSError *error = nil;
-            NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:&error];
-            if (error) {
-                NSLog(@"Error serializing %@", error);
-            } else {
-                NSArray *docs = [responseJSON objectForKey:@"docs"];
-                if ([docs count] > 0) {
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
-                                                             (unsigned long)NULL), ^(void) {
-                        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-                        [db open];
-                        for (NSDictionary *doc in docs) {
-                            BOOL exists = [doc objectForKey:@"exists"];
-                            if (exists) {
-                                NSDictionary *poi = [doc objectForKey:@"_source"];
-                                NSDictionary *location = [poi objectForKey:@"location"];
-                                [db executeUpdate:@"UPDATE location set latitude = ?, longitude = ?, address = ?, transportation = ?, opening = ?, fee = ?, website = ? WHERE poi_id = ?", [location objectForKey:@"lat"], [location objectForKey:@"lon"], [poi objectForKey:@"address"], [poi objectForKey:@"transport"], [poi objectForKey:@"opening"], [poi objectForKey:@"fee"], [poi objectForKey:@"website"], [poi objectForKey:@"id"]];
-                            }
-                        }
-                        [db close];
-                        [userDefaults setObject:[NSNumber numberWithInt:now] forKey:defaultsKey];
-                        [userDefaults synchronize];
-                    });
-                }
-            }
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
-        }];
-    });
 }
 @end
