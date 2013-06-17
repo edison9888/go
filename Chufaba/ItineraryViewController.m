@@ -390,10 +390,19 @@
 
 - (IBAction)openShareMenu:(id)sender
 {
-    self.tableView.contentInset = UIEdgeInsetsZero;
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享给微信好友", @"分享到微信朋友圈", nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showInView:self.view];
+    if (!([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]))
+    {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有安装微信或者您的版本不支持分享功能!" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    else
+    {
+        self.tableView.contentInset = UIEdgeInsetsZero;
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享给微信好友", @"分享到微信朋友圈", nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+        [actionSheet showInView:self.view];
+    }
 }
 
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -402,13 +411,19 @@
     if(buttonIndex == 0)
     {
         WXMediaMessage *message = [WXMediaMessage message];
-        [message setThumbImage:[UIImage imageNamed:@"tlogo"]];
-        WXImageObject *ext = [WXImageObject object];
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"tlogo" ofType:@"png"];
-        ext.imageData = [NSData dataWithContentsOfFile:filePath] ;
-        message.mediaObject = ext;
         message.title = @"我的行程，求建议";
         message.description = @"云南之旅，7天32个地点";
+        [message setThumbImage:[UIImage imageNamed:@"tlogo"]];
+        
+//        WXImageObject *ext = [WXImageObject object];
+//        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"tlogo" ofType:@"png"];
+//        ext.imageData = [NSData dataWithContentsOfFile:filePath] ;
+//        message.mediaObject = ext;
+        
+        WXWebpageObject *ext = [WXWebpageObject object];
+        //ext.webpageUrl = @"http://www.chufaba.me";
+        ext.webpageUrl = @"http://www.baidu.com";
+        message.mediaObject = ext;
         
         SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
         req.bText = NO;
