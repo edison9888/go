@@ -244,6 +244,7 @@
         //addLocation.category = self.location.category;
         addLocation.category = @"其它";
         addLocation.name = self.location.name;
+        addLocation.city = self.location.city;
         
         if (!selfEditMode)
         {
@@ -324,8 +325,14 @@
                                                                                                 NULL,
                                                                                                 CFSTR("!*'();:@&=+$,/?%#[]"),
                                                                                                 kCFStringEncodingUTF8));
+        NSString *city = (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+                                                                                                    NULL,
+                                                                                                    (CFStringRef)location.city,
+                                                                                                    NULL,
+                                                                                                    CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                                                    kCFStringEncodingUTF8));
         JSONFetcher *saveFetcher = [[JSONFetcher alloc]
-                                initWithURLString:[NSString stringWithFormat: @"http://chufaba.me:3000/pois/useradd?useradd[name]=%@&useradd[category]=%@&useradd[user]=%@&useradd[latitude]=%f&useradd[longitude]=%f", name, category, @"", [location.latitude doubleValue], [location.longitude doubleValue]]
+                                initWithURLString:[NSString stringWithFormat: @"http://chufaba.me:3000/pois/useradd?useradd[name]=%@&useradd[category]=%@&useradd[user]=%@&useradd[latitude]=%f&useradd[longitude]=%f&useradd[city]=%@", name, category, @"", [location.latitude doubleValue], [location.longitude doubleValue], city]
                                 receiver:nil
                                 action:nil];
         saveFetcher.showAlerts = NO;

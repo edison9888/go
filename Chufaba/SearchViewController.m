@@ -298,6 +298,7 @@
     addLocationViewController.location = [[Location alloc] init];
     addLocationViewController.location.name = self.nameInput.text;
     addLocationViewController.location.category = self.category;
+    addLocationViewController.location.city = self.locationInput.text;
     addLocationViewController.hasCoordinate = NO;
     addLocationViewController.addLocation = YES;
     addLocationViewController.lastLatitude = self.lastLatitude;
