@@ -71,6 +71,7 @@
 
 - (IBAction)weiboLogin:(id)sender
 {
+    //[self testUid];
     [self.accountManager.sinaweibo logIn];
 }
 
@@ -82,6 +83,11 @@
 - (IBAction)doubanLogin:(id)sender
 {
     [[self.accountManager getGTDouban] logIn];
+}
+
+- (void)testUid
+{
+    [self.accountManager getUidByOpenidOf:[NSNumber numberWithInt:1] withOpenid:[NSString stringWithFormat:@"aaaaaa"] andName:[NSString stringWithFormat:@"Perry"] andToken: [NSString stringWithFormat:@"bbbbbbb"] andExpire:[NSNumber numberWithInt:123456679]];
 }
 
 @end
