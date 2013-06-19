@@ -9,6 +9,7 @@
 #import "SocialAccountManager.h"
 #import "ChufabaAppDelegate.h"
 #import "FMDBDataAccess.h"
+#import "AFHTTPClient.h"
 
 @implementation SocialAccountManager
 
@@ -378,6 +379,39 @@
     {
         [self.delegate socialAccountManager:self updateDisplayName:[result objectForKey:@"name"] updateProfileImg:[result objectForKey:@"avatar"]];
     }
+}
+
+/*
+ * provider: 登录服务提供商 1:weibo 2:qq 3:douban
+ * expire: 过期时间戳
+ *
+ */
+- (void)getUidByOpenidOf:(NSNumber *)provider withOpenid:(NSString *)openid andName:(NSString *)name andToken:(NSString *)token andExpire:(NSNumber *)expire
+{
+    NSURL *url = [NSURL URLWithString:@"http://chufaba.me:3000"];
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+    NSDictionary *account = [NSDictionary dictionaryWithObjectsAndKeys:
+                            provider, @"provider",
+                            openid, @"openid",
+                            name, @"name",
+                            token, @"token",
+                            expire, @"expire",
+                            nil];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            account, @"openid",
+                            nil];
+    [httpClient postPath:@"/openids.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *error = nil;
+        NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:&error];
+        if (error) {
+            NSLog(@"Error serializing %@", error);
+        } else {
+            NSNumber *uid = [responseJSON objectForKey:@"uid"];
+            NSLog([NSString stringWithFormat:@"%d", [uid intValue]]);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
+    }];
 }
 
 @end

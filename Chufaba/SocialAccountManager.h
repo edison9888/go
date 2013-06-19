@@ -34,6 +34,7 @@
 - (BOOL) hasLogin;
 - (BOOL) isWeiboAuthValid;
 - (NSString *)getWeiboUid;
+- (void)getUidByOpenidOf:(NSNumber *)provider withOpenid:(NSString *)openid andName:(NSString *)name andToken:(NSString *)token andExpire:(NSNumber *)expire;
 
 @property (weak, nonatomic) SinaWeibo *sinaweibo;
 @property (nonatomic,weak) id<SocialAccountManagerDelegate> delegate;
