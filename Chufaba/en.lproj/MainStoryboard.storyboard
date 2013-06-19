@@ -475,7 +475,7 @@
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="去AppStore评价出发吧" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="p3N-NZ-QQk">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="推荐给朋友" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="p3N-NZ-QQk">
                                                     <rect key="frame" x="10" y="0.0" width="280" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -493,7 +493,7 @@
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="推荐给朋友" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="coH-CZ-EQN">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="去AppStore评价出发吧" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="coH-CZ-EQN">
                                                     <rect key="frame" x="10" y="0.0" width="280" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -541,8 +541,8 @@
                         <outlet property="guideCell" destination="7ye-z5-tLr" id="tY7-nz-KWo"/>
                         <outlet property="loginCell" destination="70P-Hc-TPH" id="46M-n1-ABQ"/>
                         <outlet property="logoutCell" destination="fsj-eI-2Im" id="dhq-1Q-Yhp"/>
-                        <outlet property="recommendCell" destination="MHJ-dC-JXl" id="XHV-Iv-HTA"/>
-                        <outlet property="reviewCell" destination="HS0-V6-wTZ" id="paj-NT-WQ2"/>
+                        <outlet property="recommendCell" destination="HS0-V6-wTZ" id="Xmd-Zm-FWV"/>
+                        <outlet property="reviewCell" destination="MHJ-dC-JXl" id="D2O-pc-SNs"/>
                         <segue destination="uKV-8h-ywb" kind="push" identifier="ShowUserGuide" id="VTj-Nq-13h"/>
                         <segue destination="wlN-O9-TQh" kind="push" identifier="ShowAbout" id="Qx4-ZF-JBc"/>
                         <segue destination="34u-e2-iW1" kind="push" identifier="ShowFeedback" id="apH-Ul-oCV"/>

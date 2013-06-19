@@ -29,6 +29,7 @@
 {
     [super viewDidLoad];
     //self.accountManager = [[SocialAccountManager alloc] init];
+    self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
@@ -43,19 +44,18 @@
     UIButton *qqLoginBtn = [[UIButton alloc] initWithFrame:CGRectMake(60,160,200,45)];
     [qqLoginBtn setImage:[UIImage imageNamed:@"qqlogin.png"] forState:UIControlStateNormal];
     
-    UIButton *doubanLoginBtn = [[UIButton alloc] initWithFrame:CGRectMake(60,260,200,45)];
-    [doubanLoginBtn setImage:[UIImage imageNamed:@"doubanlogin.png"] forState:UIControlStateNormal];
+//    UIButton *doubanLoginBtn = [[UIButton alloc] initWithFrame:CGRectMake(60,260,200,45)];
+//    [doubanLoginBtn setImage:[UIImage imageNamed:@"doubanlogin.png"] forState:UIControlStateNormal];
     
     [weiboLoginBtn addTarget:self action:@selector(weiboLogin:) forControlEvents:UIControlEventTouchDown];
     [qqLoginBtn addTarget:self action:@selector(qqLogin:) forControlEvents:UIControlEventTouchDown];
-    [doubanLoginBtn addTarget:self action:@selector(doubanLogin:) forControlEvents:UIControlEventTouchDown];
+    //[doubanLoginBtn addTarget:self action:@selector(doubanLogin:) forControlEvents:UIControlEventTouchDown];
     
     [self.view addSubview:weiboLoginBtn];
     [self.view addSubview:qqLoginBtn];
-    [self.view addSubview:doubanLoginBtn];
+    //[self.view addSubview:doubanLoginBtn];
     
     self.navigationItem.title = @"登录";
-    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (IBAction)backToPrevious:(id)sender
@@ -80,10 +80,10 @@
     [[self.accountManager getTencentOAuth] authorize:[self.accountManager getPermissions] inSafari:NO];
 }
 
-- (IBAction)doubanLogin:(id)sender
-{
-    [[self.accountManager getGTDouban] logIn];
-}
+//- (IBAction)doubanLogin:(id)sender
+//{
+//    [[self.accountManager getGTDouban] logIn];
+//}
 
 - (void)testUid
 {

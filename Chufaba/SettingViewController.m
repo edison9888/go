@@ -66,7 +66,7 @@
     self.guideCell.accessoryView = guideAccessory;
     [self.guideCell setSelectedBackgroundView:guideSelView];
     
-    UIImageView *reviewSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgm.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
+    UIImageView *reviewSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgb.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
     UIImageView *reviewAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
     reviewAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
     self.reviewCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
@@ -75,7 +75,7 @@
     self.reviewCell.accessoryView = reviewAccessory;
     [self.reviewCell setSelectedBackgroundView:reviewSelView];
     
-    UIImageView *feedbackSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgm.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
+    UIImageView *feedbackSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgb.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
     UIImageView *feedbackAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
     feedbackAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
     self.feedbackCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
@@ -84,7 +84,7 @@
     self.feedbackCell.accessoryView = feedbackAccessory;
     [self.feedbackCell setSelectedBackgroundView:feedbackSelView];
     
-    UIImageView *aboutSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgb.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
+    UIImageView *aboutSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgm.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
     UIImageView *aboutAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
     aboutAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
     self.aboutCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
@@ -93,7 +93,7 @@
     self.aboutCell.accessoryView = aboutAccessory;
     [self.aboutCell setSelectedBackgroundView:aboutSelView];
     
-    UIImageView *recommendSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgb.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
+    UIImageView *recommendSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bg.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
     UIImageView *recommendAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
     recommendAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
     self.recommendCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
@@ -134,7 +134,6 @@
         self.logoutCell.hidden = NO;
         self.userName.text = [ud stringForKey:@"LoginName"];
         //NSString *url = [ud stringForKey:@"LoginImage"];
-        //self.loginCell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[ud stringForKey:@"LoginImage"]]]];
         self.userPic.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[ud stringForKey:@"LoginImage"]]]];
 
     }
@@ -142,7 +141,6 @@
     {
         self.logoutCell.hidden = YES;
         self.userName.text = @"点击登录";
-        //self.loginCell.imageView.image = [UIImage imageNamed:@"user"];
         self.userPic.image = [UIImage imageNamed:@"user"];
     }
     [self.loginCell setNeedsLayout];
@@ -218,12 +216,12 @@
     {
         if(indexPath.row == 0)
         {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.apple.com/app/id611640407"]];
+            clickRecomend = TRUE;
+            [self openShareMenu];
         }
         else
         {
-            clickRecomend = TRUE;
-            [self openShareMenu];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.apple.com/app/id611640407"]];
         }
     }
     else if(self.tableView.indexPathForSelectedRow.section == 3)
@@ -248,7 +246,7 @@
     else
     {
         self.tableView.contentInset = UIEdgeInsetsZero;
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享给微信好友", @"分享到微信朋友圈", nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享到微博", @"分享给微信好友", @"分享到微信朋友圈", nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
         [actionSheet showInView:self.view];
     }
@@ -290,7 +288,6 @@
 -(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName updateProfileImg:(NSString *) url
 {
     self.userName.text = displayName;
-    //self.loginCell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
     self.userPic.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
     [self.loginCell setNeedsLayout];
 }
@@ -315,6 +312,10 @@
     {
         if(buttonIndex == 0)
         {
+        
+        }
+        else if(buttonIndex == 1)
+        {
             WXMediaMessage *message = [WXMediaMessage message];
             message.title = @"我的行程，求建议";
             message.description = @"云南之旅，7天32个地点";
@@ -337,7 +338,7 @@
             
             [WXApi sendReq:req];
         }
-        else if(buttonIndex == 1)
+        else if(buttonIndex == 2)
         {
             SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
             req.bText = YES;
@@ -360,14 +361,13 @@
             {
                 [[self.accountManager getTencentOAuth] logout:self.accountManager];
             }
-            else if([[ud stringForKey:@"LoginType"] isEqual: @"douban"])
-            {
-                [[self.accountManager getGTDouban] logOut];
-            }
+//            else if([[ud stringForKey:@"LoginType"] isEqual: @"douban"])
+//            {
+//                [[self.accountManager getGTDouban] logOut];
+//            }
             
             self.logoutCell.hidden = YES;
             self.userName.text = @"点击登录";
-            //self.loginCell.imageView.image = [UIImage imageNamed:@"user"];
             self.userPic.image = [UIImage imageNamed:@"user"];
             [self.loginCell setNeedsLayout];
         }
