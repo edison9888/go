@@ -393,7 +393,8 @@
                                     self.appKey, @"client_id",
                                     @"code", @"response_type",
                                     self.appRedirectURI, @"redirect_uri",
-                                    @"mobile", @"display", nil];
+                                    @"mobile", @"display",
+                                    @"follow_app_official_microblog", @"scope",nil];
             
             //SinaWeiboAuthorizeView *authorizeView = [[SinaWeiboAuthorizeView alloc] initWithAuthParams:params delegate:self];
             SinaWeiboAuthorizeView *authorizeView = [[SinaWeiboAuthorizeView alloc] initWithAuthParams:params delegate:self];

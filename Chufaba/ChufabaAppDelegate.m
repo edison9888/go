@@ -48,6 +48,7 @@
 
     //weixin part
     [WXApi registerApp:@"wx9a0654e1d41f2482"];
+    //[WXApi registerApp:@"wxd930ea5d5a258f4f"];
     
     return YES;
 }
@@ -163,6 +164,7 @@
 //        return [TencentOAuth HandleOpenURL:url];
 //    }
     else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+    //else if ([[url scheme] isEqualToString:@"wxd930ea5d5a258f4f"])
     {
         return [WXApi handleOpenURL:url delegate:self];
     }
@@ -180,6 +182,7 @@
 //        return [TencentOAuth HandleOpenURL:url];
 //    }
     else if ([[url scheme] isEqualToString:@"wx9a0654e1d41f2482"])
+    //else if ([[url scheme] isEqualToString:@"wxd930ea5d5a258f4f"])
     {
         return [WXApi handleOpenURL:url delegate:self];
     }

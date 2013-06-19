@@ -419,8 +419,8 @@ static CGFloat kBorderWidth = 0;
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:authPagePath]]];
 }
 
-- (void)showWebView
-{
+//- (void)showWebView
+//{
 //    UIWindow* window = [UIApplication sharedApplication].keyWindow;	
 //    if (!window)
 //    {	
@@ -437,7 +437,7 @@ static CGFloat kBorderWidth = 0;
 //    [UIView setAnimationDidStopSelector:@selector(bounce1AnimationStopped)];	
 //    self.transform = CGAffineTransformScale([self transformForOrientation], 1.1, 1.1);	
 //    [UIView commitAnimations];	
-}
+//}
 
 - (void)show
 {
@@ -451,7 +451,7 @@ static CGFloat kBorderWidth = 0;
     webView.frame = CGRectMake(kBorderWidth+1, kBorderWidth+1, innerWidth, self.frame.size.height - (1 + kBorderWidth*2));
     //webView.frame = self.bounds;
     
-    [self showWebView];
+    //[self showWebView];
     [self showIndicator];
     
     //[self addObservers];

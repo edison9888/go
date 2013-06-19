@@ -90,6 +90,13 @@
     self.aboutCell.accessoryView = aboutAccessory;
     [self.aboutCell setSelectedBackgroundView:abountSelView];
     
+//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
+//    [button setImage:[UIImage imageNamed:@"addLocation"] forState:UIControlStateNormal];
+//    [button setImage:[UIImage imageNamed:@"addLocation_click"] forState:UIControlStateHighlighted];
+    
+    self.logoutCell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logout"]];
+    self.logoutCell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logout_click"]];
+    
     self.accountManager = [[SocialAccountManager alloc] init];
     self.accountManager.delegate = self;
     

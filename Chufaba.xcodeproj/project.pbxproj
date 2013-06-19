@@ -82,6 +82,10 @@
 		1319F29D17048A2D00F3C6DE /* bar_search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1319F29B17048A2D00F3C6DE /* bar_search@2x.png */; };
 		131BF67E16D6439A001D4422 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 131BF67D16D6439A001D4422 /* libiconv.dylib */; };
 		131D774517201631001094A2 /* CfbSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 131D774417201631001094A2 /* CfbSearchBar.m */; };
+		132080CE1771D5C1007E4362 /* logout_click.png in Resources */ = {isa = PBXBuildFile; fileRef = 132080CA1771D5C1007E4362 /* logout_click.png */; };
+		132080CF1771D5C1007E4362 /* logout_click@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 132080CB1771D5C1007E4362 /* logout_click@2x.png */; };
+		132080D01771D5C1007E4362 /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 132080CC1771D5C1007E4362 /* logout.png */; };
+		132080D11771D5C1007E4362 /* logout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 132080CD1771D5C1007E4362 /* logout@2x.png */; };
 		1327334D170345EC00EAEF6A /* edittext@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1327334B170345EC00EAEF6A /* edittext@2x.png */; };
 		1327334E170345EC00EAEF6A /* edittext.png in Resources */ = {isa = PBXBuildFile; fileRef = 1327334C170345EC00EAEF6A /* edittext.png */; };
 		1327335317034A8000EAEF6A /* nextmap.png in Resources */ = {isa = PBXBuildFile; fileRef = 1327334F17034A8000EAEF6A /* nextmap.png */; };
@@ -437,6 +441,10 @@
 		131BF67D16D6439A001D4422 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		131D774317201631001094A2 /* CfbSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CfbSearchBar.h; sourceTree = "<group>"; };
 		131D774417201631001094A2 /* CfbSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CfbSearchBar.m; sourceTree = "<group>"; };
+		132080CA1771D5C1007E4362 /* logout_click.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout_click.png; sourceTree = "<group>"; };
+		132080CB1771D5C1007E4362 /* logout_click@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logout_click@2x.png"; sourceTree = "<group>"; };
+		132080CC1771D5C1007E4362 /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
+		132080CD1771D5C1007E4362 /* logout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logout@2x.png"; sourceTree = "<group>"; };
 		1327334B170345EC00EAEF6A /* edittext@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edittext@2x.png"; sourceTree = "<group>"; };
 		1327334C170345EC00EAEF6A /* edittext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edittext.png; sourceTree = "<group>"; };
 		1327334F17034A8000EAEF6A /* nextmap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nextmap.png; sourceTree = "<group>"; };
@@ -977,6 +985,10 @@
 				13C594F9173EA77A004BC022 /* btn_empty_click.png */,
 				1332E484176F48CA00987394 /* detail_indi.png */,
 				1332E485176F48CA00987394 /* detail_indi@2x.png */,
+				132080CA1771D5C1007E4362 /* logout_click.png */,
+				132080CB1771D5C1007E4362 /* logout_click@2x.png */,
+				132080CC1771D5C1007E4362 /* logout.png */,
+				132080CD1771D5C1007E4362 /* logout@2x.png */,
 				132CD6611749183400DBF170 /* aboutlogo.png */,
 				1360B389176C358B009734DE /* user@2x.png */,
 				1360B38A176C358B009734DE /* user.png */,
@@ -1912,6 +1924,10 @@
 				1360B38C176C358B009734DE /* user.png in Resources */,
 				1332E486176F48CA00987394 /* detail_indi.png in Resources */,
 				1332E487176F48CA00987394 /* detail_indi@2x.png in Resources */,
+				132080CE1771D5C1007E4362 /* logout_click.png in Resources */,
+				132080CF1771D5C1007E4362 /* logout_click@2x.png in Resources */,
+				132080D01771D5C1007E4362 /* logout.png in Resources */,
+				132080D11771D5C1007E4362 /* logout@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
