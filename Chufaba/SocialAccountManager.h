@@ -11,6 +11,7 @@
 #import "SinaWeiboRequest.h"
 #import "TencentOAuth.h"
 #import "GTDouban.h"
+#import "WXApi.h"
 
 @class SocialAccountManager;
 

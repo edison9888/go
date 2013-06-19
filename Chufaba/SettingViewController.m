@@ -13,6 +13,9 @@
 #import "QuartzCore/QuartzCore.h"
 
 @interface SettingViewController ()
+{
+    BOOL clickRecomend;
+}
 
 @end
 
@@ -81,21 +84,46 @@
     self.feedbackCell.accessoryView = feedbackAccessory;
     [self.feedbackCell setSelectedBackgroundView:feedbackSelView];
     
-    UIImageView *abountSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgb.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
+    UIImageView *aboutSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgb.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
     UIImageView *aboutAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
     aboutAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
     self.aboutCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     self.aboutCell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     self.aboutCell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
     self.aboutCell.accessoryView = aboutAccessory;
-    [self.aboutCell setSelectedBackgroundView:abountSelView];
+    [self.aboutCell setSelectedBackgroundView:aboutSelView];
     
-//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
-//    [button setImage:[UIImage imageNamed:@"addLocation"] forState:UIControlStateNormal];
-//    [button setImage:[UIImage imageNamed:@"addLocation_click"] forState:UIControlStateHighlighted];
+    UIImageView *recommendSelView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"cell_bgb.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8]];
+    UIImageView *recommendAccessory = [[UIImageView alloc] initWithFrame:CGRectMake(300, 16, 9, 12)];
+    recommendAccessory.image = [UIImage imageNamed:@"detailsmall.png"];
+    self.recommendCell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    self.recommendCell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.recommendCell.textLabel.highlightedTextColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    self.recommendCell.accessoryView = recommendAccessory;
+    [self.recommendCell setSelectedBackgroundView:recommendSelView];
+    
+    self.loginCell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.userPic = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 50, 50)];
+    self.userPic.layer.cornerRadius = 3.0;
+    self.userPic.layer.masksToBounds = YES;
+    [self.loginCell.contentView addSubview:self.userPic];
+    self.loginCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    self.userName = [[UILabel alloc] initWithFrame:CGRectMake(70, 15, 200, 20)];
+    self.userName.backgroundColor = [UIColor clearColor];
+    self.userName.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    self.userName.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
+    [self.loginCell.contentView addSubview:self.userName];
     
     self.logoutCell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logout"]];
     self.logoutCell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logout_click"]];
+    
+    UILabel *warningLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 50, 220, 20)];
+    warningLabel.backgroundColor = [UIColor clearColor];
+    warningLabel.text = @"如果退出，您的数据将无法同步到云端";
+    warningLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+    warningLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
+    [self.logoutCell.contentView addSubview:warningLabel];
     
     self.accountManager = [[SocialAccountManager alloc] init];
     self.accountManager.delegate = self;
@@ -105,20 +133,46 @@
     {
         self.logoutCell.hidden = NO;
         self.userName.text = [ud stringForKey:@"LoginName"];
-        self.loginCell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[ud stringForKey:@"LoginImage"]]]];
+        //NSString *url = [ud stringForKey:@"LoginImage"];
+        //self.loginCell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[ud stringForKey:@"LoginImage"]]]];
+        self.userPic.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[ud stringForKey:@"LoginImage"]]]];
+
     }
     else
     {
         self.logoutCell.hidden = YES;
         self.userName.text = @"点击登录";
-        self.loginCell.imageView.image = [UIImage imageNamed:@"user"];
+        //self.loginCell.imageView.image = [UIImage imageNamed:@"user"];
+        self.userPic.image = [UIImage imageNamed:@"user"];
     }
     [self.loginCell setNeedsLayout];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+-(CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section
 {
-    
+    if(section == 0)
+         return 16.0f;
+    else
+        return 5.0f;
+}
+
+
+-(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
+{
+    if(section == 0 || section == 2)
+        return 11.0f;
+    else
+        return 5.0f;
+}
+
+-(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+}
+
+-(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -151,21 +205,30 @@
                 [self performSegueWithIdentifier:@"ShowUserGuide" sender:nil];
                 break;
             case 1:
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.apple.com/app/id611640407"]];
+                [self performSegueWithIdentifier:@"ShowAbout" sender:nil];
                 break;
             case 2:
                 [self performSegueWithIdentifier:@"ShowFeedback" sender:nil];
                 break;
-            case 3:
-                [self performSegueWithIdentifier:@"ShowAbout" sender:nil];
-                break;
-                
             default:
                 break;
         }
     }
     else if(self.tableView.indexPathForSelectedRow.section == 2)
     {
+        if(indexPath.row == 0)
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.apple.com/app/id611640407"]];
+        }
+        else
+        {
+            clickRecomend = TRUE;
+            [self openShareMenu];
+        }
+    }
+    else if(self.tableView.indexPathForSelectedRow.section == 3)
+    {
+        clickRecomend = FALSE;
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"退出后行程修改不能同步到云端" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登录" otherButtonTitles:nil, nil];
         actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
         [actionSheet showInView:self.view];
@@ -174,19 +237,47 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)openShareMenu
 {
-    if ([[segue identifier] isEqualToString:@"ShowUserGuide"])
+    if (!([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]))
     {
-    
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有安装微信或者您的版本不支持分享功能!" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
     }
-    else if ([[segue identifier] isEqualToString:@"ShowFeedback"])
+    else
     {
-    
+        self.tableView.contentInset = UIEdgeInsetsZero;
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享给微信好友", @"分享到微信朋友圈", nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+        [actionSheet showInView:self.view];
     }
-    else if ([[segue identifier] isEqualToString:@"ShowAbout"])
+}
+
+//implement weixin delegate
+
+-(void) onResp:(BaseResp*)resp
+{
+    if([resp isKindOfClass:[SendMessageToWXResp class]])
     {
-    
+        NSString *strTitle = [NSString stringWithFormat:@"发送结果"];
+        NSString *strMsg = [NSString stringWithFormat:@"发送媒体消息结果:%d", resp.errCode];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    else if([resp isKindOfClass:[SendAuthResp class]])
+    {
+        NSString *strTitle = [NSString stringWithFormat:@"Auth结果"];
+        NSString *strMsg = [NSString stringWithFormat:@"Auth结果:%d", resp.errCode];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
     }
 }
 
@@ -199,7 +290,8 @@
 -(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName updateProfileImg:(NSString *) url
 {
     self.userName.text = displayName;
-    self.loginCell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
+    //self.loginCell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
+    self.userPic.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
     [self.loginCell setNeedsLayout];
 }
 
@@ -217,27 +309,68 @@
 }
 
 //UIActionSheetDelegate
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 0)
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(clickRecomend)
     {
-        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        if([[ud stringForKey:@"LoginType"] isEqual: @"sina"])
+        if(buttonIndex == 0)
         {
-            [self.accountManager.sinaweibo logOut];
+            WXMediaMessage *message = [WXMediaMessage message];
+            message.title = @"我的行程，求建议";
+            message.description = @"云南之旅，7天32个地点";
+            [message setThumbImage:[UIImage imageNamed:@"tlogo"]];
+            
+            //        WXImageObject *ext = [WXImageObject object];
+            //        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"tlogo" ofType:@"png"];
+            //        ext.imageData = [NSData dataWithContentsOfFile:filePath] ;
+            //        message.mediaObject = ext;
+            
+            WXWebpageObject *ext = [WXWebpageObject object];
+            //ext.webpageUrl = @"http://www.chufaba.me";
+            ext.webpageUrl = @"http://www.baidu.com";
+            message.mediaObject = ext;
+            
+            SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+            req.bText = NO;
+            req.message = message;
+            req.scene = WXSceneSession;
+            
+            [WXApi sendReq:req];
         }
-        else if([[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
+        else if(buttonIndex == 1)
         {
-            [[self.accountManager getTencentOAuth] logout:self.accountManager];
+            SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+            req.bText = YES;
+            req.text = @"t";
+            req.scene = WXSceneTimeline;
+            
+            [WXApi sendReq:req];
         }
-        else if([[ud stringForKey:@"LoginType"] isEqual: @"douban"])
+    }
+    else
+    {
+        if(buttonIndex == 0)
         {
-            [[self.accountManager getGTDouban] logOut];
+            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+            if([[ud stringForKey:@"LoginType"] isEqual: @"sina"])
+            {
+                [self.accountManager.sinaweibo logOut];
+            }
+            else if([[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
+            {
+                [[self.accountManager getTencentOAuth] logout:self.accountManager];
+            }
+            else if([[ud stringForKey:@"LoginType"] isEqual: @"douban"])
+            {
+                [[self.accountManager getGTDouban] logOut];
+            }
+            
+            self.logoutCell.hidden = YES;
+            self.userName.text = @"点击登录";
+            //self.loginCell.imageView.image = [UIImage imageNamed:@"user"];
+            self.userPic.image = [UIImage imageNamed:@"user"];
+            [self.loginCell setNeedsLayout];
         }
-        
-        self.logoutCell.hidden = YES;
-        self.userName.text = @"点击登录";
-        self.loginCell.imageView.image = [UIImage imageNamed:@"user"];
-        [self.loginCell setNeedsLayout];
     }
 }
 
@@ -245,6 +378,7 @@
     [self setLogoutCell:nil];
     [self setLoginCell:nil];
     [self setUserName:nil];
+    [self setRecommendCell:nil];
     [super viewDidUnload];
 }
 @end

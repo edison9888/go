@@ -15,7 +15,7 @@
 #import "LocationAnnotation.h"
 //#import "ShareViewController.h"
 
-#import "WXApi.h"
+//#import "WXApi.h"
 
 @interface ItineraryViewController () {
     NSNumber *lastLatitude;
@@ -378,102 +378,15 @@
     }
     
     //add UIToolbar for testing
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-88, self.view.frame.size.width, 44)];
-    NSMutableArray *items = [[NSMutableArray alloc] init];
-    [items addObject:[[UIBarButtonItem alloc]
-                                initWithTitle:@"分享"
-                                style:UIBarButtonItemStyleBordered
-                                target:self
-                                action:@selector(openShareMenu:)]];
-    [toolbar setItems:items animated:NO];
-    [self.view addSubview:toolbar];
-}
-
-- (IBAction)openShareMenu:(id)sender
-{
-    if (!([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]))
-    {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"您还没有安装微信或者您的版本不支持分享功能!" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    else
-    {
-        self.tableView.contentInset = UIEdgeInsetsZero;
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"分享给微信好友", @"分享到微信朋友圈", nil];
-        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-        [actionSheet showInView:self.view];
-    }
-}
-
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    self.tableView.contentInset = UIEdgeInsetsZero;
-    if(buttonIndex == 0)
-    {
-        WXMediaMessage *message = [WXMediaMessage message];
-        message.title = @"我的行程，求建议";
-        message.description = @"云南之旅，7天32个地点";
-        [message setThumbImage:[UIImage imageNamed:@"tlogo"]];
-        
-//        WXImageObject *ext = [WXImageObject object];
-//        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"tlogo" ofType:@"png"];
-//        ext.imageData = [NSData dataWithContentsOfFile:filePath] ;
-//        message.mediaObject = ext;
-        
-        WXWebpageObject *ext = [WXWebpageObject object];
-        //ext.webpageUrl = @"http://www.chufaba.me";
-        ext.webpageUrl = @"http://www.baidu.com";
-        message.mediaObject = ext;
-        
-        SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-        req.bText = NO;
-        req.message = message;
-        req.scene = WXSceneSession;
-        
-        [WXApi sendReq:req];
-    }
-    else if(buttonIndex == 1)
-    {
-        SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-        req.bText = YES;
-        req.text = @"t";
-        req.scene = WXSceneTimeline;
-        
-        [WXApi sendReq:req];
-    }
-}
-
-//implement weixin delegate
--(void) onReq:(BaseReq*)req
-{
-
-}
-
-
--(void) onResp:(BaseResp*)resp
-{
-    if([resp isKindOfClass:[SendMessageToWXResp class]])
-    {
-        NSString *strTitle = [NSString stringWithFormat:@"发送结果"];
-        NSString *strMsg = [NSString stringWithFormat:@"发送媒体消息结果:%d", resp.errCode];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-    }
-    else if([resp isKindOfClass:[SendAuthResp class]])
-    {
-        NSString *strTitle = [NSString stringWithFormat:@"Auth结果"];
-        NSString *strMsg = [NSString stringWithFormat:@"Auth结果:%d", resp.errCode];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-    }
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-    }
+//    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-88, self.view.frame.size.width, 44)];
+//    NSMutableArray *items = [[NSMutableArray alloc] init];
+//    [items addObject:[[UIBarButtonItem alloc]
+//                                initWithTitle:@"分享"
+//                                style:UIBarButtonItemStyleBordered
+//                                target:self
+//                                action:@selector(openShareMenu:)]];
+//    [toolbar setItems:items animated:NO];
+//    [self.view addSubview:toolbar];
 }
 
 - (IBAction)backToPrevious:(id)sender
