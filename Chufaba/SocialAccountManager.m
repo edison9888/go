@@ -17,7 +17,8 @@
 {
     if (self = [super init]) {
         //permissions = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO, kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, kOPEN_PERMISSION_ADD_SHARE, nil];
-        permissions =  [NSArray arrayWithObjects:@"get_user_info", @"add_share", nil];
+        //permissions =  [NSArray arrayWithObjects:@"get_user_info", @"get_simple_userinfo", @"add_share", nil];
+        permissions =  [NSArray arrayWithObjects:@"get_simple_userinfo", @"add_share", nil];
         tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"100379396" andDelegate:self];
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -289,14 +290,16 @@
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
         if([[ud stringForKey:@"LoginType"] isEqual: @"tencent"])
         {
+            NSLog (@"name is :%@", [response.jsonResponse objectForKey:@"nickname"]);
+            NSLog (@"string is :%@", [response.jsonResponse objectForKey:@"figureurl_qq_2"]);
             [ud setObject:[response.jsonResponse objectForKey:@"nickname"] forKey:@"LoginName"];
-            [ud setObject:[response.jsonResponse objectForKey:@"figureurl"] forKey:@"LoginImage"];
+            [ud setObject:[response.jsonResponse objectForKey:@"figureurl_qq_2"] forKey:@"LoginImage"];
             [ud synchronize];
         }
         
         if ([self.delegate respondsToSelector:@selector(socialAccountManager:updateDisplayName:updateProfileImg:)])
         {
-            [self.delegate socialAccountManager:self updateDisplayName:[response.jsonResponse objectForKey:@"nickname"] updateProfileImg:[response.jsonResponse objectForKey:@"figureurl"]];
+            [self.delegate socialAccountManager:self updateDisplayName:[response.jsonResponse objectForKey:@"nickname"] updateProfileImg:[response.jsonResponse objectForKey:@"figureurl_qq_2"]];
         }
 	}
 }

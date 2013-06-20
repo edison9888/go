@@ -445,7 +445,8 @@ redirectURI = _redirectURI;
 	}
 	NSMutableDictionary * params = [[NSMutableDictionary alloc] init];
 	APIBase *apiRequest = [[APIBase alloc] initWithTarget:self andSelector:@selector(getUserInfoResponse:) andHttpMethod:@"GET"];
-	NSString * fullURL = [kRestserverBaseURL stringByAppendingString:@"user/get_user_info"];
+	//NSString * fullURL = [kRestserverBaseURL stringByAppendingString:@"user/get_user_info"];
+    NSString * fullURL = [kRestserverBaseURL stringByAppendingString:@"user/get_simple_userinfo"];
 	[apiRequest openUrl:fullURL token:_accessToken openid:_openId appid:_appId params:params];
 	[_apiRequests setObject:apiRequest forKey:[NSString stringWithFormat:@"%d", apiRequest.seq]];
 	return YES;

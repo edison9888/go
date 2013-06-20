@@ -133,7 +133,7 @@
     {
         self.logoutCell.hidden = NO;
         self.userName.text = [ud stringForKey:@"LoginName"];
-        //NSString *url = [ud stringForKey:@"LoginImage"];
+        NSLog (@"login url is :%@", [ud stringForKey:@"LoginImage"]);
         self.userPic.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[ud stringForKey:@"LoginImage"]]]];
 
     }
@@ -145,6 +145,11 @@
     }
     [self.loginCell setNeedsLayout];
 }
+
+//-(void)viewDidAppear:(BOOL)animated
+//{
+//    self.userPic.image
+//}
 
 -(CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -287,6 +292,7 @@
 //implement socialaccountmanager delegate
 -(void) socialAccountManager:(SocialAccountManager *) manager updateDisplayName:(NSString *) displayName updateProfileImg:(NSString *) url
 {
+    NSLog (@"url is :%@", url);
     self.userName.text = displayName;
     self.userPic.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
     [self.loginCell setNeedsLayout];
