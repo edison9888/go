@@ -134,8 +134,12 @@
         self.logoutCell.hidden = NO;
         self.userName.text = [ud stringForKey:@"LoginName"];
         NSLog (@"login url is :%@", [ud stringForKey:@"LoginImage"]);
-        self.userPic.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[ud stringForKey:@"LoginImage"]]]];
-
+        NSData *picData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[ud stringForKey:@"LoginImage"]]];
+        if(picData)
+            self.userPic.image = [UIImage imageWithData:picData];
+        //no internet, show the default pic
+        else
+            self.userPic.image = [UIImage imageNamed:@"user"];
     }
     else
     {
