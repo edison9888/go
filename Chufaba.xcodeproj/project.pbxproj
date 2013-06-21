@@ -325,6 +325,7 @@
 		C2354EF4171AA38300403541 /* SearchDestinationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2354EF3171AA38300403541 /* SearchDestinationViewController.m */; };
 		C252AA8C16F9FA5B0048FEFA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C252AA8A16F9FA110048FEFA /* SystemConfiguration.framework */; };
 		C26B248E16DD0C850038111D /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C26B248D16DD0C850038111D /* SearchTableViewCell.m */; };
+		C28BBC0317749FCD0068871A /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = C28BBC0217749FCD0068871A /* Base64.m */; };
 		C28C4D2817034763009F510E /* opentime.png in Resources */ = {isa = PBXBuildFile; fileRef = C28C4D1C17034763009F510E /* opentime.png */; };
 		C28C4D2917034763009F510E /* opentime@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C28C4D1D17034763009F510E /* opentime@2x.png */; };
 		C28C4D2A17034763009F510E /* remark.png in Resources */ = {isa = PBXBuildFile; fileRef = C28C4D1E17034763009F510E /* remark.png */; };
@@ -768,6 +769,8 @@
 		C252AA8A16F9FA110048FEFA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C26B248C16DD0C850038111D /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		C26B248D16DD0C850038111D /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
+		C28BBC0117749FCD0068871A /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		C28BBC0217749FCD0068871A /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
 		C28C4D1C17034763009F510E /* opentime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = opentime.png; sourceTree = "<group>"; };
 		C28C4D1D17034763009F510E /* opentime@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "opentime@2x.png"; sourceTree = "<group>"; };
 		C28C4D1E17034763009F510E /* remark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remark.png; sourceTree = "<group>"; };
@@ -1503,6 +1506,15 @@
 			name = Location;
 			sourceTree = "<group>";
 		};
+		C28BBC0017749FCD0068871A /* Base64 */ = {
+			isa = PBXGroup;
+			children = (
+				C28BBC0117749FCD0068871A /* Base64.h */,
+				C28BBC0217749FCD0068871A /* Base64.m */,
+			);
+			path = Base64;
+			sourceTree = "<group>";
+		};
 		C28C4D1B1703473F009F510E /* location */ = {
 			isa = PBXGroup;
 			children = (
@@ -1607,6 +1619,7 @@
 		D25F6FEE16A6332D00ED7AF5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C28BBC0017749FCD0068871A /* Base64 */,
 				135E30A21745180D00649AF6 /* guide */,
 				1316E3711736B377009D49C3 /* navbtn */,
 				1314025A171AA895009A7AC3 /* addremove */,
@@ -2044,6 +2057,7 @@
 				C205F767176D7600003D2846 /* AFXMLRequestOperation.m in Sources */,
 				C205F768176D7600003D2846 /* UIImageView+AFNetworking.m in Sources */,
 				C205F76C1771E937003D2846 /* User.m in Sources */,
+				C28BBC0317749FCD0068871A /* Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

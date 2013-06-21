@@ -12,6 +12,7 @@
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
 #import "FMResultSet.h"
+#import "Base64.h"
 
 @implementation Plan
 
