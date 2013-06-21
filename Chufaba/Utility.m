@@ -51,4 +51,16 @@
     return newImage;
 }
 
++ (Boolean*)fileExists:(NSString *)file
+{
+    return [[NSFileManager defaultManager] fileExistsAtPath:[self getFullPath:file]];
+}
+
++ (NSString*)getFullPath:(NSString *)file
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    return [documentsDirectory stringByAppendingPathComponent:file];
+}
+
 @end

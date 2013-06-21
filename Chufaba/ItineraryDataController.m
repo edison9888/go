@@ -8,6 +8,8 @@
 
 #import "ItineraryDataController.h"
 #import "AFHTTPClient.h"
+#import "Plan.h"
+#import "Location.h"
 
 @interface ItineraryDataController ()
 
@@ -21,8 +23,12 @@
     }
 }
 
-- (id)init {
-    if (self = [super init]) {
+- (id)initWithPlanId:(NSNumber *)planId
+{
+    self = [super init];
+    if (self) {
+        _planId = planId;
+        _masterTravelDayList = [Location findTreeByPlanId:planId];
         return self;
     }
     return nil;
@@ -110,6 +116,26 @@
             NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
         }];
     });
+}
+
+-(NSMutableArray *)encode
+{
+    NSMutableArray *encoded = [[NSMutableArray alloc] init];
+    for (NSMutableArray *dayLocations in self.masterTravelDayList)
+    {
+        NSMutableArray *dayEncoded = [[NSMutableArray alloc] init];
+        for (Location *location in dayLocations)
+        {
+            [dayEncoded addObject:[location encode]];
+        }
+        [encoded addObject:dayEncoded];
+    }
+    return encoded;
+}
+
+-(void)decode:(NSMutableArray *)itineraryData
+{
+    
 }
 
 @end
