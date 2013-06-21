@@ -305,6 +305,7 @@
 		C205F766176D7600003D2846 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C205F75B176D7600003D2846 /* AFURLConnectionOperation.m */; };
 		C205F767176D7600003D2846 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C205F75D176D7600003D2846 /* AFXMLRequestOperation.m */; };
 		C205F768176D7600003D2846 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = C205F75F176D7600003D2846 /* UIImageView+AFNetworking.m */; };
+		C205F76C1771E937003D2846 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C205F76B1771E937003D2846 /* User.m */; };
 		C207026016B4269C0087B6D7 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = C207024816B4269C0087B6D7 /* NSObject+SBJson.m */; };
 		C207026116B4269C0087B6D7 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C207024B16B4269C0087B6D7 /* SBJsonParser.m */; };
 		C207026216B4269C0087B6D7 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C207024D16B4269C0087B6D7 /* SBJsonStreamParser.m */; };
@@ -727,6 +728,8 @@
 		C205F75D176D7600003D2846 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		C205F75E176D7600003D2846 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		C205F75F176D7600003D2846 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		C205F76A1771E937003D2846 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		C205F76B1771E937003D2846 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		C207024716B4269C0087B6D7 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
 		C207024816B4269C0087B6D7 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
 		C207024916B4269C0087B6D7 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
@@ -1383,6 +1386,15 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
+		C205F7691771E91B003D2846 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				C205F76A1771E937003D2846 /* User.h */,
+				C205F76B1771E937003D2846 /* User.m */,
+			);
+			name = User;
+			sourceTree = "<group>";
+		};
 		C207024616B426440087B6D7 /* SBJson */ = {
 			isa = PBXGroup;
 			children = (
@@ -1570,6 +1582,7 @@
 		D25F6FED16A6332D00ED7AF5 /* Chufaba */ = {
 			isa = PBXGroup;
 			children = (
+				C205F7691771E91B003D2846 /* User */,
 				13397788176D9EBE009E1512 /* Tencent */,
 				1360B369176C1663009734DE /* Douban */,
 				1C1FBE5F16CB5AA800FF3FBC /* Settings */,
@@ -2030,6 +2043,7 @@
 				C205F766176D7600003D2846 /* AFURLConnectionOperation.m in Sources */,
 				C205F767176D7600003D2846 /* AFXMLRequestOperation.m in Sources */,
 				C205F768176D7600003D2846 /* UIImageView+AFNetworking.m in Sources */,
+				C205F76C1771E937003D2846 /* User.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

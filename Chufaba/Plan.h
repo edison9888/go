@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class ItineraryDataController;
+
 @interface Plan : NSObject
 
 @property (nonatomic, copy) NSNumber *planId;
@@ -17,9 +19,19 @@
 @property (nonatomic, copy) NSNumber *duration;
 @property (nonatomic) UIImage *image;
 @property (nonatomic, assign) NSInteger locationCount;
-
 @property (nonatomic, copy) NSMutableArray *itineraryList;
+@property (nonatomic, strong) ItineraryDataController *itinerary;
+@property (nonatomic, copy) NSNumber *uid;
 
 -(id)initWithName:(NSString *)name destination:(NSString *)destination duration:(NSNumber *)duration date:(NSDate *)date image:(UIImage *)image;
+
++(NSMutableArray *)findAllByUid:(NSNumber *)uid;
+
+-(NSString *)encode;
+-(void)decode:(NSString *)planData;
+
+-(Boolean)hasCover;
+-(UIImage *)getCover;
+
 
 @end

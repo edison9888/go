@@ -12,6 +12,7 @@
 #import "ItineraryDataController.h"
 #import "SearchDestinationViewController.h"
 #import "Utility.h"
+#import "User.h"
 
 @implementation PlanViewController
 
@@ -22,7 +23,6 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-
     }
     return self;
 }
@@ -263,6 +263,10 @@
     }
     
     self.tableView.rowHeight = 92.0f;
+    
+    
+    User *user = [[User alloc] init];
+    [user sync];
 }
 
 - (void)didReceiveMemoryWarning
@@ -301,13 +305,11 @@
     }
     
     Plan *planAtIndex = [self.travelPlans objectAtIndex:indexPath.row];
-
-    NSString *coverName = [[planAtIndex.planId stringValue] stringByAppendingString:@"planCover"];
     
     cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    if([self imageExists:coverName])
+    if([planAtIndex hasCover])
     {
-        cell.imageView.image = [self loadImage: coverName];
+        cell.imageView.image = [planAtIndex getCover];
     }
     else
     {
@@ -414,8 +416,7 @@
         addPlanViewController.plan = [[Plan alloc] initWithName:tempPlan.name destination:tempPlan.destination duration:tempPlan.duration date:tempPlan.date image:tempPlan.image];
         addPlanViewController.plan.planId = tempPlan.planId;
         
-        NSString *coverName = [[tempPlan.planId stringValue] stringByAppendingString:@"planCover"];
-        addPlanViewController.plan.image = [self loadImage: coverName];
+        addPlanViewController.plan.image = [tempPlan getCover];
     }
 }
 
@@ -552,30 +553,6 @@
     [fileManager removeItemAtPath: fullPath error:NULL];
     
     NSLog(@"image removed");
-    
-}
-
-- (BOOL)imageExists:(NSString *)imageName
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
-    
-    return [[NSFileManager defaultManager] fileExistsAtPath:fullPath];
-}
-
-- (UIImage*)loadImage:(NSString *)imageName
-{
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
-    
-    return [UIImage imageWithContentsOfFile:fullPath];
     
 }
 

@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Location.h"
-#import "Plan.h"
+
+@class Plan;
 
 @interface ItineraryDataController : NSObject
 
@@ -16,10 +16,16 @@
 @property (nonatomic,weak) NSNumber *itineraryDuration;
 @property (nonatomic, copy) NSMutableArray *masterTravelDayList;
 @property (nonatomic,strong) Plan *plan;
+@property (nonatomic, assign) NSInteger locationCount;
+@property (nonatomic, readonly) NSNumber *planId;
 
+- (id)initWithPlanId:(NSNumber *)planId;
 - (NSUInteger)countOfList;
 - (NSMutableArray *)objectInListAtIndex:(NSUInteger)theIndex;
 
 - (void) updatePois;
+
+-(NSMutableArray *)encode;
+-(void)decode:(NSMutableArray *)itineraryData;
 
 @end

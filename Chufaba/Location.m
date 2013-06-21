@@ -261,4 +261,76 @@
     return result;
 }
 
++ (NSMutableArray *)findTreeByPlanId:(NSNumber *)planId
+{
+    NSMutableArray *tree = [[NSMutableArray alloc] init];
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    FMResultSet *results = [db executeQuery:@"SELECT * FROM location WHERE plan_id=? order by whichday,seqofday asc",planId];
+    while([results next])
+    {
+        Location *location = [[Location alloc] init];
+        location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
+        location.planId = [NSNumber numberWithInt:[results intForColumn:@"plan_id"]];
+        location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
+        location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
+        location.name = [results stringForColumn:@"name"];
+        location.nameEn = [results stringForColumn:@"name_en"];
+        location.country = [results stringForColumn:@"country"];
+        location.city = [results stringForColumn:@"city"];
+        location.address = [results stringForColumn:@"address"];
+        location.transportation = [results stringForColumn:@"transportation"];
+        location.cost = [NSNumber numberWithInt:[results intForColumn:@"cost"]];
+        location.currency = [results stringForColumn:@"currency"];
+        location.visitBegin = [results stringForColumn:@"visit_begin"];
+        location.detail = [results stringForColumn:@"detail"];
+        location.category = [results stringForColumn:@"category"];
+        location.latitude = [NSNumber numberWithDouble:[results doubleForColumn:@"latitude"]];
+        location.longitude = [NSNumber numberWithDouble:[results doubleForColumn:@"longitude"]];
+        location.useradd = [results boolForColumn:@"useradd"];
+        location.poiId = [NSNumber numberWithInt:[results intForColumn:@"poi_id"]];
+        location.opening = [results stringForColumn:@"opening"];
+        location.fee = [results stringForColumn:@"fee"];
+        location.website = [results stringForColumn:@"website"];
+        
+        int dayIndex = location.whichday.intValue - 1;
+        if (tree.count <= dayIndex) {
+            [tree addObject:[[NSMutableArray alloc] init]];
+        }
+        [[tree objectAtIndex:dayIndex] addObject:location];
+    }
+    [db close];
+    return tree;
+}
+
+
+-(NSDictionary *)encode
+{
+    if (_useradd) {
+        return [[NSDictionary alloc] initWithObjectsAndKeys:
+                _locationId, @"id",
+                [NSNumber numberWithBool:_useradd], @"useradd",
+                _name, @"name",
+                _city, @"city",
+                _latitude, @"latitude",
+                _longitude, @"longitude",
+                _visitBegin, @"visitBegin",
+                _detail, @"detail",
+                nil];
+    } else {
+        return [[NSDictionary alloc] initWithObjectsAndKeys:
+                _locationId, @"id",
+                [NSNumber numberWithBool:_useradd], @"useradd",
+                _poiId, @"poiId",
+                _visitBegin, @"visitBegin",
+                _detail, @"detail",
+                nil];
+    }
+}
+
+-(void)decode:(NSDictionary *)locationData
+{
+    
+}
+
 @end

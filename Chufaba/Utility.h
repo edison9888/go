@@ -19,4 +19,7 @@
 + (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
 + (UIImage*)imageWithImageSimple:(UIImage*)image scaledToSize:(CGSize)newSize;
 
++ (Boolean*)fileExists:(NSString *)file;
++ (NSString*)getFullPath:(NSString *)file;
+
 @end
