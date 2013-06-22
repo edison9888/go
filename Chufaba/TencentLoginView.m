@@ -283,23 +283,30 @@ params   = _params;
 //	[self removeFromSuperview];
 }
 
-- (void)dismiss:(BOOL)animated {
-	[self dialogWillDisappear];
-	
+//- (void)dismiss:(BOOL)animated {
+//	[self dialogWillDisappear];
+//	
+//	[_loadingURL release];
+//	_loadingURL = nil;
+//	
+//	if (animated) {
+//		[UIView beginAnimations:nil context:nil];
+//		[UIView setAnimationDuration:kTransitionDuration];
+//		[UIView setAnimationDelegate:self];
+//		[UIView setAnimationDidStopSelector:@selector(postDismissCleanup)];
+//		self.alpha = 0;
+//		[UIView commitAnimations];
+//	} else {
+//		[self postDismissCleanup];
+//	}
+//	 
+//}
+
+//zxx changed this method
+- (void)dismiss:(BOOL)animated
+{
 	[_loadingURL release];
 	_loadingURL = nil;
-	
-	if (animated) {
-		[UIView beginAnimations:nil context:nil];
-		[UIView setAnimationDuration:kTransitionDuration];
-		[UIView setAnimationDelegate:self];
-		[UIView setAnimationDidStopSelector:@selector(postDismissCleanup)];
-		self.alpha = 0;
-		[UIView commitAnimations];
-	} else {
-		[self postDismissCleanup];
-	}
-	 
 }
 
 //- (void)cancel {
@@ -319,7 +326,7 @@ params   = _params;
 		_orientation = UIDeviceOrientationUnknown;
 		_showingKeyboard = NO;
 		
-		//self.backgroundColor = [UIColor clearColor];
+		self.backgroundColor = [UIColor whiteColor];
 		self.autoresizesSubviews = YES;
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		self.contentMode = UIViewContentModeRedraw;
@@ -457,19 +464,32 @@ params   = _params;
 	//[self updateWebOrientation];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{    
     //当页面有内容有异常时，有些操作无法完成时，直接忽略此异常. add by jeanliu
     if (error.code == -999) {
         return;
     }
     
 	// 102 == WebKitErrorFrameLoadInterruptedByPolicyChange
-	if (!([error.domain isEqualToString:@"WebKitErrorDomain"] && error.code == 102)) {
+	if (!([error.domain isEqualToString:@"WebKitErrorDomain"] && error.code == 102))
+    {
+        id responder = self.superview.nextResponder;
+        if([responder isKindOfClass:[UIViewController class]])
+        {
+            [responder dismissViewControllerAnimated:YES completion:NULL];
+        }
+        
+        
 		[self dismissWithError:error animated:YES];
-//		if ([_delegate respondsToSelector:@selector(tencentDidNotNetWork)]) {
-//			[_delegate tencentDidNotNetWork];
-//		}	
+		if ([_delegate respondsToSelector:@selector(tencentDidNotNetWork)]) {
+			[_delegate tencentDidNotNetWork];
+		}
+        
+//        if ([delegate respondsToSelector:@selector(dismissViewControllerAnimated:completion:)])
+//        {
+//            [delegate dismissViewControllerAnimated:YES completion:NULL];
+//        }
 	}
 }
 
@@ -648,6 +668,7 @@ params   = _params;
 		}
 	}
 	
+    //temporarily commented
 	[self dismiss:animated];
 }
 
@@ -656,6 +677,7 @@ params   = _params;
 		[_delegate dialog:self didFailWithError:error];
 	}
 	
+    //temporarily commented
 	[self dismiss:animated];
 }
 

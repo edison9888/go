@@ -488,6 +488,8 @@ static CGFloat kBorderWidth = 0;
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [self hideIndicator];
+    id responder = self.superview.nextResponder;
+    [responder dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
