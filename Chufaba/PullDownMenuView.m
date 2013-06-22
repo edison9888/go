@@ -17,48 +17,58 @@
 		self.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
 		
         UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 40.0f, self.frame.size.width/3, 40.0f)];
-        [btn setTitle:@"同步" forState:UIControlStateNormal];
+        [btn setTitle:@"地图模式" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor colorWithRed:36/255.0 green:71/255.0 blue:113/255.0 alpha:1.0] forState:UIControlStateNormal];
+        btn.backgroundColor = [UIColor clearColor];
+        [[btn layer] setBorderWidth:1.0f];
+        [[btn layer] setBorderColor:[UIColor grayColor].CGColor];
+        [btn addTarget:self action:@selector(showMap:) forControlEvents:UIControlEventTouchDown];
+        mapBtn = btn;
+        [self addSubview:btn];
+        
+        btn = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width/3, frame.size.height - 40.0f, self.frame.size.width/3, 40.0f)];
+        [btn setTitle:@"地点排序" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor colorWithRed:36/255.0 green:71/255.0 blue:113/255.0 alpha:1.0] forState:UIControlStateNormal];
+        btn.backgroundColor = [UIColor clearColor];
+        [[btn layer] setBorderWidth:1.0f];
+        [[btn layer] setBorderColor:[UIColor grayColor].CGColor];
+        [btn addTarget:self action:@selector(showEditSeq:) forControlEvents:UIControlEventTouchDown];
+        editBtn = btn;
+        [self addSubview:btn];
+        
+        btn = [[UIButton alloc] initWithFrame:CGRectMake(2*self.frame.size.width/3, frame.size.height - 40.0f, self.frame.size.width/3, 40.0f)];
+        [btn setTitle:@"同步行程" forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor colorWithRed:36/255.0 green:71/255.0 blue:113/255.0 alpha:1.0] forState:UIControlStateNormal];
         btn.backgroundColor = [UIColor clearColor];
         [[btn layer] setBorderWidth:1.0f];
         [[btn layer] setBorderColor:[UIColor grayColor].CGColor];
         [btn addTarget:self action:@selector(synchronizeItinerary:) forControlEvents:UIControlEventTouchDown];
         syncBtn = btn;
-        [self addSubview:btn];
-        
-        btn = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width/3, frame.size.height - 40.0f, self.frame.size.width/3, 40.0f)];
-        [btn setTitle:@"标题和日期" forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor colorWithRed:36/255.0 green:71/255.0 blue:113/255.0 alpha:1.0] forState:UIControlStateNormal];
-        btn.backgroundColor = [UIColor clearColor];
-        [[btn layer] setBorderWidth:1.0f];
-        [[btn layer] setBorderColor:[UIColor grayColor].CGColor];
-        [btn addTarget:self action:@selector(pushAddPlanViewController:) forControlEvents:UIControlEventTouchDown];
-        editBtn = btn;
-        [self addSubview:btn];
-        
-        btn = [[UIButton alloc] initWithFrame:CGRectMake(2*self.frame.size.width/3, frame.size.height - 40.0f, self.frame.size.width/3, 40.0f)];
-        [btn setTitle:@"分享" forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor colorWithRed:36/255.0 green:71/255.0 blue:113/255.0 alpha:1.0] forState:UIControlStateNormal];
-        btn.backgroundColor = [UIColor clearColor];
-        [[btn layer] setBorderWidth:1.0f];
-        [[btn layer] setBorderColor:[UIColor grayColor].CGColor];
-        [btn addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchDown];
-        shareBtn = btn;
         [self addSubview:btn];		
     }
 	
     return self;	
 }
 
-- (IBAction)pushAddPlanViewController:(id)sender
+//- (IBAction)pushAddPlanViewController:(id)sender
+//{
+//    [self.delegate showEditTravelPlan:self];
+//}
+
+- (IBAction)showMap:(id)sender
 {
-    [self.delegate showEditTravelPlan:self];
+    [self.delegate switchToMapMode:self];
 }
 
-- (IBAction)showMenu:(id)sender
+- (IBAction)showEditSeq:(id)sender
 {
-    [self.delegate showShareMenu:self];
+    [self.delegate editLocationsSequence:self];
 }
+
+//- (IBAction)showMenu:(id)sender
+//{
+//    [self.delegate showShareMenu:self];
+//}
 
 - (IBAction)synchronizeItinerary:(id)sender
 {

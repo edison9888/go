@@ -21,7 +21,7 @@
 //static CGFloat kBorderBlack[4] = {0.3, 0.3, 0.3, 1};
 //static CGFloat kBorderBlue[4] = {0.23, 0.35, 0.6, 1.0};
 
-static CGFloat kTransitionDuration = 0.3;
+//static CGFloat kTransitionDuration = 0.3;
 
 //static CGFloat kTitleMarginX = 8;
 //static CGFloat kTitleMarginY = 4;

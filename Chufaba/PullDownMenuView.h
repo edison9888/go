@@ -17,9 +17,10 @@ typedef enum{
 
 @protocol PullDownMenuDelegate;
 @interface PullDownMenuView : UIView{
-    UIButton *syncBtn;
+    UIButton *mapBtn;
     UIButton *editBtn;
-    UIButton *shareBtn;
+    UIButton *syncBtn;
+    //UIButton *shareBtn;
     PullDownMenuState state;
 }
 
@@ -32,7 +33,8 @@ typedef enum{
 @end
 
 @protocol PullDownMenuDelegate
-- (void)showEditTravelPlan:(PullDownMenuView *)view;
-- (void)showShareMenu:(PullDownMenuView *)view;
+- (void) switchToMapMode:(PullDownMenuView *)view;
+- (void)editLocationsSequence:(PullDownMenuView *)view;
 - (void) startSynchronize:(PullDownMenuView *)view;
+//- (void)showShareMenu:(PullDownMenuView *)view;
 @end

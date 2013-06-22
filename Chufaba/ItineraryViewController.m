@@ -310,11 +310,19 @@
     
     self.tableViewRecognizer = [self.tableView enableGestureTableViewWithDelegate:self];
     
-    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -80.0f, self.view.frame.size.width, 80)];
-    UIImageView *pullImgView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 10, 72, 40)];
-    pullImgView.image = [UIImage imageNamed:@"pull_bg"];
-    [pullView addSubview:pullImgView];
-    [self.tableView addSubview:pullView];
+//    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -80.0f, self.view.frame.size.width, 80)];
+//    UIImageView *pullImgView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 10, 72, 40)];
+//    pullImgView.image = [UIImage imageNamed:@"pull_bg"];
+//    [pullView addSubview:pullImgView];
+//    [self.tableView addSubview:pullView];
+    
+    if (pullDownMenuView == nil)
+    {
+        PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
+        view.delegate = self;
+        [self.tableView addSubview:view];
+        pullDownMenuView = view;
+    }
     
     [self.view addSubview:self.tableView];
     
@@ -392,6 +400,16 @@
 - (IBAction)backToPrevious:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [pullDownMenuView pdmScrollViewDidScroll:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [pullDownMenuView pdmScrollViewDidEndDragging:scrollView];
 }
 
 - (IBAction)previousMapLocation:(id)sender
@@ -801,6 +819,22 @@
 {
     int index = [oneDimensionLocationList indexOfObject:curLocation];
     return [oneDimensionLocationList objectAtIndex:index+1];
+}
+
+//Implement PullDownMenuView delegate
+- (void) switchToMapMode:(PullDownMenuView *)view
+{
+
+}
+
+- (void)editLocationsSequence:(PullDownMenuView *)view
+{
+
+}
+
+- (void) startSynchronize:(PullDownMenuView *)view
+{
+
 }
 
 //Implement MKMapView delegate methods
