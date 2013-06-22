@@ -9,12 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "FMDBDataAccess.h" 
-//#import "SearchLocationViewController.h"
-//#import "SelectCategoryViewController.h"
 #import "SearchViewController.h"
 #import "NIDropDown.h"
 #import "PullDownMenuView.h"
-//#import "AddPlanViewController.h"
 #import "FMDBDataAccess.h" 
 #import "LocationViewController.h"
 
@@ -26,6 +23,7 @@
 //#import "LoginViewController.h"
 
 #import "ItineraryViewTableViewCell.h"
+#import "MapViewController.h"
 
 
 @class ItineraryDataController;
@@ -35,9 +33,7 @@
 -(void) didDeleteLocationFromPlan;
 @end
 
-//@interface ItineraryViewController:UIViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,PullDownMenuDelegate,AddPlanViewControllerDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, SocialAccountManagerDelegate>
-//@interface ItineraryViewController:SwipeableViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,MKMapViewDelegate,CLLocationManagerDelegate, UIActionSheetDelegate, SocialAccountManagerDelegate, SearchViewControllerDelegate>
-@interface ItineraryViewController:SwipeableViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,MKMapViewDelegate,CLLocationManagerDelegate, SearchViewControllerDelegate, UIGestureRecognizerDelegate, PullDownMenuDelegate>
+@interface ItineraryViewController:SwipeableViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,MKMapViewDelegate,CLLocationManagerDelegate, SearchViewControllerDelegate, UIGestureRecognizerDelegate, PullDownMenuDelegate, MapViewControllerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;

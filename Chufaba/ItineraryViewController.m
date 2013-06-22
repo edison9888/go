@@ -14,7 +14,6 @@
 #import "SearchLocationViewController.h"
 #import "LocationAnnotation.h"
 //#import "ShareViewController.h"
-
 //#import "WXApi.h"
 
 @interface ItineraryViewController () {
@@ -309,12 +308,6 @@
     self.tableView.dataSource = self;
     
     self.tableViewRecognizer = [self.tableView enableGestureTableViewWithDelegate:self];
-    
-//    UIView *pullView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, -80.0f, self.view.frame.size.width, 80)];
-//    UIImageView *pullImgView = [[UIImageView alloc] initWithFrame:CGRectMake(124, 10, 72, 40)];
-//    pullImgView.image = [UIImage imageNamed:@"pull_bg"];
-//    [pullView addSubview:pullImgView];
-//    [self.tableView addSubview:pullView];
     
     if (pullDownMenuView == nil)
     {
@@ -824,7 +817,23 @@
 //Implement PullDownMenuView delegate
 - (void) switchToMapMode:(PullDownMenuView *)view
 {
-
+    //self.tableView.contentInset = UIEdgeInsetsZero;
+    MapViewController *mapViewController = [[MapViewController alloc] init];
+    mapViewController.delegate = self;
+    mapViewController.currentItineraryList = [self.dataController.masterTravelDayList mutableCopy];
+    mapViewController.itineraryListBackup = [self.itineraryListBackup mutableCopy];
+    mapViewController.itineraryDuration = [NSNumber numberWithInt:[self.dataController.itineraryDuration intValue]];
+    
+    if(singleDayMode)
+    {
+        mapViewController.daySelected = [NSNumber numberWithInt:[self.daySelected intValue]];
+    }
+    else
+    {
+        mapViewController.daySelected = [NSNumber numberWithInt:0];
+    }
+    
+    [self.navigationController pushViewController:mapViewController animated:YES];
 }
 
 - (void)editLocationsSequence:(PullDownMenuView *)view
@@ -1488,4 +1497,27 @@
     
     [self updateFooterView];
 }
+
+//Implement MapViewControllerDelegate
+-(void) didChangeLocationFromMap:(Location *)location
+{
+    [self didChangeLocation:location];
+}
+
+-(void) notifyItinerayRoloadToThisDay:(NSNumber *)day
+{
+    [self niDropDownDelegateMethod:NULL selectRow:[day integerValue]];
+    
+    if([day intValue] == 0)
+    {
+        [(UIButton *)self.navigationItem.titleView setTitle:@"全部" forState:UIControlStateNormal];
+    }
+    else
+    {
+        [(UIButton *)self.navigationItem.titleView setTitle:[NSString stringWithFormat:@"第%d天", [day intValue]] forState:UIControlStateNormal];
+    }
+    
+    [self.tableView reloadData];
+}
+
 @end
