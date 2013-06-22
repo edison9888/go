@@ -13,17 +13,11 @@
 #import "ItineraryDataController.h"
 #import "SearchLocationViewController.h"
 #import "LocationAnnotation.h"
-//#import "ShareViewController.h"
-//#import "WXApi.h"
 
 @interface ItineraryViewController () {
     NSNumber *lastLatitude;
     NSNumber *lastLongitude;
     BOOL isEmptyItinerary;
-    BOOL changeSelect;
-    BOOL ios6OrAbove;
-    int firstLocationSection;
-    NSInteger btnOffset;
 }
 - (NSMutableArray *)getOneDimensionLocationList;
 
@@ -119,7 +113,6 @@
     [db close];
     
     oneDimensionLocationList = [self getOneDimensionLocationList];
-    self.annotations = [self mapAnnotations];
     [self.itineraryDelegate didAddLocationToPlan];
 }
 
@@ -135,9 +128,6 @@
     return locationList;
 }
 
-#define MAP_BUTTON_TITLE @"地图"
-#define LIST_BUTTON_TITLE @"列表"
-
 #define ADDING_CELL @"Continue..."
 #define DONE_CELL @"Done"
 #define DUMMY_CELL @"Dummy"
@@ -147,120 +137,6 @@
 #define TAG_DAY_FILTER_ARROW 1
 #define TAG_LINE_VIEW 10000
 #define TAG_DETAIL_INDICATOR 10001
-
-#pragma mark - Synchronize Model and View
-- (void)updateMapView
-{
-    if (self.mapView.annotations) [self.mapView removeAnnotations:self.mapView.annotations];
-    if (self.annotations) [self.mapView addAnnotations:self.annotations];
-}
-
-- (void)setMapView:(MKMapView *)mapView
-{
-    _mapView = mapView;
-    [self updateMapView];
-}
-
-- (void)setAnnotations:(NSArray *)annotations
-{
-    _annotations = annotations;
-    [self updateMapView];
-}
-
-- (NSIndexPath *)scrollWhenToggle
-{
-    NSInteger temp = -1;
-    int i,j;
-    for(i=0;i<[self.dataController.masterTravelDayList count];i++)
-    {
-        for(j=0;j<[[self.dataController.masterTravelDayList objectAtIndex:i] count];j++)
-        {
-            if([[[self.dataController.masterTravelDayList objectAtIndex:i] objectAtIndex:j] hasCoordinate])
-            {
-                temp++;
-            }
-            if(temp == self.indexOfCurSelected)
-                break;
-        }
-        if(temp == self.indexOfCurSelected)
-            break;
-    }
-    return [NSIndexPath indexPathForRow:j inSection:i];
-}
-
-- (NSArray *)mapAnnotations
-{
-    //NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[self.photos count]];
-    NSMutableArray *annotations = [[NSMutableArray alloc] init];
-    for(int i=0;i<[self.dataController.masterTravelDayList count];i++)
-    {
-        for (Location *location in [self.dataController.masterTravelDayList objectAtIndex:i]) {
-            if([location hasCoordinate])
-            {
-                [annotations addObject:[LocationAnnotation annotationForLocation:location ShowTitle:YES]];
-            }
-        }
-    }
-    return annotations;
-}
-
-- (BOOL) hasOneLocation
-{
-    BOOL flag = FALSE;
-    if(singleDayMode)
-    {
-        if([[self.dataController.masterTravelDayList objectAtIndex:0] count])
-        {
-            flag = TRUE;
-        }
-    }
-    else
-    {
-        for(int i=0;i<[self.dataController.masterTravelDayList count];i++)
-        {
-            if([[self.dataController.masterTravelDayList objectAtIndex:i] count])
-            {
-                flag = TRUE;
-                firstLocationSection = i;
-                break;
-            }       
-        }
-    }
-    return flag;
-}
-
-- (NSIndexPath *) indexPathForTappedAnnotation
-{
-    int row = 0;
-    int section = 0;
-    if(singleDayMode)
-    {
-        section = 0;
-        row = [self.annotations indexOfObject:tappedAnnotation];
-    }
-    else
-    {
-        int annotationCount = [self.annotations indexOfObject:tappedAnnotation]+1;
-        for(int i=0;i<[self.dataController.masterTravelDayList count];i++)
-        {
-            annotationCount = annotationCount-[[self.dataController.masterTravelDayList objectAtIndex:i] count];
-            if(annotationCount<=0)
-            {
-                section = i;
-                row = annotationCount + [[self.dataController.masterTravelDayList objectAtIndex:i] count] - 1;
-                break;
-            }
-        }
-    }
-    return [NSIndexPath indexPathForRow:row inSection:section];
-}
-
-- (NSIndexPath *) indexPathForLocationIndex:(int)locationIndex
-{
-    int row = 0;
-    int section = 0;
-    return [NSIndexPath indexPathForRow:row inSection:section];
-}
 
 - (NSInteger) oneDimensionCountOfIndexPath:(NSIndexPath *)indexPath
 {
@@ -276,11 +152,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    changeSelect = FALSE;
-    firstLocationSection = 0;
     
     [self setEmptyItinerary];
-    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight40", @"景点", @"food40", @"美食", @"hotel40", @"住宿", @"more40", @"其它", @"pin_sight", @"景点m", @"pin_food", @"美食m", @"pin_hotel", @"住宿m", @"pin_more", @"其它m", nil];
+    self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight40", @"景点", @"food40", @"美食", @"hotel40", @"住宿", @"more40", @"其它", nil];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
     [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
@@ -318,13 +192,6 @@
     }
     
     [self.view addSubview:self.tableView];
-    
-    UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-    [modeBtn setImage:[UIImage imageNamed:@"map"] forState:UIControlStateNormal];
-    [modeBtn setImage:[UIImage imageNamed:@"map_click"] forState:UIControlStateHighlighted];
-    [modeBtn addTarget:self action:@selector(toggleMap) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:modeBtn];
-    self.navigationItem.rightBarButtonItem = rightBtn;
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setFrame:CGRectMake(100,0,120,30)];
@@ -365,29 +232,6 @@
         footerView.backgroundColor = [UIColor whiteColor];
         self.tableView.tableFooterView = footerView;
     }
-    
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    if ([currSysVer compare:@"6.0" options:NSNumericSearch] != NSOrderedAscending)
-    {
-        ios6OrAbove = TRUE;
-        btnOffset = 50;
-    }
-    else
-    {
-        ios6OrAbove = FALSE;
-        btnOffset = 56;
-    }
-    
-    //add UIToolbar for testing
-//    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-88, self.view.frame.size.width, 44)];
-//    NSMutableArray *items = [[NSMutableArray alloc] init];
-//    [items addObject:[[UIBarButtonItem alloc]
-//                                initWithTitle:@"分享"
-//                                style:UIBarButtonItemStyleBordered
-//                                target:self
-//                                action:@selector(openShareMenu:)]];
-//    [toolbar setItems:items animated:NO];
-//    [self.view addSubview:toolbar];
 }
 
 - (IBAction)backToPrevious:(id)sender
@@ -403,288 +247,6 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     [pullDownMenuView pdmScrollViewDidEndDragging:scrollView];
-}
-
-- (IBAction)previousMapLocation:(id)sender
-{
-    //[(UIButton *)[self.mapView viewWithTag:23] setEnabled:YES];
-    if([self.mapView.selectedAnnotations count] == 1)
-    {
-        LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
-        NSNumber *latitude = selectedAnnotation.location.latitude;
-        NSNumber *longitude = selectedAnnotation.location.longitude;
-        self.indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
-        
-        Location *previousLocation;
-        NSInteger curSelectedInAll;
-        if(singleDayMode)
-        {
-            curSelectedInAll = [[self.dataController.masterTravelDayList objectAtIndex:0] indexOfObject:selectedAnnotation.location];
-            for(int i=1; i<[[self.dataController.masterTravelDayList objectAtIndex:0] count]; i++)
-            {
-                previousLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:curSelectedInAll-i];
-                if(!([previousLocation.latitude doubleValue] == 0 && [previousLocation.longitude doubleValue] == 0))
-                {
-                    if([previousLocation.latitude compare:latitude] == NSOrderedSame && [previousLocation.longitude compare:longitude] == NSOrderedSame)
-                    {
-                        [self.mapView selectAnnotation:[self.annotations objectAtIndex:self.indexOfCurSelected-1] animated:YES];
-                    }
-                    break;
-                }
-            }
-        }
-        else
-        {
-            curSelectedInAll = [oneDimensionLocationList indexOfObject:selectedAnnotation.location];
-            for(int i=1; i<[oneDimensionLocationList count]; i++)
-            {
-                previousLocation = [oneDimensionLocationList objectAtIndex:curSelectedInAll-i];
-                if(!([previousLocation.latitude doubleValue] == 0 && [previousLocation.longitude doubleValue] == 0))
-                {
-                    if([previousLocation.latitude compare:latitude] == NSOrderedSame && [previousLocation.longitude compare:longitude] == NSOrderedSame)
-                    {
-                        [self.mapView selectAnnotation:[self.annotations objectAtIndex:self.indexOfCurSelected-1] animated:YES];
-                    }
-                    break;
-                }
-            }
-        }
-        CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([previousLocation.latitude doubleValue], [previousLocation.longitude doubleValue]);
-        
-        [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
-        self.indexOfCurSelected -=1;
-        changeSelect = TRUE;
-    }
-}
-
-- (IBAction)nextMapLocation:(id)sender
-{
-    if([self.mapView.selectedAnnotations count] == 1)
-    {
-        LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
-        NSNumber *latitude = selectedAnnotation.location.latitude;
-        NSNumber *longitude = selectedAnnotation.location.longitude;
-        self.indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
-        
-        Location *nextLocation;
-        NSInteger curSelectedInAll;
-        if(singleDayMode)
-        {
-            curSelectedInAll = [[self.dataController.masterTravelDayList objectAtIndex:0] indexOfObject:selectedAnnotation.location];
-            for(int i=1; i<[[self.dataController.masterTravelDayList objectAtIndex:0] count]; i++)
-            {
-                nextLocation = [[self.dataController.masterTravelDayList objectAtIndex:0] objectAtIndex:curSelectedInAll+i];
-                if(!([nextLocation.latitude doubleValue] == 0 && [nextLocation.longitude doubleValue] == 0))
-                {
-                    if([nextLocation.latitude compare:latitude] == NSOrderedSame && [nextLocation.longitude compare:longitude] == NSOrderedSame)
-                    {
-                        [self.mapView selectAnnotation:[self.annotations objectAtIndex:self.indexOfCurSelected+1] animated:YES];
-                    }
-                    break;
-                }
-            }
-        }
-        else
-        {
-            curSelectedInAll = [oneDimensionLocationList indexOfObject:selectedAnnotation.location];
-            for(int i=1; i<[oneDimensionLocationList count]; i++)
-            {
-                nextLocation = [oneDimensionLocationList objectAtIndex:curSelectedInAll+i];
-                if(!([nextLocation.latitude doubleValue] == 0 && [nextLocation.longitude doubleValue] == 0))
-                {
-                    if([nextLocation.latitude compare:latitude] == NSOrderedSame && [nextLocation.longitude compare:longitude] == NSOrderedSame)
-                    {
-                        [self.mapView selectAnnotation:[self.annotations objectAtIndex:self.indexOfCurSelected+1] animated:YES];
-                    }
-                    break;
-                }
-            }
-        }
-        CLLocationCoordinate2D selectedLocationCoordinate = CLLocationCoordinate2DMake([nextLocation.latitude doubleValue], [nextLocation.longitude doubleValue]);
-        [self.mapView setCenterCoordinate:selectedLocationCoordinate animated:YES];
-        self.indexOfCurSelected +=1;
-        changeSelect = TRUE;
-    }
-}
-
-- (BOOL)showPositionAlert
-{
-    if(![CLLocationManager locationServicesEnabled])
-        return TRUE;
-    if([CLLocationManager locationServicesEnabled] && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied)
-        return TRUE;
-    return FALSE;
-}
-
-- (IBAction)positionMe:(id)sender
-{
-    if([self showPositionAlert])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                        message:@"请在系统设置中打开“定位服务”来允许“出发吧”确定您的位置"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"知道了"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    [self.mapView setCenterCoordinate:self.mapView.userLocation.coordinate animated:YES];
-    [self.mapView selectAnnotation:self.mapView.userLocation animated:YES];
-}
-
-- (void)toggleMap
-{
-	if(!self.mapView)
-    {
-        self.mapView = [[MKMapView alloc] init];
-        self.mapView.frame = self.view.bounds;
-        self.mapView.hidden = YES;
-        self.mapView.delegate = self;
-        
-        if (!ios6OrAbove)
-        {
-            for (UIGestureRecognizer *gesture in self.mapView.gestureRecognizers)
-            {
-                if([gesture isKindOfClass:[UITapGestureRecognizer class]])
-                {
-                    gesture.delegate = self;
-                    break;
-                }
-            }
-        }
-        
-        UIView* mapNavView = [[UIView alloc] initWithFrame:CGRectMake(230, self.mapView.frame.size.height-btnOffset, 80, 30)];
-        mapNavView.backgroundColor = [UIColor clearColor];
-        mapNavView.tag = 21;
-        
-        UIButton *mapPreviousButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
-        mapPreviousButton.tag = 22;
-        [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap"] forState:UIControlStateNormal];
-        [mapPreviousButton setImage:[UIImage imageNamed:@"prevmap_click"] forState:UIControlStateHighlighted];
-        [mapPreviousButton setImage:[UIImage imageNamed:@"prevmapDis"] forState:UIControlStateDisabled];
-        [mapPreviousButton addTarget:self action:@selector(previousMapLocation:) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIButton *mapNextButton = [[UIButton alloc] initWithFrame:CGRectMake(40,0,40,30)];
-        mapNextButton.tag = 23;
-        [mapNextButton setImage:[UIImage imageNamed:@"nextmap"] forState:UIControlStateNormal];
-        [mapNextButton setImage:[UIImage imageNamed:@"nextmap_click"] forState:UIControlStateHighlighted];
-        [mapNextButton setImage:[UIImage imageNamed:@"nextmapDis"] forState:UIControlStateDisabled];
-        [mapNextButton addTarget:self action:@selector(nextMapLocation:) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIView* mapPositionView = [[UIView alloc] initWithFrame:CGRectMake(10, self.mapView.frame.size.height-btnOffset, 40, 30)];
-        mapPositionView.backgroundColor = [UIColor clearColor];
-        mapPositionView.tag = 24;
-        
-        UIButton *positionButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,40,30)];
-        [positionButton setImage:[UIImage imageNamed:@"position"] forState:UIControlStateNormal];
-        [positionButton setImage:[UIImage imageNamed:@"position_click"] forState:UIControlStateHighlighted];
-        [positionButton addTarget:self action:@selector(positionMe:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [mapNavView addSubview:mapPreviousButton];
-        [mapNavView addSubview:mapNextButton];
-        [mapPositionView addSubview:positionButton];
-        [self.mapView addSubview:mapNavView];
-        [self.mapView addSubview:mapPositionView];
-        
-        [self.view addSubview:self.mapView];
-    }
-    if (self.mapView.isHidden)
-    {
-        self.annotations = [self mapAnnotations];
-        
-        if(!self.locationManager)
-        {
-            self.locationManager = [[CLLocationManager alloc] init];
-            self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-            self.locationManager.delegate = self;
-            self.curLocation = nil;
-            [self.locationManager startUpdatingLocation];
-        }
-        
-        if(self.mapView.showsUserLocation == NO)
-        {
-            self.mapView.showsUserLocation = YES;
-        }
-        
-        if(dropDown)
-        {
-            [dropDown hideDropDownWithoutAnimation:(UIButton *)self.navigationItem.titleView];
-            dropDown = nil;
-            [[self.view viewWithTag:55] removeFromSuperview];
-        }
-        [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
-        if([self hasOneLocation])
-        {
-            Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:firstLocationSection] objectAtIndex:0];
-            if ([firstLocation hasCoordinate]) {
-                CLLocationCoordinate2D customLoc2D_5 = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
-                [self.mapView setCenterCoordinate:customLoc2D_5 animated:YES];
-                
-                MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(customLoc2D_5, 2000, 2000);
-                MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
-                
-                [self.mapView setRegion:adjustedRegion animated:TRUE];
-
-                if (ios6OrAbove)
-                {
-                    [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
-                }
-                else
-                {
-                    [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:NO];
-                }
-            }
-        }
-        
-        [UIView transitionWithView:self.view
-                          duration:.8
-                           options:UIViewAnimationOptionTransitionFlipFromRight
-                        animations:^{ self.tableView.hidden = YES; self.mapView.hidden = NO; }
-                        completion:NULL];
-        
-        UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-        [modeBtn setImage:[UIImage imageNamed:@"list"] forState:UIControlStateNormal];
-        [modeBtn setImage:[UIImage imageNamed:@"list_click"] forState:UIControlStateHighlighted];
-        [modeBtn addTarget:self action:@selector(toggleMap) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:modeBtn];
-        self.navigationItem.rightBarButtonItem = rightBtn;
-	}
-    else
-    {
-		self.tableView.contentInset = UIEdgeInsetsZero;
-        
-        [UIView transitionWithView:self.view
-                          duration:.8
-                           options:UIViewAnimationOptionTransitionFlipFromLeft
-                        animations:^{
-                            self.mapView.hidden = YES;
-                            self.tableView.hidden = NO;
-                        }
-                        completion:NULL];
-        if([oneDimensionLocationList count] > 0)
-        {
-            [self.tableView scrollToRowAtIndexPath:[self scrollWhenToggle] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-        }
-        UIButton *modeBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
-        [modeBtn setImage:[UIImage imageNamed:@"map"] forState:UIControlStateNormal];
-        [modeBtn setImage:[UIImage imageNamed:@"map_click"] forState:UIControlStateHighlighted];
-        [modeBtn addTarget:self action:@selector(toggleMap) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:modeBtn];
-        self.navigationItem.rightBarButtonItem = rightBtn;
-	}
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    if (self.mapView)
-    {
-        //if ([touch.view isDescendantOfView:self.mapView])
-        if ([touch.view isKindOfClass:[UIButton class]])
-        {
-            return NO; 
-        }
-    }
-    return YES; 
 }
 
 #pragma mark JTTableViewGestureMoveRowDelegate
@@ -795,7 +357,6 @@
     }
     
     oneDimensionLocationList = [self getOneDimensionLocationList];
-    self.annotations = [self mapAnnotations];
     
     self.grabbedObject = nil;
     [self updateFooterView];
@@ -844,101 +405,6 @@
 - (void) startSynchronize:(PullDownMenuView *)view
 {
 
-}
-
-//Implement MKMapView delegate methods
-#define LOCATION_ANNOTATION_VIEWS @"LocationAnnotationViews"
-
-- (MKAnnotationView *)mapView:(MKMapView *)sender viewForAnnotation:(id <MKAnnotation>)annotation
-{
-	if ([annotation isKindOfClass:[MKUserLocation class]])
-    {
-        ((MKUserLocation *)annotation).title = @"我在这";
-        return nil;
-    }
-    
-    MKAnnotationView *aView = [sender dequeueReusableAnnotationViewWithIdentifier:LOCATION_ANNOTATION_VIEWS];
-    
-	if (!aView) {
-        aView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:LOCATION_ANNOTATION_VIEWS];
-        
-		aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        aView.leftCalloutAccessoryView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,30,30)];
-        UILabel *label = ((UILabel *)aView.leftCalloutAccessoryView);
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1];
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
-		aView.canShowCallout = YES;
-	}
-
-    LocationAnnotation *locationAnnotation = (LocationAnnotation *)annotation;
-    aView.image = [UIImage imageNamed:[self.categoryImage objectForKey:[locationAnnotation.location.category stringByAppendingString:@"m"]]];
-    NSUInteger index = [oneDimensionLocationList indexOfObject:locationAnnotation.location];
-    ((UILabel *)aView.leftCalloutAccessoryView).text = [NSString stringWithFormat:@"%d", index+1];
-	aView.annotation = annotation;
-    
-	return aView;
-}
-
-- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
-{
-    if(changeSelect)
-    {
-        [self.mapView selectAnnotation:[self.annotations objectAtIndex:self.indexOfCurSelected] animated:YES];
-        changeSelect = FALSE;
-    }
-}
-
-- (void)mapView:(MKMapView *)sender didSelectAnnotationView:(MKAnnotationView *)aView
-{
-    LocationAnnotation *selectedAnnotation = [self.mapView.selectedAnnotations objectAtIndex:0];
-    if ([selectedAnnotation isKindOfClass:[MKUserLocation class]])
-    {
-        [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
-        [(UIButton *)[self.mapView viewWithTag:23] setEnabled:NO];
-    }
-    else
-    {
-        [(UIButton *)[self.mapView viewWithTag:22] setEnabled:YES];
-        [(UIButton *)[self.mapView viewWithTag:23] setEnabled:YES];
-        
-        NSInteger indexOfCurSelected = [self.annotations indexOfObject:selectedAnnotation];
-        if(indexOfCurSelected == 0)
-        {
-            [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
-            if([self.annotations count] == 1)
-            {
-                [(UIButton *)[self.mapView viewWithTag:23] setEnabled:NO];
-            }
-        }
-        else if(indexOfCurSelected == [self.annotations count]-1)
-        {
-            [(UIButton *)[self.mapView viewWithTag:23] setEnabled:NO];
-        }
-    }
-}
-
-- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
-{
-    if([self.mapView.selectedAnnotations count] == 0)
-    {
-        [(UIButton *)[self.mapView viewWithTag:22] setEnabled:NO];
-        [(UIButton *)[self.mapView viewWithTag:23] setEnabled:NO];
-    }
-}
-
-- (void)mapView:(MKMapView *)sender annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
-{
-    tappedAnnotation = aView.annotation;
-    
-    LocationViewController *locationViewController = [[LocationViewController alloc] init];
-    locationViewController.delegate = self;
-    locationViewController.location = ((LocationAnnotation *)tappedAnnotation).location;
-    locationViewController.locationIndex = [oneDimensionLocationList indexOfObject:locationViewController.location];
-    locationViewController.totalLocationCount = [oneDimensionLocationList count];
-    locationViewController.navDelegate = self;
-    [self.navigationController pushViewController:locationViewController animated:YES];
 }
 
 //Add 4 methods to make UIViewCtroller behave like UITableViewController
@@ -1032,7 +498,7 @@
     UIImageView *dayFilterImg = (UIImageView *)[dayFilterBtn viewWithTag:TAG_DAY_FILTER_ARROW];
     dayFilterImg.frame = CGRectMake(dayFilterBtn.titleLabel.frame.origin.x + stringsize.width + 3, dayFilterImg.frame.origin.y, dayFilterImg.frame.size.width, dayFilterImg.frame.size.height );
     dropDown = nil;
-    //self.tableView.contentInset = UIEdgeInsetsZero;
+
     [[self.view viewWithTag:55] removeFromSuperview];
     self.daySelected = [NSNumber numberWithInt:rowIndex];
     if(rowIndex == 0){
@@ -1046,30 +512,6 @@
         [self.dataController.masterTravelDayList addObject:dayList];
     }
     [self.tableView reloadData];
-    self.annotations = [self mapAnnotations];
-    
-    if(!self.mapView.isHidden && [self hasOneLocation])
-    {
-        Location *firstLocation = [[self.dataController.masterTravelDayList objectAtIndex:firstLocationSection] objectAtIndex:0];
-        if ([firstLocation hasCoordinate]) {
-            CLLocationCoordinate2D firstLocationCoordinate = CLLocationCoordinate2DMake([firstLocation.latitude doubleValue], [firstLocation.longitude doubleValue]);
-            [self.mapView setCenterCoordinate:firstLocationCoordinate animated:YES];
-            
-            MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(firstLocationCoordinate, 2000, 2000);
-            MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:region];
-            
-            [self.mapView setRegion:adjustedRegion animated:TRUE];
-
-            if (ios6OrAbove)
-            {
-                [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:YES];
-            }
-            else
-            {
-                [self.mapView selectAnnotation:[self.annotations objectAtIndex:0] animated:NO];
-            }
-        }
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -1389,26 +831,26 @@
 //    }
 //}
 
--(NSInteger) daySequence:(NSDate *) date
-{
-    if([date compare: self.plan.date] != NSOrderedAscending)
-    {
-        NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:date];
-        if(daysBetween < [self.plan.duration intValue])
-        {
-            return daysBetween;
-        }
-        else
-        {
-            return -1;
-        }
-    }
-    else
-    {
-        return -1;
-    }
-    
-}
+//-(NSInteger) daySequence:(NSDate *) date
+//{
+//    if([date compare: self.plan.date] != NSOrderedAscending)
+//    {
+//        NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:date];
+//        if(daysBetween < [self.plan.duration intValue])
+//        {
+//            return daysBetween;
+//        }
+//        else
+//        {
+//            return -1;
+//        }
+//    }
+//    else
+//    {
+//        return -1;
+//    }
+//    
+//}
 
 - (void)tableView:(UITableView *)tableView didSwipeCellAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -1461,7 +903,6 @@
     }
     
     oneDimensionLocationList = [self getOneDimensionLocationList];
-    self.annotations = [self mapAnnotations];
 
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];

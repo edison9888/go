@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MapKit/MapKit.h>
 #import "FMDBDataAccess.h" 
 #import "SearchViewController.h"
 #import "NIDropDown.h"
@@ -33,34 +32,24 @@
 -(void) didDeleteLocationFromPlan;
 @end
 
-@interface ItineraryViewController:SwipeableViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,MKMapViewDelegate,CLLocationManagerDelegate, SearchViewControllerDelegate, UIGestureRecognizerDelegate, PullDownMenuDelegate, MapViewControllerDelegate>
+@interface ItineraryViewController:SwipeableViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,CLLocationManagerDelegate, SearchViewControllerDelegate, PullDownMenuDelegate, MapViewControllerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
     BOOL singleDayMode;
-    id <MKAnnotation> tappedAnnotation;
     NSMutableArray *oneDimensionLocationList;
-    
     BOOL loginForShare;
 }
 
-- (BOOL) hasOneLocation;
-- (NSIndexPath *) indexPathForTappedAnnotation;
 - (NSInteger) oneDimensionCountOfIndexPath:(NSIndexPath *)indexPath;
 
 //JTGesture code
 @property (nonatomic, strong) JTTableViewGestureRecognizer *tableViewRecognizer;
 @property (nonatomic, strong) id grabbedObject;
 
-@property (nonatomic) CLLocationManager *locationManager;
-@property (nonatomic) CLLocation *curLocation;
-
-@property (nonatomic, strong) NSArray *annotations; // of id <MKAnnotation>
-
-@property (nonatomic,strong) MKMapView *mapView;
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
 
-@property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
+//@property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
 @property (nonatomic,strong) Plan *plan;
 @property (strong, nonatomic) ItineraryDataController *dataController;
 @property (strong, nonatomic) NSMutableArray *itineraryListBackup;
@@ -76,8 +65,6 @@
 @property (nonatomic,weak) id<ItineraryViewControllerDelegate> itineraryDelegate;
 
 @property (nonatomic,strong) NSIndexPath *indexPathOfLocationToDelete;
-
-@property (nonatomic, assign) NSInteger indexOfCurSelected;
 
 //@property (strong, nonatomic) SocialAccountManager *accountManager;
 

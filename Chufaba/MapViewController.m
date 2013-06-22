@@ -625,4 +625,30 @@
     // Dispose of any resources that can be recreated.
 }
 
+//- (NSIndexPath *) indexPathForTappedAnnotation
+//{
+//    int row = 0;
+//    int section = 0;
+//    if(singleDayMode)
+//    {
+//        section = 0;
+//        row = [self.annotations indexOfObject:tappedAnnotation];
+//    }
+//    else
+//    {
+//        int annotationCount = [self.annotations indexOfObject:tappedAnnotation]+1;
+//        for(int i=0;i<[self.dataController.masterTravelDayList count];i++)
+//        {
+//            annotationCount = annotationCount-[[self.dataController.masterTravelDayList objectAtIndex:i] count];
+//            if(annotationCount<=0)
+//            {
+//                section = i;
+//                row = annotationCount + [[self.dataController.masterTravelDayList objectAtIndex:i] count] - 1;
+//                break;
+//            }
+//        }
+//    }
+//    return [NSIndexPath indexPathForRow:row inSection:section];
+//}
+
 @end
