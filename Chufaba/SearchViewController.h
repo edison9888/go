@@ -11,6 +11,8 @@
 #import "AddLocationViewController.h"
 #import "SearchTableViewCell.h"
 
+@class Plan;
+
 @protocol SearchViewControllerDelegate<NSObject>
 
 -(void) notifyItinerayToReload;
@@ -37,14 +39,11 @@
 @property (nonatomic, strong) UISearchBar *locationInput;
 @property (nonatomic, strong) UITableView *tableView;
 
+@property (nonatomic, strong) Plan *plan;
 @property (nonatomic,weak) NSNumber *dayToAdd;
-@property (nonatomic,weak) NSNumber *seqToAdd;
 
 @property (nonatomic, copy) NSNumber *lastLatitude;
 @property (nonatomic, copy) NSNumber *lastLongitude;
-@property (nonatomic, copy) NSNumber *planId;
-
-@property (nonatomic, strong) NSMutableArray *dayLocationCount;
 
 @property (nonatomic, strong) NSDictionary *categoryImage;
 

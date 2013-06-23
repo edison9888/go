@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class ItineraryDataController;
+@class Location;
 
 @interface Plan : NSObject
 
@@ -43,5 +44,22 @@
 
 -(Boolean)newPlan;
 
+-(NSUInteger)getLocationCountFromDay:(NSUInteger)day;
+-(Location *)getLocationFromDay:(NSUInteger)day AtIndex:(NSUInteger)index;
+-(void)addLocation:(Location *)location ToDay:(NSUInteger)day;
+-(void)moveThisLocation:(Location *)thisLocation ToThatLocation:(Location *)thatLocation;
+-(void)persistentReorderFromThisLocation:(Location *)thisLocation ToThatLocation:(Location *)thatLocation;
+-(void)removeLocation:(Location *)location;
+-(void)removeLocationFromDay:(NSUInteger)day AtIndex:(NSUInteger)index;
+
+-(Boolean)hasNextLocation:(Location *)location;
+-(Boolean)hasPreviousLocation:(Location *)location;
+-(Location *)getNextLocation:(Location *)location;
+-(Location *)getPreviousLocation:(Location *)location;
+
+-(Boolean)hasSameDayNextLocation:(Location *)location;
+-(Boolean)hasSameDayPreviousLocation:(Location *)location;
+-(Location *)getSameDayNextLocation:(Location *)location;
+-(Location *)getSameDayPreviousLocation:(Location *)location;
 
 @end

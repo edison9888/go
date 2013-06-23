@@ -250,14 +250,9 @@
         itineraryViewController.itineraryDelegate = self;
         Plan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
         [selectedPlan loadItinerary];
-        itineraryViewController.dataController.date = selectedPlan.date;
-        itineraryViewController.dataController.masterTravelDayList = selectedPlan.itinerary;
-        itineraryViewController.dataController.itineraryDuration = selectedPlan.duration;
-        itineraryViewController.itineraryListBackup = selectedPlan.itinerary;
-        itineraryViewController.daySelected = [NSNumber numberWithInt:0];
         itineraryViewController.plan = selectedPlan;
-        itineraryViewController.dataController.plan = selectedPlan;
-        [itineraryViewController.dataController updatePois];
+        itineraryViewController.daySelected = [NSNumber numberWithInt:0];
+        //[itineraryViewController.dataController updatePois];
     }
     else if ([[segue identifier] isEqualToString:@"AddPlan"])
     {

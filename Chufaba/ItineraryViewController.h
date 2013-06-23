@@ -37,7 +37,6 @@
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
     BOOL singleDayMode;
-    NSMutableArray *oneDimensionLocationList;
     BOOL loginForShare;
 }
 
@@ -45,14 +44,13 @@
 
 //JTGesture code
 @property (nonatomic, strong) JTTableViewGestureRecognizer *tableViewRecognizer;
-@property (nonatomic, strong) id grabbedObject;
+@property (nonatomic, strong) Location *grabbingLocation;
+@property (nonatomic, copy) NSIndexPath *grabbingFrom;
 
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
 
 //@property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
 @property (nonatomic,strong) Plan *plan;
-@property (strong, nonatomic) ItineraryDataController *dataController;
-@property (strong, nonatomic) NSMutableArray *itineraryListBackup;
 @property (nonatomic,weak) NSNumber *daySelected;
 @property (nonatomic,weak) NSNumber *dayToAdd;
 @property (nonatomic,weak) NSNumber *seqToAdd;

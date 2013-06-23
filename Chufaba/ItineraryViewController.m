@@ -19,18 +19,10 @@
     NSNumber *lastLongitude;
     BOOL isEmptyItinerary;
 }
-- (NSMutableArray *)getOneDimensionLocationList;
 
-- (void)setEmptyItinerary;
 @end
 
 @implementation ItineraryViewController
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    self.dataController = [[ItineraryDataController alloc] init];
-}
 
 - (NSDateFormatter *)dateFormatter {
     if (! _dateFormatter) {
@@ -49,138 +41,6 @@
     return _gregorian;
 }
 
-- (void)setEmptyItinerary
-{
-    isEmptyItinerary = TRUE;
-    for (NSMutableArray *array in self.dataController.masterTravelDayList)
-    {
-        if([array count] > 0)
-        {
-            isEmptyItinerary = FALSE;
-            break;
-        }
-    }
-}
-
-- (void)reloadDataController
-{
-    NSMutableArray *tempList = [[NSMutableArray alloc] init];
-    for (int i = 0; i < [self.plan.duration intValue]; i++)
-    {
-        NSMutableArray *dayList = [[NSMutableArray alloc] init];
-        [tempList addObject:dayList];
-    }
-    
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    
-    [db open];
-    
-    NSNumber *planID = self.plan.planId;
-    FMResultSet *results = [db executeQuery:@"SELECT * FROM location,plan WHERE plan_id=? AND plan_id=plan.id order by whichday,seqofday",planID];
-
-    while([results next])
-    {
-        int dayID = [results intForColumn:@"whichday"]-1;
-        Location *location = [[Location alloc] init];
-        location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
-        location.planId = self.plan.planId;
-        location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
-        location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
-        location.name = [results stringForColumn:@"name"];
-        location.nameEn = [results stringForColumn:@"name_en"];
-        location.country = [results stringForColumn:@"country"];
-        location.city = [results stringForColumn:@"city"];
-        location.address = [results stringForColumn:@"address"];
-        location.transportation = [results stringForColumn:@"transportation"];
-        location.cost = [NSNumber numberWithInt:[results intForColumn:@"cost"]];
-        location.currency = [results stringForColumn:@"currency"];
-        location.visitBegin = [results stringForColumn:@"visit_begin"];
-        location.detail = [results stringForColumn:@"detail"];
-        location.category = [results stringForColumn:@"category"];
-        location.latitude = [NSNumber numberWithDouble:[results doubleForColumn:@"latitude"]];
-        location.longitude = [NSNumber numberWithDouble:[results doubleForColumn:@"longitude"]];
-        location.useradd = [results boolForColumn:@"useradd"];
-        location.poiId = [NSNumber numberWithInt:[results intForColumn:@"poi_id"]];
-        location.opening = [results stringForColumn:@"opening"];
-        location.fee = [results stringForColumn:@"fee"];
-        location.website = [results stringForColumn:@"website"];
-        [[tempList objectAtIndex:dayID] addObject:location];
-    }
-    self.dataController.masterTravelDayList = [tempList mutableCopy];
-    self.itineraryListBackup = [tempList mutableCopy];
-    
-    [db close];
-    
-    oneDimensionLocationList = [self getOneDimensionLocationList];
-    [self.itineraryDelegate didAddLocationToPlan];
-}
-
-//- (void)reloadDataController
-//{
-//    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-//    
-//    [db open];
-//    
-//    NSNumber *planID = self.plan.planId;
-//    FMResultSet *results = [db executeQuery:@"SELECT * FROM location,plan WHERE plan_id=? AND plan_id=plan.id AND whichday=? order by seqofday",planID, self.dayToAdd];
-//
-//    NSMutableArray *array = [[NSMutableArray alloc] init];
-//    while([results next])
-//    {
-//        Location *location = [[Location alloc] init];
-//        location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
-//        location.planId = self.plan.planId;
-//        location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
-//        location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
-//        location.name = [results stringForColumn:@"name"];
-//        location.nameEn = [results stringForColumn:@"name_en"];
-//        location.country = [results stringForColumn:@"country"];
-//        location.city = [results stringForColumn:@"city"];
-//        location.address = [results stringForColumn:@"address"];
-//        location.transportation = [results stringForColumn:@"transportation"];
-//        location.cost = [NSNumber numberWithInt:[results intForColumn:@"cost"]];
-//        location.currency = [results stringForColumn:@"currency"];
-//        location.visitBegin = [results stringForColumn:@"visit_begin"];
-//        location.detail = [results stringForColumn:@"detail"];
-//        location.category = [results stringForColumn:@"category"];
-//        location.latitude = [NSNumber numberWithDouble:[results doubleForColumn:@"latitude"]];
-//        location.longitude = [NSNumber numberWithDouble:[results doubleForColumn:@"longitude"]];
-//        location.useradd = [results boolForColumn:@"useradd"];
-//        location.poiId = [NSNumber numberWithInt:[results intForColumn:@"poi_id"]];
-//        location.opening = [results stringForColumn:@"opening"];
-//        location.fee = [results stringForColumn:@"fee"];
-//        location.website = [results stringForColumn:@"website"];
-//        [array addObject:location];
-//    }
-//    if(singleDayMode)
-//    {
-//        [self.dataController.masterTravelDayList replaceObjectAtIndex:0 withObject:array];
-//        [self.itineraryListBackup replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
-//    }
-//    else
-//    {
-//        [self.dataController.masterTravelDayList replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
-//        [self.itineraryListBackup replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
-//    }
-//    
-//    [db close];
-//    
-//    oneDimensionLocationList = [self getOneDimensionLocationList];
-//    [self.itineraryDelegate didAddLocationToPlan];
-//}
-
-- (NSMutableArray *) getOneDimensionLocationList
-{
-    NSMutableArray *locationList = [[NSMutableArray alloc] init];
-    for(int i=0;i<[self.itineraryListBackup count];i++)
-    {
-        for (Location *location in [self.itineraryListBackup objectAtIndex:i]) {
-            [locationList addObject:location];
-        }
-    }
-    return locationList;
-}
-
 #define ADDING_CELL @"Continue..."
 #define DONE_CELL @"Done"
 #define DUMMY_CELL @"Dummy"
@@ -191,22 +51,12 @@
 #define TAG_LINE_VIEW 10000
 #define TAG_DETAIL_INDICATOR 10001
 
-- (NSInteger) oneDimensionCountOfIndexPath:(NSIndexPath *)indexPath
-{
-    int count = 0;
-    for(int i=0;i<indexPath.section;i++)
-    {
-        count += [self.tableView numberOfRowsInSection:i];
-    }
-    count = count+ indexPath.row;
-    return count;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self setEmptyItinerary];
+    isEmptyItinerary = [_plan locationCount] == 0;
+    
     self.categoryImage = [NSDictionary dictionaryWithObjectsAndKeys:@"sight40", @"景点", @"food40", @"美食", @"hotel40", @"住宿", @"more40", @"其它", nil];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
@@ -234,8 +84,7 @@
         self.tableView.rowHeight = 44.0f;
     }
     self.tableView.sectionHeaderHeight = 44.0f;
-    
-    oneDimensionLocationList = [self getOneDimensionLocationList];
+
 
     self.tableView.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height-44);
     self.tableView.delegate = self;
@@ -286,14 +135,7 @@
 //        }
 //    }
     
-    if([[self.dataController.masterTravelDayList lastObject] count] > 0)
-    {
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 1)];
-        footerView.backgroundColor = [UIColor whiteColor];
-        self.tableView.tableFooterView = footerView;
-    }
-    
-    [self.plan sync];
+    [self updateFooterView];
 }
 
 - (IBAction)backToPrevious:(id)sender
@@ -319,122 +161,32 @@
 
 - (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsCreatePlaceholderForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.grabbedObject = [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:DUMMY_CELL];
+    _grabbingFrom = indexPath;
+    _grabbingLocation = [self getLocationAtIndexPath:indexPath];
 }
 
 - (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsMoveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
-    id object = [[self.dataController.masterTravelDayList objectAtIndex:sourceIndexPath.section] objectAtIndex:sourceIndexPath.row];
-    [[self.dataController.masterTravelDayList objectAtIndex:sourceIndexPath.section] removeObjectAtIndex:sourceIndexPath.row];
-    [[self.dataController.masterTravelDayList objectAtIndex:destinationIndexPath.section] insertObject:object atIndex:destinationIndexPath.row];
-    
-    Location *locationToMove = (Location *)self.grabbedObject;
-    int idOfLocationToMove = [locationToMove.locationId intValue];
-    
-    for (NSObject *object in [self.dataController objectInListAtIndex:sourceIndexPath.section])
-    {
-        if ([object isEqual:DUMMY_CELL])
-        {
-            continue;
-        }
-        else
-        {
-            Location *location = (Location *)object;
-            if([location.seqofday intValue] > [locationToMove.seqofday intValue])
-            {
-                location.seqofday = [NSNumber numberWithInt:[location.seqofday intValue] -1];
-            }
-        }
-    }
-    
-    if(singleDayMode)
-    {
-        locationToMove.whichday = [NSNumber numberWithInt:[self.daySelected intValue]];
-    }
-    else
-    {
-        locationToMove.whichday = [NSNumber numberWithInt:destinationIndexPath.section+1];
-    }
-    
-    locationToMove.seqofday = [NSNumber numberWithInt:destinationIndexPath.row+1];
-    
-    for (NSObject *object in [self.dataController objectInListAtIndex:destinationIndexPath.section])
-    {
-        if ([object isEqual:DUMMY_CELL])
-        {
-            continue;
-        }
-        else
-        {
-            Location *location = (Location *)object;
-            if([location.seqofday intValue] >= [locationToMove.seqofday intValue])
-            {
-                location.seqofday = [NSNumber numberWithInt:[location.seqofday intValue]+1];
-            }
-        }
-    }
-    
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    
-    if(singleDayMode)
-    {
-        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",sourceIndexPath.row+1, [self.daySelected intValue]]];
-        
-        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",[self.daySelected intValue], 0, idOfLocationToMove]];
-        
-        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday > %d and whichday = %d",destinationIndexPath.row, [self.daySelected intValue]]];
-        
-        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",[self.daySelected intValue], destinationIndexPath.row+1, idOfLocationToMove]];
-    }
-    else
-    {
-        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",sourceIndexPath.row+1, sourceIndexPath.section+1]];
-        
-        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",sourceIndexPath.section+1, 0, idOfLocationToMove]];
-        
-        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday+1 where seqofday > %d and whichday = %d",destinationIndexPath.row, destinationIndexPath.section+1]];
-        
-        [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET whichday = %d, seqofday = %d where id = %d",destinationIndexPath.section+1, destinationIndexPath.row+1, idOfLocationToMove]];
-    }
-    
-    [db close];
+    [_plan moveThisLocation:[self getLocationAtIndexPath:sourceIndexPath] ToThatLocation:[self getLocationAtIndexPath:destinationIndexPath]];
 }
 
 - (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsReplacePlaceholderForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:self.grabbedObject];
-    
-    if(singleDayMode)
-    {
-        ((Location *)[[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]).whichday = [NSNumber numberWithInt:[self.daySelected intValue]];
-        NSMutableArray *array = [[self.dataController.masterTravelDayList objectAtIndex:0] mutableCopy];
-        [self.itineraryListBackup replaceObjectAtIndex:[self.daySelected intValue]-1 withObject:array];
-    }
-    else
-    {
-        ((Location *)[[self.dataController.masterTravelDayList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]).whichday = [NSNumber numberWithInt:indexPath.section+1];
-        self.itineraryListBackup = [self.dataController.masterTravelDayList mutableCopy];
-    }
-    
-    oneDimensionLocationList = [self getOneDimensionLocationList];
-    
-    self.grabbedObject = nil;
+    [_plan persistentReorderFromThisLocation:[self getLocationAtIndexPath:_grabbingFrom] ToThatLocation:[self getLocationAtIndexPath:indexPath]];
+    _grabbingFrom = nil;
+    _grabbingLocation = nil;
     [self updateFooterView];
 }
 
 //Implement NavigationLocation delegate
 -(Location *) getPreviousLocation:(Location *)curLocation;
 {
-    int index = [oneDimensionLocationList indexOfObject:curLocation];
-    return [oneDimensionLocationList objectAtIndex:index-1];
+    return singleDayMode ? [_plan getSameDayPreviousLocation:curLocation] : [_plan getPreviousLocation:curLocation];
 }
 
 -(Location *) getNextLocation:(Location *)curLocation
 {
-    int index = [oneDimensionLocationList indexOfObject:curLocation];
-    return [oneDimensionLocationList objectAtIndex:index+1];
+    return singleDayMode ? [_plan getSameDayNextLocation:curLocation] : [_plan getNextLocation:curLocation];
 }
 
 //Implement PullDownMenuView delegate
@@ -443,9 +195,13 @@
     //self.tableView.contentInset = UIEdgeInsetsZero;
     MapViewController *mapViewController = [[MapViewController alloc] init];
     mapViewController.delegate = self;
-    mapViewController.currentItineraryList = [self.dataController.masterTravelDayList mutableCopy];
-    mapViewController.itineraryListBackup = [self.itineraryListBackup mutableCopy];
-    mapViewController.itineraryDuration = [NSNumber numberWithInt:[self.dataController.itineraryDuration intValue]];
+    if (singleDayMode) {
+        mapViewController.currentItineraryList = [_plan.itinerary mutableCopy];
+    }else{
+        mapViewController.currentItineraryList = [_plan.itinerary mutableCopy];
+    }
+    mapViewController.itineraryListBackup = [_plan.itinerary mutableCopy];
+    mapViewController.itineraryDuration = _plan.duration;
     
     if(singleDayMode)
     {
@@ -466,7 +222,7 @@
 
 - (void) startSynchronize:(PullDownMenuView *)view
 {
-
+    [self.plan sync];
 }
 
 //Add 4 methods to make UIViewCtroller behave like UITableViewController
@@ -497,7 +253,7 @@
 - (IBAction)selectClicked:(id)sender {
     NSMutableArray * arr = [[NSMutableArray alloc] init];
     [arr addObject:@"全部"];
-    for(int i=0; i<[self.dataController.itineraryDuration intValue]; i++)
+    for(int i=0; i<[_plan.duration intValue]; i++)
     {
         [arr addObject:[NSString stringWithFormat:@"第%d天", i+1]];
     }
@@ -512,7 +268,7 @@
         [darkView addGestureRecognizer:panGesture];
         [self.view addSubview:darkView];
         
-        CGFloat f = ([self.dataController.itineraryDuration intValue]+1)*40;
+        CGFloat f = ([_plan.duration intValue]+1)*40;
         dropDown = [[NIDropDown alloc] showDropDown:sender withHeight:&f withDays:arr];
         dropDown.delegate = self;
     }
@@ -562,17 +318,8 @@
     dropDown = nil;
 
     [[self.view viewWithTag:55] removeFromSuperview];
-    self.daySelected = [NSNumber numberWithInt:rowIndex];
-    if(rowIndex == 0){
-        self.dataController.masterTravelDayList = [self.itineraryListBackup mutableCopy];
-        singleDayMode = false;
-    }
-    else{
-        singleDayMode = true;
-        NSMutableArray *dayList = [self.itineraryListBackup objectAtIndex:rowIndex-1];
-        [self.dataController.masterTravelDayList removeAllObjects];
-        [self.dataController.masterTravelDayList addObject:dayList];
-    }
+    singleDayMode = rowIndex > 0;
+    self.daySelected = [NSNumber numberWithInt:rowIndex - 1];
     [self.tableView reloadData];
 }
 
@@ -583,23 +330,15 @@
 
 -(void) didChangeLocation:(Location *)location
 {
-    if(singleDayMode)
-    {
-        [[self.dataController objectInListAtIndex:0] replaceObjectAtIndex:[location.seqofday intValue]-1 withObject:location];
-    }
-    else
-    {
-        [[self.dataController objectInListAtIndex:[location.whichday intValue]-1] replaceObjectAtIndex:[location.seqofday intValue]-1 withObject:location];
-    }
-    [self.tableView reloadData];
     [location save];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.dataController countOfList];
+    return singleDayMode ? 1 : [_plan.duration integerValue];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -608,7 +347,7 @@
     {
         return  1;
     }
-    return [[self.dataController objectInListAtIndex:section] count];
+    return [_plan getLocationCountFromDay:[self getDayBySection:section]];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -639,9 +378,8 @@
             cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         }
         
-        NSObject *object = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        
-        if ([object isEqual:DUMMY_CELL])
+        Location *locationAtIndex = [self getLocationAtIndexPath:indexPath];
+        if (locationAtIndex == _grabbingLocation)
         {
             cell.textLabel.text = @"";
             cell.detailTextLabel.text = @"";
@@ -652,8 +390,6 @@
         }
         else
         {
-            Location *locationAtIndex = (Location *)object;
-            
             cell.textLabel.text = [locationAtIndex getTitle];
             if (locationAtIndex.visitBegin)
             {
@@ -690,7 +426,7 @@
             lineView.backgroundColor = [UIColor whiteColor];
             lineView.opaque = YES;
             [cell.contentView addSubview:lineView];
-            if(indexPath.section == [self.dataController.masterTravelDayList count] -1 || indexPath.row != [[self.dataController objectInListAtIndex:indexPath.section] count] -1)
+            if(locationAtIndex.whichday.integerValue == ([_plan.duration integerValue] - 1) || [_plan hasNextLocation:locationAtIndex])
             {
                 lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
                 lineView.opaque = YES;
@@ -708,7 +444,7 @@
 
 -(void) updateFooterView
 {
-    if([[self.dataController.masterTravelDayList lastObject] count] > 0)
+    if([_plan getLocationCountFromDay:([_plan.duration integerValue] - 1)] > 0)
     {
         if(!self.tableView.tableFooterView)
         {
@@ -728,9 +464,9 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    NSInteger dayValue = singleDayMode ? [self.daySelected intValue]-1 : section;
+    NSInteger dayValue = singleDayMode ? [self.daySelected intValue] : section;
     
-    NSDateComponents *dayComponents = [self.gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:self.dataController.date];
+    NSDateComponents *dayComponents = [self.gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:_plan.date];
     NSInteger theDay = [dayComponents day];
     NSInteger theMonth = [dayComponents month];
     NSInteger theYear = [dayComponents year];
@@ -795,9 +531,12 @@
 {
     LocationViewController *locationViewController = [[LocationViewController alloc] init];
     locationViewController.delegate = self;
-    locationViewController.location = [[self.dataController objectInListAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    locationViewController.locationIndex = [oneDimensionLocationList indexOfObject:locationViewController.location];
-    locationViewController.totalLocationCount = [oneDimensionLocationList count];
+    
+    Location *location = [self getLocationAtIndexPath:indexPath];
+    locationViewController.location = location;
+
+    locationViewController.locationIndex = location.seqofday;
+    locationViewController.totalLocationCount = [_plan getLocationCountFromDay:location.whichday];
     locationViewController.navDelegate = self;
     [self.navigationController pushViewController:locationViewController animated:YES];
 }
@@ -811,20 +550,13 @@
     {
         UINavigationController *navigationController = segue.destinationViewController;
         SearchViewController *searchController = [[navigationController viewControllers] objectAtIndex:0];
-        
+        searchController.plan = _plan;
         searchController.searchDelegate = self;
-        searchController.planId = self.plan.planId;
         searchController.locationKeyword = self.plan.destination;
-        NSMutableArray *temp = [[NSMutableArray alloc] init];
-        for(NSMutableArray *dayArr in self.itineraryListBackup)
-        {
-            [temp addObject:[NSNumber numberWithInt:[dayArr count]]];
-        }
-        searchController.dayLocationCount = [temp mutableCopy];
         
         if(singleDayMode)
         {
-            searchController.dayToAdd = [NSNumber numberWithInt:[self.daySelected intValue]];
+            searchController.dayToAdd = self.daySelected;
         }
     }
 }
@@ -900,56 +632,23 @@
 
 - (void) deleteLocation
 {
-    //NSInteger deleteIndex = [self oneDimensionCountOfIndexPath:self.indexPathOfLocationToDelete];
-    Location *locationToDelete = [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] objectAtIndex:self.indexPathOfLocationToDelete.row];
+    Location *locationToDelete = [self getLocationAtIndexPath:self.indexPathOfLocationToDelete];
+    BOOL islastLocation = [_plan hasNextLocation:locationToDelete];
+    [_plan removeLocation:locationToDelete];
     
-    BOOL lastSection = [self.dataController.masterTravelDayList count]-1 == self.indexPathOfLocationToDelete.section ? TRUE:FALSE;
-    
-    if(!lastSection && [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] count]-1 == self.indexPathOfLocationToDelete.row)
+    //最后一个地点被删除后删除前一个景点的底部横线
+    if(islastLocation)
     {
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.indexPathOfLocationToDelete.row-1 inSection:self.indexPathOfLocationToDelete.section]];
         if(cell)
         {
             [[cell.contentView viewWithTag:TAG_LINE_VIEW] removeFromSuperview];
         }
-    }
-    
-    [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] removeObjectAtIndex:self.indexPathOfLocationToDelete.row];
-    
-    for (Location *location in [self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section])
-    {
-        if([location.seqofday intValue] > [locationToDelete.seqofday intValue])
-        {
-            location.seqofday = [NSNumber numberWithInt:[location.seqofday intValue] -1];
-        }
-    }
-    
-    [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfLocationToDelete] withRowAnimation:UITableViewRowAnimationFade];
-    //[oneDimensionLocationList removeObjectAtIndex:deleteIndex];
-    
-    if(lastSection && [[self.dataController objectInListAtIndex:self.indexPathOfLocationToDelete.section] count] == 0)
-    {
         self.tableView.tableFooterView = NULL;
     }
     
-    if(singleDayMode)
-    {
-        NSMutableArray *array = [[self.dataController.masterTravelDayList objectAtIndex:0] mutableCopy];
-        [self.itineraryListBackup replaceObjectAtIndex:[self.daySelected intValue]-1 withObject:array];
-    }
-    else
-    {
-        NSMutableArray *array = [[self.dataController.masterTravelDayList objectAtIndex:self.indexPathOfLocationToDelete.section] mutableCopy];
-        [self.itineraryListBackup replaceObjectAtIndex:self.indexPathOfLocationToDelete.section withObject:array];
-    }
+    [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfLocationToDelete] withRowAnimation:UITableViewRowAnimationFade];
     
-    oneDimensionLocationList = [self getOneDimensionLocationList];
-
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    [db executeUpdate:@"DELETE FROM location WHERE id = ?", locationToDelete.locationId];
-    [db executeUpdate:[NSString stringWithFormat:@"UPDATE location SET seqofday = seqofday-1 where seqofday > %d and whichday = %d",[locationToDelete.seqofday intValue], [locationToDelete.whichday intValue]]];
-    [db close];
     [self.itineraryDelegate didDeleteLocationFromPlan];
 }
 
@@ -960,7 +659,6 @@
         isEmptyItinerary = FALSE;
         self.tableView.rowHeight = 44.0f;
     }
-    [self reloadDataController];
     singleDayMode = FALSE;
     [(UIButton *)self.navigationItem.titleView setTitle:@"全部" forState:UIControlStateNormal];
     [self.tableView reloadData];
@@ -1003,6 +701,22 @@
     }
     
     [self.tableView reloadData];
+}
+
+-(Location *)getLocationAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [_plan getLocationFromDay:[self getDayBySection:indexPath.section] AtIndex:indexPath.row];
+}
+
+-(NSUInteger)getDayBySection:(NSInteger)section
+{
+    NSUInteger day = 0;
+    if (singleDayMode) {
+        day = [_daySelected integerValue];
+    } else {
+        day = section;
+    }
+    return day;
 }
 
 @end

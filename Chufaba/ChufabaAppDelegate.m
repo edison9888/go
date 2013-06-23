@@ -61,13 +61,35 @@
     success = [fileManager fileExistsAtPath:self.databasePath];
     
     if(success){
+        [self updateDatabase];
         return;
     }
     
     NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:self.databaseName];
     [fileManager copyItemAtPath:databasePathFromApp toPath:self.databasePath error:nil];
+    [self updateDatabase];
     
     [self copySamplePlanImage];
+}
+
+-(void) updateDatabase
+{
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    FMResultSet *results = [db executeQuery:[NSString stringWithFormat:@"SELECT min(whichday) as whichday, min(seqofday) as seqofday FROM location"]];
+    while([results next])
+    {
+        NSUInteger whichday = [results intForColumn:@"whichday"];
+        NSUInteger seqofday = [results intForColumn:@"seqofday"];
+        if (whichday > 0) {
+            [db executeUpdate:@"update location set whichday = whichday -1 where whichday > 0"];
+        }
+        if (seqofday > 0) {
+            [db executeUpdate:@"update location set seqofday = seqofday -1 where seqofday > 0"];
+        }
+    }
+    [db close];
+
 }
 
 -(void) copySamplePlanImage

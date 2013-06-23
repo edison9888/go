@@ -89,12 +89,12 @@
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
     self.dayScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 0, 300, 44)];
-    self.dayScroll.contentSize = CGSizeMake(DAY_BUTTON_WIDTH*[self.dayLocationCount count], 44);
+    self.dayScroll.contentSize = CGSizeMake(DAY_BUTTON_WIDTH*[_plan.duration intValue], 44);
     self.dayScroll.delegate = self;
     [self.dayScroll setShowsHorizontalScrollIndicator:NO];
     self.dayScroll.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.dayScroll];
-    for (int i=0; i<[self.dayLocationCount count]; i++)
+    for (int i=0; i<[_plan.duration intValue]; i++)
     {
         UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(DAY_BUTTON_WIDTH*i, 0, DAY_BUTTON_WIDTH, 44);
@@ -106,14 +106,13 @@
         [self.dayScroll addSubview:btn];
     }
     
-    //init dayToAdd and seqToAdd
+    //init dayToAdd
     if(!self.dayToAdd)
     {
         int temp = 1;
         self.dayToAdd = [NSNumber numberWithInt:temp];
     }
     int day = [self.dayToAdd intValue];
-    self.seqToAdd = [self.dayLocationCount objectAtIndex:day-1];
     ((UIButton *)[self.dayScroll viewWithTag:day]).selected = YES;
     selectedBtnTag = day;
     
@@ -320,7 +319,6 @@
     ((UIButton *)[self.dayScroll viewWithTag:selectedBtnTag]).selected = NO;
     UIButton *btn = (UIButton *)sender;
     self.dayToAdd = [NSNumber numberWithInt:btn.tag];
-    self.seqToAdd = [self.dayLocationCount objectAtIndex:btn.tag-1];
     btn.selected = YES;
     selectedBtnTag = btn.tag;
 }
@@ -627,13 +625,8 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     Location *location = [[Location alloc] init];
     [location setPoiData:[(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"]];
-    location.planId = self.planId;
-    location.whichday = self.dayToAdd;
-    location.seqofday = self.seqToAdd;
-    [location save];
     
-    //increase seqToAdd
-    self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
+    [_plan addLocation:location ToDay:_dayToAdd];
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_yes"] forType:iToastTypeNotice];
@@ -644,12 +637,9 @@
 - (void)addCustomLocation:(Location *)location
 {
     shouldUpdateItinerary = YES;
-    location.planId = self.planId;
-    location.whichday = self.dayToAdd;
-    location.seqofday = self.seqToAdd;
-    [location save];
     
-    self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
+    [_plan addLocation:location ToDay:_dayToAdd];
+    
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_yes"] forType:iToastTypeNotice];
     theSettings.duration = 3000;
