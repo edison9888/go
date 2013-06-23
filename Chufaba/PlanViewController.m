@@ -246,6 +246,12 @@
             [userDefaults synchronize];
         }
         
+        if ([userDefaults objectForKey:@"lastSelectDay"])
+        {
+            [userDefaults removeObjectForKey:@"lastSelectDay"];
+            [userDefaults synchronize];
+        }
+        
         ItineraryViewController *itineraryViewController = [segue destinationViewController];
         itineraryViewController.itineraryDelegate = self;
         Plan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];

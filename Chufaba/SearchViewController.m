@@ -111,8 +111,15 @@
     //init dayToAdd and seqToAdd
     if(!self.dayToAdd)
     {
-        int temp = 1;
-        self.dayToAdd = [NSNumber numberWithInt:temp];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        if ([userDefaults objectForKey:@"lastSelectDay"])
+        {
+            self.dayToAdd = [userDefaults objectForKey:@"lastSelectDay"];
+        }
+        else
+        {
+            self.dayToAdd = [NSNumber numberWithInt:1];
+        }
     }
     int day = [self.dayToAdd intValue];
     self.seqToAdd = [self.dayLocationCount objectAtIndex:day-1];
@@ -345,6 +352,10 @@
         distance = MAX(0, distance);
     }
     [self.dayScroll setContentOffset:CGPointMake(distance, 0) animated:YES];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:self.dayToAdd forKey:@"lastSelectDay"];
+    [userDefaults synchronize];
 }
 
 - (void) viewDidAppear:(BOOL)animated
