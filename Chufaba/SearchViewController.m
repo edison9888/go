@@ -19,6 +19,8 @@
 {
     NSTimer *timer;
     NSUInteger selectedBtnTag;
+    NSNumber *lastDay;
+    NSNumber *lastSeq;
 }
 
 @property int total;
@@ -533,7 +535,7 @@
             [dests addObject:country_en];
         }
         
-        NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
+        //NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
         
         if ([name length] == 0) {
             name = name_en;
@@ -621,6 +623,8 @@
 - (IBAction)addLocation:(id)sender
 {
     shouldUpdateItinerary = YES;
+    lastDay = [NSNumber numberWithInt:[self.dayToAdd intValue]];
+    lastSeq = [NSNumber numberWithInt:[self.seqToAdd intValue]];
     
     UIButton *button = (UIButton*)sender;
     UITableViewCell *cell = (UITableViewCell *)button.superview.superview;
@@ -700,7 +704,8 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     if(shouldUpdateItinerary)
     {
-        [self.searchDelegate notifyItinerayToReload];
+        //[self.searchDelegate notifyItinerayToReload];
+        [self.searchDelegate notifyItinerayToReload:lastDay withSeq:lastSeq];
     }
 }
 

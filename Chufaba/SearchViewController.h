@@ -13,7 +13,7 @@
 
 @protocol SearchViewControllerDelegate<NSObject>
 
--(void) notifyItinerayToReload;
+-(void) notifyItinerayToReload:(NSNumber *)lastDay withSeq:(NSNumber *)lastSeq;
 
 @end
 
