@@ -46,7 +46,7 @@
 #define LOCATION_LABEL_HEIGHT 12
 #define TOP_VIEW_HEIGHT 85
 
-#define DAY_BUTTON_WIDTH 70
+#define DAY_BUTTON_WIDTH 60
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -325,6 +325,26 @@
     self.seqToAdd = [self.dayLocationCount objectAtIndex:btn.tag-1];
     btn.selected = YES;
     selectedBtnTag = btn.tag;
+    
+    NSInteger distance = 0;
+    
+    if(btn.tag > 3)
+    {
+        if(btn.tag == [self.dayLocationCount count])
+        {
+            distance = DAY_BUTTON_WIDTH*(btn.tag-5);
+        }
+        else if(btn.tag == [self.dayLocationCount count]-1)
+        {
+            distance = DAY_BUTTON_WIDTH*(btn.tag-4);
+        }
+        else
+        {
+            distance = DAY_BUTTON_WIDTH*(btn.tag-3);
+        }
+        distance = MAX(0, distance);
+    }
+    [self.dayScroll setContentOffset:CGPointMake(distance, 0) animated:YES];
 }
 
 - (void) viewDidAppear:(BOOL)animated
