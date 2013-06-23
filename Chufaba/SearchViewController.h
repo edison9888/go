@@ -45,6 +45,7 @@
 @property (nonatomic, copy) NSNumber *planId;
 
 @property (nonatomic, strong) NSMutableArray *dayLocationCount;
+@property (nonatomic, strong) NSMutableArray *poiArray;
 
 @property (nonatomic, strong) NSDictionary *categoryImage;
 

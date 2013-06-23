@@ -826,6 +826,26 @@
         {
             searchController.dayToAdd = [NSNumber numberWithInt:[self.daySelected intValue]];
         }
+        
+        //poi part
+        NSMutableArray *array = [[NSMutableArray alloc] init];
+        int day = 0;
+        while (day++ < [self.plan.duration intValue])
+        {
+            [array addObject:[[NSMutableArray alloc] init]];
+        }
+        
+        for (NSMutableArray *temp in self.itineraryListBackup)
+        {
+            for(Location *location in temp)
+            {
+                if(location.poiId)
+                {
+                    [[array objectAtIndex:[location.whichday intValue] - 1] addObject:location.poiId];
+                }
+            }
+        }
+        searchController.poiArray = [array mutableCopy];
     }
 }
 

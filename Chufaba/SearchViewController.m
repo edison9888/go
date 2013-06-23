@@ -39,6 +39,7 @@
 #define TAG_HOTELBTN 4
 #define TAG_OTHERBTN 5
 #define TAG_IMPLYLABEL 6
+#define TAG_ADDED_INDICATOR 7
 
 #define LABEL_WIDTH 190
 #define NAME_LABEL_HEIGHT 24
@@ -356,6 +357,8 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:self.dayToAdd forKey:@"lastSelectDay"];
     [userDefaults synchronize];
+    
+    [self.tableView reloadData];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -566,7 +569,30 @@
             [dests addObject:country_en];
         }
         
-        //NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
+        //如果这一天添加过这个地点，应该给出视觉提示
+        BOOL addedBefore = FALSE;
+        NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
+        for(NSNumber *poi in [self.poiArray objectAtIndex:[self.dayToAdd intValue]-1])
+        {
+            if([poi intValue] == [poiId intValue])
+            {
+                addedBefore = TRUE;
+                break;
+            }
+        }
+        
+        if([cell.contentView viewWithTag:TAG_ADDED_INDICATOR])
+        {
+            [[cell.contentView viewWithTag:TAG_ADDED_INDICATOR] removeFromSuperview];
+        }
+        
+        if(addedBefore)
+        {
+            UIImageView *addedIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(200, 8, 12, 12)];
+            addedIndicator.image = [UIImage imageNamed:@"detail_indi"];
+            addedIndicator.tag = TAG_ADDED_INDICATOR;
+            [cell.contentView addSubview:addedIndicator];
+        }
         
         if ([name length] == 0) {
             name = name_en;
@@ -667,8 +693,19 @@
     location.seqofday = self.seqToAdd;
     [location save];
     
+    [[self.poiArray objectAtIndex:[location.whichday intValue] - 1] addObject:location.poiId];
+    
     //increase seqToAdd
     self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
+    
+    //add visual imply
+    if(![cell.contentView viewWithTag:TAG_ADDED_INDICATOR])
+    {
+        UIImageView *addedIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(200, 8, 12, 12)];
+        addedIndicator.image = [UIImage imageNamed:@"detail_indi"];
+        addedIndicator.tag = TAG_ADDED_INDICATOR;
+        [cell.contentView addSubview:addedIndicator];
+    }
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_yes"] forType:iToastTypeNotice];
