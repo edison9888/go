@@ -303,6 +303,36 @@
     return tree;
 }
 
++ (Boolean)deleteLocationsOfPlan:(NSNumber *)planId AfterDay:(NSNumber *)day
+{
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    Boolean result = [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", day,planId];
+    [db close];
+    return result;
+}
+
++ (Boolean)deleteLocationsOfPlan:(NSNumber *)planId
+{
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    Boolean result = [db executeUpdate:@"DELETE FROM location WHERE plan_id = ?", planId];
+    [db close];
+    return result;
+}
+
++ (int)countOfPlan:(NSNumber *)planId
+{
+    int count = 0;
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    FMResultSet *results = [db executeQuery:@"select count(*) as count FROM location WHERE plan_id = ?", planId];
+    if([results next]){
+        count = [results intForColumn:@"count"];
+    }
+    [db close];
+    return count;
+}
 
 -(NSDictionary *)encode
 {

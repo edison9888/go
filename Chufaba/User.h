@@ -12,6 +12,4 @@
 
 @property (strong, nonatomic) NSNumber *uid;
 
-- (void) sync;
-
 @end

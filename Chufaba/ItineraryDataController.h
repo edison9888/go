@@ -28,4 +28,6 @@
 -(NSMutableArray *)encode;
 -(void)decode:(NSMutableArray *)itineraryData;
 
+-(Boolean)deleteLocationsAfterDay:(NSNumber *)day;
+
 @end

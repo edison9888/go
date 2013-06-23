@@ -17,15 +17,6 @@
 
 @implementation AddPlanViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (NSDateFormatter *)dateFormatter {
     if (! _dateFormatter) {
         _dateFormatter = [[NSDateFormatter alloc] init];
@@ -70,15 +61,7 @@
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
-    if(self.plan.image)
-    {
-        self.coverImageView.image = self.plan.image;
-    }
-    else
-    {
-        defaultCover = [UIImage imageNamed:@"plan_cover"];
-        self.coverImageView.image = defaultCover;
-    }
+    self.coverImageView.image = [self.plan getCover];
     self.coverImageView.layer.cornerRadius = 3.0;
     self.coverImageView.layer.masksToBounds = YES;
     
@@ -121,13 +104,10 @@
     self.dateInput.inputAccessoryView = dateToolBar;
     self.dateInput.delegate = self;
     
-    if(self.plan)
-    {
-        self.destinationInput.text = self.plan.destination;
-        self.nameInput.text = self.plan.name;
-        self.durationInput.text = [self.plan.duration stringValue];
-        self.dateInput.text = [self.dateFormatter stringFromDate:self.plan.date];
-    }
+    self.destinationInput.text = self.plan.destination;
+    self.nameInput.text = self.plan.name;
+    self.durationInput.text = [self.plan.duration stringValue];
+    self.dateInput.text = [self.dateFormatter stringFromDate:self.plan.date];
     
     self.dateInput.borderStyle = UITextBorderStyleNone;
     self.dateInput.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
@@ -159,7 +139,7 @@
         self.dateInput.inputView = self.datePicker;
     }
     NSInteger defaultDuration;
-    if(self.plan)
+    if(![self.plan newPlan])
     {
         defaultDuration = [self.plan.duration intValue]-1;
         self.datePicker.date = self.plan.date;
@@ -169,52 +149,6 @@
         defaultDuration = 2;
     }
     [self.durationPicker selectRow:defaultDuration inComponent:0 animated:NO];
-}
-
-- (NSInteger) daysToDelete
-{
-    NSInteger days = 0;
-    NSDate *date = [(UIDatePicker *)self.dateInput.inputView date];
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-    [f setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSNumber *duration = [f numberFromString:self.durationInput.text];
-    
-    if([date compare: self.plan.date] == NSOrderedSame)
-    {
-        if([duration intValue] < [self.plan.duration intValue])
-            days =  [self.plan.duration intValue] - [duration intValue];
-    }
-    else if([date compare: self.plan.date] == NSOrderedDescending)
-    {
-        NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:date];
-        if(daysBetween >= [self.plan.duration intValue])
-        {
-            days = [self.plan.duration intValue];
-        }
-        else
-        {
-            days = daysBetween;
-            int offset = daysBetween + [duration intValue] - [self.plan.duration intValue];
-            if(offset < 0)
-            {
-                days = days - offset;
-            }
-        }
-    }
-    else
-    {
-        NSInteger daysBetween = [Utility daysBetweenDate:date andDate:self.plan.date];
-        if(daysBetween >= [duration intValue])
-        {
-            days = [self.plan.duration intValue];
-        }
-        else
-        {
-            days = [self.plan.duration intValue] - [duration intValue] + daysBetween;
-        }
-    }
-    
-    return days;
 }
 
 -(IBAction) done:(id) sender
@@ -230,52 +164,25 @@
     }
     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
     [f setNumberStyle:NSNumberFormatterDecimalStyle];
-    if(self.plan != nil)
+    NSNumber *duration = [f numberFromString:self.durationInput.text];
+    if(![self.plan newPlan])
     {
-        NSInteger days = [self daysToDelete];
-        if(days > 0)
+        if([self.plan.duration intValue] > [duration intValue])
         {
-            NSString *alertText = [[NSString alloc] initWithString:[NSString stringWithFormat:@"你将从行程中删除%d天，这会同时删除该日期下的行程",days]];
+            NSString *alertText = [NSString stringWithFormat:@"最后%d天的行程将被删除，确定？", [self.plan.duration intValue] - [duration intValue]];
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:alertText delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除" otherButtonTitles:nil, nil];
             actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
             [actionSheet showInView:self.view];
         }
         else
         {
-            //需要检查那些做出了修改再去赋值，保存
-            self.plan.destination = self.destinationInput.text;
-            self.plan.name = self.nameInput.text;
-            if (self.plan.name.length == 0) {
-                self.plan.name = [NSString stringWithFormat:@"%@之旅", self.plan.destination];
-            }
-            self.plan.duration = [f numberFromString:self.durationInput.text];
-            NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:[(UIDatePicker *)self.dateInput.inputView date]];
-            if(daysBetween)
-            {
-                self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
-            }
-            
-            self.plan.image = self.coverImageView.image;
-            [self saveImage:self.plan.image withName:[[self.plan.planId stringValue] stringByAppendingString:@"planCover"]];
-            
-            [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
+            [self changePlan];
         }
     }
     else
     {
-        Plan *plan = [[Plan alloc] init];
-        plan.name = self.nameInput.text;
-        plan.destination = self.destinationInput.text;
-        plan.duration = [f numberFromString:self.durationInput.text];
-        plan.date = [(UIDatePicker *)self.dateInput.inputView date];
-        plan.image = self.coverImageView.image;
-        
-        if(self.coverImageView.image != defaultCover)
-        {
-            self.coverChanged = YES;
-        }
-
-        [self.delegate addPlanViewController:self didAddTravelPlan:plan];
+        [self updatePlanAttributes];
+        [self.delegate addPlanViewController:self didAddTravelPlan:self.plan];
     }
     
 }
@@ -332,9 +239,11 @@
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
 }
+
 -(NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
     return [_durationPick count];
 }
+
 -(NSString*) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     return [[_durationPick objectAtIndex:row] stringValue];
 }
@@ -456,64 +365,31 @@
 {
     if(buttonIndex == 0)
     {
-        NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-        [f setNumberStyle:NSNumberFormatterDecimalStyle];
-        self.plan.destination = self.destinationInput.text;
-        self.plan.name = self.nameInput.text;
-        if (self.plan.name.length == 0) {
-            self.plan.name = [NSString stringWithFormat:@"%@之旅", self.plan.destination];
-        }
-        self.plan.duration = [f numberFromString:self.durationInput.text];
-        NSInteger daysBetween = [Utility daysBetweenDate:self.plan.date andDate:self.datePicker.date];
-        if(daysBetween)
-        {
-            self.plan.date = self.datePicker.date;
-        }
-        self.plan.image = self.coverImageView.image;
-        
-        [self saveImage:self.plan.image withName:[[self.plan.planId stringValue] stringByAppendingString:@"planCover"]];
-        
-        [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
+        [self changePlan];
     }
 }
 
-- (void)saveImage:(UIImage *)image withName:(NSString*)imageName
+-(void) updatePlanAttributes
 {
-    NSData *imageData = UIImagePNGRepresentation(image);
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
-    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
+    self.plan.destination = self.destinationInput.text;
+    NSString *name = self.nameInput.text;
+    if (name.length == 0) {
+        name = [NSString stringWithFormat:@"%@之旅", self.plan.destination];
+    }
+    self.plan.name = name;
+    self.plan.date = [(UIDatePicker *)self.dateInput.inputView date];
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    self.plan.duration = [f numberFromString:self.durationInput.text];
+    
+    [self.plan setCover:self.coverImageView.image];
+    [self.plan save];
 }
 
-- (void)removeImage:(NSString*)fileName {
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", fileName]];
-    
-    [fileManager removeItemAtPath: fullPath error:NULL];
-    
-    NSLog(@"image removed");
-    
-}
-
-- (UIImage*)loadImage:(NSString *)imageName
+-(void) changePlan
 {
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
-    
-    return [UIImage imageWithContentsOfFile:fullPath];
-    
+    [self updatePlanAttributes];
+    [self.delegate addPlanViewController:self didEditTravelPlan:self.plan];
 }
 
 - (void)didReceiveMemoryWarning

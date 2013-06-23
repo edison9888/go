@@ -12,12 +12,4 @@
 
 @implementation User
 
--(void)sync
-{
-    NSMutableArray *plans = [Plan findAllByUid:self.uid];
-    for (Plan *plan in plans) {
-        NSLog([plan encode]);
-    }
-}
-
 @end
