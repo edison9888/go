@@ -66,7 +66,14 @@
     if (duration != _duration) {
         [self willChangeValueForKey:@"duration"];
         if ([duration intValue] < [_duration intValue]) {
+            [_itinerary removeObjectsInRange:NSMakeRange([duration intValue], [_duration intValue] - [duration intValue])];
             [Location deleteLocationsOfPlan:_planId AfterDay:duration];
+            _locationCount = [Location countOfPlan:_planId];
+        } else {
+            int count = [duration intValue] - [_duration intValue];
+            for (int i=0; i<count; i++) {
+                [_itinerary addObject:[[NSMutableArray alloc] init]];
+            }
         }
         _duration = duration;
         _changedSinceLastSync = YES;
@@ -210,7 +217,15 @@
 
 - (void)loadItinerary {
     if (_itinerary == nil) {
-        _itinerary = [Location findTreeByPlanId:_planId];
+        NSMutableArray *locations = [Location findAllByPlanId:_planId];
+        _itinerary = [[NSMutableArray alloc] init];
+        int day = 0;
+        while (day++ < [_duration intValue]) {
+            [_itinerary addObject:[[NSMutableArray alloc] init]];
+        }
+        for (Location *location in locations) {
+            [[_itinerary objectAtIndex:[location.whichday integerValue] - 1] addObject:location];
+        }
     }
 }
 
