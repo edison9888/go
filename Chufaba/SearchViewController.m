@@ -18,6 +18,7 @@
 @interface SearchViewController ()
 {
     NSTimer *timer;
+    NSUInteger selectedBtnTag;
 }
 
 @property int total;
@@ -42,6 +43,8 @@
 #define ENAME_LABEL_HEIGHT 12
 #define LOCATION_LABEL_HEIGHT 12
 #define TOP_VIEW_HEIGHT 85
+
+#define DAY_BUTTON_WIDTH 70
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -85,8 +88,37 @@
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
+    self.dayScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 0, 300, 44)];
+    self.dayScroll.contentSize = CGSizeMake(DAY_BUTTON_WIDTH*[self.dayLocationCount count], 44);
+    self.dayScroll.delegate = self;
+    [self.dayScroll setShowsHorizontalScrollIndicator:NO];
+    self.dayScroll.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:self.dayScroll];
+    for (int i=0; i<[self.dayLocationCount count]; i++)
+    {
+        UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.frame = CGRectMake(DAY_BUTTON_WIDTH*i, 0, DAY_BUTTON_WIDTH, 44);
+        btn.tag = i+1;
+        [btn setTitle:[NSString stringWithFormat:@"Day%d",i+1] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[UIImage imageNamed:@"dayBtn"] forState:UIControlStateHighlighted];
+        [btn setBackgroundImage:[UIImage imageNamed:@"dayBtn"] forState:UIControlStateSelected];
+        [btn addTarget:self action:@selector(selectDay:) forControlEvents:UIControlEventTouchUpInside];
+        [self.dayScroll addSubview:btn];
+    }
+    
+    //init dayToAdd and seqToAdd
+    if(!self.dayToAdd)
+    {
+        int temp = 1;
+        self.dayToAdd = [NSNumber numberWithInt:temp];
+    }
+    int day = [self.dayToAdd intValue];
+    self.seqToAdd = [self.dayLocationCount objectAtIndex:day-1];
+    ((UIButton *)[self.dayScroll viewWithTag:day]).selected = YES;
+    selectedBtnTag = day;
+    
     //top view part
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 85)];
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 85)];
     topView.tag = TAG_TOPVIEW;
     topView.opaque = YES;
     
@@ -255,7 +287,7 @@
     [self.view addSubview:topView];
     
     //tableview part
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 85, 320, self.view.bounds.size.height-130) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 85+44, 320, self.view.bounds.size.height-130) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -281,6 +313,16 @@
     [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn"]forState:UIControlStateNormal];
     [addLocationBtn setBackgroundImage:[UIImage imageNamed:@"add_btn_click"]forState:UIControlStateHighlighted];
     [addLocationBtn addTarget:self action:@selector(beginAddCustomLocation:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (IBAction)selectDay:(id)sender
+{
+    ((UIButton *)[self.dayScroll viewWithTag:selectedBtnTag]).selected = NO;
+    UIButton *btn = (UIButton *)sender;
+    self.dayToAdd = [NSNumber numberWithInt:btn.tag];
+    self.seqToAdd = [self.dayLocationCount objectAtIndex:btn.tag-1];
+    btn.selected = YES;
+    selectedBtnTag = btn.tag;
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -532,32 +574,11 @@
         eNameLabel.frame = CGRectMake(eNameLabelOrigin.x, eNameLabelOrigin.y, LABEL_WIDTH, ENAME_LABEL_HEIGHT);
         locationLabel.frame = CGRectMake(locationLabelOrigin.x, locationLabelOrigin.y, LABEL_WIDTH, LOCATION_LABEL_HEIGHT);
         
-        BOOL addedBefore = FALSE;
-        for(NSNumber *poi in self.poiArray)
-        {
-            if([poi intValue] == [poiId intValue])
-            {
-                addedBefore = TRUE;
-                break;
-            }
-        }
-        
         UIButton *operationBtn = (UIButton *)[cell.contentView viewWithTag:5];
         
-        if(addedBefore)
-        {
-            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list"] forState:UIControlStateNormal];
-            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click"] forState:UIControlStateHighlighted];
-            [operationBtn removeTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
-            [operationBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
-        }
-        else
-        {
-            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
-            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
-            [operationBtn removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
-            [operationBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
-        }
+        [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
+        [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
+        [operationBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
     }
     else if ([allLocationList count] != self.total)
     {
@@ -597,97 +618,6 @@
     return cell;
 }
 
-- (IBAction)removeLocation:(id)sender
-{
-    shouldUpdateItinerary = YES;
-    
-    UIButton *button = (UIButton*)sender;
-    UITableViewCell *cell = (UITableViewCell *)button.superview.superview;
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
-    NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
-    
-    NSNumber *seqToDelete;
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    
-    FMResultSet *results = [db executeQuery:@"SELECT * FROM location WHERE poi_id = ? AND whichday = ? AND plan_id = ?", poiId, self.dayToAdd, self.planId];
-    while([results next])
-    {
-        seqToDelete = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
-        [db executeUpdate:@"UPDATE location SET seqofday = seqofday-1 where seqofday > ? and whichday = ? AND plan_id = ?",seqToDelete,self.dayToAdd, self.planId];
-        self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]-1];
-    }
-    
-    [db executeUpdate:@"DELETE FROM location WHERE poi_id = ? AND whichday = ? AND plan_id = ?", poiId, self.dayToAdd, self.planId];
-    [db close];
-    
-    for(NSNumber *poi in self.poiArray)
-    {
-        if([poi intValue] == [poiId intValue])
-        {
-            [self.poiArray removeObject:poi];
-            break;
-        }
-    }
-    
-    [button setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
-    [button removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
-    [button addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
-    
-    iToastSettings *theSettings = [iToastSettings getSharedSettings];
-    [theSettings setImage:[UIImage imageNamed:@"prompt_no"] forType:iToastTypeNotice];
-    theSettings.duration = 3000;
-    [[[[iToast makeText:NSLocalizedString(@"已从计划中移除", @"")] setGravity:iToastGravityCenter offsetLeft:0 offsetTop:-20] setDuration:iToastDurationShort] show:iToastTypeNotice];
-}
-
-//- (IBAction)removeLocation:(id)sender
-//{
-//    shouldUpdateItinerary = YES;
-//    
-//    UIButton *button = (UIButton*)sender;
-//    UITableViewCell *cell = (UITableViewCell *)button.superview.superview;
-//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-//    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
-//    NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
-//    
-//    NSNumber *seqToDelete;
-//    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-//    [db open];
-//    
-//    FMResultSet *results = [db executeQuery:@"SELECT * FROM location WHERE poi_id = ? AND whichday = ? AND plan_id = ?", poiId, self.dayToAdd, self.planId];
-//    if([results next])
-//    {
-//        seqToDelete = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
-//    }
-//    
-//    [db executeUpdate:@"DELETE FROM location WHERE poi_id = ? AND whichday = ? AND plan_id = ?", poiId, self.dayToAdd, self.planId];
-//    [db executeUpdate:@"UPDATE location SET seqofday = seqofday-1 where seqofday > ? and whichday = ? AND plan_id = ?",seqToDelete,self.dayToAdd, self.planId];
-//    [db close];
-//    
-//    for(NSNumber *poi in self.poiArray)
-//    {
-//        if([poi intValue] == [poiId intValue])
-//        {
-//            [self.poiArray removeObject:poi];
-//            break;
-//        }
-//    }
-//    
-//    self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]-1];
-//    
-//    [button setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
-//    [button setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
-//    [button removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
-//    [button addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    iToastSettings *theSettings = [iToastSettings getSharedSettings];
-//    [theSettings setImage:[UIImage imageNamed:@"prompt_no"] forType:iToastTypeNotice];
-//    theSettings.duration = 3000;
-//    [[[[iToast makeText:NSLocalizedString(@"已从计划中移除", @"")] setGravity:iToastGravityCenter offsetLeft:0 offsetTop:-20] setDuration:iToastDurationShort] show:iToastTypeNotice];
-//}
-
 - (IBAction)addLocation:(id)sender
 {
     shouldUpdateItinerary = YES;
@@ -700,16 +630,10 @@
     location.planId = self.planId;
     location.whichday = self.dayToAdd;
     location.seqofday = self.seqToAdd;
-    [self.poiArray addObject:location.poiId];
     [location save];
     
     //increase seqToAdd
     self.seqToAdd = [NSNumber numberWithInt:[self.seqToAdd intValue]+1];
-    
-    [button setBackgroundImage:[UIImage imageNamed:@"remove_list"] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"remove_list_click"] forState:UIControlStateHighlighted];
-    [button removeTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
-    [button addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_yes"] forType:iToastTypeNotice];

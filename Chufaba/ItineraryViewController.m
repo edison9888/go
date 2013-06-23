@@ -64,16 +64,23 @@
 
 - (void)reloadDataController
 {
+    NSMutableArray *tempList = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [self.plan.duration intValue]; i++)
+    {
+        NSMutableArray *dayList = [[NSMutableArray alloc] init];
+        [tempList addObject:dayList];
+    }
+    
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     
     [db open];
     
     NSNumber *planID = self.plan.planId;
-    FMResultSet *results = [db executeQuery:@"SELECT * FROM location,plan WHERE plan_id=? AND plan_id=plan.id AND whichday=? order by seqofday",planID, self.dayToAdd];
+    FMResultSet *results = [db executeQuery:@"SELECT * FROM location,plan WHERE plan_id=? AND plan_id=plan.id order by whichday,seqofday",planID];
 
-    NSMutableArray *array = [[NSMutableArray alloc] init];
     while([results next])
     {
+        int dayID = [results intForColumn:@"whichday"]-1;
         Location *location = [[Location alloc] init];
         location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
         location.planId = self.plan.planId;
@@ -97,24 +104,70 @@
         location.opening = [results stringForColumn:@"opening"];
         location.fee = [results stringForColumn:@"fee"];
         location.website = [results stringForColumn:@"website"];
-        [array addObject:location];
+        [[tempList objectAtIndex:dayID] addObject:location];
     }
-    if(singleDayMode)
-    {
-        [self.dataController.masterTravelDayList replaceObjectAtIndex:0 withObject:array];
-        [self.itineraryListBackup replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
-    }
-    else
-    {
-        [self.dataController.masterTravelDayList replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
-        [self.itineraryListBackup replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
-    }
+    self.dataController.masterTravelDayList = [tempList mutableCopy];
+    self.itineraryListBackup = [tempList mutableCopy];
     
     [db close];
     
     oneDimensionLocationList = [self getOneDimensionLocationList];
     [self.itineraryDelegate didAddLocationToPlan];
 }
+
+//- (void)reloadDataController
+//{
+//    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+//    
+//    [db open];
+//    
+//    NSNumber *planID = self.plan.planId;
+//    FMResultSet *results = [db executeQuery:@"SELECT * FROM location,plan WHERE plan_id=? AND plan_id=plan.id AND whichday=? order by seqofday",planID, self.dayToAdd];
+//
+//    NSMutableArray *array = [[NSMutableArray alloc] init];
+//    while([results next])
+//    {
+//        Location *location = [[Location alloc] init];
+//        location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
+//        location.planId = self.plan.planId;
+//        location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
+//        location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
+//        location.name = [results stringForColumn:@"name"];
+//        location.nameEn = [results stringForColumn:@"name_en"];
+//        location.country = [results stringForColumn:@"country"];
+//        location.city = [results stringForColumn:@"city"];
+//        location.address = [results stringForColumn:@"address"];
+//        location.transportation = [results stringForColumn:@"transportation"];
+//        location.cost = [NSNumber numberWithInt:[results intForColumn:@"cost"]];
+//        location.currency = [results stringForColumn:@"currency"];
+//        location.visitBegin = [results stringForColumn:@"visit_begin"];
+//        location.detail = [results stringForColumn:@"detail"];
+//        location.category = [results stringForColumn:@"category"];
+//        location.latitude = [NSNumber numberWithDouble:[results doubleForColumn:@"latitude"]];
+//        location.longitude = [NSNumber numberWithDouble:[results doubleForColumn:@"longitude"]];
+//        location.useradd = [results boolForColumn:@"useradd"];
+//        location.poiId = [NSNumber numberWithInt:[results intForColumn:@"poi_id"]];
+//        location.opening = [results stringForColumn:@"opening"];
+//        location.fee = [results stringForColumn:@"fee"];
+//        location.website = [results stringForColumn:@"website"];
+//        [array addObject:location];
+//    }
+//    if(singleDayMode)
+//    {
+//        [self.dataController.masterTravelDayList replaceObjectAtIndex:0 withObject:array];
+//        [self.itineraryListBackup replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
+//    }
+//    else
+//    {
+//        [self.dataController.masterTravelDayList replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
+//        [self.itineraryListBackup replaceObjectAtIndex:[self.dayToAdd intValue]-1 withObject:array];
+//    }
+//    
+//    [db close];
+//    
+//    oneDimensionLocationList = [self getOneDimensionLocationList];
+//    [self.itineraryDelegate didAddLocationToPlan];
+//}
 
 - (NSMutableArray *) getOneDimensionLocationList
 {
@@ -162,6 +215,13 @@
     [backBtn addTarget:self action:@selector(backToPrevious:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = btn;
+    
+    UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7, 40, 30)];
+    [addBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+    [addBtn setImage:[UIImage imageNamed:@"add_click"] forState:UIControlStateHighlighted];
+    [addBtn addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rBtn = [[UIBarButtonItem alloc] initWithCustomView:addBtn];
+    self.navigationItem.rightBarButtonItem = rBtn;
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -701,12 +761,12 @@
     wLabel.backgroundColor = [UIColor clearColor];
     wLabel.text = [self.dateFormatter stringFromDate:sectionDate];;
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
-    [button setImage:[UIImage imageNamed:@"addLocation"] forState:UIControlStateNormal];
-    [button setImage:[UIImage imageNamed:@"addLocation_click"] forState:UIControlStateHighlighted];
-    button.tag = dayValue;
-    button.hidden = NO;
-    [button addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
+//    [button setImage:[UIImage imageNamed:@"addLocation"] forState:UIControlStateNormal];
+//    [button setImage:[UIImage imageNamed:@"addLocation_click"] forState:UIControlStateHighlighted];
+//    button.tag = dayValue;
+//    button.hidden = NO;
+//    [button addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchUpInside];
     
     label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
     
@@ -720,7 +780,7 @@
     
     [myView addSubview:label];
     [myView addSubview:wLabel];
-    [myView addSubview:button];
+    //[myView addSubview:button];
     return myView;
 }
 
@@ -747,44 +807,23 @@
     
     if ([[segue identifier] isEqualToString:@"ShowSearch"])
     {
-        UIButton *button = (UIButton*)sender;
         UINavigationController *navigationController = segue.destinationViewController;
         SearchViewController *searchController = [[navigationController viewControllers] objectAtIndex:0];
         
         searchController.searchDelegate = self;
         searchController.planId = self.plan.planId;
-        searchController.dayToAdd = [NSNumber numberWithInt:button.tag+1];
         searchController.locationKeyword = self.plan.destination;
-        self.dayToAdd = searchController.dayToAdd;
+        NSMutableArray *temp = [[NSMutableArray alloc] init];
+        for(NSMutableArray *dayArr in self.itineraryListBackup)
+        {
+            [temp addObject:[NSNumber numberWithInt:[dayArr count]]];
+        }
+        searchController.dayLocationCount = [temp mutableCopy];
         
-        NSMutableArray *array = [[NSMutableArray alloc] init];
         if(singleDayMode)
         {
-            searchController.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:0] count]+1];
-            self.seqToAdd = searchController.seqToAdd;
-            
-            for (Location *location in [self.dataController objectInListAtIndex:0])
-            {
-                if(location.poiId)
-                {
-                    [array addObject:location.poiId];
-                }
-            }
+            searchController.dayToAdd = [NSNumber numberWithInt:[self.daySelected intValue]];
         }
-        else
-        {
-            searchController.seqToAdd = [NSNumber numberWithInt:[[self.dataController objectInListAtIndex:button.tag] count]+1];
-            self.seqToAdd = searchController.seqToAdd;
-            
-            for (Location *location in [self.dataController objectInListAtIndex:[self.dayToAdd intValue]-1])
-            {
-                if(location.poiId)
-                {
-                    [array addObject:location.poiId];
-                }
-            }
-        }
-        searchController.poiArray = [array mutableCopy];
     }
 }
 
@@ -920,21 +959,24 @@
         self.tableView.rowHeight = 44.0f;
     }
     [self reloadDataController];
+    singleDayMode = FALSE;
+    [(UIButton *)self.navigationItem.titleView setTitle:@"全部" forState:UIControlStateNormal];
     [self.tableView reloadData];
     
-    NSInteger section;
-    NSInteger row;
-    if(singleDayMode)
-    {
-        section = 0;
-        row = [[self.dataController objectInListAtIndex:0] count]-1;
-    }
-    else
-    {
-        section = [self.dayToAdd integerValue]-1;
-        row = [[self.dataController objectInListAtIndex:section] count]-1;
-    }
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    //temporarily commentd
+//    NSInteger section;
+//    NSInteger row;
+//    if(singleDayMode)
+//    {
+//        section = 0;
+//        row = [[self.dataController objectInListAtIndex:0] count]-1;
+//    }
+//    else
+//    {
+//        section = [self.dayToAdd integerValue]-1;
+//        row = [[self.dataController objectInListAtIndex:section] count]-1;
+//    }
+//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     
     [self updateFooterView];
 }

@@ -26,13 +26,13 @@
 }
 
 @property (nonatomic, copy) NSString *category;
-@property (nonatomic, strong) NSMutableArray *poiArray;
 
 @property (nonatomic, copy) NSString *nameKeyword;
 @property (nonatomic, copy) NSString *locationKeyword;
 
 //@property (nonatomic, strong) UITextField *nameInput;
 //@property (nonatomic, strong) UITextField *locationInput;
+@property (nonatomic, strong) UIScrollView *dayScroll;
 @property (nonatomic, strong) UISearchBar *nameInput;
 @property (nonatomic, strong) UISearchBar *locationInput;
 @property (nonatomic, strong) UITableView *tableView;
@@ -43,6 +43,8 @@
 @property (nonatomic, copy) NSNumber *lastLatitude;
 @property (nonatomic, copy) NSNumber *lastLongitude;
 @property (nonatomic, copy) NSNumber *planId;
+
+@property (nonatomic, strong) NSMutableArray *dayLocationCount;
 
 @property (nonatomic, strong) NSDictionary *categoryImage;
 
