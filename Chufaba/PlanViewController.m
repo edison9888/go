@@ -19,14 +19,6 @@
 #define TAG_SITELABEL 5
 #define TAG_MASKVIEW 10000
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-    }
-    return self;
-}
-
 - (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller
 {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -52,11 +44,7 @@
         self.tableView.tableHeaderView = headerView;
     }
     
-    FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
-    
-    [db insertTravelPlan:plan];
-    
-    [self populateTravelPlans];
+    [self.travelPlans insertObject:plan atIndex:0];
     
     if([self.travelPlans count] == 5)
     { 
@@ -73,97 +61,27 @@
         self.tableView.tableFooterView = footerView;
     }
     
-    if(controller.coverChanged)
-    {
-        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-        [db open];
-        FMResultSet *results = [db executeQuery:@"SELECT * FROM plan order by id desc limit 1"];
-        if([results next])
-        {
-            plan.planId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
-        }
-        
-        [self saveImage:plan.image withName:[[plan.planId stringValue] stringByAppendingString:@"planCover"]];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)addPlanViewController:(AddPlanViewController *)controller didEditTravelPlan:(Plan *)plan
 {
-    Plan *planToEdit = [self.travelPlans objectAtIndex:self.indexPathOfplanToEditOrDelete.row];
-    
-    FMDBDataAccess *dba = [[FMDBDataAccess alloc] init];
-    [dba updateTravelPlan:plan];
-    
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    [db open];
-    
-    if([plan.date compare: planToEdit.date] == NSOrderedSame)
-    {
-        if([plan.duration intValue] < [planToEdit.duration intValue])
-        {
-            //delete days which are deleted by changing start date.
-            [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", plan.duration,plan.planId];
-        }
-    }
-    else if([plan.date compare: planToEdit.date] == NSOrderedDescending)
-    {
-        NSInteger daysBetween = [Utility daysBetweenDate:planToEdit.date andDate:plan.date];
-        if(daysBetween >= [planToEdit.duration intValue])
-        {
-            //delete all days
-            [db executeUpdate:@"DELETE FROM location WHERE plan_id = ?", plan.planId];
-        }
-        else
-        {
-            [db executeUpdate:@"DELETE FROM location WHERE whichday <= ? AND plan_id = ?", [NSNumber numberWithInt:daysBetween],plan.planId];
-            int offset = daysBetween + [plan.duration intValue] - [planToEdit.duration intValue];
-            if(offset >= 0)
-            {
-                [db executeUpdate:@"UPDATE location SET whichday = whichday-? WHERE whichday > ? AND plan_id = ?", [NSNumber numberWithInt:daysBetween],[NSNumber numberWithInt:daysBetween],plan.planId];
-            }
-            else
-            {
-                [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", [NSNumber numberWithInt:[planToEdit.duration intValue]-offset*(-1)],plan.planId];
-            }
-        }
-    }
-    else
-    {
-        NSInteger daysBetween = [Utility daysBetweenDate:plan.date andDate:planToEdit.date];
-        if(daysBetween >= [plan.duration intValue])
-        {
-            [db executeUpdate:@"DELETE FROM location WHERE plan_id = ?", plan.planId];
-        }
-        else
-        {
-            [db executeUpdate:@"UPDATE location SET whichday = whichday+? WHERE plan_id = ?", [NSNumber numberWithInt:daysBetween],plan.planId];
-            if(daysBetween + [planToEdit.duration intValue] > [plan.duration intValue])
-            {
-                [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", plan.duration,plan.planId];
-            }
-        }
-    }
-    
-    [self populateTravelPlans];
-    [self.tableView reloadData];
-    
     [self dismissViewControllerAnimated:YES completion:nil];
     
     UIView *maskView = [self.tableView viewWithTag:10];
     [maskView removeFromSuperview];
     
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:@[self.indexPathOfplanToEditOrDelete] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView endUpdates];
+    
     UITableViewCell *cellToEdit = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPathOfplanToEditOrDelete];
     CGRect cellFrame = cellToEdit.frame;
     cellToEdit.frame = CGRectMake(0,cellFrame.origin.y,320,92);
-    
-    //[self saveImage:plan.image withName:[[plan.planId stringValue] stringByAppendingString:@"planCover"]];
 }
-
 
 - (IBAction)showSetting:(id)sender
 {
@@ -177,11 +95,7 @@
 
 - (void) populateTravelPlans
 {
-    self.travelPlans = [[NSMutableArray alloc] init];
-    
-    FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
-    
-    self.travelPlans = [db getTravelPlans];
+    self.travelPlans = [Plan findAll];
 }
 
 - (void)viewDidLoad
@@ -263,10 +177,6 @@
     }
     
     self.tableView.rowHeight = 92.0f;
-    
-    
-    User *user = [[User alloc] init];
-    [user sync];
 }
 
 - (void)didReceiveMemoryWarning
@@ -307,15 +217,7 @@
     Plan *planAtIndex = [self.travelPlans objectAtIndex:indexPath.row];
     
     cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    if([planAtIndex hasCover])
-    {
-        cell.imageView.image = [planAtIndex getCover];
-    }
-    else
-    {
-        cell.imageView.image = [UIImage imageNamed:@"plan_cover"];
-    }
-    
+    cell.imageView.image = [planAtIndex getCover];
     cell.textLabel.text = planAtIndex.name;
     cell.detailTextLabel.text = [formatter stringFromDate:planAtIndex.date];
     
@@ -332,6 +234,7 @@
     return cell;
 }
 
+//TODO itinerary
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"ShowItinerary"])
@@ -346,53 +249,11 @@
         ItineraryViewController *itineraryViewController = [segue destinationViewController];
         itineraryViewController.itineraryDelegate = self;
         Plan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        [selectedPlan loadItinerary];
         itineraryViewController.dataController.date = selectedPlan.date;
-        
-        NSMutableArray *tempList = [[NSMutableArray alloc] init];
-        for (int i = 0; i < [selectedPlan.duration intValue]; i++)
-        {
-            NSMutableArray *dayList = [[NSMutableArray alloc] init];
-            [tempList addObject:dayList];
-        }
-        
-        FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-        
-        [db open];
-        
-        NSNumber *planID = selectedPlan.planId;
-        FMResultSet *results = [db executeQuery:@"SELECT * FROM location,plan WHERE plan_id=? AND plan_id=plan.id order by seqofday",planID];
-        while([results next])
-        {
-            int dayID = [results intForColumn:@"whichday"]-1;
-            Location *location = [[Location alloc] init];
-            location.locationId = [NSNumber numberWithInt:[results intForColumnIndex:0]];
-            location.planId = [NSNumber numberWithInt:[results intForColumn:@"plan_id"]];
-            location.whichday = [NSNumber numberWithInt:[results intForColumn:@"whichday"]];
-            location.seqofday = [NSNumber numberWithInt:[results intForColumn:@"seqofday"]];
-            location.name = [results stringForColumn:@"name"];
-            location.nameEn = [results stringForColumn:@"name_en"];
-            location.country = [results stringForColumn:@"country"];
-            location.city = [results stringForColumn:@"city"];
-            location.address = [results stringForColumn:@"address"];
-            location.transportation = [results stringForColumn:@"transportation"];
-            location.cost = [NSNumber numberWithInt:[results intForColumn:@"cost"]];
-            location.currency = [results stringForColumn:@"currency"];
-            location.visitBegin = [results stringForColumn:@"visit_begin"];
-            location.detail = [results stringForColumn:@"detail"];
-            location.category = [results stringForColumn:@"category"];
-            location.latitude = [NSNumber numberWithDouble:[results doubleForColumn:@"latitude"]];
-            location.longitude = [NSNumber numberWithDouble:[results doubleForColumn:@"longitude"]];
-            location.useradd = [results boolForColumn:@"useradd"];
-            location.poiId = [NSNumber numberWithInt:[results intForColumn:@"poi_id"]];
-            location.opening = [results stringForColumn:@"opening"];
-            location.fee = [results stringForColumn:@"fee"];
-            location.website = [results stringForColumn:@"website"];
-            [[tempList objectAtIndex:dayID] addObject:location];
-        }
-        [db close];
-        itineraryViewController.dataController.masterTravelDayList = tempList;
+        itineraryViewController.dataController.masterTravelDayList = selectedPlan.itinerary;
         itineraryViewController.dataController.itineraryDuration = selectedPlan.duration;
-        itineraryViewController.itineraryListBackup = tempList;
+        itineraryViewController.itineraryListBackup = selectedPlan.itinerary;
         itineraryViewController.daySelected = [NSNumber numberWithInt:0];
         itineraryViewController.plan = selectedPlan;
         itineraryViewController.dataController.plan = selectedPlan;
@@ -405,6 +266,7 @@
         AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
         addPlanViewController.navigationItem.title = @"添加旅行计划";
         addPlanViewController.delegate = self;
+        addPlanViewController.plan = [[Plan alloc] init];
     }
     else if ([[segue identifier] isEqualToString:@"EditPlan"])
     {
@@ -412,11 +274,7 @@
         AddPlanViewController *addPlanViewController = [[navigationController viewControllers] objectAtIndex:0];
         addPlanViewController.navigationItem.title = @"编辑旅行计划";
         addPlanViewController.delegate = self;
-        Plan *tempPlan = [self.travelPlans objectAtIndex:self.indexPathOfplanToEditOrDelete.row];
-        addPlanViewController.plan = [[Plan alloc] initWithName:tempPlan.name destination:tempPlan.destination duration:tempPlan.duration date:tempPlan.date image:tempPlan.image];
-        addPlanViewController.plan.planId = tempPlan.planId;
-        
-        addPlanViewController.plan.image = [tempPlan getCover];
+        addPlanViewController.plan = [self.travelPlans objectAtIndex:self.indexPathOfplanToEditOrDelete.row];
     }
 }
 
@@ -467,15 +325,11 @@
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 0)
     {
-        FMDBDataAccess *db = [[FMDBDataAccess alloc] init];
-        
-        NSLog(@"section:%d", self.indexPathOfplanToEditOrDelete.row);
-        
         Plan *planToDelete = [self.travelPlans objectAtIndex:self.indexPathOfplanToEditOrDelete.row];
-        
-        [db deleteTravelPlan:planToDelete];
-        
+        [planToDelete destroy];
         [self.travelPlans removeObjectAtIndex:self.indexPathOfplanToEditOrDelete.row];
+        
+        [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfplanToEditOrDelete] withRowAnimation:UITableViewRowAnimationFade];
         
         if([self.travelPlans count] == 4)
         {
@@ -490,8 +344,6 @@
             [self.view addSubview:siteLabel];
         }
         
-        //[self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfplanToEditOrDelete] withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView reloadData];
         if([self.travelPlans count] == 0)
         {
             self.tableView.tableHeaderView = NULL;
@@ -510,7 +362,6 @@
                 [self.view bringSubviewToFront:maskView];
             }
         }
-        [self removeImage: [[planToDelete.planId stringValue] stringByAppendingString:@"planCover"]];
     }
     
     UIView *maskView = [self.tableView viewWithTag:10];
@@ -519,41 +370,6 @@
     UITableViewCell *cellToEdit = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPathOfplanToEditOrDelete];
     CGRect cellFrame = cellToEdit.frame;
     cellToEdit.frame = CGRectMake(0,cellFrame.origin.y,320,92);
-}
-
-- (void)saveImage:(UIImage *)image withName:(NSString*)imageName
-{
-    
-    NSData *imageData = UIImagePNGRepresentation(image);
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]];
-    
-    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil];
-    
-    NSLog(@"image saved");
-    
-}
-
-- (void)removeImage:(NSString*)fileName {
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", fileName]];
-    
-    [fileManager removeItemAtPath: fullPath error:NULL];
-    
-    NSLog(@"image removed");
-    
 }
 
 -(void) didAddLocationToPlan

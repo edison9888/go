@@ -292,6 +292,8 @@
         footerView.backgroundColor = [UIColor whiteColor];
         self.tableView.tableFooterView = footerView;
     }
+    
+    [self.plan sync];
 }
 
 - (IBAction)backToPrevious:(id)sender

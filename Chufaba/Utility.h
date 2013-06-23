@@ -21,5 +21,7 @@
 
 + (Boolean*)fileExists:(NSString *)file;
 + (NSString*)getFullPath:(NSString *)file;
++ (void)saveData:(NSData *)data ToFile:(NSString *)file;
++ (void)removeFile:(NSString *)file;
 
 @end

@@ -23,17 +23,6 @@
     }
 }
 
-- (id)initWithPlanId:(NSNumber *)planId
-{
-    self = [super init];
-    if (self) {
-        _planId = planId;
-        _masterTravelDayList = [Location findTreeByPlanId:planId];
-        return self;
-    }
-    return nil;
-}
-
 - (NSUInteger)countOfList {
     return [self.masterTravelDayList count];
 }

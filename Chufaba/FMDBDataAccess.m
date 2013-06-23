@@ -45,29 +45,7 @@
 
 -(NSMutableArray *) getTravelPlans
 {
-    NSMutableArray *travelPlans = [[NSMutableArray alloc] init];
-    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
-    
-    [db open];    
-    FMResultSet *results = [db executeQuery:@"SELECT * FROM plan order by id desc"];
-    while([results next])
-    {
-        Plan *plan = [[Plan alloc] init];
-        plan.planId = [NSNumber numberWithInt:[results intForColumn:@"id"]];
-        plan.date = [results dateForColumn:@"startdate"];
-        plan.duration = [NSNumber numberWithInt:[results intForColumn:@"duration"]];
-        plan.image = [UIImage imageNamed:@"photo_add.png"];
-        plan.name = [results stringForColumn:@"title"];
-        plan.destination = [results stringForColumn:@"destination"];
-        
-        FMResultSet *locationResults = [db executeQuery:@"SELECT count(*) as 'count' FROM location WHERE plan_id = ?",plan.planId];
-        if([locationResults next])
-            plan.locationCount = [locationResults intForColumn:@"count"];
-        
-        [travelPlans addObject:plan];
-    }
-    [db close];
-    return travelPlans;
+    return [Plan findAll];
 }
 
 -(BOOL) userExist:(NSString *) service_uid logintype:(NSInteger) type

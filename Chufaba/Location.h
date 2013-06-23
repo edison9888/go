@@ -55,8 +55,10 @@
 - (void)setPoiData:(NSDictionary *)poi;
 - (void)updatePoiData:(NSDictionary *)poi;
 - (Boolean)save;
-+ (NSMutableArray *)findTreeByPlanId:(NSNumber *)planId;
-
++ (NSMutableArray *)findAllByPlanId:(NSNumber *)planId;
++ (Boolean)deleteLocationsOfPlan:(NSNumber *)planId AfterDay:(NSNumber *)day;
++ (Boolean)deleteLocationsOfPlan:(NSNumber *)planId;
++ (int)countOfPlan:(NSNumber *)planId;
 
 -(NSDictionary *)encode;
 -(void)decode:(NSDictionary *)locationData;

@@ -261,9 +261,9 @@
     return result;
 }
 
-+ (NSMutableArray *)findTreeByPlanId:(NSNumber *)planId
++ (NSMutableArray *)findAllByPlanId:(NSNumber *)planId
 {
-    NSMutableArray *tree = [[NSMutableArray alloc] init];
+    NSMutableArray *locations = [[NSMutableArray alloc] init];
     FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
     [db open];
     FMResultSet *results = [db executeQuery:@"SELECT * FROM location WHERE plan_id=? order by whichday,seqofday asc",planId];
@@ -293,16 +293,42 @@
         location.fee = [results stringForColumn:@"fee"];
         location.website = [results stringForColumn:@"website"];
         
-        int dayIndex = location.whichday.intValue - 1;
-        if (tree.count <= dayIndex) {
-            [tree addObject:[[NSMutableArray alloc] init]];
-        }
-        [[tree objectAtIndex:dayIndex] addObject:location];
+        [locations addObject:location];
     }
     [db close];
-    return tree;
+    return locations;
 }
 
++ (Boolean)deleteLocationsOfPlan:(NSNumber *)planId AfterDay:(NSNumber *)day
+{
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    Boolean result = [db executeUpdate:@"DELETE FROM location WHERE whichday > ? AND plan_id = ?", day,planId];
+    [db close];
+    return result;
+}
+
++ (Boolean)deleteLocationsOfPlan:(NSNumber *)planId
+{
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    Boolean result = [db executeUpdate:@"DELETE FROM location WHERE plan_id = ?", planId];
+    [db close];
+    return result;
+}
+
++ (int)countOfPlan:(NSNumber *)planId
+{
+    int count = 0;
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    FMResultSet *results = [db executeQuery:@"select count(*) as count FROM location WHERE plan_id = ?", planId];
+    if([results next]){
+        count = [results intForColumn:@"count"];
+    }
+    [db close];
+    return count;
+}
 
 -(NSDictionary *)encode
 {

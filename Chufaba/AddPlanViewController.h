@@ -26,9 +26,6 @@
 @end
 
 @interface AddPlanViewController : UITableViewController <UIPickerViewDelegate, UITextFieldDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, SearchDestinationViewControllerDelegate>
-{
-    UIImage *defaultCover;
-}
 
 @property (weak, nonatomic) IBOutlet UITextField *destinationInput;
 @property (weak, nonatomic) IBOutlet UITextField *nameInput;
@@ -37,8 +34,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UILabel *coverImply;
 
-@property (assign, nonatomic) BOOL coverChanged;
-
 @property (nonatomic,weak) id<AddPlanViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSString *destination;
 
@@ -46,8 +41,8 @@
 - (IBAction)cancel:(id)sender;
 - (void) showSearch;
 
-@property (strong, nonatomic) Plan *plan;
-@property (nonatomic,strong) NSMutableArray *durationPick;
+@property (nonatomic, strong) Plan *plan;
+@property (nonatomic, strong) NSMutableArray *durationPick;
 
 @property (nonatomic) UIImagePickerController *imgPickerController;
 @property (nonatomic,strong) UIDatePicker *datePicker;

@@ -19,7 +19,6 @@
 @property (nonatomic, assign) NSInteger locationCount;
 @property (nonatomic, readonly) NSNumber *planId;
 
-- (id)initWithPlanId:(NSNumber *)planId;
 - (NSUInteger)countOfList;
 - (NSMutableArray *)objectInListAtIndex:(NSUInteger)theIndex;
 
@@ -27,5 +26,7 @@
 
 -(NSMutableArray *)encode;
 -(void)decode:(NSMutableArray *)itineraryData;
+
+-(Boolean)deleteLocationsAfterDay:(NSNumber *)day;
 
 @end

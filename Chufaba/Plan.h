@@ -13,25 +13,35 @@
 @interface Plan : NSObject
 
 @property (nonatomic, copy) NSNumber *planId;
-@property (nonatomic, strong) NSDate *date;
-@property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *destination;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, strong) NSDate *date;
 @property (nonatomic, copy) NSNumber *duration;
-@property (nonatomic) UIImage *image;
-@property (nonatomic, assign) NSInteger locationCount;
-@property (nonatomic, copy) NSMutableArray *itineraryList;
-@property (nonatomic, strong) ItineraryDataController *itinerary;
 @property (nonatomic, copy) NSNumber *uid;
+@property (readonly) Boolean changedSinceLastSync;
+@property (nonatomic, readonly) NSNumber *serverId;
+@property (nonatomic, readonly) NSString *version;
+@property (readonly) int locationCount;
+@property (nonatomic, readonly, strong) NSMutableArray *itinerary;
 
--(id)initWithName:(NSString *)name destination:(NSString *)destination duration:(NSNumber *)duration date:(NSDate *)date image:(UIImage *)image;
-
++(NSMutableArray *)findAll;
 +(NSMutableArray *)findAllByUid:(NSNumber *)uid;
+
+-(Boolean)save;
+
+-(Boolean)destroy;
 
 -(NSString *)encode;
 -(void)decode:(NSString *)planData;
 
--(Boolean)hasCover;
 -(UIImage *)getCover;
+-(void)setCover:(UIImage *)image;
+
+-(void)loadItinerary;
+
+-(void)sync;
+
+-(Boolean)newPlan;
 
 
 @end

@@ -63,4 +63,18 @@
     return [documentsDirectory stringByAppendingPathComponent:file];
 }
 
++ (void)saveData:(NSData *)data ToFile:(NSString *)file
+{
+    NSString *fullPath = [self getFullPath:file];
+    [[NSFileManager defaultManager] createFileAtPath:fullPath contents:data attributes:nil];
+}
+
++ (void)removeFile:(NSString *)file
+{
+    NSString *fullPath = [self getFullPath:file];
+    if ([self fileExists:fullPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:fullPath error:NULL];
+    }
+}
+
 @end
