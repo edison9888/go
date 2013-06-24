@@ -217,7 +217,19 @@
 
 - (void)editLocationsSequence:(PullDownMenuView *)view
 {
-
+    EditItineraryViewController *editViewController = [[EditItineraryViewController alloc] init];
+    if(singleDayMode)
+    {
+        editViewController.singleDayMode = TRUE;
+    }
+    else
+    {
+        editViewController.singleDayMode = FALSE;
+    }
+    editViewController.delegate = self;
+    editViewController.plan = self.plan;
+    editViewController.daySelected = self.daySelected;
+    [self.navigationController pushViewController:editViewController animated:YES];
 }
 
 - (void) startSynchronize:(PullDownMenuView *)view
@@ -687,6 +699,11 @@
         [(UIButton *)self.navigationItem.titleView setTitle:[NSString stringWithFormat:@"第%d天", [day intValue]] forState:UIControlStateNormal];
     }
     
+    [self.tableView reloadData];
+}
+
+-(void) notifyItinerayToReload
+{
     [self.tableView reloadData];
 }
 
