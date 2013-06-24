@@ -19,6 +19,7 @@
 {
     NSTimer *timer;
     NSUInteger selectedBtnTag;
+    Location *lastLocation;
 }
 
 @property int total;
@@ -37,6 +38,7 @@
 #define TAG_HOTELBTN 4
 #define TAG_OTHERBTN 5
 #define TAG_IMPLYLABEL 6
+#define TAG_ADDED_INDICATOR 7
 
 #define LABEL_WIDTH 190
 #define NAME_LABEL_HEIGHT 24
@@ -44,7 +46,7 @@
 #define LOCATION_LABEL_HEIGHT 12
 #define TOP_VIEW_HEIGHT 85
 
-#define DAY_BUTTON_WIDTH 70
+#define DAY_BUTTON_WIDTH 60
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -109,12 +111,19 @@
     //init dayToAdd
     if(!self.dayToAdd)
     {
-        int temp = 1;
-        self.dayToAdd = [NSNumber numberWithInt:temp];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        if ([userDefaults objectForKey:@"lastSelectDay"])
+        {
+            self.dayToAdd = [userDefaults objectForKey:@"lastSelectDay"];
+        }
+        else
+        {
+            self.dayToAdd = [NSNumber numberWithInt:0];
+        }
     }
     int day = [self.dayToAdd intValue];
-    ((UIButton *)[self.dayScroll viewWithTag:day]).selected = YES;
-    selectedBtnTag = day;
+    selectedBtnTag = day + 1;
+    ((UIButton *)[self.dayScroll viewWithTag:selectedBtnTag]).selected = YES;
     
     //top view part
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 85)];
@@ -318,9 +327,35 @@
 {
     ((UIButton *)[self.dayScroll viewWithTag:selectedBtnTag]).selected = NO;
     UIButton *btn = (UIButton *)sender;
-    self.dayToAdd = [NSNumber numberWithInt:btn.tag];
+    self.dayToAdd = [NSNumber numberWithInt:btn.tag - 1];
     btn.selected = YES;
     selectedBtnTag = btn.tag;
+    
+    NSInteger distance = 0;
+    
+    if(btn.tag > 3)
+    {
+        if(btn.tag == _plan.duration.integerValue)
+        {
+            distance = DAY_BUTTON_WIDTH*(btn.tag-5);
+        }
+        else if(btn.tag == _plan.duration.integerValue-1)
+        {
+            distance = DAY_BUTTON_WIDTH*(btn.tag-4);
+        }
+        else
+        {
+            distance = DAY_BUTTON_WIDTH*(btn.tag-3);
+        }
+        distance = MAX(0, distance);
+    }
+    [self.dayScroll setContentOffset:CGPointMake(distance, 0) animated:YES];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:self.dayToAdd forKey:@"lastSelectDay"];
+    [userDefaults synchronize];
+    
+    [self.tableView reloadData];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -532,6 +567,21 @@
         }
         
         NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
+        //如果这一天添加过这个地点，应该给出视觉提示
+        BOOL addedBefore = [_plan hasPoi:poiId.integerValue AtDay:_dayToAdd.integerValue];
+        
+        if([cell.contentView viewWithTag:TAG_ADDED_INDICATOR])
+        {
+            [[cell.contentView viewWithTag:TAG_ADDED_INDICATOR] removeFromSuperview];
+        }
+        
+        if(addedBefore)
+        {
+            UIImageView *addedIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(200, 8, 12, 12)];
+            addedIndicator.image = [UIImage imageNamed:@"detail_indi"];
+            addedIndicator.tag = TAG_ADDED_INDICATOR;
+            [cell.contentView addSubview:addedIndicator];
+        }
         
         if ([name length] == 0) {
             name = name_en;
@@ -625,8 +675,17 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     Location *location = [[Location alloc] init];
     [location setPoiData:[(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"]];
+    [_plan addLocation:location ToDay:_dayToAdd.integerValue];
+    lastLocation = location;
     
-    [_plan addLocation:location ToDay:_dayToAdd];
+    //add visual imply
+    if(![cell.contentView viewWithTag:TAG_ADDED_INDICATOR])
+    {
+        UIImageView *addedIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(200, 8, 12, 12)];
+        addedIndicator.image = [UIImage imageNamed:@"detail_indi"];
+        addedIndicator.tag = TAG_ADDED_INDICATOR;
+        [cell.contentView addSubview:addedIndicator];
+    }
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_yes"] forType:iToastTypeNotice];
@@ -638,7 +697,8 @@
 {
     shouldUpdateItinerary = YES;
     
-    [_plan addLocation:location ToDay:_dayToAdd];
+    [_plan addLocation:location ToDay:_dayToAdd.integerValue];
+    lastLocation = location;
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_yes"] forType:iToastTypeNotice];
@@ -690,7 +750,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     if(shouldUpdateItinerary)
     {
-        [self.searchDelegate notifyItinerayToReload];
+        [self.searchDelegate notifyItinerayToReload:lastLocation.whichday withSeq:lastLocation.seqofday];
     }
 }
 

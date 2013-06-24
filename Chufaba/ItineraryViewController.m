@@ -652,7 +652,7 @@
     [self.itineraryDelegate didDeleteLocationFromPlan];
 }
 
--(void) notifyItinerayToReload
+-(void) notifyItinerayToReload:(NSNumber *)lastDay withSeq:(NSNumber *)lastSeq
 {
     if(isEmptyItinerary)
     {
@@ -663,20 +663,7 @@
     [(UIButton *)self.navigationItem.titleView setTitle:@"全部" forState:UIControlStateNormal];
     [self.tableView reloadData];
     
-    //temporarily commentd
-//    NSInteger section;
-//    NSInteger row;
-//    if(singleDayMode)
-//    {
-//        section = 0;
-//        row = [[self.dataController objectInListAtIndex:0] count]-1;
-//    }
-//    else
-//    {
-//        section = [self.dayToAdd integerValue]-1;
-//        row = [[self.dataController objectInListAtIndex:section] count]-1;
-//    }
-//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[lastSeq intValue] inSection:[lastDay intValue]] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     
     [self updateFooterView];
 }

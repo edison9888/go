@@ -426,6 +426,19 @@
     return [self getPreviousLocation:location];
 }
 
+-(Boolean)hasPoi:(NSUInteger)poiId AtDay:(NSUInteger)day
+{
+    if (day < _duration.integerValue) {
+        NSMutableArray *locations = [_itinerary objectAtIndex:day];
+        for (Location *location in locations) {
+            if (location.poiId.integerValue == poiId) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
 -(void)sync
 {
     if (_changedSinceLastSync) {

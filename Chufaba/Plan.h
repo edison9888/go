@@ -62,4 +62,6 @@
 -(Location *)getSameDayNextLocation:(Location *)location;
 -(Location *)getSameDayPreviousLocation:(Location *)location;
 
+-(Boolean)hasPoi:(NSUInteger)poiId AtDay:(NSUInteger)day;
+
 @end
