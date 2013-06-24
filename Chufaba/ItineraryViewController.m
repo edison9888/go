@@ -83,7 +83,7 @@
     {
         self.tableView.rowHeight = 44.0f;
     }
-    self.tableView.sectionHeaderHeight = 44.0f;
+    self.tableView.sectionHeaderHeight = 30.0f;
 
 
     self.tableView.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height-44);
@@ -492,31 +492,24 @@
     [offsetComponents setDay:dayValue];
     NSDate *sectionDate = [self.gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
 
-    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
+    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 30.0)];
     UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0]];
     myView.backgroundColor = background;
 
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 6.0, 250.0, 20.0)] ;
-    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-    label.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 7.0, 100.0, 16.0)] ;
+    label.textColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0];
+    label.shadowColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3];
     label.shadowOffset = CGSizeMake(0, 1);
     label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
     
-    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 24.0, 250.0, 20.0)] ;
-    wLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-    wLabel.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(200.0, 5.0, 120.0, 20.0)] ;
+    wLabel.textColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0];
+    wLabel.shadowColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3];
     wLabel.shadowOffset = CGSizeMake(0, 1);
     wLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     wLabel.backgroundColor = [UIColor clearColor];
-    wLabel.text = [self.dateFormatter stringFromDate:sectionDate];;
-    
-//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
-//    [button setImage:[UIImage imageNamed:@"addLocation"] forState:UIControlStateNormal];
-//    [button setImage:[UIImage imageNamed:@"addLocation_click"] forState:UIControlStateHighlighted];
-//    button.tag = dayValue;
-//    button.hidden = NO;
-//    [button addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchUpInside];
+    wLabel.text = [self.dateFormatter stringFromDate:sectionDate];
     
     label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
     
@@ -530,7 +523,7 @@
     
     [myView addSubview:label];
     [myView addSubview:wLabel];
-    //[myView addSubview:button];
+
     return myView;
 }
 
