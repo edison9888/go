@@ -278,9 +278,6 @@
 		1C02972516B1029E003F676A /* travelplan.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1C02972416B1029E003F676A /* travelplan.sqlite */; };
 		1C02972D16B1051E003F676A /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C02972C16B1051E003F676A /* Utility.m */; };
 		1C02973016B1065C003F676A /* FMDBDataAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C02972F16B1065C003F676A /* FMDBDataAccess.m */; };
-		1C0D677A16C774A5008FBBA7 /* JTTableViewGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D677516C774A5008FBBA7 /* JTTableViewGestureRecognizer.m */; };
-		1C0D677B16C774A5008FBBA7 /* JTTransformableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D677716C774A5008FBBA7 /* JTTransformableTableViewCell.m */; };
-		1C0D677C16C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D677916C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m */; };
 		1C1FBE6216CB5AD000FF3FBC /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1FBE6116CB5AD000FF3FBC /* SettingViewController.m */; };
 		1C38053516C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C38053216C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a */; };
 		1C70A1BB16B02BC90031A1D0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C70A1BA16B02BC90031A1D0 /* QuartzCore.framework */; };
@@ -676,12 +673,6 @@
 		1C02972C16B1051E003F676A /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
 		1C02972E16B1065C003F676A /* FMDBDataAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDBDataAccess.h; sourceTree = "<group>"; };
 		1C02972F16B1065C003F676A /* FMDBDataAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDBDataAccess.m; sourceTree = "<group>"; };
-		1C0D677416C774A5008FBBA7 /* JTTableViewGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTTableViewGestureRecognizer.h; sourceTree = "<group>"; };
-		1C0D677516C774A5008FBBA7 /* JTTableViewGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTTableViewGestureRecognizer.m; sourceTree = "<group>"; };
-		1C0D677616C774A5008FBBA7 /* JTTransformableTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTTransformableTableViewCell.h; sourceTree = "<group>"; };
-		1C0D677716C774A5008FBBA7 /* JTTransformableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTTransformableTableViewCell.m; sourceTree = "<group>"; };
-		1C0D677816C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+JTGestureBasedTableViewHelper.h"; sourceTree = "<group>"; };
-		1C0D677916C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+JTGestureBasedTableViewHelper.m"; sourceTree = "<group>"; };
 		1C1FBE6016CB5AD000FF3FBC /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		1C1FBE6116CB5AD000FF3FBC /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		1C38053216C903F600D3CDDD /* libWeChatSDK_armv7_armv7s.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK_armv7_armv7s.a; sourceTree = "<group>"; };
@@ -1261,19 +1252,6 @@
 			name = Utility;
 			sourceTree = "<group>";
 		};
-		1C0D677216C773B4008FBBA7 /* JTGesture */ = {
-			isa = PBXGroup;
-			children = (
-				1C0D677416C774A5008FBBA7 /* JTTableViewGestureRecognizer.h */,
-				1C0D677516C774A5008FBBA7 /* JTTableViewGestureRecognizer.m */,
-				1C0D677616C774A5008FBBA7 /* JTTransformableTableViewCell.h */,
-				1C0D677716C774A5008FBBA7 /* JTTransformableTableViewCell.m */,
-				1C0D677816C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.h */,
-				1C0D677916C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m */,
-			);
-			name = JTGesture;
-			sourceTree = "<group>";
-		};
 		1C1FBE5F16CB5AA800FF3FBC /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1583,7 +1561,6 @@
 				1C1FBE5F16CB5AA800FF3FBC /* Settings */,
 				1C38053016C903C900D3CDDD /* weixin */,
 				1CE918B616C8B77900AA5987 /* SinaWeibo */,
-				1C0D677216C773B4008FBBA7 /* JTGesture */,
 				C207024616B426440087B6D7 /* SBJson */,
 				C2E1BF5416B3D00400E9750A /* HTTPFetcher */,
 				1C02972616B104A7003F676A /* Utility */,
@@ -1971,9 +1948,6 @@
 				139DACA516BD554900B73AFA /* LocationAnnotation.m in Sources */,
 				C220388F16BD371A00173D29 /* EditDetailViewController.m in Sources */,
 				C220389216BD3B5C00173D29 /* EditScheduleViewController.m in Sources */,
-				1C0D677A16C774A5008FBBA7 /* JTTableViewGestureRecognizer.m in Sources */,
-				1C0D677B16C774A5008FBBA7 /* JTTransformableTableViewCell.m in Sources */,
-				1C0D677C16C774A5008FBBA7 /* UIColor+JTGestureBasedTableViewHelper.m in Sources */,
 				1CE918C416C8B7A000AA5987 /* JSONKit.m in Sources */,
 				1CE918C616C8B7A000AA5987 /* SinaWeibo.m in Sources */,
 				1CE918C716C8B7A000AA5987 /* SinaWeiboAuthorizeView.m in Sources */,

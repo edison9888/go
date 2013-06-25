@@ -14,10 +14,6 @@
 #import "FMDBDataAccess.h" 
 #import "LocationViewController.h"
 
-#import "JTTransformableTableViewCell.h"
-#import "JTTableViewGestureRecognizer.h"
-#import "UIColor+JTGestureBasedTableViewHelper.h"
-
 //#import "ShareViewController.h"
 //#import "LoginViewController.h"
 
@@ -33,7 +29,7 @@
 -(void) didDeleteLocationFromPlan;
 @end
 
-@interface ItineraryViewController:SwipeableViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate, SearchViewControllerDelegate, PullDownMenuDelegate, MapViewControllerDelegate, EditItineraryViewControllerDelegate>
+@interface ItineraryViewController:SwipeableViewController <UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate, SearchViewControllerDelegate, PullDownMenuDelegate, MapViewControllerDelegate, EditItineraryViewControllerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;
@@ -41,14 +37,7 @@
     BOOL loginForShare;
 }
 
-//JTGesture code
-@property (nonatomic, strong) JTTableViewGestureRecognizer *tableViewRecognizer;
-@property (nonatomic, strong) Location *grabbingLocation;
-@property (nonatomic, copy) NSIndexPath *grabbingFrom;
-
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
-
-//@property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
 @property (nonatomic,strong) Plan *plan;
 @property (nonatomic,weak) NSNumber *daySelected;
 

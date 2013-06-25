@@ -90,8 +90,6 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    self.tableViewRecognizer = [self.tableView enableGestureTableViewWithDelegate:self];
-    
     if (pullDownMenuView == nil)
     {
         PullDownMenuView *view = [[PullDownMenuView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
@@ -151,31 +149,6 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     [pullDownMenuView pdmScrollViewDidEndDragging:scrollView];
-}
-
-#pragma mark JTTableViewGestureMoveRowDelegate
-
-- (BOOL)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-
-- (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsCreatePlaceholderForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    _grabbingFrom = indexPath;
-    _grabbingLocation = [self getLocationAtIndexPath:indexPath];
-}
-
-- (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsMoveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
-{
-    [_plan moveThisLocation:[self getLocationAtIndexPath:sourceIndexPath] ToThatLocation:[self getLocationAtIndexPath:destinationIndexPath]];
-}
-
-- (void)gestureRecognizer:(JTTableViewGestureRecognizer *)gestureRecognizer needsReplacePlaceholderForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [_plan persistentReorderFromThisLocation:[self getLocationAtIndexPath:_grabbingFrom] ToThatLocation:[self getLocationAtIndexPath:indexPath]];
-    _grabbingFrom = nil;
-    _grabbingLocation = nil;
-    [self updateFooterView];
 }
 
 //Implement PullDownMenuView delegate
@@ -367,61 +340,49 @@
         }
         
         Location *locationAtIndex = [self getLocationAtIndexPath:indexPath];
-        if (locationAtIndex == _grabbingLocation)
+        cell.textLabel.text = [locationAtIndex getTitle];
+        if (locationAtIndex.visitBegin)
         {
-            cell.textLabel.text = @"";
-            cell.detailTextLabel.text = @"";
-            cell.imageView.image = NULL;
-            cell.accessoryView = NULL;
-            cell.contentView.backgroundColor = [UIColor clearColor];
-            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.detailTextLabel.text = locationAtIndex.visitBegin;
         }
         else
         {
-            cell.textLabel.text = [locationAtIndex getTitle];
-            if (locationAtIndex.visitBegin)
-            {
-                cell.detailTextLabel.text = locationAtIndex.visitBegin;
-            }
-            else
-            {
-                cell.detailTextLabel.text = @"";
-            }
-            cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
-            cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall"]];
+            cell.detailTextLabel.text = @"";
+        }
+        cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall"]];
+        
+        if([cell.contentView viewWithTag:TAG_DETAIL_INDICATOR])
+        {
+            [[cell.contentView viewWithTag:TAG_DETAIL_INDICATOR] removeFromSuperview];
+        }
+        
+        if(locationAtIndex.detail.length)
+        {
+            CGSize expectedLabelSize = [cell.textLabel.text sizeWithFont:cell.textLabel.font constrainedToSize:CGSizeMake(200,18) lineBreakMode:cell.textLabel.lineBreakMode];
             
-            if([cell.contentView viewWithTag:TAG_DETAIL_INDICATOR])
-            {
-                [[cell.contentView viewWithTag:TAG_DETAIL_INDICATOR] removeFromSuperview];
-            }
-            
-            if(locationAtIndex.detail.length)
-            {
-                CGSize expectedLabelSize = [cell.textLabel.text sizeWithFont:cell.textLabel.font constrainedToSize:CGSizeMake(200,18) lineBreakMode:cell.textLabel.lineBreakMode];
-                
-                UIImageView *detailIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(expectedLabelSize.width+44, 8, 12, 12)];
-                detailIndicator.image = [UIImage imageNamed:@"detail_indi"];
-                detailIndicator.tag = TAG_DETAIL_INDICATOR;
-                [cell.contentView addSubview:detailIndicator];
-            }
-            
-            if([cell.contentView viewWithTag:TAG_LINE_VIEW])
-            {
-                [[cell.contentView viewWithTag:TAG_LINE_VIEW] removeFromSuperview];
-            }
-            
-            UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
-            lineView.backgroundColor = [UIColor whiteColor];
+            UIImageView *detailIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(expectedLabelSize.width+44, 8, 12, 12)];
+            detailIndicator.image = [UIImage imageNamed:@"detail_indi"];
+            detailIndicator.tag = TAG_DETAIL_INDICATOR;
+            [cell.contentView addSubview:detailIndicator];
+        }
+        
+        if([cell.contentView viewWithTag:TAG_LINE_VIEW])
+        {
+            [[cell.contentView viewWithTag:TAG_LINE_VIEW] removeFromSuperview];
+        }
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+        lineView.backgroundColor = [UIColor whiteColor];
+        lineView.opaque = YES;
+        [cell.contentView addSubview:lineView];
+        if(locationAtIndex.whichday.integerValue == ([_plan.duration integerValue] - 1) || [_plan hasNextLocation:locationAtIndex FomeSameDay:singleDayMode NeedCoordinate:NO])
+        {
+            lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
             lineView.opaque = YES;
+            lineView.tag = TAG_LINE_VIEW;
+            lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
             [cell.contentView addSubview:lineView];
-            if(locationAtIndex.whichday.integerValue == ([_plan.duration integerValue] - 1) || [_plan hasNextLocation:locationAtIndex FomeSameDay:singleDayMode NeedCoordinate:NO])
-            {
-                lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
-                lineView.opaque = YES;
-                lineView.tag = TAG_LINE_VIEW;
-                lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-                [cell.contentView addSubview:lineView];
-            }
         }
 //        cell.layer.opaque = YES;
 //        cell.layer.shouldRasterize = YES;
