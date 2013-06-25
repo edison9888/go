@@ -109,37 +109,12 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         cell.textLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
         cell.textLabel.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-        cell.detailTextLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
-        cell.detailTextLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     Location *locationAtIndex = [self getLocationAtIndexPath:indexPath];
     cell.textLabel.text = [locationAtIndex getTitle];
-    if (locationAtIndex.visitBegin)
-    {
-        cell.detailTextLabel.text = locationAtIndex.visitBegin;
-    }
-    else
-    {
-        cell.detailTextLabel.text = @"";
-    }
     cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
-    
-    if([cell.contentView viewWithTag:TAG_DETAIL_INDICATOR])
-    {
-        [[cell.contentView viewWithTag:TAG_DETAIL_INDICATOR] removeFromSuperview];
-    }
-    
-    if(locationAtIndex.detail.length)
-    {
-        CGSize expectedLabelSize = [cell.textLabel.text sizeWithFont:cell.textLabel.font constrainedToSize:CGSizeMake(200,18) lineBreakMode:cell.textLabel.lineBreakMode];
-        
-        UIImageView *detailIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(expectedLabelSize.width+44, 8, 12, 12)];
-        detailIndicator.image = [UIImage imageNamed:@"detail_indi"];
-        detailIndicator.tag = TAG_DETAIL_INDICATOR;
-        [cell.contentView addSubview:detailIndicator];
-    }
     
     if([cell.contentView viewWithTag:TAG_LINE_VIEW])
     {
