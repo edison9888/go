@@ -349,81 +349,100 @@
     }
 }
 
--(Boolean)hasNextLocation:(Location *)location
+-(Boolean)hasNextLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate
 {
-    if (location != nil) {
-        if ([location.whichday integerValue] == ([_duration integerValue] - 1)) {
-            NSMutableArray *locations = [_itinerary objectAtIndex:location.whichday];
-            return [location.seqofday integerValue] < (locations.count - 1);
-        } else {
-            for (int day = [location.whichday integerValue] + 1; day < [_duration integerValue]; day++) {
-                NSMutableArray *locations = [_itinerary objectAtIndex:day];
-                if (locations.count > 0) {
-                    return YES;
-                }
-            }
-        }
-    }
-    return NO;
+    return [self getNextLocation:location FomeSameDay:sameDay NeedCoordinate:needCoordinate] != nil;
 }
 
--(Boolean)hasPreviousLocation:(Location *)location
+-(Boolean)hasPreviousLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate
 {
-    if (location != nil) {
-        if ([location.whichday integerValue] == 0) {
-            return [location.seqofday integerValue] == 0;
-        } else {
-            for (int day = [location.whichday integerValue] - 1; day > 0; day--) {
-                NSMutableArray *locations = [_itinerary objectAtIndex:day];
-                if (locations.count > 0) {
-                    return YES;
-                }
-            }
-        }
-    }
-    return NO;
+    return [self getPreviousLocation:location FomeSameDay:sameDay NeedCoordinate:needCoordinate] != nil;
 }
 
--(Location *)getNextLocation:(Location *)location
+-(Location *)getNextLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate
 {
-    if ([self hasNextLocation:location]) {
-        NSUInteger day = [location.whichday integerValue];
-        NSUInteger index = [location.seqofday integerValue];
-        NSMutableArray *locations = [_itinerary objectAtIndex:day];
-        return [locations objectAtIndex:(index + 1)];
+    if (location != nil) {
+        if (sameDay) {
+            NSMutableArray *locations = [_itinerary objectAtIndex:location.whichday.integerValue];
+            for (NSUInteger i=location.seqofday.integerValue + 1; i<locations.count; i++) {
+                Location *nextLocation = [locations objectAtIndex:i];
+                if (needCoordinate) {
+                    if ([nextLocation hasCoordinate]) {
+                        return nextLocation;
+                    }
+                } else {
+                    return nextLocation;
+                }
+            }
+            return nil;
+        } else {
+            Location *nextLocation = [self getNextLocation:location FomeSameDay:YES NeedCoordinate:needCoordinate];
+            if (nextLocation != nil) {
+                return nextLocation;
+            } else {
+                for (NSUInteger day=location.whichday.integerValue+1 ; day < _duration.integerValue; day++) {
+                    NSMutableArray *locations = [_itinerary objectAtIndex:day];
+                    for (NSUInteger i=0; i<locations.count; i++) {
+                        nextLocation = [locations objectAtIndex:i];
+                        if ([nextLocation hasCoordinate]) {
+                            return nextLocation;
+                        }
+                    }
+                }
+                return nil;
+            }
+        }
     }
     return nil;
 }
 
--(Location *)getPreviousLocation:(Location *)location
+-(Location *)getPreviousLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate
 {
-    if ([self hasNextLocation:location]) {
-        NSUInteger day = [location.whichday integerValue];
-        NSUInteger index = [location.seqofday integerValue];
-        NSMutableArray *locations = [_itinerary objectAtIndex:day];
-        return [locations objectAtIndex:(index + 1)];
+    if (location != nil) {
+        if (sameDay) {
+            NSMutableArray *locations = [_itinerary objectAtIndex:location.whichday.integerValue];
+            for (NSInteger i=location.seqofday.integerValue - 1; i>=0; i--) {
+                Location *previousLocation = [locations objectAtIndex:i];
+                if (needCoordinate) {
+                    if ([previousLocation hasCoordinate]) {
+                        return previousLocation;
+                    }
+                } else {
+                    return previousLocation;
+                }
+            }
+            return nil;
+        } else {
+            Location *previousLocation = [self getPreviousLocation:location FomeSameDay:YES NeedCoordinate:needCoordinate];
+            if (previousLocation != nil) {
+                return previousLocation;
+            } else {
+                for (NSInteger day=location.whichday.integerValue - 1 ; day >= 0; day--) {
+                    NSMutableArray *locations = [_itinerary objectAtIndex:day];
+                    for (NSInteger i=locations.count-1; i>=0; i--) {
+                        previousLocation = [locations objectAtIndex:i];
+                        if ([previousLocation hasCoordinate]) {
+                            return previousLocation;
+                        }
+                    }
+                }
+                return nil;
+            }
+        }
     }
     return nil;
 }
 
--(Boolean)hasSameDayNextLocation:(Location *)location
+-(NSUInteger)getIndexOfLocation:(Location *)location
 {
-    return [self hasNextLocation:location];
-}
-
--(Boolean)hasSameDayPreviousLocation:(Location *)location
-{
-    return [self hasPreviousLocation:location];
-}
-
--(Location *)getSameDayNextLocation:(Location *)location
-{
-    return [self getNextLocation:location];
-}
-
--(Location *)getSameDayPreviousLocation:(Location *)location
-{
-    return [self getPreviousLocation:location];
+    if (location == nil) {
+        return 0;
+    }
+    NSUInteger count = 0;
+    for (NSUInteger day=0; day<location.whichday.integerValue; day++) {
+        count += [self getLocationCountFromDay:day];
+    }
+    return count + location.seqofday.integerValue;
 }
 
 -(Boolean)hasPoi:(NSUInteger)poiId AtDay:(NSUInteger)day

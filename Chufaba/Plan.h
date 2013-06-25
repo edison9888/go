@@ -52,15 +52,12 @@
 -(void)removeLocation:(Location *)location;
 -(void)removeLocationFromDay:(NSUInteger)day AtIndex:(NSUInteger)index;
 
--(Boolean)hasNextLocation:(Location *)location;
--(Boolean)hasPreviousLocation:(Location *)location;
--(Location *)getNextLocation:(Location *)location;
--(Location *)getPreviousLocation:(Location *)location;
+-(Boolean)hasNextLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate;
+-(Boolean)hasPreviousLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate;
+-(Location *)getNextLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate;
+-(Location *)getPreviousLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate;
 
--(Boolean)hasSameDayNextLocation:(Location *)location;
--(Boolean)hasSameDayPreviousLocation:(Location *)location;
--(Location *)getSameDayNextLocation:(Location *)location;
--(Location *)getSameDayPreviousLocation:(Location *)location;
+-(NSUInteger)getIndexOfLocation:(Location *)location;
 
 -(Boolean)hasPoi:(NSUInteger)poiId AtDay:(NSUInteger)day;
 

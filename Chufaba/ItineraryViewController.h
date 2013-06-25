@@ -40,8 +40,6 @@
     BOOL loginForShare;
 }
 
-- (NSInteger) oneDimensionCountOfIndexPath:(NSIndexPath *)indexPath;
-
 //JTGesture code
 @property (nonatomic, strong) JTTableViewGestureRecognizer *tableViewRecognizer;
 @property (nonatomic, strong) Location *grabbingLocation;
@@ -52,8 +50,6 @@
 //@property (weak, nonatomic) IBOutlet UINavigationItem *itineraryNavItem;
 @property (nonatomic,strong) Plan *plan;
 @property (nonatomic,weak) NSNumber *daySelected;
-@property (nonatomic,weak) NSNumber *dayToAdd;
-@property (nonatomic,weak) NSNumber *seqToAdd;
 
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSCalendar *gregorian;

@@ -7,12 +7,14 @@
 //
 
 #import "Location.h"
+#import "LocationAnnotation.h"
 #import "FMDBDataAccess.h"
 
 @interface Location()
 {
     NSMutableArray *infoArray;
     NSMutableArray *imageArray;
+    LocationAnnotation *annotation;
 }
 @end
 
@@ -107,6 +109,15 @@
     }else{
         return (NSString *)[imageArray objectAtIndex:row];
     }
+}
+
+- (LocationAnnotation *)getAnnotationWithTitle:(Boolean)withTitle
+{
+    if (annotation == nil) {
+        annotation = [LocationAnnotation annotationForLocation:self ShowTitle:withTitle];
+    }
+    annotation.showTitle = withTitle;
+    return annotation;
 }
 
 - (void)setPoiData:(NSDictionary *)poi

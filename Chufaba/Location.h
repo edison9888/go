@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class LocationAnnotation;
+
 @interface Location : NSObject
 
 @property (nonatomic, copy) NSNumber *locationId;
@@ -51,6 +53,8 @@
 - (NSUInteger)numberOfRowsInInfoSection;
 - (NSString *)contentForRow:(NSInteger)row;
 - (NSString *)imageNameForRow:(NSInteger)row;
+
+- (LocationAnnotation *)getAnnotationWithTitle:(Boolean)withTitle;
 
 - (void)setPoiData:(NSDictionary *)poi;
 - (void)updatePoiData:(NSDictionary *)poi;

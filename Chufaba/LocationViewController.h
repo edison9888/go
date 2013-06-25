@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "AddLocationViewController.h"
 @class Location;
+@class Plan;
 
 @protocol EditLocationDelegate<NSObject>
 
@@ -35,6 +36,7 @@
 @interface LocationViewController : UIViewController<EditLocationDelegate, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate, AddLocationViewControllerDelegate>
 
 @property (strong, nonatomic) Location *location;
+@property (strong, nonatomic) Plan *plan;
 @property int locationIndex;
 @property int totalLocationCount;
 @property (nonatomic,weak) id<AddLocationDelegate> delegate;

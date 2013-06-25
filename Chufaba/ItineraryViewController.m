@@ -178,39 +178,15 @@
     [self updateFooterView];
 }
 
-//Implement NavigationLocation delegate
--(Location *) getPreviousLocation:(Location *)curLocation;
-{
-    return singleDayMode ? [_plan getSameDayPreviousLocation:curLocation] : [_plan getPreviousLocation:curLocation];
-}
-
--(Location *) getNextLocation:(Location *)curLocation
-{
-    return singleDayMode ? [_plan getSameDayNextLocation:curLocation] : [_plan getNextLocation:curLocation];
-}
-
 //Implement PullDownMenuView delegate
 - (void) switchToMapMode:(PullDownMenuView *)view
 {
     //self.tableView.contentInset = UIEdgeInsetsZero;
     MapViewController *mapViewController = [[MapViewController alloc] init];
     mapViewController.delegate = self;
-    if (singleDayMode) {
-        mapViewController.currentItineraryList = [_plan.itinerary mutableCopy];
-    }else{
-        mapViewController.currentItineraryList = [_plan.itinerary mutableCopy];
-    }
-    mapViewController.itineraryListBackup = [_plan.itinerary mutableCopy];
-    mapViewController.itineraryDuration = _plan.duration;
-    
-    if(singleDayMode)
-    {
-        mapViewController.daySelected = [NSNumber numberWithInt:[self.daySelected intValue]];
-    }
-    else
-    {
-        mapViewController.daySelected = [NSNumber numberWithInt:0];
-    }
+    mapViewController.plan = _plan;
+    mapViewController.daySelected = self.daySelected.integerValue;
+    mapViewController.singleDayMode = singleDayMode;
     
     [self.navigationController pushViewController:mapViewController animated:YES];
 }
@@ -426,7 +402,7 @@
             lineView.backgroundColor = [UIColor whiteColor];
             lineView.opaque = YES;
             [cell.contentView addSubview:lineView];
-            if(locationAtIndex.whichday.integerValue == ([_plan.duration integerValue] - 1) || [_plan hasNextLocation:locationAtIndex])
+            if(locationAtIndex.whichday.integerValue == ([_plan.duration integerValue] - 1) || [_plan hasNextLocation:locationAtIndex FomeSameDay:singleDayMode NeedCoordinate:NO])
             {
                 lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
                 lineView.opaque = YES;
@@ -633,7 +609,7 @@
 - (void) deleteLocation
 {
     Location *locationToDelete = [self getLocationAtIndexPath:self.indexPathOfLocationToDelete];
-    BOOL islastLocation = [_plan hasNextLocation:locationToDelete];
+    BOOL islastLocation = [_plan hasNextLocation:locationToDelete FomeSameDay:singleDayMode NeedCoordinate:NO];
     [_plan removeLocation:locationToDelete];
     
     //最后一个地点被删除后删除前一个景点的底部横线
@@ -674,20 +650,18 @@
     [self didChangeLocation:location];
 }
 
--(void) notifyItinerayRoloadToThisDay:(NSNumber *)day
+-(void) notifyItinerayRoloadToThisDay:(NSUInteger)day AndMode:(Boolean)single
 {
-    [self niDropDownDelegateMethod:NULL selectRow:[day integerValue]];
-    
-    if([day intValue] == 0)
-    {
-        [(UIButton *)self.navigationItem.titleView setTitle:@"全部" forState:UIControlStateNormal];
+    NSString *title;
+    if (single) {
+        title = [NSString stringWithFormat:@"%d", day+1];
+        day += 1;
+    } else {
+        title = @"全部";
+        day = 0;
     }
-    else
-    {
-        [(UIButton *)self.navigationItem.titleView setTitle:[NSString stringWithFormat:@"第%d天", [day intValue]] forState:UIControlStateNormal];
-    }
-    
-    [self.tableView reloadData];
+    [(UIButton *)self.navigationItem.titleView setTitle:title forState:UIControlStateNormal];
+    [self niDropDownDelegateMethod:NULL selectRow:day];
 }
 
 -(Location *)getLocationAtIndexPath:(NSIndexPath *)indexPath

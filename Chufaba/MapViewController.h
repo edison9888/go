@@ -11,31 +11,28 @@
 #import "NIDropDown.h"
 #import "LocationViewController.h"
 
+@class Plan;
+
 @protocol MapViewControllerDelegate <NSObject>
 
 @optional
 -(void) didChangeLocationFromMap:(Location *)location;
--(void) notifyItinerayRoloadToThisDay:(NSNumber *)day;
+-(void) notifyItinerayRoloadToThisDay:(NSUInteger)day AndMode:(Boolean)singleDayMode;
 
 @end
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, NIDropDownDelegate, UIGestureRecognizerDelegate, AddLocationDelegate, NavigateLocationDelegate>
 
 @property (nonatomic,strong) MKMapView *mapView;
-@property (nonatomic, strong) NSArray *annotations; // of id <MKAnnotation>
 
 @property (nonatomic, strong) NSDictionary *categoryImage;
 
 @property (nonatomic) CLLocationManager *locationManager;
 @property (nonatomic) CLLocation *curLocation;
 
-@property (strong, nonatomic) NSMutableArray *currentItineraryList;
-@property (strong, nonatomic) NSMutableArray *itineraryListBackup;
-
-@property (nonatomic,weak) NSNumber *daySelected;
-@property (nonatomic, assign) NSInteger indexOfCurSelected;
-
-@property (nonatomic, strong) NSNumber *itineraryDuration;
+@property (strong, nonatomic) Plan *plan;
+@property NSUInteger daySelected;
+@property Boolean singleDayMode;
 
 @property (nonatomic,weak) id<MapViewControllerDelegate> delegate;
 
