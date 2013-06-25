@@ -503,9 +503,7 @@
     
     Location *location = [self getLocationAtIndexPath:indexPath];
     locationViewController.location = location;
-
-    locationViewController.locationIndex = location.seqofday;
-    locationViewController.totalLocationCount = [_plan getLocationCountFromDay:location.whichday];
+    locationViewController.plan = _plan;
     locationViewController.navDelegate = self;
     [self.navigationController pushViewController:locationViewController animated:YES];
 }

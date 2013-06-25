@@ -15,6 +15,7 @@
 #import "LocationTableViewCell.h"
 #import "FadeScrollView.h"
 #import "QuartzCore/QuartzCore.h"
+#import "Plan.h"
 
 @interface LocationViewController ()
 {
@@ -140,34 +141,25 @@
         UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
         self.navigationItem.rightBarButtonItem = segmentBarItem;
     }
-    if(self.locationIndex == 0){
-        [(UIButton *)[segmentedControl viewWithTag:TAG_PREVBTN] setEnabled:NO];
-    }else{
-        [(UIButton *)[segmentedControl viewWithTag:TAG_PREVBTN] setEnabled:YES];
-    }
-    if (self.locationIndex == self.totalLocationCount-1) {
-        [(UIButton *)[segmentedControl viewWithTag:TAG_NEXTBTN] setEnabled:NO];
-    }else{
-        [(UIButton *)[segmentedControl viewWithTag:TAG_NEXTBTN] setEnabled:YES];
-    }
+    
+    [(UIButton *)[segmentedControl viewWithTag:TAG_PREVBTN] setEnabled:[_plan hasPreviousLocation:_location FomeSameDay:NO NeedCoordinate:NO]];
+    [(UIButton *)[segmentedControl viewWithTag:TAG_NEXTBTN] setEnabled:[_plan hasNextLocation:_location FomeSameDay:NO NeedCoordinate:NO]];
 }
 
 - (IBAction) prevLocation:(id)sender
 {
-    if(self.locationIndex > 0)
-    {
-        self.locationIndex--;
-        self.location = [self.navDelegate getPreviousLocation:self.location];
+    Location *location = [_plan getPreviousLocation:_location FomeSameDay:NO NeedCoordinate:NO];
+    if (location != nil) {
+        _location = location;
         [self configureView];
     }
 }
 
 - (IBAction) nextLocation:(id)sender
 {
-    if(self.locationIndex < self.totalLocationCount - 1)
-    {
-        self.locationIndex++;
-        self.location = [self.navDelegate getNextLocation:self.location];
+    Location *location = [_plan getNextLocation:_location FomeSameDay:NO NeedCoordinate:NO];
+    if (location != nil) {
+        _location = location;
         [self configureView];
     }
 }
@@ -207,7 +199,7 @@
         dayLabel.font = [UIFont fontWithName:@"Heiti SC" size:12];
         [infoView addSubview:dayLabel];
     }
-    dayLabel.text = [NSString stringWithFormat:@"第 %d 天", [self.location.whichday intValue]];
+    dayLabel.text = [NSString stringWithFormat:@"Day%d", [self.location.whichday intValue]+1];
     
     UILabel *seqLabel = (UILabel *)[self.view viewWithTag:TAG_SEQLABEL];
     if (!seqLabel) {
@@ -219,7 +211,7 @@
         seqLabel.textAlignment = NSTextAlignmentRight;
         [infoView addSubview:seqLabel];
     }
-    seqLabel.text = [NSString stringWithFormat:@"%d/%d", self.locationIndex + 1, self.totalLocationCount];
+    seqLabel.text = [NSString stringWithFormat:@"%d/%d", [_plan getIndexOfLocation:_location] + 1, _plan.locationCount];
 }
 
 -(void) configureTable
@@ -476,7 +468,6 @@
 {
     LocationMapViewController *mapViewController = [[LocationMapViewController alloc] init];
     mapViewController.location = self.location;
-    mapViewController.index = self.locationIndex;
     [self.navigationController pushViewController:mapViewController animated:YES];
 }
 

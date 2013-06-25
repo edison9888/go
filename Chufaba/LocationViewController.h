@@ -37,8 +37,6 @@
 
 @property (strong, nonatomic) Location *location;
 @property (strong, nonatomic) Plan *plan;
-@property int locationIndex;
-@property int totalLocationCount;
 @property (nonatomic,weak) id<AddLocationDelegate> delegate;
 @property (nonatomic,weak) id<NavigateLocationDelegate> navDelegate;
 

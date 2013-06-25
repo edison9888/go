@@ -14,7 +14,6 @@
 @interface LocationMapViewController : UIViewController<MKMapViewDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate>
 
 @property (strong, nonatomic) Location *location;
-@property int index;
 @property (nonatomic, assign) BOOL normalMapMode;
 
 @property (nonatomic, strong) NSDictionary *categoryImage;
