@@ -23,6 +23,7 @@
 
 #import "ItineraryViewTableViewCell.h"
 #import "MapViewController.h"
+#import "EditItineraryViewController.h"
 
 
 @class ItineraryDataController;
@@ -32,7 +33,7 @@
 -(void) didDeleteLocationFromPlan;
 @end
 
-@interface ItineraryViewController:SwipeableViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate,CLLocationManagerDelegate, SearchViewControllerDelegate, PullDownMenuDelegate, MapViewControllerDelegate>
+@interface ItineraryViewController:SwipeableViewController <JTTableViewGestureMoveRowDelegate, UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate, SearchViewControllerDelegate, PullDownMenuDelegate, MapViewControllerDelegate, EditItineraryViewControllerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;

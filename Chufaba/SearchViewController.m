@@ -295,7 +295,7 @@
     [self.view addSubview:topView];
     
     //tableview part
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 85+44, 320, self.view.bounds.size.height-130) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 85+44, 320, self.view.bounds.size.height-130-44) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];

@@ -27,7 +27,7 @@
 - (NSDateFormatter *)dateFormatter {
     if (! _dateFormatter) {
         _dateFormatter = [[NSDateFormatter alloc] init];
-        _dateFormatter.dateFormat = @"YYYY-MM-d EEEE";
+        _dateFormatter.dateFormat = @"YYYY.MM.d/EEE";
         NSLocale *cnLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
         _dateFormatter.locale = cnLocale;
     }
@@ -83,7 +83,7 @@
     {
         self.tableView.rowHeight = 44.0f;
     }
-    self.tableView.sectionHeaderHeight = 44.0f;
+    self.tableView.sectionHeaderHeight = 30.0f;
 
 
     self.tableView.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height-44);
@@ -193,7 +193,19 @@
 
 - (void)editLocationsSequence:(PullDownMenuView *)view
 {
-
+    EditItineraryViewController *editViewController = [[EditItineraryViewController alloc] init];
+    if(singleDayMode)
+    {
+        editViewController.singleDayMode = TRUE;
+    }
+    else
+    {
+        editViewController.singleDayMode = FALSE;
+    }
+    editViewController.delegate = self;
+    editViewController.plan = self.plan;
+    editViewController.daySelected = self.daySelected;
+    [self.navigationController pushViewController:editViewController animated:YES];
 }
 
 - (void) startSynchronize:(PullDownMenuView *)view
@@ -231,7 +243,7 @@
     [arr addObject:@"全部"];
     for(int i=0; i<[_plan.duration intValue]; i++)
     {
-        [arr addObject:[NSString stringWithFormat:@"第%d天", i+1]];
+        [arr addObject:[NSString stringWithFormat:@"Day%d", i+1]];
     }
     if(dropDown == nil)
     {
@@ -441,48 +453,29 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSInteger dayValue = singleDayMode ? [self.daySelected intValue] : section;
-    
-    NSDateComponents *dayComponents = [self.gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:_plan.date];
-    NSInteger theDay = [dayComponents day];
-    NSInteger theMonth = [dayComponents month];
-    NSInteger theYear = [dayComponents year];
-    
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    [components setDay:theDay];
-    [components setMonth:theMonth];
-    [components setYear:theYear];
-    NSDate *thisDate = [self.gregorian dateFromComponents:components];
     NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
     [offsetComponents setDay:dayValue];
-    NSDate *sectionDate = [self.gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
+    NSDate *sectionDate = [self.gregorian dateByAddingComponents:offsetComponents toDate:_plan.date options:0];
 
-    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
+    UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 30.0)];
     UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0]];
     myView.backgroundColor = background;
 
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 6.0, 250.0, 20.0)] ;
-    label.textColor = [UIColor colorWithRed:72/255.0 green:70/255.0 blue:66/255.0 alpha:1.0];
-    label.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 9.0, 100.0, 16.0)] ;
+    label.textColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0];
+    label.shadowColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3];
     label.shadowOffset = CGSizeMake(0, 1);
     label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
+    label.text = [NSString stringWithFormat:@"Day%d", dayValue+1];
     
-    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 24.0, 250.0, 20.0)] ;
-    wLabel.textColor = [UIColor colorWithRed:153/255.0 green:150/255.0 blue:145/255.0 alpha:1.0];
-    wLabel.shadowColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
+    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(220.0, 9.0, 120.0, 16.0)];
+    wLabel.textColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0];
+    wLabel.shadowColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3];
     wLabel.shadowOffset = CGSizeMake(0, 1);
     wLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
     wLabel.backgroundColor = [UIColor clearColor];
-    wLabel.text = [self.dateFormatter stringFromDate:sectionDate];;
-    
-//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(275.0, 7.0, 31.0, 31.0)];
-//    [button setImage:[UIImage imageNamed:@"addLocation"] forState:UIControlStateNormal];
-//    [button setImage:[UIImage imageNamed:@"addLocation_click"] forState:UIControlStateHighlighted];
-//    button.tag = dayValue;
-//    button.hidden = NO;
-//    [button addTarget:self action:@selector(pushSearchViewController:) forControlEvents:UIControlEventTouchUpInside];
-    
-    label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
+    wLabel.text = [self.dateFormatter stringFromDate:sectionDate];
     
     myView.layer.shadowPath = [UIBezierPath bezierPathWithRect:myView.bounds].CGPath;
     myView.layer.shadowOffset = CGSizeMake(0, 1);
@@ -494,7 +487,7 @@
     
     [myView addSubview:label];
     [myView addSubview:wLabel];
-    //[myView addSubview:button];
+
     return myView;
 }
 
@@ -654,7 +647,7 @@
 {
     NSString *title;
     if (single) {
-        title = [NSString stringWithFormat:@"%d", day+1];
+        title = [NSString stringWithFormat:@"Day%d", day+1];
         day += 1;
     } else {
         title = @"全部";
@@ -662,6 +655,11 @@
     }
     [(UIButton *)self.navigationItem.titleView setTitle:title forState:UIControlStateNormal];
     [self niDropDownDelegateMethod:NULL selectRow:day];
+}
+
+-(void) notifyItinerayToReload
+{
+    [self.tableView reloadData];
 }
 
 -(Location *)getLocationAtIndexPath:(NSIndexPath *)indexPath

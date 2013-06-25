@@ -60,7 +60,7 @@
     }
     else
     {
-        [button setTitle:[NSString stringWithFormat:@"第%d天", _daySelected+1] forState:UIControlStateNormal];
+        [button setTitle:[NSString stringWithFormat:@"Day%d", _daySelected+1] forState:UIControlStateNormal];
     }
     [button setTitleColor:[UIColor colorWithRed:196/255.0 green:230/255.0 blue:184/255.0 alpha:1.0] forState:UIControlStateNormal];
     [button setTitleShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5] forState:UIControlStateNormal];
@@ -371,7 +371,7 @@
     [arr addObject:@"全部"];
     for(int i=0; i<[_plan.duration intValue]; i++)
     {
-        [arr addObject:[NSString stringWithFormat:@"第%d天", i+1]];
+        [arr addObject:[NSString stringWithFormat:@"Day%d", i+1]];
     }
     if(dropDown == nil)
     {
