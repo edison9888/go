@@ -25,7 +25,7 @@
 - (NSDateFormatter *)dateFormatter {
     if (! _dateFormatter) {
         _dateFormatter = [[NSDateFormatter alloc] init];
-        _dateFormatter.dateFormat = @"YYYY-MM-d EEEE";
+        _dateFormatter.dateFormat = @"YYYY.MM.d/EE";
         NSLocale *cnLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
         _dateFormatter.locale = cnLocale;
     }
@@ -68,6 +68,8 @@
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
 
     self.tableView.editing = YES;
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [self updateFooterView];
 }
 
 - (IBAction)backToPrevious:(id)sender
@@ -139,33 +141,22 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSInteger dayValue = self.singleDayMode ? [self.daySelected intValue] : section;
-    
-    NSDateComponents *dayComponents = [self.gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:_plan.date];
-    NSInteger theDay = [dayComponents day];
-    NSInteger theMonth = [dayComponents month];
-    NSInteger theYear = [dayComponents year];
-    
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    [components setDay:theDay];
-    [components setMonth:theMonth];
-    [components setYear:theYear];
-    NSDate *thisDate = [self.gregorian dateFromComponents:components];
     NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
     [offsetComponents setDay:dayValue];
-    NSDate *sectionDate = [self.gregorian dateByAddingComponents:offsetComponents toDate:thisDate options:0];
+    NSDate *sectionDate = [self.gregorian dateByAddingComponents:offsetComponents toDate:_plan.date options:0];
     
     UIView *myView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 30.0)];
     UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0]];
     myView.backgroundColor = background;
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 7.0, 100.0, 16.0)] ;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 9.0, 100.0, 16.0)] ;
     label.textColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0];
     label.shadowColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3];
     label.shadowOffset = CGSizeMake(0, 1);
     label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
     label.backgroundColor = [UIColor clearColor];
     
-    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(200.0, 5.0, 120.0, 20.0)] ;
+    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(220.0, 9.0, 120.0, 16.0)];
     wLabel.textColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0];
     wLabel.shadowColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3];
     wLabel.shadowOffset = CGSizeMake(0, 1);
@@ -173,7 +164,7 @@
     wLabel.backgroundColor = [UIColor clearColor];
     wLabel.text = [self.dateFormatter stringFromDate:sectionDate];
     
-    label.text = [NSString stringWithFormat:@"第%d天", dayValue+1];
+    label.text = [NSString stringWithFormat:@"Day%d", dayValue+1];
     
     myView.layer.shadowPath = [UIBezierPath bezierPathWithRect:myView.bounds].CGPath;
     myView.layer.shadowOffset = CGSizeMake(0, 1);
