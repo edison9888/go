@@ -127,7 +127,7 @@
     lineView.backgroundColor = [UIColor whiteColor];
     lineView.opaque = YES;
     [cell.contentView addSubview:lineView];
-    if(locationAtIndex.whichday.integerValue == ([_plan.duration integerValue] - 1) || [_plan hasNextLocation:locationAtIndex])
+    if(locationAtIndex.whichday.integerValue == ([_plan.duration integerValue] - 1) || [_plan hasNextLocation:locationAtIndex FomeSameDay:_singleDayMode NeedCoordinate:NO])
     {
         lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
         lineView.opaque = YES;
