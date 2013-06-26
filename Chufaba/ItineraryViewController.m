@@ -50,6 +50,7 @@
 #define TAG_DAY_FILTER_ARROW 1
 #define TAG_LINE_VIEW 10000
 #define TAG_DETAIL_INDICATOR 10001
+#define TAG_EMPTY_MASKVIEW 10002
 
 - (void)viewDidLoad
 {
@@ -75,14 +76,7 @@
     
     self.tableView.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    if(isEmptyItinerary)
-    {
-        self.tableView.rowHeight = 80.0f;
-    }
-    else
-    {
-        self.tableView.rowHeight = 44.0f;
-    }
+    self.tableView.rowHeight = 44.0f;
     self.tableView.sectionHeaderHeight = 30.0f;
 
 
@@ -115,6 +109,16 @@
     arrowView.tag = TAG_DAY_FILTER_ARROW;
     [button addSubview:arrowView];
     self.navigationItem.titleView = button;
+    
+    if(isEmptyItinerary)
+    {
+        UIView *emptyMaskView = [[UIView alloc] initWithFrame:self.view.bounds];
+        UIImageView *implyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"t"]];
+        implyImage.frame = CGRectMake(64,4,238,50);
+        [emptyMaskView addSubview:implyImage];
+        emptyMaskView.tag = TAG_EMPTY_MASKVIEW;
+        [self.view addSubview:emptyMaskView];
+    }
     
 //    NSInteger scrollSection = [self daySequence:[NSDate date]];
 //    if(scrollSection >= 0)
@@ -299,96 +303,82 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if(isEmptyItinerary)
+    {
+        return 0;
+    }
     return singleDayMode ? 1 : [_plan.duration integerValue];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(isEmptyItinerary && section == 0)
+    if(isEmptyItinerary)
     {
-        return  1;
+        return  0;
     }
     return [_plan getLocationCountFromDay:[self getDayBySection:section]];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(isEmptyItinerary && indexPath.section ==0 && indexPath.row == 0)
+    static NSString *CellIdentifier = @"TravelLocationCell";
+    
+    ItineraryViewTableViewCell *cell = (ItineraryViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (!cell)
     {
-        static NSString *CellIdentifier = @"EmptyCell";
-        
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (!cell)
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            UIImageView *implyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"t"]];
-            implyImage.frame = CGRectMake(60,4,238,50);
-            [cell.contentView addSubview:implyImage];
-            cell.userInteractionEnabled = NO;
-        }
-        return cell;
+        cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+    }
+    
+    Location *locationAtIndex = [self getLocationAtIndexPath:indexPath];
+    cell.textLabel.text = [locationAtIndex getTitle];
+    if (locationAtIndex.visitBegin)
+    {
+        cell.detailTextLabel.text = locationAtIndex.visitBegin;
     }
     else
     {
-        static NSString *CellIdentifier = @"TravelLocationCell";
-        
-        ItineraryViewTableViewCell *cell = (ItineraryViewTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
-        if (!cell)
-        {
-            cell = [[ItineraryViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-        }
-        
-        Location *locationAtIndex = [self getLocationAtIndexPath:indexPath];
-        cell.textLabel.text = [locationAtIndex getTitle];
-        if (locationAtIndex.visitBegin)
-        {
-            cell.detailTextLabel.text = locationAtIndex.visitBegin;
-        }
-        else
-        {
-            cell.detailTextLabel.text = @"";
-        }
-        cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
-        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall"]];
-        
-        if([cell.contentView viewWithTag:TAG_DETAIL_INDICATOR])
-        {
-            [[cell.contentView viewWithTag:TAG_DETAIL_INDICATOR] removeFromSuperview];
-        }
-        
-        if(locationAtIndex.detail.length)
-        {
-            CGSize expectedLabelSize = [cell.textLabel.text sizeWithFont:cell.textLabel.font constrainedToSize:CGSizeMake(200,18) lineBreakMode:cell.textLabel.lineBreakMode];
-            
-            UIImageView *detailIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(expectedLabelSize.width+44, 8, 12, 12)];
-            detailIndicator.image = [UIImage imageNamed:@"detail_indi"];
-            detailIndicator.tag = TAG_DETAIL_INDICATOR;
-            [cell.contentView addSubview:detailIndicator];
-        }
-        
-        if([cell.contentView viewWithTag:TAG_LINE_VIEW])
-        {
-            [[cell.contentView viewWithTag:TAG_LINE_VIEW] removeFromSuperview];
-        }
-        
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
-        lineView.backgroundColor = [UIColor whiteColor];
-        lineView.opaque = YES;
-        [cell.contentView addSubview:lineView];
-        if(locationAtIndex.whichday.integerValue == ([_plan.duration integerValue] - 1) || [_plan hasNextLocation:locationAtIndex FomeSameDay:singleDayMode NeedCoordinate:NO])
-        {
-            lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
-            lineView.opaque = YES;
-            lineView.tag = TAG_LINE_VIEW;
-            lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-            [cell.contentView addSubview:lineView];
-        }
-//        cell.layer.opaque = YES;
-//        cell.layer.shouldRasterize = YES;
-//        cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        return cell;
+        cell.detailTextLabel.text = @"";
     }
+    cell.imageView.image = [UIImage imageNamed:[self.categoryImage objectForKey: locationAtIndex.category]];
+    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailsmall"]];
+    
+    if([cell.contentView viewWithTag:TAG_DETAIL_INDICATOR])
+    {
+        [[cell.contentView viewWithTag:TAG_DETAIL_INDICATOR] removeFromSuperview];
+    }
+    
+    if(locationAtIndex.detail.length)
+    {
+        CGSize expectedLabelSize = [cell.textLabel.text sizeWithFont:cell.textLabel.font constrainedToSize:CGSizeMake(200,18) lineBreakMode:cell.textLabel.lineBreakMode];
+        
+        UIImageView *detailIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(expectedLabelSize.width+44, 8, 12, 12)];
+        detailIndicator.image = [UIImage imageNamed:@"detail_indi"];
+        detailIndicator.tag = TAG_DETAIL_INDICATOR;
+        [cell.contentView addSubview:detailIndicator];
+    }
+    
+    if([cell.contentView viewWithTag:TAG_LINE_VIEW])
+    {
+        [[cell.contentView viewWithTag:TAG_LINE_VIEW] removeFromSuperview];
+    }
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+    lineView.backgroundColor = [UIColor whiteColor];
+    lineView.opaque = YES;
+    [cell.contentView addSubview:lineView];
+    if(locationAtIndex.whichday.integerValue == ([_plan.duration integerValue] - 1) || [_plan hasNextLocation:locationAtIndex FomeSameDay:singleDayMode NeedCoordinate:NO])
+    {
+        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
+        lineView.opaque = YES;
+        lineView.tag = TAG_LINE_VIEW;
+        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+        [cell.contentView addSubview:lineView];
+    }
+    //cell.layer.opaque = YES;
+    //cell.layer.shouldRasterize = YES;
+    //cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    return cell;
 }
 
 -(void) updateFooterView
@@ -585,7 +575,8 @@
     if(isEmptyItinerary)
     {
         isEmptyItinerary = FALSE;
-        self.tableView.rowHeight = 44.0f;
+        if([self.view viewWithTag:TAG_EMPTY_MASKVIEW])
+            [[self.view viewWithTag:TAG_EMPTY_MASKVIEW] removeFromSuperview];
     }
     singleDayMode = FALSE;
     [(UIButton *)self.navigationItem.titleView setTitle:@"全部" forState:UIControlStateNormal];
