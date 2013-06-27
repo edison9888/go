@@ -29,7 +29,7 @@
 -(void) didDeleteLocationFromPlan;
 @end
 
-@interface ItineraryViewController:SwipeableViewController <UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NavigateLocationDelegate, NIDropDownDelegate, SearchViewControllerDelegate, PullDownMenuDelegate, MapViewControllerDelegate, EditItineraryViewControllerDelegate>
+@interface ItineraryViewController:SwipeableViewController <UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NIDropDownDelegate, SearchViewControllerDelegate, PullDownMenuDelegate, MapViewControllerDelegate, EditItineraryViewControllerDelegate>
 {
     NIDropDown *dropDown;
     PullDownMenuView *pullDownMenuView;

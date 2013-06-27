@@ -48,7 +48,6 @@
 #define NORMAL_CELL_FINISHING_HEIGHT 60
 #define DAY_FILTER_FONT_SIZE 20
 #define TAG_DAY_FILTER_ARROW 1
-#define TAG_LINE_VIEW 10000
 #define TAG_DETAIL_INDICATOR 10001
 #define TAG_EMPTY_MASKVIEW 10002
 
@@ -358,26 +357,15 @@
         [cell.contentView addSubview:detailIndicator];
     }
     
-    if([cell.contentView viewWithTag:TAG_LINE_VIEW])
-    {
-        [[cell.contentView viewWithTag:TAG_LINE_VIEW] removeFromSuperview];
-    }
-    
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
     lineView.backgroundColor = [UIColor whiteColor];
     lineView.opaque = YES;
     [cell.contentView addSubview:lineView];
-    if(locationAtIndex.whichday.integerValue == ([_plan.duration integerValue] - 1) || [_plan hasNextLocation:locationAtIndex FomeSameDay:singleDayMode NeedCoordinate:NO])
-    {
-        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
-        lineView.opaque = YES;
-        lineView.tag = TAG_LINE_VIEW;
-        lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
-        [cell.contentView addSubview:lineView];
-    }
-    //cell.layer.opaque = YES;
-    //cell.layer.shouldRasterize = YES;
-    //cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+
+    lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 43, 320, 1)];
+    lineView.opaque = YES;
+    lineView.backgroundColor = [UIColor colorWithRed:227/255.0 green:219/255.0 blue:204/255.0 alpha:1.0];
+    [cell.contentView addSubview:lineView];
     return cell;
 }
 
@@ -432,7 +420,7 @@
     myView.layer.shadowOffset = CGSizeMake(0, 1);
     myView.layer.shadowRadius = 0.4;
     myView.layer.shadowColor = [[UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0] CGColor];
-    myView.layer.shadowOpacity = 1;
+    myView.layer.shadowOpacity = 0.8;
     myView.layer.shouldRasterize = YES;
     myView.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
@@ -455,7 +443,7 @@
     Location *location = [self getLocationAtIndexPath:indexPath];
     locationViewController.location = location;
     locationViewController.plan = _plan;
-    locationViewController.navDelegate = self;
+    //locationViewController.navDelegate = self;
     [self.navigationController pushViewController:locationViewController animated:YES];
 }
 
@@ -554,14 +542,9 @@
     BOOL islastLocation = [_plan hasNextLocation:locationToDelete FomeSameDay:singleDayMode NeedCoordinate:NO];
     [_plan removeLocation:locationToDelete];
     
-    //最后一个地点被删除后删除前一个景点的底部横线
+    //最后一天的最后一个地点被删除后，隐藏tablefooterview
     if(islastLocation)
     {
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.indexPathOfLocationToDelete.row-1 inSection:self.indexPathOfLocationToDelete.section]];
-        if(cell)
-        {
-            [[cell.contentView viewWithTag:TAG_LINE_VIEW] removeFromSuperview];
-        }
         self.tableView.tableFooterView = NULL;
     }
     

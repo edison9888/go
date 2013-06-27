@@ -21,7 +21,7 @@
 
 @end
 
-@interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, NIDropDownDelegate, UIGestureRecognizerDelegate, AddLocationDelegate, NavigateLocationDelegate>
+@interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, NIDropDownDelegate, UIGestureRecognizerDelegate, AddLocationDelegate>
 
 @property (nonatomic,strong) MKMapView *mapView;
 

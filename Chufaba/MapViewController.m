@@ -361,7 +361,7 @@
     LocationViewController *locationViewController = [[LocationViewController alloc] init];
     locationViewController.delegate = self;
     locationViewController.location = ((LocationAnnotation *)tappedAnnotation).location;
-    locationViewController.navDelegate = self;
+    //locationViewController.navDelegate = self;
     locationViewController.plan = _plan;
     [self.navigationController pushViewController:locationViewController animated:YES];
 }
