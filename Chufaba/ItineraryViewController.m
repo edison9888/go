@@ -27,7 +27,9 @@
 - (NSDateFormatter *)dateFormatter {
     if (! _dateFormatter) {
         _dateFormatter = [[NSDateFormatter alloc] init];
-        _dateFormatter.dateFormat = @"YYYY.MM.d/EEE";
+        _dateFormatter.dateFormat = @"MM月d日 EEE";
+        //_dateFormatter.dateFormat = @"YYYY.MM.d/EEE";
+        //_dateFormatter.dateFormat = @"MM月dd日/EEE";
         NSLocale *cnLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
         _dateFormatter.locale = cnLocale;
     }
@@ -400,19 +402,19 @@
     UIColor *background = [[UIColor alloc] initWithPatternImage:[[UIImage imageNamed:@"bar_h"] stretchableImageWithLeftCapWidth:8 topCapHeight:0]];
     myView.backgroundColor = background;
 
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 9.0, 100.0, 16.0)] ;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 6.0, 100.0, 20.0)];
     label.textColor = [UIColor colorWithRed:128/255.0 green:108/255.0 blue:77/255.0 alpha:1.0];
     label.shadowColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3];
     label.shadowOffset = CGSizeMake(0, 1);
-    label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:16];
+    label.font = [UIFont fontWithName:@"Arial-BoldMT" size:16];
     label.backgroundColor = [UIColor clearColor];
     label.text = [NSString stringWithFormat:@"Day%d", dayValue+1];
     
-    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(220.0, 9.0, 120.0, 16.0)];
+    UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(234.0, 9.0, 120.0, 16.0)];
     wLabel.textColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0];
     wLabel.shadowColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.3];
     wLabel.shadowOffset = CGSizeMake(0, 1);
-    wLabel.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:12];
+    wLabel.font = [UIFont fontWithName:@"ArialMT" size:12];
     wLabel.backgroundColor = [UIColor clearColor];
     wLabel.text = [self.dateFormatter stringFromDate:sectionDate];
     
