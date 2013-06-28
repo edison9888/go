@@ -302,11 +302,6 @@
     }
 }
 
--(void)removeLocationFromDay:(NSUInteger)day AtIndex:(NSUInteger)index
-{
-    [self removeLocation:[self getLocationFromDay:day AtIndex:index]];
-}
-
 -(void)removeLocation:(Location *)location
 {
     if (location != nil) {
@@ -429,6 +424,19 @@
         }
     }
     return NO;
+}
+
+-(void)removePoi:(NSUInteger)poiId AtDay:(NSUInteger)day
+{
+    if (day < _duration.integerValue) {
+        NSMutableArray *locations = [_itinerary objectAtIndex:day];
+        for (Location *location in locations) {
+            if (location.poiId.integerValue == poiId) {
+                [self removeLocation:location];
+                break;
+            }
+        }
+    }
 }
 
 -(void)sync

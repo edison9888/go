@@ -50,7 +50,6 @@
 -(void)addLocation:(Location *)location ToDay:(NSUInteger)day;
 -(void)moveLocationFromDay:(NSUInteger)day AtIndex:(NSUInteger)index ToDay:(NSUInteger)day AtIndex:(NSUInteger)index;
 -(void)removeLocation:(Location *)location;
--(void)removeLocationFromDay:(NSUInteger)day SinceIndex:(NSUInteger)index;
 
 -(Boolean)hasNextLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate;
 -(Boolean)hasPreviousLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate;
@@ -60,5 +59,6 @@
 -(NSUInteger)getIndexOfLocation:(Location *)location;
 
 -(Boolean)hasPoi:(NSUInteger)poiId AtDay:(NSUInteger)day;
+-(void)removePoi:(NSUInteger)poiId AtDay:(NSUInteger)day;
 
 @end

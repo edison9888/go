@@ -693,8 +693,9 @@
     UIButton *button = (UIButton*)sender;
     UITableViewCell *cell = (UITableViewCell *)button.superview.superview;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-
-    //需要移除这个地点
+    NSDictionary *locationAtIndex = [(NSDictionary *)[allLocationList objectAtIndex:indexPath.row] objectForKey:@"_source"];
+    NSNumber *poiId = [locationAtIndex objectForKey: @"id"];
+    [_plan removePoi:poiId.integerValue AtDay:_dayToAdd.integerValue];
 
     [button setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
