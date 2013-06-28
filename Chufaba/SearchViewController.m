@@ -38,7 +38,6 @@
 #define TAG_HOTELBTN 4
 #define TAG_OTHERBTN 5
 #define TAG_IMPLYLABEL 6
-#define TAG_ADDED_INDICATOR 7
 
 #define LABEL_WIDTH 190
 #define NAME_LABEL_HEIGHT 24
@@ -570,19 +569,6 @@
         //如果这一天添加过这个地点，应该给出视觉提示
         BOOL addedBefore = [_plan hasPoi:poiId.integerValue AtDay:_dayToAdd.integerValue];
         
-        if([cell.contentView viewWithTag:TAG_ADDED_INDICATOR])
-        {
-            [[cell.contentView viewWithTag:TAG_ADDED_INDICATOR] removeFromSuperview];
-        }
-        
-        if(addedBefore)
-        {
-            UIImageView *addedIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(200, 8, 12, 12)];
-            addedIndicator.image = [UIImage imageNamed:@"detail_indi"];
-            addedIndicator.tag = TAG_ADDED_INDICATOR;
-            [cell.contentView addSubview:addedIndicator];
-        }
-        
         if ([name length] == 0) {
             name = name_en;
             name_en = nil;
@@ -624,9 +610,20 @@
         
         UIButton *operationBtn = (UIButton *)[cell.contentView viewWithTag:5];
         
-        [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
-        [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
-        [operationBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
+        if(addedBefore)
+        {
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list"] forState:UIControlStateNormal];
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"remove_list_click"] forState:UIControlStateHighlighted];
+            [operationBtn removeTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
+            [operationBtn addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        else
+        {
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
+            [operationBtn setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
+            [operationBtn removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
+            [operationBtn addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
+        }
     }
     else if ([allLocationList count] != self.total)
     {
@@ -678,19 +675,36 @@
     [_plan addLocation:location ToDay:_dayToAdd.integerValue];
     lastLocation = location;
     
-    //add visual imply
-    if(![cell.contentView viewWithTag:TAG_ADDED_INDICATOR])
-    {
-        UIImageView *addedIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(200, 8, 12, 12)];
-        addedIndicator.image = [UIImage imageNamed:@"detail_indi"];
-        addedIndicator.tag = TAG_ADDED_INDICATOR;
-        [cell.contentView addSubview:addedIndicator];
-    }
+    [button setBackgroundImage:[UIImage imageNamed:@"remove_list"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"remove_list_click"] forState:UIControlStateHighlighted];
+    [button removeTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
     
     iToastSettings *theSettings = [iToastSettings getSharedSettings];
     [theSettings setImage:[UIImage imageNamed:@"prompt_yes"] forType:iToastTypeNotice];
     theSettings.duration = 3000;
     [[[[iToast makeText:NSLocalizedString(@"已添加到计划", @"")] setGravity:iToastGravityCenter offsetLeft:0 offsetTop:-20] setDuration:iToastDurationShort] show:iToastTypeNotice];
+}
+
+- (IBAction)removeLocation:(id)sender
+{
+    shouldUpdateItinerary = YES;
+    
+    UIButton *button = (UIButton*)sender;
+    UITableViewCell *cell = (UITableViewCell *)button.superview.superview;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+
+    //需要移除这个地点
+
+    [button setBackgroundImage:[UIImage imageNamed:@"add_list"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"add_list_click"] forState:UIControlStateHighlighted];
+    [button removeTarget:self action:@selector(removeLocation:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(addLocation:) forControlEvents:UIControlEventTouchUpInside];
+
+    iToastSettings *theSettings = [iToastSettings getSharedSettings];
+    [theSettings setImage:[UIImage imageNamed:@"prompt_no"] forType:iToastTypeNotice];
+    theSettings.duration = 3000;
+    [[[[iToast makeText:NSLocalizedString(@"已从计划中移除", @"")] setGravity:iToastGravityCenter offsetLeft:0 offsetTop:-20] setDuration:iToastDurationShort] show:iToastTypeNotice];
 }
 
 - (void)addCustomLocation:(Location *)location

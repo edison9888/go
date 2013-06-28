@@ -221,7 +221,7 @@
     [arr addObject:@"全部"];
     for(int i=0; i<[_plan.duration intValue]; i++)
     {
-        [arr addObject:[NSString stringWithFormat:@"Day%d", i+1]];
+        [arr addObject:[NSString stringWithFormat:@"Day %d", i+1]];
     }
     if(dropDown == nil)
     {
@@ -408,7 +408,7 @@
     label.shadowOffset = CGSizeMake(0, 1);
     label.font = [UIFont fontWithName:@"Arial-BoldMT" size:16];
     label.backgroundColor = [UIColor clearColor];
-    label.text = [NSString stringWithFormat:@"Day%d", dayValue+1];
+    label.text = [NSString stringWithFormat:@"Day %d", dayValue+1];
     
     UILabel *wLabel = [[UILabel alloc] initWithFrame:CGRectMake(234.0, 9.0, 120.0, 16.0)];
     wLabel.textColor = [UIColor colorWithRed:189/255.0 green:176/255.0 blue:153/255.0 alpha:1.0];
@@ -582,7 +582,7 @@
 {
     NSString *title;
     if (single) {
-        title = [NSString stringWithFormat:@"Day%d", day+1];
+        title = [NSString stringWithFormat:@"Day %d", day+1];
         day += 1;
     } else {
         title = @"全部";

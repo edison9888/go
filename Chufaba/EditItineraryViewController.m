@@ -155,7 +155,7 @@
     wLabel.backgroundColor = [UIColor clearColor];
     wLabel.text = [self.dateFormatter stringFromDate:sectionDate];
     
-    label.text = [NSString stringWithFormat:@"Day%d", dayValue+1];
+    label.text = [NSString stringWithFormat:@"Day %d", dayValue+1];
     
     myView.layer.shadowPath = [UIBezierPath bezierPathWithRect:myView.bounds].CGPath;
     myView.layer.shadowOffset = CGSizeMake(0, 1);
