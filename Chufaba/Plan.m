@@ -7,7 +7,6 @@
 //
 
 #import "Plan.h"
-#import "ItineraryDataController.h"
 #import "Location.h"
 #import "Utility.h"
 #import "FMDatabase.h"

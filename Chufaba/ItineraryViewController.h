@@ -21,14 +21,6 @@
 #import "MapViewController.h"
 #import "EditItineraryViewController.h"
 
-
-@class ItineraryDataController;
-
-@protocol ItineraryViewControllerDelegate<NSObject>
--(void) didAddLocationToPlan;
--(void) didDeleteLocationFromPlan;
-@end
-
 @interface ItineraryViewController:SwipeableViewController <UITableViewDataSource, UITableViewDelegate, AddLocationDelegate, NIDropDownDelegate, SearchViewControllerDelegate, PullDownMenuDelegate, MapViewControllerDelegate, EditItineraryViewControllerDelegate>
 {
     NIDropDown *dropDown;

@@ -9,7 +9,6 @@
 #import "PlanViewController.h"
 #import "Plan.h"
 #import "ItineraryViewController.h"
-#import "ItineraryDataController.h"
 #import "SearchDestinationViewController.h"
 #import "Utility.h"
 #import "User.h"
@@ -18,12 +17,6 @@
 
 #define TAG_SITELABEL 5
 #define TAG_MASKVIEW 10000
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.tableView reloadData];
-}
 
 - (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller
 {
@@ -99,9 +92,10 @@
     [self performSegueWithIdentifier:@"AddPlan" sender:self];
 }
 
-- (void) populateTravelPlans
+- (void)viewDidAppear:(BOOL)animated
 {
-    self.travelPlans = [Plan findAll];
+    [super viewDidAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
@@ -135,7 +129,7 @@
     navBar.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_bar"]];
-    [self populateTravelPlans];
+    self.travelPlans = [Plan findAll];
     
     self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:241/255.0 blue:235/255.0 alpha:1.0];
     
@@ -376,18 +370,6 @@
     UITableViewCell *cellToEdit = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPathOfplanToEditOrDelete];
     CGRect cellFrame = cellToEdit.frame;
     cellToEdit.frame = CGRectMake(0,cellFrame.origin.y,320,92);
-}
-
--(void) didAddLocationToPlan
-{
-    [self populateTravelPlans];
-    [self.tableView reloadData];
-}
-
--(void) didDeleteLocationFromPlan
-{
-    [self populateTravelPlans];
-    [self.tableView reloadData];
 }
 
 @end

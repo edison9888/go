@@ -8,7 +8,6 @@
 
 #import "User.h"
 #import "Plan.h"
-#import "ItineraryDataController.h"
 
 @implementation User
 

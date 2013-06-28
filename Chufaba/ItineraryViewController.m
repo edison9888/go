@@ -10,7 +10,6 @@
 #import "Utility.h"
 #import "LocationViewController.h"
 #import "Location.h"
-#import "ItineraryDataController.h"
 #import "SearchLocationViewController.h"
 #import "LocationAnnotation.h"
 

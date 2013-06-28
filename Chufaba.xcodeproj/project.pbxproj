@@ -349,7 +349,6 @@
 		D25F700416A6332E00ED7AF5 /* ItineraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F700316A6332E00ED7AF5 /* ItineraryViewController.m */; };
 		D25F700716A6332E00ED7AF5 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F700616A6332E00ED7AF5 /* LocationViewController.m */; };
 		D25F700F16A6354F00ED7AF5 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F700E16A6354F00ED7AF5 /* Location.m */; };
-		D25F701616A637C300ED7AF5 /* ItineraryDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F701516A637C300ED7AF5 /* ItineraryDataController.m */; };
 		D25F701916A6420400ED7AF5 /* Plan.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F701816A6420400ED7AF5 /* Plan.m */; };
 		D25F702816A645F700ED7AF5 /* PlanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F702716A645F700ED7AF5 /* PlanViewController.m */; };
 		D25F703116A653C600ED7AF5 /* travel.png in Resources */ = {isa = PBXBuildFile; fileRef = D25F703016A653C600ED7AF5 /* travel.png */; };
@@ -800,8 +799,6 @@
 		D25F700616A6332E00ED7AF5 /* LocationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
 		D25F700D16A6354F00ED7AF5 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		D25F700E16A6354F00ED7AF5 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		D25F701416A637C300ED7AF5 /* ItineraryDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItineraryDataController.h; sourceTree = "<group>"; };
-		D25F701516A637C300ED7AF5 /* ItineraryDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItineraryDataController.m; sourceTree = "<group>"; };
 		D25F701716A6420400ED7AF5 /* Plan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plan.h; sourceTree = "<group>"; };
 		D25F701816A6420400ED7AF5 /* Plan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plan.m; sourceTree = "<group>"; };
 		D25F702616A645F700ED7AF5 /* PlanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlanViewController.h; sourceTree = "<group>"; };
@@ -1427,8 +1424,6 @@
 				D2579A0E16B7CD9400462094 /* PullDownMenuView.m */,
 				132D453416B5515200A1D3B0 /* NIDropDown.h */,
 				132D453516B5515200A1D3B0 /* NIDropDown.m */,
-				D25F701416A637C300ED7AF5 /* ItineraryDataController.h */,
-				D25F701516A637C300ED7AF5 /* ItineraryDataController.m */,
 				D25F700216A6332E00ED7AF5 /* ItineraryViewController.h */,
 				D25F700316A6332E00ED7AF5 /* ItineraryViewController.m */,
 				1331521A1701CBF4004BE107 /* ItineraryViewTableViewCell.h */,
@@ -1932,7 +1927,6 @@
 				D25F700416A6332E00ED7AF5 /* ItineraryViewController.m in Sources */,
 				D25F700716A6332E00ED7AF5 /* LocationViewController.m in Sources */,
 				D25F700F16A6354F00ED7AF5 /* Location.m in Sources */,
-				D25F701616A637C300ED7AF5 /* ItineraryDataController.m in Sources */,
 				D25F701916A6420400ED7AF5 /* Plan.m in Sources */,
 				D25F702816A645F700ED7AF5 /* PlanViewController.m in Sources */,
 				D25F703C16A6746600ED7AF5 /* AddPlanViewController.m in Sources */,
