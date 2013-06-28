@@ -46,11 +46,11 @@
 
 -(NSUInteger)getLocationCountFromDay:(NSUInteger)day;
 -(Location *)getLocationFromDay:(NSUInteger)day AtIndex:(NSUInteger)index;
+
 -(void)addLocation:(Location *)location ToDay:(NSUInteger)day;
--(void)moveThisLocation:(Location *)thisLocation ToThatLocation:(Location *)thatLocation;
--(void)persistentReorderFromThisLocation:(Location *)thisLocation ToThatLocation:(Location *)thatLocation;
+-(void)moveLocationFromDay:(NSUInteger)day AtIndex:(NSUInteger)index ToDay:(NSUInteger)day AtIndex:(NSUInteger)index;
 -(void)removeLocation:(Location *)location;
--(void)removeLocationFromDay:(NSUInteger)day AtIndex:(NSUInteger)index;
+-(void)removeLocationFromDay:(NSUInteger)day SinceIndex:(NSUInteger)index;
 
 -(Boolean)hasNextLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate;
 -(Boolean)hasPreviousLocation:(Location *)location FomeSameDay:(Boolean)sameDay NeedCoordinate:(Boolean)needCoordinate;

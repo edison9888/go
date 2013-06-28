@@ -257,6 +257,7 @@
         [[_itinerary objectAtIndex:day] addObject:location];
         
         [location save];
+        _locationCount++;
         if (_changedSinceLastSync == NO) {
             _changedSinceLastSync = YES;
             [self save];
@@ -264,76 +265,23 @@
     }
 }
 
--(void)moveThisLocation:(Location *)thisLocation ToThatLocation:(Location *)thatLocation
+-(void)moveLocationFromDay:(NSUInteger)fromDay AtIndex:(NSUInteger)fromIndex ToDay:(NSUInteger)toDay AtIndex:(NSUInteger)toIndex
 {
-    if (thisLocation != nil && thatLocation != nil && thisLocation != thatLocation) {
-        NSUInteger fromDay = thisLocation.whichday.integerValue;
-        NSUInteger toDay = thatLocation.whichday.integerValue;
-        NSUInteger fromSeq = thisLocation.seqofday.integerValue;
-        NSUInteger toSeq = thatLocation.seqofday.integerValue;
-        NSMutableArray *thisLocations = [_itinerary objectAtIndex:fromDay];
-        NSMutableArray *thatLocations = [_itinerary objectAtIndex:toDay];
-        [thisLocations removeObjectAtIndex:fromSeq];
-        [thatLocations insertObject:thisLocation atIndex:toSeq];
-        if (fromDay == toDay) {
-            [self refreshLocationSeqsOfDay:fromDay AfterIndex:MIN(fromSeq, toSeq)];
-        } else {
-            thisLocation.whichday = [NSNumber numberWithInteger:toDay];
-            [self refreshLocationSeqsOfDay:fromDay AfterIndex:fromSeq];
-            [self refreshLocationSeqsOfDay:toDay AfterIndex:toSeq];
-        }
-        if (_changedSinceLastSync == NO) {
-            _changedSinceLastSync = YES;
-            [self save];
-        }
-    }
-}
-
--(void)refreshLocationSeqsOfDay:(NSUInteger)day AfterIndex:(NSUInteger) index
-{
-    if (day < [_duration integerValue]) {
-        NSMutableArray *locations = [_itinerary objectAtIndex:day];
-        for (; index < locations.count; index++) {
-            Location *location = [locations objectAtIndex:index];
-            location.seqofday = [NSNumber numberWithInteger:index];
-        }
-    }
-}
-
--(void)persistentReorderFromThisLocation:(Location *)thisLocation ToThatLocation:(Location *)thatLocation
-{
-    if (thisLocation != nil && thatLocation != nil && thisLocation != thatLocation) {
-        NSUInteger fromDay = thisLocation.whichday.integerValue;
-        NSUInteger toDay = thatLocation.whichday.integerValue;
-        NSUInteger fromSeq = thisLocation.seqofday.integerValue;
-        NSUInteger toSeq = thatLocation.seqofday.integerValue;
-        if (fromDay == toDay) {
-            [self persistentReorderOfDay:fromDay AfterIndex:MIN(fromSeq, toSeq)];
-        } else {
-            [self persistentReorderOfDay:fromDay AfterIndex:fromSeq];
-            [self persistentReorderOfDay:toDay AfterIndex:toSeq];
-        }
-    }
-}
-
--(void)persistentReorderOfDay:(NSUInteger)day AfterIndex:(NSUInteger) index
-{
-    if (day < [_duration integerValue]) {
-        NSMutableArray *locations = [_itinerary objectAtIndex:day];
-        for (; index < locations.count; index++) {
-            Location *location = [locations objectAtIndex:index];
-            [location save];
-        }
-    }
-}
-
--(void)removeLocationFromDay:(NSUInteger)day AtIndex:(NSUInteger)index
-{
-    if (day < [_duration integerValue]) {
-        NSMutableArray *locations = [_itinerary objectAtIndex:day];
-        if (index < locations.count) {
-            [locations removeObjectAtIndex:index];
-            [self persistentReorderOfDay:day AfterIndex:index];
+    if (fromDay < _duration.integerValue && toDay < _duration.integerValue) {
+        NSMutableArray *fromLocations = [_itinerary objectAtIndex:fromDay];
+        NSMutableArray *toLocations = [_itinerary objectAtIndex:toDay];
+        if (fromIndex < fromLocations.count && toIndex <= toLocations.count) {
+            Location *fromLocation = [self getLocationFromDay:fromDay AtIndex:fromIndex];
+            [fromLocations removeObjectAtIndex:fromIndex];
+            fromLocation.whichday = [NSNumber numberWithInteger:toDay];
+            [toLocations insertObject:fromLocation atIndex:toIndex];
+            
+            if (fromDay == toDay) {
+                [self reindexLocationsOfDay:fromDay SinceIndex:MIN(fromIndex, toIndex)];
+            } else {
+                [self reindexLocationsOfDay:fromDay SinceIndex:fromIndex];
+                [self reindexLocationsOfDay:toDay SinceIndex:toIndex];
+            }
             if (_changedSinceLastSync == NO) {
                 _changedSinceLastSync = YES;
                 [self save];
@@ -342,10 +290,35 @@
     }
 }
 
+-(void)reindexLocationsOfDay:(NSUInteger)day SinceIndex:(NSUInteger) index
+{
+    if (day < [_duration integerValue]) {
+        NSMutableArray *locations = [_itinerary objectAtIndex:day];
+        for (; index < locations.count; index++) {
+            Location *location = [locations objectAtIndex:index];
+            location.seqofday = [NSNumber numberWithInteger:index];
+            [location save];
+        }
+    }
+}
+
+-(void)removeLocationFromDay:(NSUInteger)day AtIndex:(NSUInteger)index
+{
+    [self removeLocation:[self getLocationFromDay:day AtIndex:index]];
+}
+
 -(void)removeLocation:(Location *)location
 {
     if (location != nil) {
-        [self removeLocationFromDay:[location.whichday integerValue] AtIndex:[location.seqofday integerValue]];
+        NSMutableArray *locations = [_itinerary objectAtIndex:location.whichday.integerValue];
+        [locations removeObjectAtIndex:location.seqofday.integerValue];
+        [self reindexLocationsOfDay:location.whichday.integerValue SinceIndex:location.seqofday.integerValue];
+        [location destroy];
+        _locationCount--;
+        if (_changedSinceLastSync == NO) {
+            _changedSinceLastSync = YES;
+            [self save];
+        }
     }
 }
 
