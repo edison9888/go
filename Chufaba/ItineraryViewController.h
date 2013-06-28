@@ -46,8 +46,6 @@
 
 @property (nonatomic, strong) NSDictionary *categoryImage;
 
-@property (nonatomic,weak) id<ItineraryViewControllerDelegate> itineraryDelegate;
-
 @property (nonatomic,strong) NSIndexPath *indexPathOfLocationToDelete;
 
 //@property (strong, nonatomic) SocialAccountManager *accountManager;

@@ -246,7 +246,6 @@
     }
 }
 
-
 - (Boolean)save
 {
     Boolean result = NO;
@@ -269,6 +268,15 @@
         }
         [db close];
     }
+    return result;
+}
+
+- (Boolean)destroy
+{
+    FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
+    [db open];
+    Boolean result = [db executeUpdate:@"DELETE FROM location WHERE id = ?", _locationId];
+    [db close];
     return result;
 }
 

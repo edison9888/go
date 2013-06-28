@@ -19,6 +19,12 @@
 #define TAG_SITELABEL 5
 #define TAG_MASKVIEW 10000
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
+
 - (void)addPlanViewControllerDidCancel:(AddPlanViewController *)controller
 {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -253,7 +259,6 @@
         }
         
         ItineraryViewController *itineraryViewController = [segue destinationViewController];
-        itineraryViewController.itineraryDelegate = self;
         Plan *selectedPlan = [self.travelPlans objectAtIndex:[self.tableView indexPathForSelectedRow].row];
         [selectedPlan loadItinerary];
         itineraryViewController.plan = selectedPlan;

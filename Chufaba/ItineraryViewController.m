@@ -172,14 +172,7 @@
 - (void)editLocationsSequence:(PullDownMenuView *)view
 {
     EditItineraryViewController *editViewController = [[EditItineraryViewController alloc] init];
-    if(singleDayMode)
-    {
-        editViewController.singleDayMode = TRUE;
-    }
-    else
-    {
-        editViewController.singleDayMode = FALSE;
-    }
+    editViewController.singleDayMode = singleDayMode;
     editViewController.delegate = self;
     editViewController.plan = self.plan;
     editViewController.daySelected = self.daySelected;
@@ -551,8 +544,6 @@
     }
     
     [self.tableView deleteRowsAtIndexPaths:@[self.indexPathOfLocationToDelete] withRowAnimation:UITableViewRowAnimationFade];
-    
-    [self.itineraryDelegate didDeleteLocationFromPlan];
 }
 
 -(void) notifyItinerayToReload:(NSNumber *)lastDay withSeq:(NSNumber *)lastSeq

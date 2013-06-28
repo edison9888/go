@@ -224,8 +224,7 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
     sequenceChanged = YES;
-    [_plan moveThisLocation:[self getLocationAtIndexPath:fromIndexPath] ToThatLocation:[self getLocationAtIndexPath:toIndexPath]];
-    [_plan persistentReorderFromThisLocation:[self getLocationAtIndexPath:fromIndexPath] ToThatLocation:[self getLocationAtIndexPath:toIndexPath]];
+    [_plan moveLocationFromDay:fromIndexPath.section AtIndex:fromIndexPath.row ToDay:toIndexPath.section AtIndex:toIndexPath.row];
     [self updateFooterView];
 }
 

@@ -59,6 +59,7 @@
 - (void)setPoiData:(NSDictionary *)poi;
 - (void)updatePoiData:(NSDictionary *)poi;
 - (Boolean)save;
+- (Boolean)destroy;
 + (NSMutableArray *)findAllByPlanId:(NSNumber *)planId;
 + (Boolean)deleteLocationsOfPlan:(NSNumber *)planId AfterDay:(NSNumber *)day;
 + (Boolean)deleteLocationsOfPlan:(NSNumber *)planId;
