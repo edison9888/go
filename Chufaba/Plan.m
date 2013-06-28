@@ -175,6 +175,7 @@
         FMDatabase *db = [FMDatabase databaseWithPath:[Utility getDatabasePath]];
         [db open];
         result = [db executeUpdate:@"INSERT INTO plan (title,destination,startdate,duration,uid,changed) VALUES (?,?,?,?,?,?);",_name,_destination,startDate,_duration,_uid,[NSNumber numberWithBool:YES], nil];
+        _planId = [NSNumber numberWithInteger:[db lastInsertRowId]];
         [db close];
         [self saveCover];
     } else {
