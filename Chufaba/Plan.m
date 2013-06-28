@@ -66,7 +66,7 @@
         [self willChangeValueForKey:@"duration"];
         if ([duration intValue] < [_duration intValue]) {
             [_itinerary removeObjectsInRange:NSMakeRange([duration intValue], [_duration intValue] - [duration intValue])];
-            [Location deleteLocationsOfPlan:_planId AfterDay:duration];
+            [Location deleteLocationsOfPlan:_planId AfterDay:[NSNumber numberWithInteger:duration.integerValue - 1]];
             _locationCount = [Location countOfPlan:_planId];
         } else {
             int count = [duration intValue] - [_duration intValue];
