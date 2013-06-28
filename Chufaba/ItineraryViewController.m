@@ -547,9 +547,9 @@
 
 -(void) notifyItinerayToReload:(NSNumber *)lastDay withSeq:(NSNumber *)lastSeq
 {
-    if(isEmptyItinerary)
+    isEmptyItinerary = _plan.locationCount == 0;
+    if(!isEmptyItinerary)
     {
-        isEmptyItinerary = FALSE;
         if([self.view viewWithTag:TAG_EMPTY_MASKVIEW])
             [[self.view viewWithTag:TAG_EMPTY_MASKVIEW] removeFromSuperview];
     }
@@ -557,7 +557,10 @@
     [(UIButton *)self.navigationItem.titleView setTitle:@"全部" forState:UIControlStateNormal];
     [self.tableView reloadData];
     
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[lastSeq intValue] inSection:[lastDay intValue]] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    Location *location = [_plan getLocationFromDay:lastDay.integerValue AtIndex:lastSeq.integerValue];
+    if (location) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[lastSeq intValue] inSection:[lastDay intValue]] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    }
     
     [self updateFooterView];
 }
